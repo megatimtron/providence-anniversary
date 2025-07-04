@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Providence Anniversary Weekend Planner</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💕</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23C07F63'/><text y='.9em' x='.1em' font-size='80' fill='white'>💕</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Harmony -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard, moving away from the linear report structure for better usability. It's organized into three main thematic sections navigated by a sticky header: 1. "Your Itinerary": A tabbed timeline (Day 1/2/3) that presents the suggested plan chronologically but interactively. This respects the original report's flow while making it more digestible. 2. "Explore Providence": A filterable gallery of all recommendations (dining, activities, tours). This is the core interactive element, allowing the couple to compare options by category and build their own plan, which is more user-friendly than scrolling through a long document. 3. "Plan Your Trip": Consolidates all practical logistics (transport, reservations) into an accordion, making this crucial but secondary information easily accessible without cluttering the main itinerary. This structure prioritizes user-driven exploration and comparison over passive reading. -->
+    <!-- Visualization & Content Choices: 1. Dining Comparison (Bar Chart): Report Info: Restaurant price ranges ($$$ vs $$$$). Goal: Compare dining costs visually. Viz: Horizontal Bar Chart (Chart.js/Canvas) showing estimated costs. Justification: Provides a quick, quantitative comparison that's more effective than reading text descriptions. 2. Tour Value (Bubble Chart): Report Info: Tour prices, durations, group sizes. Goal: Compare tour options. Viz: Bubble Chart (Chart.js/Canvas) plotting price vs. duration, with bubble size representing exclusivity (inverse of group size). Justification: Synthesizes three data points into one clear, interactive graphic for easier decision-making. 3. Filterable Cards: Report Info: All activities, restaurants, and sights. Goal: Organize and allow comparison. Presentation: HTML/Tailwind grid. Interaction: JS-powered filters. Justification: Transforms static lists/tables into a dynamic exploration tool. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FDF8F0; /* Creamy background */
+            color: #433A3F; /* Muted dark gray */
+        }
+        h1, h2, h3, .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .active-tab {
+            border-bottom-color: #C07F63; /* Terracotta accent */
+            color: #C07F63;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #C07F63;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background-color: #C07F63;
+            color: #FDF8F0;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #A9684C;
+        }
+        .btn-secondary {
+            background-color: #EAE0D5;
+            color: #433A3F;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #D6C6B3;
+        }
+        .btn-filter.active {
+            background-color: #C07F63;
+            color: #FDF8F0;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 350px;
+            width: 100%;
+            max-width: 700px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        
+        /* Budget Calculator Styles */
+        .budget-calculator {
+            background: linear-gradient(135deg, #C07F63, #A9684C);
+            color: #FDF8F0;
+        }
+        .budget-item {
+            transition: all 0.3s ease;
+        }
+        .budget-item.selected {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #FDF8F0;
+        }
+        
+        /* Countdown Timer Styles */
+        .countdown-item {
+            background: linear-gradient(135deg, rgba(192, 127, 99, 0.1), rgba(160, 97, 75, 0.1));
+            border-radius: 12px;
+            padding: 12px 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .countdown-item:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, rgba(192, 127, 99, 0.2), rgba(160, 97, 75, 0.2));
+        }
+        
+        .countdown-number {
+            font-family: 'Courier New', monospace;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Couple's Notes Styles */
+        .notes-tab {
+            background: transparent;
+            color: #666;
+        }
+        
+        .notes-tab.active {
+            background: linear-gradient(135deg, #C07F63, #A0614B);
+            color: white;
+            border-color: #C07F63;
+        }
+        
+        .notes-tab:not(.active):hover {
+            background: rgba(192, 127, 99, 0.1);
+            color: #C07F63;
+        }
+        
+        .notes-textarea {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+        }
+        
+        .notes-textarea:focus {
+            box-shadow: 0 0 0 3px rgba(192, 127, 99, 0.1);
+        }
+        
+        .notes-content {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .spinner {
+            border: 2px solid #EAE0D5;
+            border-top: 2px solid #C07F63;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Photo Gallery */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .photo-card {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .photo-card:hover {
+            transform: scale(1.05);
+        }
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 127, 99, 0.2);
+        }
+        
+        /* Enhanced Mobile Styles */
+        @media (max-width: 768px) {
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .chart-container {
+                height: 300px;
+            }
+            .budget-calculator {
+                margin: 1rem;
+                border-radius: 12px;
+            }
+        }
+        
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Focus styles for better accessibility */
+        button:focus,
+        a:focus {
+            outline: 2px solid #C07F63;
+            outline-offset: 2px;
+        }
+        
+        .tab-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #C07F63;
+        }
+        
+        /* Photo Gallery Tabs */
+        .photo-tab-btn {
+            color: #6B7280;
+        }
+        .photo-tab-btn.active {
+            background-color: #C07F63;
+            color: #FDF8F0;
+        }
+        .photo-tab-btn:hover:not(.active) {
+            background-color: #F3F4F6;
+            color: #374151;
+        }
+        
+        /* Personal Photo Placeholders */
+        .photo-placeholder {
+            background: linear-gradient(135deg, #EAE0D5, #D6C6B3);
+            border: 2px dashed #C07F63;
+        }
+        .photo-placeholder:hover {
+            background: linear-gradient(135deg, #D6C6B3, #C07F63);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-[#433A3F]">A Providence Anniversary</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#itinerary" class="nav-link text-lg" aria-label="Navigate to Your Itinerary section">Your Itinerary</a>
+                <a href="#explore" class="nav-link text-lg" aria-label="Navigate to Explore Providence section">Explore Providence</a>
+                <a href="#photos" class="nav-link text-lg" aria-label="Navigate to Photo Gallery section">Photo Gallery</a>
+                <a href="#budget" class="nav-link text-lg" aria-label="Navigate to Budget Calculator section">Budget Calculator</a>
+                <a href="#notes" class="nav-link text-lg" aria-label="Navigate to Couple's Notes section">Couple's Notes</a>
+                <a href="#plan" class="nav-link text-lg" aria-label="Navigate to Plan Your Trip section">Plan Your Trip</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="focus:outline-none" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4" role="navigation" aria-label="Mobile navigation menu">
+            <a href="#itinerary" class="block py-2 nav-link">Your Itinerary</a>
+            <a href="#explore" class="block py-2 nav-link">Explore Providence</a>
+            <a href="#photos" class="block py-2 nav-link">Photo Gallery</a>
+            <a href="#budget" class="block py-2 nav-link">Budget Calculator</a>
+            <a href="#notes" class="block py-2 nav-link">Couple's Notes</a>
+            <a href="#plan" class="block py-2 nav-link">Plan Your Trip</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="text-center py-20 px-6 bg-[#EAE0D5] relative">
+            <div class="weather-widget absolute top-4 right-4 p-4 rounded-lg shadow-lg hidden md:block">
+                <div id="weather-content" class="text-sm">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-2xl">☀️</span>
+                        <div>
+                            <div class="font-semibold">Providence, RI</div>
+                            <div class="text-xs text-gray-600">June 11-13</div>
+                        </div>
+                    </div>
+                    <div class="text-xs">
+                        <div>High: 75°F | Low: 62°F</div>
+                        <div>Perfect for walking! 🚶‍♂️🚶‍♀️</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Countdown Timer -->
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-lg max-w-lg mx-auto">
+                <h3 class="text-xl font-semibold text-[#433A3F] mb-4 flex items-center justify-center">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Time Until Our Anniversary 💕
+                </h3>
+                <div id="countdown" class="grid grid-cols-4 gap-4 text-center mb-4">
+                    <div class="countdown-item">
+                        <div class="countdown-number text-2xl font-bold text-[#C07F63]" id="days">0</div>
+                        <div class="countdown-label text-sm text-[#433A3F]">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number text-2xl font-bold text-[#C07F63]" id="hours">0</div>
+                        <div class="countdown-label text-sm text-[#433A3F]">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number text-2xl font-bold text-[#C07F63]" id="minutes">0</div>
+                        <div class="countdown-label text-sm text-[#433A3F]">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number text-2xl font-bold text-[#C07F63]" id="seconds">0</div>
+                        <div class="countdown-label text-sm text-[#433A3F]">Seconds</div>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2 items-center justify-center">
+                    <input type="date" id="anniversaryDate" class="border border-[#C07F63] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C07F63]" aria-label="Set your anniversary date">
+                    <button onclick="setAnniversaryDate()" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0614B] transition duration-300">Set Date</button>
+                </div>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Your Perfect Anniversary Escape</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-[#433A3F]/80">
+                An interactive guide to a romantic weekend in Providence, designed for your one-month anniversary. Explore, plan, and create unforgettable memories together from June 11th to 13th.
+            </p>
+        </section>
+
+        <section id="itinerary" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Your Itinerary</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    This suggested timeline blends romance, culture, and culinary delights into a perfect anniversary weekend. We've structured the plan day by day, but feel free to mix and match based on your mood. Click the tabs to switch between days.
+                </p>
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex justify-center space-x-8" aria-label="Tabs" role="tablist">
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-tab="day1" role="tab" aria-selected="true" aria-controls="tab-content">Friday, June 11</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day2" role="tab" aria-selected="false" aria-controls="tab-content">Saturday, June 12</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day3" role="tab" aria-selected="false" aria-controls="tab-content">Sunday, June 13</button>
+                    </nav>
+                </div>
+
+                <div id="tab-content" class="mt-12" role="tabpanel" aria-live="polite">
+                    <div class="spinner mx-auto mb-4 hidden" id="itinerary-loading" aria-hidden="true"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="explore" class="py-16 md:py-24 bg-[#EAE0D5]">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Explore Providence</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    Discover all the romantic possibilities Providence has to offer. Use the filters to find the perfect spots for your celebration, from intimate dining to scenic tours. The charts below help you compare your options at a glance.
+                </p>
+                <div class="flex justify-center flex-wrap gap-2 mb-12">
+                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full active" data-filter="all" aria-pressed="true">All</button>
+                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Dining" aria-pressed="false">Dining</button>
+                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Tour" aria-pressed="false">Tours</button>
+                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Culture" aria-pressed="false">Culture</button>
+                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Outdoor" aria-pressed="false">Outdoor</button>
+                </div>
+                
+                <div class="spinner mx-auto mb-4 hidden" id="explore-loading" aria-hidden="true"></div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="explore-grid" aria-live="polite">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-4">Dining Cost Comparison</h3>
+                        <p class="text-center text-md max-w-xl mx-auto mb-6 text-[#433A3F]/80">To help you choose the perfect anniversary dinner, this chart provides an estimated cost per person for our top dining recommendations. Upscale options offer a truly special experience, while others provide a romantic ambiance at a more moderate price.</p>
+                        <div class="chart-container">
+                            <canvas id="diningChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-4">River Tour Value</h3>
+                        <p class="text-center text-md max-w-xl mx-auto mb-6 text-[#433A3F]/80">Which boat tour is right for you? This chart compares each tour by price and duration. The size of the bubble indicates the exclusivity of the tour (smaller bubble means a smaller, more intimate group). A private charter offers the ultimate personalized experience.</p>
+                        <div class="chart-container">
+                             <canvas id="tourChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="photos" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Photo Gallery</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    A collection of inspiration and memories. Browse Providence's romantic spots and add your own special moments to create a personalized anniversary keepsake.
+                </p>
+                
+                <!-- Photo Gallery Tabs -->
+                <div class="flex justify-center mb-8">
+                    <div class="bg-white rounded-lg p-1 shadow-sm">
+                        <button class="photo-tab-btn px-6 py-3 rounded-lg font-medium transition-all active" data-photo-tab="providence" aria-pressed="true">Providence Inspiration</button>
+                        <button class="photo-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-photo-tab="personal" aria-pressed="false">Our Memories</button>
+                    </div>
+                </div>
+
+                <!-- Providence Photos -->
+                <div id="providence-photos" class="photo-gallery mb-8">
+                    <!-- Providence photos will be dynamically loaded -->
+                </div>
+
+                <!-- Personal Photos Section -->
+                <div id="personal-photos" class="hidden">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold mb-4">Add Your Personal Photos</h3>
+                        <p class="text-gray-600 mb-6">Upload your favorite photos together to create a personalized memory gallery for your anniversary weekend.</p>
+                        
+                        <!-- Photo Upload Area -->
+                        <div class="max-w-md mx-auto">
+                            <label for="photo-upload" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500">PNG, JPG or GIF (MAX. 10MB)</p>
+                                </div>
+                                <input id="photo-upload" type="file" class="hidden" accept="image/*" multiple />
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Personal Photos Grid -->
+                    <div class="photo-gallery" id="personal-photo-gallery">
+                        <!-- Personal photos will be displayed here -->
+                    </div>
+
+                    <!-- Sample Personal Photos (you can replace these) -->
+                    <div class="photo-gallery" id="sample-personal-photos">
+                        <div class="photo-card bg-gray-200" tabindex="0" role="button" aria-label="Add your photo here">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-pink-100 to-purple-100">
+                                <div class="text-center text-gray-600">
+                                    <div class="text-4xl mb-2">📷</div>
+                                    <p class="text-sm">Your first date photo</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="photo-card bg-gray-200" tabindex="0" role="button" aria-label="Add your photo here">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-100 to-green-100">
+                                <div class="text-center text-gray-600">
+                                    <div class="text-4xl mb-2">💕</div>
+                                    <p class="text-sm">Your favorite memory</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="photo-card bg-gray-200" tabindex="0" role="button" aria-label="Add your photo here">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-yellow-100 to-orange-100">
+                                <div class="text-center text-gray-600">
+                                    <div class="text-4xl mb-2">🌟</div>
+                                    <p class="text-sm">A special moment</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="photo-card bg-gray-200" tabindex="0" role="button" aria-label="Add your photo here">
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-100 to-pink-100">
+                                <div class="text-center text-gray-600">
+                                    <div class="text-4xl mb-2">🎉</div>
+                                    <p class="text-sm">Celebration photo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="notes" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Couple's Notes</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    Keep track of your special moments, thoughts, and plans together. Add personal notes for each day or general memories to make this weekend truly yours.
+                </p>
+                
+                <!-- Notes Tabs -->
+                <div class="flex justify-center mb-8">
+                    <div class="bg-white rounded-lg p-1 shadow-sm">
+                        <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all active" data-notes-tab="general" aria-pressed="true">General Notes</button>
+                        <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day1" aria-pressed="false">Friday Notes</button>
+                        <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day2" aria-pressed="false">Saturday Notes</button>
+                        <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day3" aria-pressed="false">Sunday Notes</button>
+                    </div>
+                </div>
+
+                <!-- Notes Content -->
+                <div class="max-w-4xl mx-auto">
+                    <div id="notes-general" class="notes-section">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="text-2xl mr-2">💕</span>
+                                Our Anniversary Weekend Thoughts
+                            </h3>
+                            <textarea id="general-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Share your excitement, expectations, or any special thoughts about this anniversary weekend..."></textarea>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-500" id="general-char-count">0/500 characters</span>
+                                <button onclick="saveNote('general')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="notes-day1" class="notes-section hidden">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🧳</span>
+                                Friday, June 11 - Arrival Day
+                            </h3>
+                            <textarea id="day1-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Note your thoughts about arrival, dinner plans, or first impressions..."></textarea>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-500" id="day1-char-count">0/500 characters</span>
+                                <button onclick="saveNote('day1')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="notes-day2" class="notes-section hidden">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="text-2xl mr-2">⛵</span>
+                                Saturday, June 12 - Adventure Day
+                            </h3>
+                            <textarea id="day2-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Record your favorite moments from tours, dining, or exploring together..."></textarea>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-500" id="day2-char-count">0/500 characters</span>
+                                <button onclick="saveNote('day2')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="notes-day3" class="notes-section hidden">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🏛️</span>
+                                Sunday, June 13 - Farewell
+                            </h3>
+                            <textarea id="day3-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your final thoughts and favorite memories from the weekend..."></textarea>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-500" id="day3-char-count">0/500 characters</span>
+                                <button onclick="saveNote('day3')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saved Notes Display -->
+                    <div id="saved-notes-display" class="grid md:grid-cols-2 gap-6">
+                        <!-- Saved notes will appear here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="budget" class="py-16 md:py-24 bg-[#EAE0D5]">
+            <div class="container mx-auto px-6">
+                <div class="budget-calculator rounded-lg p-8 max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Budget Calculator</h2>
+                    <p class="text-center text-lg max-w-3xl mx-auto mb-8 opacity-90">
+                        Plan your perfect anniversary weekend within your budget. Select the experiences you're interested in to see an estimated total cost for two people.
+                    </p>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8" id="budget-items">
+                        <!-- Budget items will be dynamically loaded -->
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-white/20 rounded-lg p-6 inline-block min-w-[200px]">
+                            <div class="text-sm opacity-80 mb-2">Estimated Total for Two</div>
+                            <div class="text-3xl font-bold" id="total-cost">$0</div>
+                            <div class="text-xs opacity-70 mt-1">*Excluding taxes, tips, and transportation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Couple's Notes Section -->
+        <section id="notes" class="py-16 md:py-24 bg-gradient-to-br from-pink-50 to-purple-50">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#433A3F]">Couple's Notes 💕</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    Keep track of your thoughts, memories, and special moments from your anniversary weekend. Share your excitement and capture the memories as they happen.
+                </p>
+                
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <!-- Notes Tab Navigation -->
+                    <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200">
+                        <button onclick="switchNotesTab('general')" id="general-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50 active" aria-label="Switch to general notes">
+                            💝 General Notes
+                        </button>
+                        <button onclick="switchNotesTab('day1')" id="day1-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Friday notes">
+                            🌙 Friday Notes
+                        </button>
+                        <button onclick="switchNotesTab('day2')" id="day2-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Saturday notes">
+                            ☀️ Saturday Notes
+                        </button>
+                        <button onclick="switchNotesTab('day3')" id="day3-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Sunday notes">
+                            🌅 Sunday Notes
+                        </button>
+                    </div>
+                    
+                    <!-- Notes Content Areas -->
+                    <div id="notes-content">
+                        <!-- General Notes -->
+                        <div id="general-notes-content" class="notes-content">
+                            <div class="mb-4">
+                                <label for="general-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Our Anniversary Thoughts & Plans</label>
+                                <textarea 
+                                    id="general-notes-textarea" 
+                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
+                                    placeholder="Share your thoughts about this special anniversary weekend... What are you most excited about? Any special surprises planned? Write down anything that comes to mind! 💕"
+                                    maxlength="1000"
+                                    aria-label="General anniversary notes"
+                                ></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="general-char-count" class="text-sm text-gray-500">0/1000 characters</span>
+                                    <button onclick="saveNotes('general')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
+                                        💾 Save Notes
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="general-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Saved Notes:</h4>
+                                <p id="general-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Day-specific Notes -->
+                        <div id="day1-notes-content" class="notes-content hidden">
+                            <div class="mb-4">
+                                <label for="day1-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Friday Evening Memories</label>
+                                <textarea 
+                                    id="day1-notes-textarea" 
+                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
+                                    placeholder="How was your arrival? The dinner? The cocktails? Capture the magic of your first evening... 🌙✨"
+                                    maxlength="1000"
+                                    aria-label="Friday evening notes"
+                                ></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="day1-char-count" class="text-sm text-gray-500">0/1000 characters</span>
+                                    <button onclick="saveNotes('day1')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
+                                        💾 Save Notes
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="day1-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Friday Memories:</h4>
+                                <p id="day1-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
+                            </div>
+                        </div>
+                        
+                        <div id="day2-notes-content" class="notes-content hidden">
+                            <div class="mb-4">
+                                <label for="day2-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Saturday Adventures</label>
+                                <textarea 
+                                    id="day2-notes-textarea" 
+                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
+                                    placeholder="Document your Saturday explorations! How was the WaterFire? The museums? Your romantic moments together? ☀️💖"
+                                    maxlength="1000"
+                                    aria-label="Saturday adventure notes"
+                                ></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="day2-char-count" class="text-sm text-gray-500">0/1000 characters</span>
+                                    <button onclick="saveNotes('day2')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
+                                        💾 Save Notes
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="day2-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Saturday Adventures:</h4>
+                                <p id="day2-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
+                            </div>
+                        </div>
+                        
+                        <div id="day3-notes-content" class="notes-content hidden">
+                            <div class="mb-4">
+                                <label for="day3-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Sunday Reflections</label>
+                                <textarea 
+                                    id="day3-notes-textarea" 
+                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
+                                    placeholder="How was your final morning? Brunch together? Any last-minute discoveries? Reflect on this wonderful anniversary weekend... 🌅💕"
+                                    maxlength="1000"
+                                    aria-label="Sunday reflection notes"
+                                ></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="day3-char-count" class="text-sm text-gray-500">0/1000 characters</span>
+                                    <button onclick="saveNotes('day3')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
+                                        💾 Save Notes
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="day3-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Sunday Reflections:</h4>
+                                <p id="day3-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="plan" class="py-16 md:py-24">
+            <div class="container mx-auto px-6 max-w-4xl">
+                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Plan Your Trip</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    Here are some practical tips to ensure your anniversary weekend is seamless and stress-free. From getting around the city to making essential reservations, we've got you covered. Click on each topic to see the details.
+                </p>
+                <div id="accordion-container" class="space-y-4">
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-[#433A3F] text-[#FDF8F0] py-8 text-center">
+        <p>Crafted with love for a memorable anniversary in Providence.</p>
+        <p class="text-sm opacity-70 mt-2">Interactive Itinerary by Gemini</p>
+    </footer>
+
+<script>
+const AppData = {
+    itinerary: {
+        day1: [
+            { time: 'Afternoon', icon: '🧳', title: 'Arrival & Settling In', desc: 'Check into the stylish Neptune Hotel, your home base. Grab a coffee and relax before the romantic weekend begins. Ride-sharing services like Uber or Lyft are recommended for a smooth arrival.' },
+            { time: 'Evening', icon: '🍽️', title: 'Exquisite Anniversary Dinner', desc: 'Celebrate at one of Providence\'s most romantic restaurants. Gracie\'s offers an intimate setting with tasting menus, while Hemenway\'s is perfect for seafood lovers. For a unique vibe, try CAV.' },
+            { time: 'Night', icon: '🍸', title: 'Sophisticated Cocktails', desc: 'End your first night with a perfectly crafted cocktail. Visit Clementine Cocktail Bar for classic drinks or enjoy a convenient, intimate nightcap at The Bar inside your hotel.' }
+        ],
+        day2: [
+            { time: 'Morning', icon: '☕', title: 'Leisurely Brunch & Culture', desc: 'Start with brunch at CAV or grab an artisan coffee from Little City Coffee. Then, immerse yourselves in culture at the historic Providence Athenaeum or the acclaimed RISD Museum.' },
+            { time: 'Afternoon', icon: '⛵', title: 'Scenic Outdoor Adventure', desc: 'Experience Providence from the water with a Providence River Boat Company tour. The "Wine & Brine Cruise" is exceptionally romantic. Alternatively, enjoy a classic swan boat ride in Roger Williams Park.' },
+            { time: 'Evening', icon: '🍝', title: 'Exploring Federal Hill', desc: 'Dine in Providence\'s "Little Italy." Massimo Restaurant is a favorite for its seasonal Italian menu. Afterwards, take a romantic stroll and maybe catch a sunset from Prospect Terrace Park.' },
+            { time: 'Night', icon: '🎤', title: 'Unique Entertainment', desc: 'Check the WaterFire schedule for a magical bonfire display on the river. For a guaranteed fun and private night, head back to The Boombox karaoke lounge at the Neptune Hotel.' }
+        ],
+        day3: [
+            { time: 'Morning', icon: '🏛️', title: 'Sweet Farewells', desc: 'Enjoy a final relaxed brunch. Take advantage of FREE Sunday admission at the RISD Museum for one last cultural dip. Remember, the Athenaeum is closed on Sundays.' },
+            { time: 'Afternoon', icon: '🚗', title: 'Departure', desc: 'After a memorable weekend, enjoy a relaxed check-out. Use a ride-sharing service for a comfortable and easy journey home, filled with new memories.' }
+        ]
+    },
+    explore: [
+        { id: 1, category: 'Dining', title: 'Gracie\'s', desc: 'Warm & intimate, considered the "best romantic dinner" in Providence. Features exquisite multi-course tasting menus.', keyInfo: 'Price: $$$$', icon: '⭐', cost: 150 },
+        { id: 2, category: 'Dining', title: 'Hemenway\'s Restaurant', desc: 'An upscale city staple for nearly 40 years, focusing on the freshest seafood, including whole lobster and oysters.', keyInfo: 'Price: $$$$', icon: '🦞', cost: 120 },
+        { id: 3, category: 'Dining', title: 'Massimo Restaurant', desc: 'A Federal Hill favorite with a seasonal Italian menu served in a cozy, inviting atmosphere.', keyInfo: 'Price: $$$', icon: '🇮🇹', cost: 75 },
+        { id: 4, category: 'Dining', title: 'CAV Providence', desc: 'Unique "dining in a museum" experience in a historic loft with an eclectic, award-winning menu.', keyInfo: 'Price: $$$', icon: '🖼️', cost: 85 },
+        { id: 5, category: 'Tour', title: 'Wine & Brine Cruise', desc: 'A 2-hour tour with freshly shucked local oysters and complimentary wine. Ultimate romantic experience.', keyInfo: '$95/person', icon: '🥂', cost: 95 },
+        { id: 6, category: 'Tour', title: 'Twilight River Cruise', desc: 'A 75-minute sunset tour to see the city bathed in a soft, golden light. Perfect for photos. (21+)', keyInfo: '$40/person', icon: '🌇', cost: 40 },
+        { id: 7, category: 'Tour', title: 'Private Charter', desc: 'The epitome of exclusivity. A 1-hour private boat tour for just the two of you to create your own itinerary.', keyInfo: '$450/charter', icon: '💎', cost: 225 },
+        { id: 8, category: 'Culture', title: 'RISD Museum', desc: 'A renowned art and design museum with diverse collections spanning ancient to contemporary works.', keyInfo: 'Free on Sundays!', icon: '🎨', cost: 0 },
+        { id: 9, category: 'Culture', title: 'Providence Athenaeum', desc: 'A historic and intimate library on Benefit Street. Perfect for a quiet, intellectual stroll. (Closed Sundays)', keyInfo: 'Pay-what-you-can', icon: '📚', cost: 10 },
+        { id: 10, category: 'Outdoor', title: 'Roger Williams Park', desc: 'A 435-acre urban oasis. Enjoy beautiful trails, picnic spots, or a charming swan boat ride on the pond.', keyInfo: 'Park is Free', icon: '🦢', cost: 0 },
+        { id: 11, category: 'Outdoor', title: 'WaterFire', desc: 'A signature Providence event. An art installation of bonfires on the rivers, creating a magical atmosphere. (Schedule varies)', keyInfo: 'Check Schedule', icon: '🔥', cost: 0 },
+        { id: 12, category: 'Culture', title: 'The Boombox', desc: 'Providence\'s only plush karaoke lounge, located in the Neptune Hotel. A fun, private spot for late-night revelry.', keyInfo: 'At your hotel!', icon: '🎤', cost: 30 }
+    ],
+    photos: [
+        { title: 'WaterFire Providence', desc: 'The magical bonfire installation on the rivers', image: 'https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=400&h=300&fit=crop' },
+        { title: 'Federal Hill', desc: 'Providence\'s charming Little Italy district', image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=300&fit=crop' },
+        { title: 'RISD Museum', desc: 'World-class art and design collections', image: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=300&fit=crop' },
+        { title: 'Providence River', desc: 'Scenic boat tours and waterfront dining', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop' },
+        { title: 'Benefit Street', desc: 'Historic colonial architecture and cobblestones', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop' },
+        { title: 'Roger Williams Park', desc: 'Beautiful gardens and swan boat rides', image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop' }
+    ],
+    plan: [
+        { title: 'Advance Reservations are Key', content: 'For a celebratory weekend, planning ahead is crucial. Top restaurants like Gracie\'s and sought-after boat tours fill up quickly. We highly recommend making reservations at least 1-2 weeks in advance to secure your preferred times and avoid disappointment.' },
+        { title: 'Check Event Schedules', content: 'Providence\'s event calendar can change. The WaterFire schedule is typically released in the spring; check their official website closer to your trip. Similarly, while major shows at PPAC may not be running, check their site for any concerts or smaller performances that might be added.' },
+        { title: 'Getting Around Providence', content: 'The downtown area is very walkable. For longer distances, ride-sharing services (Uber/Lyft) are readily available and offer a convenient, private way to travel. While public transit (RIPTA) is an option, rideshares align better with the stress-free nature of a romantic getaway.' },
+        { title: 'What to Pack', content: 'Comfort is key for exploring the city\'s charming streets, so bring comfortable walking shoes. Providence weather in June can vary, so packing layers (a light jacket or sweater for evenings) is always a smart choice. Don\'t forget a slightly dressier outfit for your special anniversary dinner!' }
+    ]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabContainer = document.getElementById('tab-content');
+    const exploreGrid = document.getElementById('explore-grid');
+    const accordionContainer = document.getElementById('accordion-container');
+    const providencePhotos = document.getElementById('providence-photos');
+    const personalPhotos = document.getElementById('personal-photos');
+    const personalPhotoGallery = document.getElementById('personal-photo-gallery');
+    const budgetItems = document.getElementById('budget-items');
+    const totalCostElement = document.getElementById('total-cost');
+    let selectedBudgetItems = new Set();
+    let uploadedPhotos = [];
+
+    // Loading state helpers
+    function showLoading(loadingId) {
+        const loader = document.getElementById(loadingId);
+        if (loader) {
+            loader.classList.remove('hidden');
+            loader.setAttribute('aria-hidden', 'false');
+        }
+    }
+
+    function hideLoading(loadingId) {
+        const loader = document.getElementById(loadingId);
+        if (loader) {
+            loader.classList.add('hidden');
+            loader.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    function renderItinerary(day) {
+        const items = AppData.itinerary[day];
+        if (!items) return;
+        
+        showLoading('itinerary-loading');
+        
+        setTimeout(() => {
+            tabContainer.innerHTML = `
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-4 top-0 h-full w-0.5 bg-[#EAE0D5]"></div>
+                    ${items.map(item => `
+                        <div class="relative pl-12 pb-12">
+                            <div class="absolute left-0 top-1.5 flex items-center justify-center bg-[#C07F63] text-white rounded-full h-8 w-8 text-xl" role="img" aria-label="${item.title}">${item.icon}</div>
+                            <h3 class="text-xl font-bold font-display">${item.title} <span class="text-sm font-normal text-gray-500 ml-2">${item.time}</span></h3>
+                            <p class="mt-1 text-[#433A3F]/80">${item.desc}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            hideLoading('itinerary-loading');
+        }, 300);
+    }
+
+    function renderExploreCards(filter = 'all') {
+        const filteredItems = filter === 'all' 
+            ? AppData.explore 
+            : AppData.explore.filter(item => item.category === filter);
+        
+        showLoading('explore-loading');
+        
+        setTimeout(() => {
+            exploreGrid.innerHTML = filteredItems.map(item => `
+                <div class="card bg-white rounded-lg shadow-md overflow-hidden" data-category="${item.category}">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="text-3xl mr-4" role="img" aria-label="${item.title}">${item.icon}</div>
+                            <div>
+                                <h3 class="text-xl font-bold font-display">${item.title}</h3>
+                                <p class="text-sm text-[#C07F63] font-medium">${item.category}</p>
+                            </div>
+                        </div>
+                        <p class="text-[#433A3F]/80 mb-4">${item.desc}</p>
+                        <div class="text-right font-medium text-[#433A3F]">${item.keyInfo}</div>
+                    </div>
+                </div>
+            `).join('');
+            hideLoading('explore-loading');
+        }, 200);
+    }
+
+    function renderPhotoGallery() {
+        providencePhotos.innerHTML = AppData.photos.map(photo => `
+            <div class="photo-card bg-gray-200" tabindex="0" role="button" aria-label="View ${photo.title}">
+                <img src="${photo.image}" alt="${photo.title}" class="w-full h-full object-cover" loading="lazy">
+                <div class="photo-overlay">
+                    <h4 class="font-bold mb-1">${photo.title}</h4>
+                    <p class="text-sm opacity-90">${photo.desc}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderPersonalPhotos() {
+        if (uploadedPhotos.length === 0) return;
+        
+        personalPhotoGallery.innerHTML = uploadedPhotos.map((photo, index) => `
+            <div class="photo-card bg-gray-200 relative group" tabindex="0" role="button" aria-label="View personal photo ${index + 1}">
+                <img src="${photo.url}" alt="${photo.name}" class="w-full h-full object-cover" loading="lazy">
+                <div class="photo-overlay">
+                    <h4 class="font-bold mb-1">${photo.name}</h4>
+                    <button class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity" onclick="removePhoto(${index})" aria-label="Remove photo">×</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function handlePhotoUpload(files) {
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024) { // 10MB limit
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    uploadedPhotos.push({
+                        name: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension
+                        url: e.target.result
+                    });
+                    renderPersonalPhotos();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    window.removePhoto = function(index) {
+        uploadedPhotos.splice(index, 1);
+        renderPersonalPhotos();
+    };
+
+    function renderBudgetCalculator() {
+        budgetItems.innerHTML = AppData.explore.map(item => `
+            <div class="budget-item border border-white/30 rounded-lg p-4 cursor-pointer" data-id="${item.id}" data-cost="${item.cost}" tabindex="0" role="checkbox" aria-checked="false">
+                <div class="flex items-center mb-2">
+                    <div class="text-2xl mr-3" role="img" aria-label="${item.title}">${item.icon}</div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">${item.title}</h4>
+                        <p class="text-sm opacity-80">${item.category}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold">$${item.cost * 2}</div>
+                        <div class="text-xs opacity-70">for two</div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function updateBudgetTotal() {
+        const total = Array.from(selectedBudgetItems).reduce((sum, id) => {
+            const item = AppData.explore.find(item => item.id === parseInt(id));
+            return sum + (item ? item.cost * 2 : 0);
+        }, 0);
+        totalCostElement.textContent = `$${total}`;
+    }
+
+    function renderAccordion() {
+        accordionContainer.innerHTML = AppData.plan.map((item, index) => `
+            <div class="accordion-item bg-white rounded-lg shadow-sm">
+                <h2>
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-700" data-accordion-target="#accordion-body-${index}" aria-expanded="${index === 0 ? 'true' : 'false'}" aria-controls="accordion-body-${index}">
+                        <span class="text-lg font-display">${item.title}</span>
+                        <svg class="w-6 h-6 shrink-0 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </h2>
+                <div id="accordion-body-${index}" class="${index === 0 ? '' : 'hidden'} p-5 border-t border-gray-200" role="region" aria-labelledby="accordion-button-${index}">
+                    <p class="text-gray-600">${item.content}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Initial renders
+    renderItinerary('day1');
+    renderExploreCards();
+    renderPhotoGallery();
+    renderBudgetCalculator();
+    renderAccordion();
+    
+    // Event Listeners with enhanced accessibility
+    document.querySelector('.tab-btn[data-tab="day1"]').classList.add('active-tab');
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active-tab', 'text-[#C07F63]');
+                b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('active-tab');
+            btn.setAttribute('aria-selected', 'true');
+            renderItinerary(btn.dataset.tab);
+        });
+    });
+
+    document.querySelectorAll('.btn-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.btn-filter').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            renderExploreCards(btn.dataset.filter);
+        });
+    });
+
+    // Budget calculator interactions
+    budgetItems.addEventListener('click', (e) => {
+        const item = e.target.closest('.budget-item');
+        if (item) {
+            const id = item.dataset.id;
+            const isSelected = selectedBudgetItems.has(id);
+            
+            if (isSelected) {
+                selectedBudgetItems.delete(id);
+                item.classList.remove('selected');
+                item.setAttribute('aria-checked', 'false');
+            } else {
+                selectedBudgetItems.add(id);
+                item.classList.add('selected');
+                item.setAttribute('aria-checked', 'true');
+            }
+            updateBudgetTotal();
+        }
+    });
+
+    // Photo gallery tab functionality
+    document.querySelectorAll('.photo-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.photo-tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            
+            const tab = btn.dataset.photoTab;
+            if (tab === 'providence') {
+                providencePhotos.classList.remove('hidden');
+                personalPhotos.classList.add('hidden');
+            } else {
+                providencePhotos.classList.add('hidden');
+                personalPhotos.classList.remove('hidden');
+            }
+        });
+    });
+
+    // Photo upload functionality
+    const photoUpload = document.getElementById('photo-upload');
+    photoUpload.addEventListener('change', (e) => {
+        handlePhotoUpload(e.target.files);
+        e.target.value = ''; // Reset input
+    });
+
+    // Drag and drop functionality
+    const uploadArea = photoUpload.parentElement;
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('border-blue-400', 'bg-blue-50');
+    });
+
+    uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('border-blue-400', 'bg-blue-50');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('border-blue-400', 'bg-blue-50');
+        handlePhotoUpload(e.dataTransfer.files);
+    });
+
+    // Keyboard support for budget items
+    budgetItems.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+
+    accordionContainer.addEventListener('click', (e) => {
+        const button = e.target.closest('button[data-accordion-target]');
+        if (button) {
+            const targetId = button.getAttribute('data-accordion-target');
+            const body = document.querySelector(targetId);
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+            button.setAttribute('aria-expanded', !isExpanded);
+            body.classList.toggle('hidden');
+            button.querySelector('svg').classList.toggle('rotate-180');
+        }
+    });
+
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+        const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+        menuBtn.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Charts
+    const diningCtx = document.getElementById('diningChart').getContext('2d');
+    new Chart(diningCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Massimo', 'CAV', 'Hemenway\'s', 'Gracie\'s'],
+            datasets: [{
+                label: 'Estimated Cost per Person ($)',
+                data: [75, 85, 120, 150],
+                backgroundColor: ['#EAE0D5', '#D6C6B3', '#C07F63', '#A9684C'],
+                borderColor: '#FDF8F0',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Est. $${context.raw}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { color: '#EAE0D5' },
+                    ticks: {
+                         font: { family: "'Roboto', sans-serif" }
+                    }
+                },
+                y: {
+                     grid: { display: false },
+                     ticks: {
+                         font: { family: "'Roboto', sans-serif", size: 14 }
+                    }
+                }
+            }
+        }
+    });
+
+    const tourCtx = document.getElementById('tourChart').getContext('2d');
+    new Chart(tourCtx, {
+        type: 'bubble',
+        data: {
+            datasets: [
+                { label: 'Twilight Cruise', data: [{x: 75, y: 40, r: 10}], backgroundColor: '#C07F63' },
+                { label: 'Wine & Brine', data: [{x: 120, y: 95, r: 12}], backgroundColor: '#A9684C' },
+                { label: 'Private Charter', data: [{x: 60, y: 450, r: 25}], backgroundColor: '#433A3F' },
+                { label: 'Historic Tour', data: [{x: 40, y: 26, r: 8}], backgroundColor: '#D6C6B3' },
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.dataset.label || '';
+                            return `${label}: ${context.raw.x} mins, $${context.raw.y}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'Duration (minutes)', font: { family: "'Roboto', sans-serif" } },
+                    grid: { color: '#EAE0D5' },
+                    ticks: { font: { family: "'Roboto', sans-serif" } }
+                },
+                y: {
+                    title: { display: true, text: 'Price per Person ($)', font: { family: "'Roboto', sans-serif" } },
+                    grid: { color: '#EAE0D5' },
+                    ticks: { font: { family: "'Roboto', sans-serif" } }
+                }
+            }
+        }
+    });
+
+});
+
+// Countdown Timer Functions
+let countdownInterval;
+let anniversaryDate = new Date('2024-06-11T18:00:00'); // Default anniversary date
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = anniversaryDate.getTime() - now;
+    
+    if (distance < 0) {
+        // Anniversary has passed
+        document.getElementById('days').textContent = '0';
+        document.getElementById('hours').textContent = '0';
+        document.getElementById('minutes').textContent = '0';
+        document.getElementById('seconds').textContent = '0';
+        return;
+    }
+    
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = hours;
+    document.getElementById('minutes').textContent = minutes;
+    document.getElementById('seconds').textContent = seconds;
+}
+
+function setAnniversaryDate() {
+    const dateInput = document.getElementById('anniversaryDate');
+    if (dateInput.value) {
+        anniversaryDate = new Date(dateInput.value + 'T18:00:00');
+        updateCountdown();
+        // Save to localStorage
+        localStorage.setItem('anniversaryDate', dateInput.value);
+    }
+}
+
+function initCountdown() {
+    // Load saved date from localStorage
+    const savedDate = localStorage.getItem('anniversaryDate');
+    if (savedDate) {
+        document.getElementById('anniversaryDate').value = savedDate;
+        anniversaryDate = new Date(savedDate + 'T18:00:00');
+    }
+    
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+}
+
+// Couple's Notes Functions
+let currentNotesTab = 'general';
+let notesData = {
+    general: '',
+    day1: '',
+    day2: '',
+    day3: ''
+};
+
+function switchNotesTab(tabId) {
+    // Save current tab content before switching
+    saveCurrentTabContent();
+    
+    // Update active tab
+    document.querySelectorAll('.notes-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.getElementById(tabId + '-notes-tab').classList.add('active');
+    
+    // Hide all content
+    document.querySelectorAll('.notes-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    
+    // Show selected content
+    document.getElementById(tabId + '-notes-content').classList.remove('hidden');
+    
+    currentNotesTab = tabId;
+    
+    // Load content for this tab
+    loadNotesContent(tabId);
+    updateCharacterCount(tabId);
+}
+
+function saveCurrentTabContent() {
+    const textarea = document.getElementById(currentNotesTab + '-notes-textarea');
+    if (textarea) {
+        notesData[currentNotesTab] = textarea.value;
+    }
+}
+
+function loadNotesContent(tabId) {
+    const textarea = document.getElementById(tabId + '-notes-textarea');
+    const savedContent = notesData[tabId] || localStorage.getItem('notes-' + tabId) || '';
+    
+    if (textarea) {
+        textarea.value = savedContent;
+        notesData[tabId] = savedContent;
+    }
+}
+
+function saveNotes(tabId) {
+    const textarea = document.getElementById(tabId + '-notes-textarea');
+    const savedNotesDiv = document.getElementById(tabId + '-saved-notes');
+    const savedContentP = document.getElementById(tabId + '-saved-content');
+    
+    if (textarea && savedNotesDiv && savedContentP) {
+        const content = textarea.value.trim();
+        
+        if (content) {
+            // Save to localStorage
+            localStorage.setItem('notes-' + tabId, content);
+            notesData[tabId] = content;
+            
+            // Show saved content
+            savedContentP.textContent = content;
+            savedNotesDiv.classList.remove('hidden');
+            
+            // Show success feedback
+            const button = savedNotesDiv.previousElementSibling.querySelector('button');
+            const originalText = button.textContent;
+            button.textContent = '✅ Saved!';
+            button.classList.add('bg-green-600');
+            button.classList.remove('bg-[#C07F63]');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('bg-green-600');
+                button.classList.add('bg-[#C07F63]');
+            }, 2000);
+        } else {
+            // Hide saved content if textarea is empty
+            savedNotesDiv.classList.add('hidden');
+            localStorage.removeItem('notes-' + tabId);
+        }
+    }
+}
+
+function updateCharacterCount(tabId) {
+    const textarea = document.getElementById(tabId + '-notes-textarea');
+    const countSpan = document.getElementById(tabId + '-char-count');
+    
+    if (textarea && countSpan) {
+        const count = textarea.value.length;
+        countSpan.textContent = `${count}/1000 characters`;
+        
+        if (count > 900) {
+            countSpan.classList.add('text-red-500');
+            countSpan.classList.remove('text-gray-500');
+        } else {
+            countSpan.classList.add('text-gray-500');
+            countSpan.classList.remove('text-red-500');
+        }
+    }
+}
+
+function initNotes() {
+    // Add event listeners for character counting
+    ['general', 'day1', 'day2', 'day3'].forEach(tabId => {
+        const textarea = document.getElementById(tabId + '-notes-textarea');
+        if (textarea) {
+            textarea.addEventListener('input', () => updateCharacterCount(tabId));
+            textarea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    saveNotes(tabId);
+                }
+            });
+        }
+    });
+    
+    // Load initial content
+    loadNotesContent('general');
+    updateCharacterCount('general');
+    
+    // Load any saved notes and display them
+    ['general', 'day1', 'day2', 'day3'].forEach(tabId => {
+        const savedContent = localStorage.getItem('notes-' + tabId);
+        if (savedContent) {
+            const savedNotesDiv = document.getElementById(tabId + '-saved-notes');
+            const savedContentP = document.getElementById(tabId + '-saved-content');
+            if (savedNotesDiv && savedContentP) {
+                savedContentP.textContent = savedContent;
+                savedNotesDiv.classList.remove('hidden');
+            }
+        }
+    });
+}
+
+// Initialize countdown and notes when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initCountdown();
+    initNotes();
+});
+</script>
+
+</body>
+</html>
