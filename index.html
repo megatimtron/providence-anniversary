@@ -498,7 +498,7 @@
                 
                 <!-- Notes Tabs -->
                 <div class="flex justify-center mb-8">
-                    <div class="bg-white rounded-lg p-1 shadow-sm">
+                    <div class="bg-white rounded-lg p-1 shadow-sm" id="notes-tabs">
                         <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all active" data-notes-tab="general" aria-pressed="true">General Notes</button>
                         <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day1" aria-pressed="false">Friday Notes</button>
                         <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day2" aria-pressed="false">Saturday Notes</button>
@@ -515,9 +515,9 @@
                                 <span class="text-2xl mr-2">💕</span>
                                 Our Anniversary Weekend Thoughts
                             </h3>
-                            <textarea id="general-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Share your excitement, expectations, or any special thoughts about this anniversary weekend..."></textarea>
+                            <textarea id="general-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Share your excitement, expectations, or any special thoughts about this anniversary weekend..." maxlength="1000"></textarea>
                             <div class="flex justify-between items-center mt-4">
-                                <span class="text-sm text-gray-500" id="general-char-count">0/500 characters</span>
+                                <span class="text-sm text-gray-500" id="general-char-count">0/1000 characters</span>
                                 <button onclick="saveNote('general')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
                             </div>
                         </div>
@@ -527,11 +527,11 @@
                         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                             <h3 class="text-xl font-semibold mb-4 flex items-center">
                                 <span class="text-2xl mr-2">🧳</span>
-                                Friday, June 11 - Arrival Day
+                                Friday, July 11 - Arrival Day
                             </h3>
-                            <textarea id="day1-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Note your thoughts about arrival, dinner plans, or first impressions..."></textarea>
+                            <textarea id="day1-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Note your thoughts about arrival, dinner plans, or first impressions..." maxlength="1000"></textarea>
                             <div class="flex justify-between items-center mt-4">
-                                <span class="text-sm text-gray-500" id="day1-char-count">0/500 characters</span>
+                                <span class="text-sm text-gray-500" id="day1-char-count">0/1000 characters</span>
                                 <button onclick="saveNote('day1')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
                             </div>
                         </div>
@@ -541,11 +541,11 @@
                         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                             <h3 class="text-xl font-semibold mb-4 flex items-center">
                                 <span class="text-2xl mr-2">⛵</span>
-                                Saturday, June 12 - Adventure Day
+                                Saturday, July 12 - Adventure Day
                             </h3>
-                            <textarea id="day2-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Record your favorite moments from tours, dining, or exploring together..."></textarea>
+                            <textarea id="day2-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Record your favorite moments from tours, dining, or exploring together..." maxlength="1000"></textarea>
                             <div class="flex justify-between items-center mt-4">
-                                <span class="text-sm text-gray-500" id="day2-char-count">0/500 characters</span>
+                                <span class="text-sm text-gray-500" id="day2-char-count">0/1000 characters</span>
                                 <button onclick="saveNote('day2')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
                             </div>
                         </div>
@@ -557,9 +557,9 @@
                                 <span class="text-2xl mr-2">🏛️</span>
                                 Sunday, July 13 - Extended Stay
                             </h3>
-                            <textarea id="day3-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your thoughts about extending the weekend and Sunday's activities..."></textarea>
+                            <textarea id="day3-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your thoughts about extending the weekend and Sunday's activities..." maxlength="1000"></textarea>
                             <div class="flex justify-between items-center mt-4">
-                                <span class="text-sm text-gray-500" id="day3-char-count">0/500 characters</span>
+                                <span class="text-sm text-gray-500" id="day3-char-count">0/1000 characters</span>
                                 <button onclick="saveNote('day3')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
                             </div>
                         </div>
@@ -571,17 +571,12 @@
                                 <span class="text-2xl mr-2">🌅</span>
                                 Monday, July 14 - Farewell
                             </h3>
-                            <textarea id="day4-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your final thoughts and favorite memories from the extended weekend..."></textarea>
+                            <textarea id="day4-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your final thoughts and favorite memories from the extended weekend..." maxlength="1000"></textarea>
                             <div class="flex justify-between items-center mt-4">
-                                <span class="text-sm text-gray-500" id="day4-char-count">0/500 characters</span>
+                                <span class="text-sm text-gray-500" id="day4-char-count">0/1000 characters</span>
                                 <button onclick="saveNote('day4')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Saved Notes Display -->
-                    <div id="saved-notes-display" class="grid md:grid-cols-2 gap-6">
-                        <!-- Saved notes will appear here -->
                     </div>
                 </div>
             </div>
@@ -609,149 +604,6 @@
         </section>
 
         <section id="plan" class="py-16 md:py-24">
-                    <!-- Notes Tab Navigation -->
-                    <div class="flex flex-wrap gap-2 mb-6 border-b border-gray-200">
-                        <button onclick="switchNotesTab('general')" id="general-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50 active" aria-label="Switch to general notes">
-                            💝 General Notes
-                        </button>
-                        <button onclick="switchNotesTab('day1')" id="day1-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Friday notes">
-                            🌙 Friday Notes
-                        </button>
-                        <button onclick="switchNotesTab('day2')" id="day2-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Saturday notes">
-                            ☀️ Saturday Notes
-                        </button>
-                        <button onclick="switchNotesTab('day3')" id="day3-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Sunday notes">
-                            🌅 Sunday Notes
-                        </button>
-                        <button onclick="switchNotesTab('day4')" id="day4-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Monday notes">
-                            🌈 Monday Notes
-                        </button>
-                    </div>
-                    
-                    <!-- Notes Content Areas -->
-                    <div id="notes-content">
-                        <!-- General Notes -->
-                        <div id="general-notes-content" class="notes-content">
-                            <div class="mb-4">
-                                <label for="general-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Our Anniversary Thoughts & Plans</label>
-                                <textarea 
-                                    id="general-notes-textarea" 
-                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
-                                    placeholder="Share your thoughts about this special anniversary weekend... What are you most excited about? Any special surprises planned? Write down anything that comes to mind! 💕"
-                                    maxlength="1000"
-                                    aria-label="General anniversary notes"
-                                ></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="general-char-count" class="text-sm text-gray-500">0/1000 characters</span>
-                                    <button onclick="saveNotes('general')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
-                                        💾 Save Notes
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="general-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Saved Notes:</h4>
-                                <p id="general-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
-                            </div>
-                        </div>
-                        
-                        <!-- Day-specific Notes -->
-                        <div id="day1-notes-content" class="notes-content hidden">
-                            <div class="mb-4">
-                                <label for="day1-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Friday Evening Memories</label>
-                                <textarea 
-                                    id="day1-notes-textarea" 
-                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
-                                    placeholder="How was your arrival? The dinner? The cocktails? Capture the magic of your first evening... 🌙✨"
-                                    maxlength="1000"
-                                    aria-label="Friday evening notes"
-                                ></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="day1-char-count" class="text-sm text-gray-500">0/1000 characters</span>
-                                    <button onclick="saveNotes('day1')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
-                                        💾 Save Notes
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="day1-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Friday Memories:</h4>
-                                <p id="day1-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
-                            </div>
-                        </div>
-                        
-                        <div id="day2-notes-content" class="notes-content hidden">
-                            <div class="mb-4">
-                                <label for="day2-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Saturday Adventures</label>
-                                <textarea 
-                                    id="day2-notes-textarea" 
-                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
-                                    placeholder="Document your Saturday explorations! How was the WaterFire? The museums? Your romantic moments together? ☀️💖"
-                                    maxlength="1000"
-                                    aria-label="Saturday adventure notes"
-                                ></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="day2-char-count" class="text-sm text-gray-500">0/1000 characters</span>
-                                    <button onclick="saveNotes('day2')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
-                                        💾 Save Notes
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="day2-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Saturday Adventures:</h4>
-                                <p id="day2-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
-                            </div>
-                        </div>
-                        
-                        <div id="day3-notes-content" class="notes-content hidden">
-                            <div class="mb-4">
-                                <label for="day3-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Sunday Reflections</label>
-                                <textarea 
-                                    id="day3-notes-textarea" 
-                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
-                                    placeholder="How was your Sunday? Extended stay plans? Any relaxing moments or new discoveries? Share your thoughts... 🌅💕"
-                                    maxlength="1000"
-                                    aria-label="Sunday reflection notes"
-                                ></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="day3-char-count" class="text-sm text-gray-500">0/1000 characters</span>
-                                    <button onclick="saveNotes('day3')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
-                                        💾 Save Notes
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="day3-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Sunday Reflections:</h4>
-                                <p id="day3-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
-                            </div>
-                        </div>
-                        
-                        <div id="day4-notes-content" class="notes-content hidden">
-                            <div class="mb-4">
-                                <label for="day4-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Monday Farewell</label>
-                                <textarea 
-                                    id="day4-notes-textarea" 
-                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
-                                    placeholder="Final thoughts on your extended anniversary weekend? What made Monday special? Capture your last memories and the joy of spending an extra day together... �💕"
-                                    maxlength="1000"
-                                    aria-label="Monday farewell notes"
-                                ></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="day4-char-count" class="text-sm text-gray-500">0/1000 characters</span>
-                                    <button onclick="saveNotes('day4')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
-                                        💾 Save Notes
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="day4-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
-                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Monday Farewell:</h4>
-                                <p id="day4-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="plan" class="py-16 md:py-24">
             <div class="container mx-auto px-6 max-w-4xl">
                  <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Plan Your Trip</h2>
                 <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
@@ -763,8 +615,8 @@
         </section>
 
     </main>
-    
-    <footer class="bg-[#433A3F] text-[#FDF8F0] py-8 text-center">
+
+    <footer class="bg-[#433A3F] text-white py-8 text-center">
         <p>Crafted with love for a memorable anniversary in Providence.</p>
         <p class="text-sm opacity-70 mt-2">Interactive Itinerary by Gemini</p>
     </footer>
@@ -960,7 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="text-right">
                         <div class="font-bold">$${item.cost * 2}</div>
-                        <div class="text-xs opacity-70">for two</div>
+                        <div class="text-xs opacity-70 mt-1">for two</div>
                     </div>
                 </div>
             </div>
@@ -1264,141 +1116,84 @@ let notesData = {
     day4: ''
 };
 
-function switchNotesTab(tabId) {
-    // Save current tab content before switching
-    saveCurrentTabContent();
+function switchNotesTab(tabKey) {
+    currentNotesTab = tabKey;
     
-    // Update active tab
-    document.querySelectorAll('.notes-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    document.getElementById(tabId + '-notes-tab').classList.add('active');
-    
-    // Hide all content
-    document.querySelectorAll('.notes-content').forEach(content => {
-        content.classList.add('hidden');
-    });
-    
-    // Show selected content
-    document.getElementById(tabId + '-notes-content').classList.remove('hidden');
-    
-    currentNotesTab = tabId;
-    
-    // Load content for this tab
-    loadNotesContent(tabId);
-    updateCharacterCount(tabId);
-}
-
-function saveCurrentTabContent() {
-    const textarea = document.getElementById(currentNotesTab + '-notes-textarea');
-    if (textarea) {
-        notesData[currentNotesTab] = textarea.value;
-    }
-}
-
-function loadNotesContent(tabId) {
-    const textarea = document.getElementById(tabId + '-notes-textarea');
-    const savedContent = notesData[tabId] || localStorage.getItem('notes-' + tabId) || '';
-    
-    if (textarea) {
-        textarea.value = savedContent;
-        notesData[tabId] = savedContent;
-    }
-}
-
-function saveNotes(tabId) {
-    const textarea = document.getElementById(tabId + '-notes-textarea');
-    const savedNotesDiv = document.getElementById(tabId + '-saved-notes');
-    const savedContentP = document.getElementById(tabId + '-saved-content');
-    
-    if (textarea && savedNotesDiv && savedContentP) {
-        const content = textarea.value.trim();
-        
-        if (content) {
-            // Save to localStorage
-            localStorage.setItem('notes-' + tabId, content);
-            notesData[tabId] = content;
-            
-            // Show saved content
-            savedContentP.textContent = content;
-            savedNotesDiv.classList.remove('hidden');
-            
-            // Show success feedback
-            const button = savedNotesDiv.previousElementSibling.querySelector('button');
-            const originalText = button.textContent;
-            button.textContent = '✅ Saved!';
-            button.classList.add('bg-green-600');
-            button.classList.remove('bg-[#C07F63]');
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.classList.remove('bg-green-600');
-                button.classList.add('bg-[#C07F63]');
-            }, 2000);
+    // Update active tab button
+    document.querySelectorAll('.notes-tab-btn').forEach(btn => {
+        if (btn.dataset.notesTab === tabKey) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
         } else {
-            // Hide saved content if textarea is empty
-            savedNotesDiv.classList.add('hidden');
-            localStorage.removeItem('notes-' + tabId);
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
         }
+    });
+
+    // Show correct notes section
+    document.querySelectorAll('.notes-section').forEach(section => {
+        if (section.id === `notes-${tabKey}`) {
+            section.classList.remove('hidden');
+        } else {
+            section.classList.add('hidden');
+        }
+    });
+    
+    loadNote(tabKey);
+}
+
+function loadNote(tabKey) {
+    const textarea = document.getElementById(`${tabKey}-notes`);
+    if (textarea) {
+        textarea.value = localStorage.getItem(`notes-${tabKey}`) || '';
+        updateCharacterCount(tabKey);
     }
 }
 
-function updateCharacterCount(tabId) {
-    const textarea = document.getElementById(tabId + '-notes-textarea');
-    const countSpan = document.getElementById(tabId + '-char-count');
-    
+function saveNote(tabKey) {
+    const textarea = document.getElementById(`${tabKey}-notes`);
+    if (textarea) {
+        const content = textarea.value;
+        localStorage.setItem(`notes-${tabKey}`, content);
+        
+        // Visual feedback
+        const button = textarea.nextElementSibling.querySelector('button');
+        const originalText = button.textContent;
+        button.textContent = '✅ Saved!';
+        button.classList.add('bg-green-600');
+        button.classList.remove('btn-primary');
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.classList.remove('bg-green-600');
+            button.classList.add('btn-primary');
+        }, 2000);
+    }
+}
+
+function updateCharacterCount(tabKey) {
+    const textarea = document.getElementById(`${tabKey}-notes`);
+    const countSpan = document.getElementById(`${tabKey}-char-count`);
     if (textarea && countSpan) {
         const count = textarea.value.length;
         countSpan.textContent = `${count}/1000 characters`;
-        
-        if (count > 900) {
+        if (count > 1000) {
             countSpan.classList.add('text-red-500');
-            countSpan.classList.remove('text-gray-500');
         } else {
-            countSpan.classList.add('text-gray-500');
             countSpan.classList.remove('text-red-500');
         }
     }
 }
 
 function initNotes() {
-    // Add event listeners for character counting
-    ['general', 'day1', 'day2', 'day3'].forEach(tabId => {
-        const textarea = document.getElementById(tabId + '-notes-textarea');
-        if (textarea) {
-            textarea.addEventListener('input', () => updateCharacterCount(tabId));
-            textarea.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-                    saveNotes(tabId);
-                }
-            });
+    const notesTabsContainer = document.getElementById('notes-tabs');
+    notesTabsContainer.addEventListener('click', (e) => {
+        const button = e.target.closest('.notes-tab-btn');
+        if (button) {
+            switchNotesTab(button.dataset.notesTab);
         }
     });
-    
-    // Load initial content
-    loadNotesContent('general');
-    updateCharacterCount('general');
-    
-    // Load any saved notes and display them
-    ['general', 'day1', 'day2', 'day3'].forEach(tabId => {
-        const savedContent = localStorage.getItem('notes-' + tabId);
-        if (savedContent) {
-            const savedNotesDiv = document.getElementById(tabId + '-saved-notes');
-            const savedContentP = document.getElementById(tabId + '-saved-content');
-            if (savedNotesDiv && savedContentP) {
-                savedContentP.textContent = savedContent;
-                savedNotesDiv.classList.remove('hidden');
-            }
-        }
-    });
-}
 
-// Initialize countdown and notes when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    initCountdown();
-    initNotes();
-});
-</script>
-
-</body>
-</html>
+    ['general', 'day1', 'day2', 'day3', 'day4'].forEach(tabKey => {
+        const textarea = document.getElementById(`${tabKey}-notes`);
+        if
