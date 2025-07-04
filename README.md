@@ -10,7 +10,7 @@ A beautiful, interactive web application designed for planning the perfect roman
 - Beautiful animated display
 
 ### 📅 **Interactive Itinerary**
-- Day-by-day planning for Friday, Saturday, and Sunday
+- Day-by-day planning for Friday, Saturday, Sunday, and Monday
 - Tabbed interface for easy navigation
 - Detailed timeline with romantic activities
 
@@ -30,7 +30,7 @@ A beautiful, interactive web application designed for planning the perfect roman
 - Helps plan within your desired spending range
 
 ### 📝 **Couple's Notes**
-- Four different note sections (General, Friday, Saturday, Sunday)
+- Five different note sections (General, Friday, Saturday, Sunday, Monday)
 - Auto-save functionality with local storage
 - Character counter and beautiful styling
 

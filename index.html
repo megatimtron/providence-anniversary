@@ -353,9 +353,10 @@
                 </p>
                 <div class="border-b border-gray-200">
                     <nav class="-mb-px flex justify-center space-x-8" aria-label="Tabs" role="tablist">
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-tab="day1" role="tab" aria-selected="true" aria-controls="tab-content">Friday, June 11</button>
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day2" role="tab" aria-selected="false" aria-controls="tab-content">Saturday, June 12</button>
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day3" role="tab" aria-selected="false" aria-controls="tab-content">Sunday, June 13</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-tab="day1" role="tab" aria-selected="true" aria-controls="tab-content">Friday, July 11</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day2" role="tab" aria-selected="false" aria-controls="tab-content">Saturday, July 12</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day3" role="tab" aria-selected="false" aria-controls="tab-content">Sunday, July 13</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day4" role="tab" aria-selected="false" aria-controls="tab-content">Monday, July 14</button>
                     </nav>
                 </div>
 
@@ -502,6 +503,7 @@
                         <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day1" aria-pressed="false">Friday Notes</button>
                         <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day2" aria-pressed="false">Saturday Notes</button>
                         <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day3" aria-pressed="false">Sunday Notes</button>
+                        <button class="notes-tab-btn px-6 py-3 rounded-lg font-medium transition-all text-gray-600" data-notes-tab="day4" aria-pressed="false">Monday Notes</button>
                     </div>
                 </div>
 
@@ -553,12 +555,26 @@
                         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                             <h3 class="text-xl font-semibold mb-4 flex items-center">
                                 <span class="text-2xl mr-2">🏛️</span>
-                                Sunday, June 13 - Farewell
+                                Sunday, July 13 - Extended Stay
                             </h3>
-                            <textarea id="day3-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your final thoughts and favorite memories from the weekend..."></textarea>
+                            <textarea id="day3-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your thoughts about extending the weekend and Sunday's activities..."></textarea>
                             <div class="flex justify-between items-center mt-4">
                                 <span class="text-sm text-gray-500" id="day3-char-count">0/500 characters</span>
                                 <button onclick="saveNote('day3')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="notes-day4" class="notes-section hidden">
+                        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <span class="text-2xl mr-2">🌅</span>
+                                Monday, July 14 - Farewell
+                            </h3>
+                            <textarea id="day4-notes" class="w-full h-32 p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Capture your final thoughts and favorite memories from the extended weekend..."></textarea>
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm text-gray-500" id="day4-char-count">0/500 characters</span>
+                                <button onclick="saveNote('day4')" class="btn-primary px-4 py-2 rounded-lg">Save Note</button>
                             </div>
                         </div>
                     </div>
@@ -614,6 +630,9 @@
                         </button>
                         <button onclick="switchNotesTab('day3')" id="day3-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Sunday notes">
                             🌅 Sunday Notes
+                        </button>
+                        <button onclick="switchNotesTab('day4')" id="day4-notes-tab" class="notes-tab px-4 py-2 rounded-t-lg font-medium transition-all duration-300 border-b-2 border-transparent hover:border-[#C07F63] focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50" aria-label="Switch to Monday notes">
+                            🌈 Monday Notes
                         </button>
                     </div>
                     
@@ -696,7 +715,7 @@
                                 <textarea 
                                     id="day3-notes-textarea" 
                                     class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
-                                    placeholder="How was your final morning? Brunch together? Any last-minute discoveries? Reflect on this wonderful anniversary weekend... 🌅💕"
+                                    placeholder="How was your Sunday? Extended stay plans? Any relaxing moments or new discoveries? Share your thoughts... 🌅💕"
                                     maxlength="1000"
                                     aria-label="Sunday reflection notes"
                                 ></textarea>
@@ -710,6 +729,29 @@
                             <div id="day3-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
                                 <h4 class="font-semibold text-green-800 mb-2">✨ Your Sunday Reflections:</h4>
                                 <p id="day3-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
+                            </div>
+                        </div>
+                        
+                        <div id="day4-notes-content" class="notes-content hidden">
+                            <div class="mb-4">
+                                <label for="day4-notes-textarea" class="block text-lg font-semibold text-[#433A3F] mb-2">Monday Farewell</label>
+                                <textarea 
+                                    id="day4-notes-textarea" 
+                                    class="notes-textarea w-full h-40 p-4 border-2 border-gray-300 rounded-lg resize-none focus:outline-none focus:border-[#C07F63] focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-20 transition-all duration-300" 
+                                    placeholder="Final thoughts on your extended anniversary weekend? What made Monday special? Capture your last memories and the joy of spending an extra day together... �💕"
+                                    maxlength="1000"
+                                    aria-label="Monday farewell notes"
+                                ></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="day4-char-count" class="text-sm text-gray-500">0/1000 characters</span>
+                                    <button onclick="saveNotes('day4')" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A0614B] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:ring-opacity-50">
+                                        💾 Save Notes
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="day4-saved-notes" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+                                <h4 class="font-semibold text-green-800 mb-2">✨ Your Monday Farewell:</h4>
+                                <p id="day4-saved-content" class="text-green-700 whitespace-pre-wrap"></p>
                             </div>
                         </div>
                     </div>
@@ -750,8 +792,13 @@ const AppData = {
             { time: 'Night', icon: '🎤', title: 'Unique Entertainment', desc: 'Check the WaterFire schedule for a magical bonfire display on the river. For a guaranteed fun and private night, head back to The Boombox karaoke lounge at the Neptune Hotel.' }
         ],
         day3: [
-            { time: 'Morning', icon: '🏛️', title: 'Sweet Farewells', desc: 'Enjoy a final relaxed brunch. Take advantage of FREE Sunday admission at the RISD Museum for one last cultural dip. Remember, the Athenaeum is closed on Sundays.' },
-            { time: 'Afternoon', icon: '🚗', title: 'Departure', desc: 'After a memorable weekend, enjoy a relaxed check-out. Use a ride-sharing service for a comfortable and easy journey home, filled with new memories.' }
+            { time: 'Morning', icon: '�', title: 'Leisurely Sunday Morning', desc: 'Sleep in and enjoy a relaxed Sunday morning. Take advantage of FREE Sunday admission at the RISD Museum or stroll through the historic neighborhoods. Remember, the Athenaeum is closed on Sundays.' },
+            { time: 'Afternoon', icon: '🍽️', title: 'Extended Stay Lunch', desc: 'Enjoy a leisurely lunch at a local favorite. Try Nick\'s on Broadway for a classic Rhode Island experience, or revisit one of your favorites from the weekend.' },
+            { time: 'Evening', icon: '🌆', title: 'Sunset & Reflection', desc: 'Take a romantic evening walk to Prospect Terrace Park for sunset views. Reflect on your weekend together and enjoy the gift of an extra day in this charming city.' }
+        ],
+        day4: [
+            { time: 'Morning', icon: '☕', title: 'Final Morning Together', desc: 'Savor your last morning with coffee and pastries. Take a final stroll through downtown Providence and soak in the memories you\'ve created.' },
+            { time: 'Late Morning', icon: '🧳', title: 'Check-out & Farewell', desc: 'Complete your hotel check-out and prepare for departure. Use a ride-sharing service for a comfortable journey home, carrying with you the beautiful memories of an extended anniversary celebration.' }
         ]
     },
     explore: [
@@ -1221,7 +1268,8 @@ let notesData = {
     general: '',
     day1: '',
     day2: '',
-    day3: ''
+    day3: '',
+    day4: ''
 };
 
 function switchNotesTab(tabId) {
