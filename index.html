@@ -83,6 +83,7 @@
             <div class="hidden md:flex space-x-8">
                 <a href="#itinerary" class="nav-link text-lg">Your Itinerary</a>
                 <a href="#explore" class="nav-link text-lg">Explore Providence</a>
+                <a href="#notes" class="nav-link text-lg">Couple's Notes</a>
                 <a href="#plan" class="nav-link text-lg">Plan Your Trip</a>
             </div>
             <div class="md:hidden">
@@ -94,6 +95,7 @@
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
             <a href="#itinerary" class="block py-2 nav-link">Your Itinerary</a>
             <a href="#explore" class="block py-2 nav-link">Explore Providence</a>
+            <a href="#notes" class="block py-2 nav-link">Couple's Notes</a>
             <a href="#plan" class="block py-2 nav-link">Plan Your Trip</a>
         </div>
     </header>
@@ -162,6 +164,99 @@
             </div>
         </section>
 
+        <section id="notes" class="py-16 md:py-24 bg-[#EAE0D5]">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Couple's Notes</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    Capture your thoughts, plans, and memories for each day. Upload photos and jot down notes to make this trip uniquely yours.
+                </p>
+
+                <!-- Notes Tabs -->
+                <div class="border-b border-gray-200 mb-8">
+                    <nav class="-mb-px flex justify-center space-x-8" aria-label="Notes Tabs">
+                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-notes-tab="notes1">Friday Notes</button>
+                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes2">Saturday Notes</button>
+                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes3">Sunday Notes</button>
+                    </nav>
+                </div>
+
+                <!-- Notes Content -->
+                <div id="notes-content">
+                    <!-- Friday Notes -->
+                    <div id="notes1" class="notes-day-content">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
+                                <div class="mb-4">
+                                    <label for="photo-upload-1" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
+                                        📸 Upload Photo
+                                    </label>
+                                    <input type="file" id="photo-upload-1" class="hidden" accept="image/*" multiple>
+                                </div>
+                                <div id="photo-gallery-1" class="grid grid-cols-2 gap-2"></div>
+                            </div>
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
+                                <textarea id="notes-text-1" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Friday..."></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="char-count-1" class="text-sm text-gray-500">0 characters</span>
+                                    <button id="save-notes-1" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saturday Notes -->
+                    <div id="notes2" class="notes-day-content hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
+                                <div class="mb-4">
+                                    <label for="photo-upload-2" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
+                                        📸 Upload Photo
+                                    </label>
+                                    <input type="file" id="photo-upload-2" class="hidden" accept="image/*" multiple>
+                                </div>
+                                <div id="photo-gallery-2" class="grid grid-cols-2 gap-2"></div>
+                            </div>
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
+                                <textarea id="notes-text-2" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Saturday..."></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="char-count-2" class="text-sm text-gray-500">0 characters</span>
+                                    <button id="save-notes-2" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sunday Notes -->
+                    <div id="notes3" class="notes-day-content hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
+                                <div class="mb-4">
+                                    <label for="photo-upload-3" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
+                                        📸 Upload Photo
+                                    </label>
+                                    <input type="file" id="photo-upload-3" class="hidden" accept="image/*" multiple>
+                                </div>
+                                <div id="photo-gallery-3" class="grid grid-cols-2 gap-2"></div>
+                            </div>
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
+                                <textarea id="notes-text-3" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Sunday..."></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="char-count-3" class="text-sm text-gray-500">0 characters</span>
+                                    <button id="save-notes-3" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="plan" class="py-16 md:py-24">
             <div class="container mx-auto px-6 max-w-4xl">
                  <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Plan Your Trip</h2>
@@ -226,6 +321,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const exploreGrid = document.getElementById('explore-grid');
     const accordionContainer = document.getElementById('accordion-container');
 
+    // Photo storage for each day
+    const photoStorage = {
+        1: [],
+        2: [],
+        3: []
+    };
+
     function renderItinerary(day) {
         const items = AppData.itinerary[day];
         if (!items) return;
@@ -280,19 +382,158 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `).join('');
     }
+
+    // Photo upload functionality
+    function setupPhotoUpload(dayNumber) {
+        const uploadInput = document.getElementById(`photo-upload-${dayNumber}`);
+        const gallery = document.getElementById(`photo-gallery-${dayNumber}`);
+
+        uploadInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const photoData = {
+                            id: Date.now() + Math.random(),
+                            src: e.target.result,
+                            name: file.name
+                        };
+                        
+                        photoStorage[dayNumber].push(photoData);
+                        savePhotosToStorage();
+                        renderPhotoGallery(dayNumber);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    }
+
+    function renderPhotoGallery(dayNumber) {
+        const gallery = document.getElementById(`photo-gallery-${dayNumber}`);
+        const photos = photoStorage[dayNumber];
+
+        gallery.innerHTML = photos.map(photo => `
+            <div class="relative group">
+                <img src="${photo.src}" alt="${photo.name}" class="w-full h-24 object-cover rounded-lg">
+                <button onclick="removePhoto(${dayNumber}, '${photo.id}')" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+            </div>
+        `).join('');
+    }
+
+    // Make removePhoto function global
+    window.removePhoto = (dayNumber, photoId) => {
+        photoStorage[dayNumber] = photoStorage[dayNumber].filter(photo => photo.id != photoId);
+        savePhotosToStorage();
+        renderPhotoGallery(dayNumber);
+    };
+
+    // Notes functionality
+    function setupNotes(dayNumber) {
+        const textarea = document.getElementById(`notes-text-${dayNumber}`);
+        const charCount = document.getElementById(`char-count-${dayNumber}`);
+        const saveBtn = document.getElementById(`save-notes-${dayNumber}`);
+
+        // Load saved notes
+        const savedNotes = localStorage.getItem(`anniversary-notes-${dayNumber}`);
+        if (savedNotes) {
+            textarea.value = savedNotes;
+            updateCharCount(dayNumber);
+        }
+
+        // Character count update
+        textarea.addEventListener('input', () => updateCharCount(dayNumber));
+
+        // Save notes
+        saveBtn.addEventListener('click', () => {
+            localStorage.setItem(`anniversary-notes-${dayNumber}`, textarea.value);
+            saveBtn.textContent = 'Saved!';
+            saveBtn.classList.remove('btn-secondary');
+            saveBtn.classList.add('btn-primary');
+            
+            setTimeout(() => {
+                saveBtn.textContent = 'Save';
+                saveBtn.classList.remove('btn-primary');
+                saveBtn.classList.add('btn-secondary');
+            }, 2000);
+        });
+    }
+
+    function updateCharCount(dayNumber) {
+        const textarea = document.getElementById(`notes-text-${dayNumber}`);
+        const charCount = document.getElementById(`char-count-${dayNumber}`);
+        charCount.textContent = `${textarea.value.length} characters`;
+    }
+
+    // Save photos to localStorage
+    function savePhotosToStorage() {
+        localStorage.setItem('anniversary-photos', JSON.stringify(photoStorage));
+    }
+
+    // Load photos from localStorage
+    function loadPhotosFromStorage() {
+        const saved = localStorage.getItem('anniversary-photos');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            Object.assign(photoStorage, parsed);
+            
+            // Render all galleries
+            for (let i = 1; i <= 3; i++) {
+                renderPhotoGallery(i);
+            }
+        }
+    }
     
     // Initial renders
     renderItinerary('day1');
     renderExploreCards();
     renderAccordion();
     
-    // Event Listeners
+    // Setup notes and photos for each day
+    for (let i = 1; i <= 3; i++) {
+        setupPhotoUpload(i);
+        setupNotes(i);
+    }
+    
+    // Load saved photos
+    loadPhotosFromStorage();
+    
+    // Event Listeners for itinerary tabs
     document.querySelector('.tab-btn[data-tab="day1"]').classList.add('active-tab');
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab', 'text-[#C07F63]'));
             btn.classList.add('active-tab');
             renderItinerary(btn.dataset.tab);
+        });
+    });
+
+    // Event Listeners for notes tabs
+    document.querySelector('.notes-tab-btn[data-notes-tab="notes1"]').classList.add('active-tab');
+    document.querySelectorAll('.notes-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all notes tabs
+            document.querySelectorAll('.notes-tab-btn').forEach(b => {
+                b.classList.remove('active-tab', 'text-[#C07F63]');
+                b.classList.add('text-gray-500');
+            });
+            
+            // Add active class to clicked tab
+            btn.classList.add('active-tab');
+            btn.classList.remove('text-gray-500');
+            
+            // Hide all notes content
+            document.querySelectorAll('.notes-day-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Show selected notes content
+            const targetContent = document.getElementById(btn.dataset.notesTab);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
         });
     });
 
