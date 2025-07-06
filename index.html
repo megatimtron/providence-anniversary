@@ -9433,52 +9433,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     };
 
-    // Enhanced playlist grid rendering for Phase 3 features
-    function renderPlaylistsGrid() {
-        const grid = document.getElementById('playlists-grid');
-        if (!grid) return;
-
-        const playlistCards = playlists.map(playlist => {
-            const songCount = playlist.songs.length;
-            const emoji = getPlaylistEmoji(playlist.type);
-            
-            // Special badges for AI and local playlists
-            let badge = '';
-            if (playlist.aiGenerated) badge = '<span class="absolute top-2 right-2 bg-indigo-500 text-white px-2 py-1 rounded-full text-xs">🤖 AI</span>';
-            else if (playlist.localArtists) badge = '<span class="absolute top-2 right-2 bg-emerald-500 text-white px-2 py-1 rounded-full text-xs">🏛️ Local</span>';
-            else if (playlist.moodBased) badge = '<span class="absolute top-2 right-2 bg-pink-500 text-white px-2 py-1 rounded-full text-xs">💭 Mood</span>';
-            else if (playlist.venueCurated) badge = '<span class="absolute top-2 right-2 bg-teal-500 text-white px-2 py-1 rounded-full text-xs">🎪 Venue</span>';
-            else if (playlist.radioHits) badge = '<span class="absolute top-2 right-2 bg-cyan-500 text-white px-2 py-1 rounded-full text-xs">📻 Radio</span>';
-            
-            return `
-                <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-purple-400/50 transition-all duration-300 relative" data-playlist-id="${playlist.id}">
-                    ${badge}
-                    <div class="playlist-cover bg-${playlist.cover} h-48 flex items-center justify-center cursor-pointer" onclick="selectPlaylist('${playlist.id}')">
-                        <div class="text-6xl">${emoji}</div>
-                    </div>
-                    <div class="p-4">
-                        <h4 class="text-lg font-bold text-white mb-1">${playlist.name}</h4>
-                        <p class="text-white/70 text-sm mb-2">${playlist.description}</p>
-                        <div class="flex justify-between items-center text-xs text-white/60 mb-4">
-                            <span>${songCount} songs</span>
-                            <span>${playlist.collaborative ? '👫 Collaborative' : '👤 Private'}</span>
-                        </div>
-                        <div class="flex gap-2">
-                            <button class="flex-1 bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" onclick="playPlaylist('${playlist.id}')">
-                                ▶️ Play
-                            </button>
-                            <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('${playlist.id}')">
-                                🔗
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        grid.innerHTML = playlistCards;
-    }
-
     // Initialize Phase 3 features
     document.addEventListener('DOMContentLoaded', () => {
         // Auto-start collaboration simulation after 5 seconds
