@@ -12,22 +12,22 @@
     <meta property="og:url" content="">
     <meta property="og:title" content="Providence Anniversary Weekend Planner">
     <meta property="og:description" content="Your complete romantic getaway guide featuring Restaurant Week dining, waterfront walks, historic tours, and all the special moments that make Providence perfect for love.">
-    <meta property="og:image" content="ugo1.jpg">
+    <meta property="og:image" content="assets/images/ugo1.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:title" content="Providence Anniversary Weekend Planner">
     <meta property="twitter:description" content="Your complete romantic getaway guide featuring Restaurant Week dining, waterfront walks, historic tours, and all the special moments that make Providence perfect for love.">
-    <meta property="twitter:image" content="ugo1.jpg">
+    <meta property="twitter:image" content="assets/images/ugo1.jpg">
 
     <title>Providence Anniversary Weekend Planner</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="180x180" href="assets/icons/apple-touch-icon.png">
     <meta name="theme-color" content="#C07F63">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,9 +37,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="ugo1.jpg" as="image">
-    <link rel="preload" href="kiss-boomerang.mp4" as="video" type="video/mp4">
-    <link rel="prefetch" href="memory-video.mp4" as="video" type="video/mp4">
+    <link rel="preload" href="assets/images/ugo1.jpg" as="image">
+    <link rel="preload" href="assets/videos/kiss-boomerang.mp4" as="video" type="video/mp4">
+    <link rel="prefetch" href="assets/videos/memory-video.mp4" as="video" type="video/mp4">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -337,7 +337,7 @@
         /* Hero Section with Background Image & Overlay */
         .hero-bg {
             background: linear-gradient(135deg, rgba(192, 127, 99, 0.7), rgba(192, 127, 99, 0.5)), 
-                        url('ugo1.jpg');
+                        url('assets/images/ugo1.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -3736,7 +3736,7 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                 loop 
                 playsinline
                 poster="">
-                <source src="kiss-boomerang.mp4" type="video/mp4">
+                <source src="assets/videos/kiss-boomerang.mp4" type="video/mp4">
             </video>
             
             <!-- Overlay for better text readability -->
@@ -4033,8 +4033,8 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
 
                 <div class="grid md:grid-cols-3 gap-8 mb-12">
                     <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="relative group cursor-pointer" onclick="openModal('ugo1.jpg', 'Our Providence Adventure')">
-                            <img src="ugo1.jpg" alt="Providence Memory 1" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="relative group cursor-pointer" onclick="openModal('assets/images/ugo1.jpg', 'Our Providence Adventure')">
+                            <img src="assets/images/ugo1.jpg" alt="Providence Memory 1" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <h3 class="text-xl font-bold font-display mb-2">Our Providence Adventure</h3>
@@ -4070,9 +4070,9 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                                 class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" 
                                 controls 
                                 preload="metadata"
-                                poster="memory-video-thumbnail.jpg"
+                                poster="assets/images/memory-video-thumbnail.jpg"
                                 onclick="this.play()">
-                                <source src="memory-video.mp4" type="video/mp4">
+                                <source src="assets/videos/memory-video.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                             <!-- Play Button Overlay -->

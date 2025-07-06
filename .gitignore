@@ -1,20 +1,34 @@
-# OCR and image processing files
+# Python Virtual Environment
+.venv/
+__pycache__/
+*.pyc
+
+# OCR and image processing temporary files
 enhanced_images/
 enhanced_chat_images/
 video_frames/
-*.py
-*.json
-*.txt
-chat_*.html
 ocr_*.txt
 video_*.json
 extracted_*.json
 facebook_dating_transcription.txt
-final_chat_messages.html
 
-# macOS
-.DS_Store
-
-# Temporary files
+# Temporary and system files
 *.tmp
 *.temp
+.DS_Store
+
+# Keep scripts but ignore temporary Python outputs
+scripts/*.json
+scripts/*.txt
+scripts/ocr_*
+scripts/enhanced_*
+scripts/video_frames/
+
+# Node modules (if we add any JS dependencies)
+node_modules/
+
+# VS Code settings
+.vscode/
+
+# Logs
+*.log

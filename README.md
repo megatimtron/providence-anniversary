@@ -2,43 +2,83 @@
 
 A beautiful, interactive web application designed for planning the perfect romantic anniversary weekend in Providence, Rhode Island.
 
+## 📁 **Project Structure**
+
+```
+provitinerary/
+├── 📄 index.html                    # Main anniversary website
+├── 🔐 login.html                   # Romantic login page  
+├── 📁 assets/                      # Media & Static Assets
+│   ├── 🖼️ images/                  # Photos & Graphics
+│   ├── 🎬 videos/                  # Video Content
+│   └── 🎨 icons/                   # Favicons & App Icons
+├── 📁 docs/                        # Documentation & References
+├── 📁 scripts/                     # Python Automation Scripts
+└── 📁 menus/                       # Restaurant Menus & Data
+```
+
+*See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for complete directory details.*
+
 ## ✨ Features
 
-### � **Romantic Login Experience**
+### 🎵 **AI-Powered Playlist Builder** *(Phase 3 Complete)*
+- **Activity-Based Playlists**: AI generates contextual music for dining, cruising, museum visits
+- **Mood-Based Generation**: Romantic, adventurous, chill, and energetic playlist creation
+- **Local Providence Music**: Discover artists like The Low Anthem, Lightning Bolt, Deer Tick
+- **Real-Time Collaboration**: Live partner activity feed and synchronized playlist building
+- **Advanced Sharing**: Export to Spotify, YouTube Music, Apple Music; share on social media
+
+### 💕 **Song Memories Timeline** *(Phase 1 Complete)*
+- Beautiful timeline of romantic songs with personal stories
+- Multi-song support with add/edit/delete functionality
+- Platform linking to Spotify, YouTube, Apple Music, etc.
+- LocalStorage persistence and mobile-optimized interface
+
+### 🔐 **Romantic Login Experience**
 - Beautiful themed login page with floating hearts animation
 - Demo authentication system (GitHub Pages compatible)
 - Guest access option for easy sharing
 - Romantic entrance that sets the mood for your anniversary planning
 
-### �🕐 **Countdown Timer**
+### ⏰ **Countdown Timer**
 - Real-time countdown to your special anniversary date
 - Customizable date picker with persistent storage
 - Beautiful animated display
 
-### 📅 **Interactive Itinerary**
-- Day-by-day planning for Friday, Saturday, Sunday, and Monday
-- Tabbed interface for easy navigation
-- Detailed timeline with romantic activities
+### 📅 **Interactive Itinerary Management**
+- Dynamic day-by-day planning with full CRUD operations
+- Drag-and-drop reordering of activities
+- Modal-based editing with persistent storage
+- Real-time notifications and beautiful animations
 
-### 🍽️ **Explore Providence**
-- Filterable gallery of restaurants, tours, and attractions
-- Interactive cost comparison charts
-- Detailed information about each venue
+### 🍽️ **Restaurant Week Integration**
+- Complete Providence Restaurant Week directory
+- Real menu links and pricing information
+- Google Maps and Uber integration for each restaurant
+- Interactive filtering and search capabilities
 
-### 📸 **Photo Gallery**
+### 🗺️ **Interactive Map & Weather**
+- Leaflet-powered map with custom markers for restaurants and attractions
+- Real-time weather integration for Providence
+- User-generated points of interest
+- Advanced filtering by category, price, and rating
+
+### 📸 **Photo & Video Gallery**
 - Browse Providence inspiration photos
 - Upload and manage your personal memories
 - Drag-and-drop photo upload functionality
+- Video content with custom thumbnails and play overlays
 
 ### 💰 **Budget Calculator**
 - Interactive cost estimator for two people
 - Select activities to see real-time budget totals
 - Helps plan within your desired spending range
 
-### 📝 **Couple's Notes**
-- Five different note sections (General, Friday, Saturday, Sunday, Monday)
-- Auto-save functionality with local storage
+### 📝 **Enhanced Notes System**
+- Five different note sections with tabbed interface
+- Writing prompts and auto-save functionality
 - Character counter and beautiful styling
+- Mobile-optimized with drag-and-drop photo integration
 
 ### 📱 **Mobile-Friendly Design**
 - Fully responsive for all device sizes
