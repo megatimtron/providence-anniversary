@@ -649,6 +649,135 @@
             color: #433A3F;
             opacity: 0.7;
         }
+
+        /* Boomerang Kiss Video Section */
+        .boomerang-bg {
+            position: relative;
+            background: linear-gradient(135deg, #C07F63, #433A3F);
+        }
+
+        .boomerang-bg video {
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .boomerang-content {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .boomerang-cta-button {
+            background: linear-gradient(135deg, #C07F63, #A9684C);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(192, 127, 99, 0.4);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .boomerang-cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(192, 127, 99, 0.6);
+            background: linear-gradient(135deg, #A9684C, #8B4513);
+        }
+
+        /* Floating Hearts Animation for Boomerang Section */
+        .floating-hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: floatHeart 8s infinite ease-in-out;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .heart-1 {
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 8s;
+        }
+
+        .heart-2 {
+            left: 30%;
+            animation-delay: 2s;
+            animation-duration: 9s;
+        }
+
+        .heart-3 {
+            left: 50%;
+            animation-delay: 4s;
+            animation-duration: 7s;
+        }
+
+        .heart-4 {
+            left: 70%;
+            animation-delay: 6s;
+            animation-duration: 8.5s;
+        }
+
+        .heart-5 {
+            left: 90%;
+            animation-delay: 1s;
+            animation-duration: 9.5s;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                bottom: -10%;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg) scale(0.5);
+            }
+            15% {
+                opacity: 1;
+                transform: translateX(0) rotate(5deg) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(20px) rotate(-5deg) scale(1.1);
+            }
+            85% {
+                opacity: 1;
+                transform: translateX(-10px) rotate(3deg) scale(0.9);
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg) scale(0.3);
+            }
+        }
+
+        /* Responsive adjustments for boomerang section */
+        @media (max-width: 768px) {
+            .boomerang-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            .boomerang-content p {
+                font-size: 1.1rem;
+            }
+            
+            .floating-heart {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Ensure video loads properly */
+        .boomerang-bg video {
+            object-position: center center;
+        }
     </style>
 </head>
 <body>
@@ -1910,6 +2039,57 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Boomerang Kiss Video Section -->
+        <section id="kiss-boomerang" class="boomerang-bg relative min-h-screen flex items-center justify-center overflow-hidden">
+            <!-- Video Background -->
+            <video 
+                class="absolute inset-0 w-full h-full object-cover" 
+                autoplay 
+                muted 
+                loop 
+                playsinline
+                poster="">
+                <source src="kiss-boomerang.mp4" type="video/mp4">
+            </video>
+            
+            <!-- Overlay for better text readability -->
+            <div class="absolute inset-0 bg-black/20"></div>
+            
+            <!-- Content Overlay -->
+            <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+                <div class="boomerang-content">
+                    <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+                        Our Perfect Moment
+                    </h2>
+                    <p class="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-lg max-w-2xl mx-auto leading-relaxed">
+                        Some moments are too beautiful for just one memory. This kiss captures the magic of our love story, 
+                        playing endlessly like our forever promise to each other.
+                    </p>
+                    
+                    <!-- Floating Hearts Animation -->
+                    <div class="floating-hearts-container">
+                        <div class="floating-heart heart-1">💕</div>
+                        <div class="floating-heart heart-2">💖</div>
+                        <div class="floating-heart heart-3">💝</div>
+                        <div class="floating-heart heart-4">💗</div>
+                        <div class="floating-heart heart-5">💘</div>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <button class="boomerang-cta-button" onclick="scrollToSection('our-song')">
+                            ✨ Continue Our Story
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/80">
+                <p class="text-sm mb-2">Scroll to continue</p>
+                <div class="animate-bounce">↓</div>
             </div>
         </section>
 
