@@ -1632,31 +1632,107 @@
                         </div>
                     </div>
 
-                    <!-- Anniversary Budget Calculator -->
+                    <!-- Interactive Anniversary Budget Calculator -->
                     <div class="mt-8 bg-white/80 rounded-xl p-6 border border-[#C07F63]/30">
-                        <h4 class="font-semibold text-[#433A3F] mb-4 text-center">💰 Anniversary Dining Budget Calculator</h4>
-                        <div class="grid md:grid-cols-3 gap-4">
-                            <div class="text-center">
-                                <h5 class="font-semibold text-[#C07F63] mb-2">Conservative</h5>
-                                <p class="text-2xl font-bold text-[#433A3F] mb-2">$240-320</p>
-                                <p class="text-xs text-[#433A3F]/70">4 meals for 2 people • Moderate restaurants • Basic wine</p>
-                                <p class="text-xs text-[#433A3F]/60 mt-2">Example: Il Massimo, Legal Sea Foods, Hemenway's, Track 15</p>
+                        <h4 class="font-semibold text-[#433A3F] mb-4 text-center">💰 Interactive Anniversary Budget Calculator</h4>
+                        
+                        <!-- Calculator Inputs -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-[#433A3F] mb-2">Number of Days</label>
+                                    <select id="calc-days" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white">
+                                        <option value="2">2 Days (Weekend)</option>
+                                        <option value="3">3 Days (Long Weekend)</option>
+                                        <option value="4" selected>4 Days (Full Trip)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-[#433A3F] mb-2">Dining Style</label>
+                                    <select id="calc-style" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white">
+                                        <option value="conservative">Conservative ($60-80/meal)</option>
+                                        <option value="romantic" selected>Romantic ($100-150/meal)</option>
+                                        <option value="luxury">Luxury ($150-200/meal)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-[#433A3F] mb-2">Wine & Drinks</label>
+                                    <select id="calc-drinks" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white">
+                                        <option value="none">No Alcohol</option>
+                                        <option value="moderate" selected>Moderate ($50-80/meal)</option>
+                                        <option value="premium">Premium ($80-120/meal)</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-[#433A3F] mb-2">Special Additions</label>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="calc-appetizers" class="mr-2 rounded">
+                                            <span class="text-sm">Extra Appetizers (+$30/meal)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="calc-desserts" class="mr-2 rounded">
+                                            <span class="text-sm">Special Desserts (+$25/meal)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" id="calc-anniversary" class="mr-2 rounded" checked>
+                                            <span class="text-sm">Anniversary Dinner Upgrade (+$100)</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-center bg-pink-50 rounded-lg p-4 border border-pink-200">
-                                <h5 class="font-semibold text-pink-700 mb-2">Romantic</h5>
-                                <p class="text-2xl font-bold text-pink-800 mb-2">$400-600</p>
-                                <p class="text-xs text-pink-700">Mix of premium & moderate • Wine pairings • Special upgrades</p>
-                                <p class="text-xs text-pink-600 mt-2">Example: Gracie's (anniversary), Mill's Tavern, Capriccio, lunch spots</p>
-                            </div>
-                            <div class="text-center">
-                                <h5 class="font-semibold text-[#C07F63] mb-2">Luxury</h5>
-                                <p class="text-2xl font-bold text-[#433A3F] mb-2">$600-800</p>
-                                <p class="text-xs text-[#433A3F]/70">Premium restaurants • Wine pairings • All upgrades</p>
-                                <p class="text-xs text-[#433A3F]/60 mt-2">Example: Gracie's, Capital Grille, Mill's Tavern, premium lunches</p>
+                            
+                            <!-- Results Panel -->
+                            <div class="bg-gradient-to-br from-pink-50 to-[#C07F63]/10 rounded-xl p-6 border border-pink-200">
+                                <h5 class="font-semibold text-[#433A3F] mb-4 text-center">Your Budget Estimate</h5>
+                                
+                                <div class="space-y-3 mb-4">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#433A3F]/70">Base Meals:</span>
+                                        <span id="calc-base-cost" class="font-semibold">$0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#433A3F]/70">Drinks:</span>
+                                        <span id="calc-drinks-cost" class="font-semibold">$0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#433A3F]/70">Extras:</span>
+                                        <span id="calc-extras-cost" class="font-semibold">$0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#433A3F]/70">Tax & Tip (25%):</span>
+                                        <span id="calc-tax-cost" class="font-semibold">$0</span>
+                                    </div>
+                                    <div class="border-t border-[#433A3F]/20 pt-2">
+                                        <div class="flex justify-between">
+                                            <span class="font-semibold text-[#433A3F]">Total:</span>
+                                            <span id="calc-total-cost" class="text-2xl font-bold text-[#C07F63]">$0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <div id="calc-recommendation" class="text-sm text-[#433A3F]/70 mb-3">
+                                        Perfect for a romantic anniversary!
+                                    </div>
+                                    <button onclick="generateBudgetPlan()" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A9684C] transition-colors">
+                                        Generate Meal Plan 💕
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        
+                        <!-- Generated Meal Plan -->
+                        <div id="calc-meal-plan" class="hidden mt-6 p-4 bg-[#C07F63]/5 rounded-lg border border-[#C07F63]/20">
+                            <h6 class="font-semibold text-[#433A3F] mb-3">🍽️ Recommended Meal Plan</h6>
+                            <div id="calc-plan-content" class="text-sm space-y-2"></div>
+                        </div>
+                        
                         <p class="text-xs text-center text-[#433A3F]/60 mt-4">
-                            *Prices don't include alcohol, tax, or tip. Add 25-30% for full meal cost. Upgrades like lobster tail or wine pairings are additional.
+                            *Estimates based on Providence restaurant averages. Actual prices may vary by restaurant and season.
                         </p>
                     </div>
                 </div>
@@ -3576,6 +3652,125 @@ document.addEventListener('DOMContentLoaded', () => {
         if (graciesCard) {
             showLoveNote("Perfect choice for our anniversary dinner! Gracie's is known for creating magical moments for couples. 💕");
         }
+    });
+
+    // Budget Calculator Functions
+    function calculateBudget() {
+        const days = parseInt(document.getElementById('calc-days').value);
+        const style = document.getElementById('calc-style').value;
+        const drinks = document.getElementById('calc-drinks').value;
+        const appetizers = document.getElementById('calc-appetizers').checked;
+        const desserts = document.getElementById('calc-desserts').checked;
+        const anniversary = document.getElementById('calc-anniversary').checked;
+
+        // Base meal costs per person per meal
+        const mealCosts = {
+            conservative: 70,  // $60-80 average
+            romantic: 125,     // $100-150 average  
+            luxury: 175        // $150-200 average
+        };
+
+        // Drink costs per person per meal
+        const drinkCosts = {
+            none: 0,
+            moderate: 65,      // $50-80 average
+            premium: 100       // $80-120 average
+        };
+
+        // Calculate meals (assume 2-3 meals per day for 2 people)
+        const mealsPerDay = days <= 2 ? 2 : 2.5; // Weekend vs longer stay
+        const totalMeals = days * mealsPerDay;
+        const people = 2;
+
+        // Base costs
+        const baseCost = totalMeals * mealCosts[style] * people;
+        const drinksCost = drinks === 'none' ? 0 : totalMeals * drinkCosts[drinks] * people;
+
+        // Extras
+        let extrasCost = 0;
+        if (appetizers) extrasCost += totalMeals * 30 * people;
+        if (desserts) extrasCost += totalMeals * 25 * people;
+        if (anniversary) extrasCost += 100; // One-time upgrade
+
+        const subtotal = baseCost + drinksCost + extrasCost;
+        const taxAndTip = subtotal * 0.25; // 25% for tax and tip
+        const total = subtotal + taxAndTip;
+
+        // Update display
+        document.getElementById('calc-base-cost').textContent = `$${baseCost}`;
+        document.getElementById('calc-drinks-cost').textContent = `$${drinksCost}`;
+        document.getElementById('calc-extras-cost').textContent = `$${extrasCost}`;
+        document.getElementById('calc-tax-cost').textContent = `$${Math.round(taxAndTip)}`;
+        document.getElementById('calc-total-cost').textContent = `$${Math.round(total)}`;
+
+        // Update recommendation
+        const recommendation = document.getElementById('calc-recommendation');
+        if (total < 600) {
+            recommendation.textContent = "Great value for a romantic getaway!";
+        } else if (total < 1000) {
+            recommendation.textContent = "Perfect balance of romance and luxury!";
+        } else {
+            recommendation.textContent = "Ultimate luxury anniversary experience!";
+        }
+
+        return { days, style, drinks, total: Math.round(total), totalMeals: Math.round(totalMeals) };
+    }
+
+    function generateBudgetPlan() {
+        const budget = calculateBudget();
+        const planDiv = document.getElementById('calc-meal-plan');
+        const contentDiv = document.getElementById('calc-plan-content');
+
+        // Restaurant recommendations based on style
+        const restaurants = {
+            conservative: ['Hemenway\'s Bar & Bistro', 'Il Massimo Ristorante', 'Legal Sea Foods', 'Track 15'],
+            romantic: ['Gracie\'s (Anniversary Dinner)', 'Mill\'s Tavern', 'CAV Restaurant', 'Capriccio'],
+            luxury: ['Gracie\'s (Multiple Visits)', 'The Capital Grille', 'Mill\'s Tavern', 'Bacaro']
+        };
+
+        const dayPlans = [];
+        const mealsPerDay = budget.days <= 2 ? 2 : 2.5;
+
+        for (let day = 1; day <= budget.days; day++) {
+            let dayPlan = `<strong>Day ${day}:</strong> `;
+            
+            if (day === 1) {
+                // Arrival day
+                if (mealsPerDay >= 2) {
+                    dayPlan += `Lunch at ${restaurants[budget.style][Math.min(day, restaurants[budget.style].length - 1)]}, `;
+                }
+                dayPlan += `Dinner at ${restaurants[budget.style][0]}`;
+            } else if (day === budget.days) {
+                // Last day
+                dayPlan += `Brunch/Lunch at ${restaurants[budget.style][Math.min(day, restaurants[budget.style].length - 1)]}`;
+            } else {
+                // Full days
+                dayPlan += `Lunch at ${restaurants[budget.style][Math.min(day, restaurants[budget.style].length - 1)]}, `;
+                dayPlan += `Dinner at ${restaurants[budget.style][Math.min(day + 1, restaurants[budget.style].length - 1)]}`;
+            }
+
+            dayPlans.push(dayPlan);
+        }
+
+        contentDiv.innerHTML = dayPlans.join('<br>') + 
+            `<br><br><em>💡 Tip: Make reservations early, especially for Gracie's and premium restaurants!</em>`;
+        
+        planDiv.classList.remove('hidden');
+    }
+
+    // Add event listeners for calculator
+    document.addEventListener('DOMContentLoaded', () => {
+        const calcInputs = ['calc-days', 'calc-style', 'calc-drinks', 'calc-appetizers', 'calc-desserts', 'calc-anniversary'];
+        
+        calcInputs.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('change', calculateBudget);
+            }
+        });
+
+        // Initial calculation
+        calculateBudget();
     });
 
 });
