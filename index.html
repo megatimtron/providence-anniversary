@@ -41,6 +41,12 @@
     <link rel="preload" href="kiss-boomerang.mp4" as="video" type="video/mp4">
     <link rel="prefetch" href="memory-video.mp4" as="video" type="video/mp4">
     
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <!-- Chosen Palette: Warm Harmony -->
     <!-- Application Structure Plan: The SPA is designed as an interactive dashboard, moving away from the linear report structure for better usability. It's organized into three main thematic sections navigated by a sticky header: 1. "Your Itinerary": A tabbed timeline (Day 1/2/3) that presents the suggested plan chronologically but interactively. This respects the original report's flow while making it more digestible. 2. "Explore Providence": A filterable gallery of all recommendations (dining, activities, tours). This is the core interactive element, allowing the couple to compare options by category and build their own plan, which is more user-friendly than scrolling through a long document. 3. "Plan Your Trip": Consolidates all practical logistics (transport, reservations) into an accordion, making this crucial but secondary information easily accessible without cluttering the main itinerary. This structure prioritizes user-driven exploration and comparison over passive reading. -->
     <!-- Visualization & Content Choices: 1. Dining Comparison (Bar Chart): Report Info: Restaurant price ranges ($$$ vs $$$$). Goal: Compare dining costs visually. Viz: Horizontal Bar Chart (Chart.js/Canvas) showing estimated costs. Justification: Provides a quick, quantitative comparison that's more effective than reading text descriptions. 2. Tour Value (Bubble Chart): Report Info: Tour prices, durations, group sizes. Goal: Compare tour options. Viz: Bubble Chart (Chart.js/Canvas) plotting price vs. duration, with bubble size representing exclusivity (inverse of group size). Justification: Synthesizes three data points into one clear, interactive graphic for easier decision-making. 3. Filterable Cards: Report Info: All activities, restaurants, and sights. Goal: Organize and allow comparison. Presentation: HTML/Tailwind grid. Interaction: JS-powered filters. Justification: Transforms static lists/tables into a dynamic exploration tool. -->
@@ -1078,6 +1084,7 @@
                 <a href="#itinerary" class="nav-link text-lg" aria-label="Go to itinerary section">Your Itinerary</a>
                 <a href="#explore" class="nav-link text-lg" aria-label="Go to explore section">Explore Providence</a>
                 <a href="#restaurant-week" class="nav-link text-lg" aria-label="Go to restaurant week section">Restaurant Week</a>
+                <a href="#map" class="nav-link text-lg" aria-label="Go to interactive map section">Interactive Map</a>
                 <a href="#notes" class="nav-link text-lg" aria-label="Go to couple's notes section">Couple's Notes</a>
                 <a href="#our-song" class="nav-link text-lg" aria-label="Go to our song section">Our Song</a>
                 <a href="#our-story" class="nav-link text-lg" aria-label="Go to our story section">Our Story</a>
@@ -1094,6 +1101,7 @@
             <a href="#itinerary" class="block py-2 nav-link" role="menuitem">Your Itinerary</a>
             <a href="#explore" class="block py-2 nav-link" role="menuitem">Explore Providence</a>
             <a href="#restaurant-week" class="block py-2 nav-link" role="menuitem">Restaurant Week</a>
+            <a href="#map" class="block py-2 nav-link" role="menuitem">Interactive Map</a>
             <a href="#notes" class="block py-2 nav-link" role="menuitem">Couple's Notes</a>
             <a href="#our-song" class="block py-2 nav-link" role="menuitem">Our Song</a>
             <a href="#our-story" class="block py-2 nav-link" role="menuitem">Our Story</a>
@@ -1717,35 +1725,55 @@
                                     <span class="text-lg mr-2">🇮🇹</span>
                                     Italian Cuisine
                                 </h5>
-                                <div class="space-y-2 text-xs">
-                                    <div class="restaurant-item">
+                                <div class="space-y-3 text-xs">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Angelo's Civita Farnese</span>
-                                        <p class="text-green-700">Southern Italian comfort • Closed Mon/Tue</p>
+                                        <p class="text-green-700 mb-1">Southern Italian comfort • Federal Hill classic</p>
+                                        <p class="text-xs text-green-600">🕒 Closed Mon/Tue • 📍 311 Atwells Ave • 🍝 Family recipes since 1924</p>
+                                        <p class="text-xs text-green-600">💡 Famous for veal parmigiana & homemade pasta</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Bacaro Restaurant</span>
-                                        <p class="text-green-700">Traditional Italian • 3-course dinner</p>
+                                        <p class="text-green-700 mb-1">Traditional Italian • 3-course dinner</p>
+                                        <p class="text-xs text-green-600">📍 262 S Water St • 🍷 Extensive Italian wine list</p>
+                                        <p class="text-xs text-green-600">💡 Intimate setting perfect for couples</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Cassarino's Ristorante</span>
-                                        <p class="text-green-700">Traditional Italian comfort food</p>
+                                        <p class="text-green-700 mb-1">Traditional Italian comfort food</p>
+                                        <p class="text-xs text-green-600">📍 177 Atwells Ave • 🏛️ Historic Federal Hill location</p>
+                                        <p class="text-xs text-green-600">💡 Known for osso buco & chicken parmigiana</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Dolce Salato</span>
-                                        <p class="text-green-700">Sweet & savory specialties</p>
+                                        <p class="text-green-700 mb-1">Sweet & savory specialties</p>
+                                        <p class="text-xs text-green-600">📍 Federal Hill • 🥐 Italian bakery & café hybrid</p>
+                                        <p class="text-xs text-green-600">💡 Perfect for morning pastries or light lunch</p>
                                     </div>
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">Pane e Vino</span>
-                                        <p class="text-green-700">Neapolitan cuisine • Has 2025 menu</p>
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-green-300">
+                                        <span class="font-semibold">Pane e Vino ⭐</span>
+                                        <p class="text-green-700 mb-1">Neapolitan cuisine • Has 2025 menu online</p>
+                                        <p class="text-xs text-green-600">📍 365 Atwells Ave • 🍕 Authentic Neapolitan pizza</p>
+                                        <p class="text-xs text-green-600">💡 Wood-fired oven • Great wine selection</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Pizzico Oyster Bar</span>
-                                        <p class="text-green-700">Upscale Italian • 4pm-9pm</p>
+                                        <p class="text-green-700 mb-1">Upscale Italian • 4pm-9pm</p>
+                                        <p class="text-xs text-green-600">📍 Federal Hill • 🦪 Italian-style oyster bar</p>
+                                        <p class="text-xs text-green-600">💡 Cocktails & fresh seafood with Italian flair</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Rosalina</span>
-                                        <p class="text-green-700">Italian • 3-course dinner</p>
+                                        <p class="text-green-700 mb-1">Italian • 3-course dinner</p>
+                                        <p class="text-xs text-green-600">📍 Downtown • 🍝 Modern Italian with traditional roots</p>
+                                        <p class="text-xs text-green-600">💡 Contemporary atmosphere for date night</p>
                                     </div>
+                                </div>
+                                <div class="mt-3 p-2 bg-green-100 rounded text-xs">
+                                    <p class="text-green-800 font-semibold">💡 Italian Dining Tips:</p>
+                                    <p class="text-green-700">• Federal Hill is Providence's "Little Italy" - walk between restaurants</p>
+                                    <p class="text-green-700">• Most offer wine pairings with Restaurant Week menus</p>
+                                    <p class="text-green-700">• Perfect for Sunday dinner traditions</p>
                                 </div>
                             </div>
 
@@ -1755,47 +1783,73 @@
                                     <span class="text-lg mr-2">🇺🇸</span>
                                     American & Contemporary
                                 </h5>
-                                <div class="space-y-2 text-xs">
-                                    <div class="restaurant-item">
+                                <div class="space-y-3 text-xs">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">110 Grill</span>
-                                        <p class="text-blue-700">American • Closed Mondays</p>
+                                        <p class="text-blue-700 mb-1">American • Gluten-free friendly</p>
+                                        <p class="text-xs text-blue-600">🕒 Closed Mondays • 📍 110 Providence Pl</p>
+                                        <p class="text-xs text-blue-600">💡 Dedicated gluten-free kitchen & extensive GF menu</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Cafe Nuovo</span>
-                                        <p class="text-blue-700">New American • 3-course dinner</p>
+                                        <p class="text-blue-700 mb-1">New American • 3-course dinner</p>
+                                        <p class="text-xs text-blue-600">📍 1 Citizens Plaza • 🌊 Waterfront location</p>
+                                        <p class="text-xs text-blue-600">💡 Beautiful river views • Perfect for romantic dinners</p>
                                     </div>
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">Circe Restaurant & Bar</span>
-                                        <p class="text-blue-700">Modern American w/ European influence</p>
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-blue-300">
+                                        <span class="font-semibold">Circe Restaurant & Bar ⭐</span>
+                                        <p class="text-blue-700 mb-1">Modern American w/ European influence</p>
+                                        <p class="text-xs text-blue-600">📍 Wayland Square • 🍸 Craft cocktail program</p>
+                                        <p class="text-xs text-blue-600">💡 Farm-to-table focus • Sophisticated atmosphere</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Moonshine Alley</span>
-                                        <p class="text-blue-700">American • Lunch & dinner</p>
+                                        <p class="text-blue-700 mb-1">American • Lunch & dinner</p>
+                                        <p class="text-xs text-blue-600">📍 Downtown • 🥃 Whiskey bar theme</p>
+                                        <p class="text-xs text-blue-600">💡 Comfort food with upscale twist</p>
                                     </div>
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">New Rivers</span>
-                                        <p class="text-blue-700">Seasonal & local New American</p>
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-blue-300">
+                                        <span class="font-semibold">New Rivers ⭐</span>
+                                        <p class="text-blue-700 mb-1">Seasonal & local New American</p>
+                                        <p class="text-xs text-blue-600">📍 7 Steeple St • 🌱 Farm-to-table pioneer</p>
+                                        <p class="text-xs text-blue-600">💡 25+ years locally sourced • Intimate setting</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Oberlin</span>
-                                        <p class="text-blue-700">Contemporary • Lunch & dinner</p>
+                                        <p class="text-blue-700 mb-1">Contemporary • Lunch & dinner</p>
+                                        <p class="text-xs text-blue-600">📍 Wayland Square • 🍷 Natural wine focus</p>
+                                        <p class="text-xs text-blue-600">💡 Creative small plates • Hip atmosphere</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Parkside Rotisserie</span>
-                                        <p class="text-blue-700">American bistro w/ French technique</p>
+                                        <p class="text-blue-700 mb-1">American bistro w/ French technique</p>
+                                        <p class="text-xs text-blue-600">📍 76 S Main St • 🐔 Rotisserie specialties</p>
+                                        <p class="text-xs text-blue-600">💡 French training meets American comfort</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Red Stripe</span>
-                                        <p class="text-blue-700">Contemporary American</p>
+                                        <p class="text-blue-700 mb-1">Contemporary American</p>
+                                        <p class="text-xs text-blue-600">📍 465 Angell St • 🎨 Artsy neighborhood vibe</p>
+                                        <p class="text-xs text-blue-600">💡 Eclectic menu • Great for adventurous eaters</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Troop</span>
-                                        <p class="text-blue-700">American • 3-course dinner</p>
+                                        <p class="text-blue-700 mb-1">American • 3-course dinner</p>
+                                        <p class="text-xs text-blue-600">📍 Armory District • 🏛️ Historic building</p>
+                                        <p class="text-xs text-blue-600">💡 Modern American in unique setting</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">The Patio on Broadway</span>
-                                        <p class="text-blue-700">American • Outdoor patio dining</p>
+                                        <p class="text-blue-700 mb-1">American • Outdoor patio dining</p>
+                                        <p class="text-xs text-blue-600">📍 Federal Hill • ☀️ Perfect for summer dining</p>
+                                        <p class="text-xs text-blue-600">💡 Casual atmosphere • Great for lunch dates</p>
                                     </div>
+                                </div>
+                                <div class="mt-3 p-2 bg-blue-100 rounded text-xs">
+                                    <p class="text-blue-800 font-semibold">💡 American Dining Tips:</p>
+                                    <p class="text-blue-700">• New Rivers & Circe are local fine dining favorites</p>
+                                    <p class="text-blue-700">• Many offer seasonal menus that change frequently</p>
+                                    <p class="text-blue-700">• Great wine and cocktail programs at most locations</p>
                                 </div>
                             </div>
 
@@ -1805,35 +1859,55 @@
                                     <span class="text-lg mr-2">🌍</span>
                                     Global & Specialty
                                 </h5>
-                                <div class="space-y-2 text-xs">
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">CHOP</span>
-                                        <p class="text-purple-700">Culinary Hub of Providence • Global</p>
+                                <div class="space-y-3 text-xs">
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-purple-300">
+                                        <span class="font-semibold">CHOP ⭐</span>
+                                        <p class="text-purple-700 mb-1">Culinary Hub of Providence • Global</p>
+                                        <p class="text-xs text-purple-600">📍 267 Thayer St • 🍽️ Multiple cuisine stations</p>
+                                        <p class="text-xs text-purple-600">💡 Food hall concept with upscale execution</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Diego's Providence</span>
-                                        <p class="text-purple-700">Mexican • East Side location</p>
+                                        <p class="text-purple-700 mb-1">Mexican • East Side location</p>
+                                        <p class="text-xs text-purple-600">📍 Thayer Street • 🌮 Authentic Mexican flavors</p>
+                                        <p class="text-xs text-purple-600">💡 Casual atmosphere • Great margaritas</p>
                                     </div>
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">Jacky's Waterplace</span>
-                                        <p class="text-purple-700">Contemporary Asian cuisines</p>
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-purple-300">
+                                        <span class="font-semibold">Jacky's Waterplace ⭐</span>
+                                        <p class="text-purple-700 mb-1">Contemporary Asian cuisines</p>
+                                        <p class="text-xs text-purple-600">📍 200 Exchange St • 🌊 Waterfront views</p>
+                                        <p class="text-xs text-purple-600">💡 Pan-Asian fusion • Beautiful river location</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Fleur</span>
-                                        <p class="text-purple-700">Contemporary • 3-course dinner</p>
+                                        <p class="text-purple-700 mb-1">Contemporary • 3-course dinner</p>
+                                        <p class="text-xs text-purple-600">📍 Downtown • 🌸 French-inspired contemporary</p>
+                                        <p class="text-xs text-purple-600">💡 Elegant atmosphere • Creative plating</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Gift Horse</span>
-                                        <p class="text-purple-700">Seafood • 3-course dinner</p>
+                                        <p class="text-purple-700 mb-1">Seafood • 3-course dinner</p>
+                                        <p class="text-xs text-purple-600">📍 114 S Main St • 🐟 Fresh local seafood</p>
+                                        <p class="text-xs text-purple-600">💡 Small plates & raw bar focus</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Night Shift Kitchen</span>
-                                        <p class="text-purple-700">@ Level99 Providence • American</p>
+                                        <p class="text-purple-700 mb-1">@ Level99 Providence • American</p>
+                                        <p class="text-xs text-purple-600">📍 55 Natick Ave • 🎮 Gaming + dining experience</p>
+                                        <p class="text-xs text-purple-600">💡 Unique entertainment venue • Fun for couples</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Providence Coal Fired Pizza</span>
-                                        <p class="text-purple-700">Pizza • Lunch & dinner</p>
+                                        <p class="text-purple-700 mb-1">Pizza • Lunch & dinner</p>
+                                        <p class="text-xs text-purple-600">📍 286 Atwells Ave • 🔥 Coal-fired oven</p>
+                                        <p class="text-xs text-purple-600">💡 Artisanal pizza • Casual date night option</p>
                                     </div>
+                                </div>
+                                <div class="mt-3 p-2 bg-purple-100 rounded text-xs">
+                                    <p class="text-purple-800 font-semibold">💡 Global Dining Tips:</p>
+                                    <p class="text-purple-700">• CHOP & Jacky's offer waterfront dining experiences</p>
+                                    <p class="text-purple-700">• Perfect for couples wanting to try different cuisines</p>
+                                    <p class="text-purple-700">• Night Shift Kitchen combines dining with fun activities</p>
                                 </div>
                             </div>
 
@@ -1843,36 +1917,60 @@
                                     <span class="text-lg mr-2">🏢</span>
                                     Track 15 Food Hall
                                 </h5>
-                                <div class="space-y-2 text-xs">
-                                    <p class="text-orange-700 font-semibold mb-2">Multiple vendors participating:</p>
-                                    <div class="restaurant-item">
+                                <div class="mb-3 p-2 bg-orange-100 rounded text-xs">
+                                    <p class="text-orange-800 font-semibold">📍 15 Station St • 🚇 Next to train station</p>
+                                    <p class="text-orange-700">Modern food hall with multiple vendor options. Perfect for trying different cuisines together!</p>
+                                </div>
+                                <div class="space-y-3 text-xs">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Dolores</span>
-                                        <p class="text-orange-700">Food hall vendor</p>
+                                        <p class="text-orange-700 mb-1">Latin American specialties</p>
+                                        <p class="text-xs text-orange-600">🌮 Tacos, bowls & Latin fusion</p>
+                                        <p class="text-xs text-orange-600">💡 Fresh, vibrant flavors • Great for lunch</p>
                                     </div>
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">Dune Brothers</span>
-                                        <p class="text-orange-700">Seafood vendor</p>
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-orange-300">
+                                        <span class="font-semibold">Dune Brothers ⭐</span>
+                                        <p class="text-orange-700 mb-1">Seafood vendor</p>
+                                        <p class="text-xs text-orange-600">🦞 Fresh lobster rolls & clam chowder</p>
+                                        <p class="text-xs text-orange-600">💡 New England seafood classics • Local favorite</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Giusto</span>
-                                        <p class="text-orange-700">Food hall vendor</p>
+                                        <p class="text-orange-700 mb-1">Italian specialties</p>
+                                        <p class="text-xs text-orange-600">🍝 Fresh pasta & Italian sandwiches</p>
+                                        <p class="text-xs text-orange-600">💡 Artisanal approach to Italian classics</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Little Chaska</span>
-                                        <p class="text-orange-700">Food hall vendor</p>
+                                        <p class="text-orange-700 mb-1">Asian fusion</p>
+                                        <p class="text-xs text-orange-600">🍜 Ramen, bowls & Asian street food</p>
+                                        <p class="text-xs text-orange-600">💡 Comfort food with Asian twists</p>
                                     </div>
-                                    <div class="restaurant-item">
-                                        <span class="font-semibold">Mother Pizzeria</span>
-                                        <p class="text-orange-700">Pizza vendor</p>
+                                    <div class="restaurant-item bg-white/60 rounded p-2 border border-orange-300">
+                                        <span class="font-semibold">Mother Pizzeria ⭐</span>
+                                        <p class="text-orange-700 mb-1">Artisanal pizza</p>
+                                        <p class="text-xs text-orange-600">🍕 Wood-fired Neapolitan style</p>
+                                        <p class="text-xs text-orange-600">💡 Local ingredients • Perfect for sharing</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">There, There</span>
-                                        <p class="text-orange-700">Food hall vendor</p>
+                                        <p class="text-orange-700 mb-1">Coffee & light bites</p>
+                                        <p class="text-xs text-orange-600">☕ Specialty coffee & pastries</p>
+                                        <p class="text-xs text-orange-600">💡 Perfect for morning coffee dates</p>
                                     </div>
-                                    <div class="restaurant-item">
+                                    <div class="restaurant-item bg-white/60 rounded p-2">
                                         <span class="font-semibold">Tolia</span>
-                                        <p class="text-orange-700">Food hall vendor</p>
+                                        <p class="text-orange-700 mb-1">Mediterranean specialties</p>
+                                        <p class="text-xs text-orange-600">🥙 Fresh Mediterranean bowls & wraps</p>
+                                        <p class="text-xs text-orange-600">💡 Healthy options • Fresh ingredients</p>
                                     </div>
+                                </div>
+                                <div class="mt-3 p-2 bg-yellow-100 rounded text-xs">
+                                    <p class="text-yellow-800 font-semibold">💡 Food Hall Experience:</p>
+                                    <p class="text-yellow-700">• Each person can order from different vendors</p>
+                                    <p class="text-yellow-700">• Shared seating area - great for trying multiple cuisines</p>
+                                    <p class="text-yellow-700">• Perfect for casual lunch or departure day meal</p>
+                                    <p class="text-yellow-700">• Easy to split up and find what you both want</p>
                                 </div>
                             </div>
                         </div>
@@ -2342,6 +2440,202 @@
                         <p class="text-sm text-[#433A3F]/80">
                             <strong>Support Local:</strong> Providence Restaurant Week serves as a crucial economic driver, encouraging both local patronage and tourism while helping sustain the city's dynamic culinary scene. Your participation directly supports Rhode Island's amazing restaurants.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Map Section -->
+        <section id="map" class="py-16 md:py-24 bg-gradient-to-br from-[#433A3F] to-[#C07F63]">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">🗺️ Interactive Providence Map</h2>
+                    <p class="text-lg max-w-3xl mx-auto mb-6 text-white/90">
+                        Explore all your romantic Providence locations on our interactive map. See restaurants, attractions, hotels, and key spots from your anniversary itinerary.
+                    </p>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 max-w-2xl mx-auto border border-white/30">
+                        <p class="text-sm text-white/80 flex items-center justify-center">
+                            <span class="text-lg mr-2">📍</span>
+                            Click on any marker to see details, directions, and insider tips
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Map Controls -->
+                <div class="mb-8">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 max-w-4xl mx-auto border border-white/20">
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button class="map-filter bg-white text-[#433A3F] px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/90 active" data-map-category="all">
+                                🗺️ Show All
+                            </button>
+                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="restaurants">
+                                🍽️ Restaurants
+                            </button>
+                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="attractions">
+                                🎭 Attractions
+                            </button>
+                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="hotels">
+                                🏨 Hotels
+                            </button>
+                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="romantic">
+                                💕 Romantic Spots
+                            </button>
+                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="waterfront">
+                                🌊 Waterfront
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Map Container -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-2xl border border-white/30">
+                    <div id="providence-map" class="w-full h-96 md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden shadow-lg">
+                        <!-- Map will be loaded here -->
+                    </div>
+                    
+                    <!-- Map Legend -->
+                    <div class="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm">
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                            <span class="text-[#433A3F]">Fine Dining</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-orange-500 rounded-full mr-2"></div>
+                            <span class="text-[#433A3F]">Casual Dining</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
+                            <span class="text-[#433A3F]">Attractions</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-[#433A3F]">Parks/Outdoor</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
+                            <span class="text-[#433A3F]">Hotels</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-4 h-4 bg-pink-500 rounded-full mr-2"></div>
+                            <span class="text-[#433A3F]">Romantic Spots</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Locations Grid -->
+                <div class="mt-12">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-white">📍 Featured Anniversary Locations</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Restaurant Highlights -->
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('gracies')">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-white flex items-center">
+                                    <span class="text-2xl mr-3">🌟</span>
+                                    Gracie's Restaurant
+                                </h4>
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            </div>
+                            <p class="text-white/80 text-sm mb-3">194 Washington St • Most romantic restaurant in Providence</p>
+                            <div class="flex gap-2">
+                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">★★★★★ Romance</span>
+                                <span class="bg-green-500/30 text-green-100 px-2 py-1 rounded-full text-xs">$59.99 Menu</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('mills-tavern')">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-white flex items-center">
+                                    <span class="text-2xl mr-3">🍽️</span>
+                                    Mill's Tavern
+                                </h4>
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            </div>
+                            <p class="text-white/80 text-sm mb-3">Federal Hill • Contemporary American cuisine</p>
+                            <div class="flex gap-2">
+                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">★★★★☆ Romance</span>
+                                <span class="bg-green-500/30 text-green-100 px-2 py-1 rounded-full text-xs">$55 Menu</span>
+                            </div>
+                        </div>
+
+                        <!-- Attraction Highlights -->
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('riverwalk')">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-white flex items-center">
+                                    <span class="text-2xl mr-3">🌊</span>
+                                    Providence Riverwalk
+                                </h4>
+                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                            </div>
+                            <p class="text-white/80 text-sm mb-3">Waterfront • Perfect for romantic evening strolls</p>
+                            <div class="flex gap-2">
+                                <span class="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs">FREE</span>
+                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">Very Romantic</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('federal-hill')">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-white flex items-center">
+                                    <span class="text-2xl mr-3">🇮🇹</span>
+                                    Federal Hill
+                                </h4>
+                                <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                            </div>
+                            <p class="text-white/80 text-sm mb-3">Little Italy • Multiple Italian restaurants</p>
+                            <div class="flex gap-2">
+                                <span class="bg-orange-500/30 text-orange-100 px-2 py-1 rounded-full text-xs">Food District</span>
+                                <span class="bg-green-500/30 text-green-100 px-2 py-1 rounded-full text-xs">Walkable</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('benefit-street')">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-white flex items-center">
+                                    <span class="text-2xl mr-3">🏛️</span>
+                                    Benefit Street
+                                </h4>
+                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                            </div>
+                            <p class="text-white/80 text-sm mb-3">Historic • "Mile of History" walking tour</p>
+                            <div class="flex gap-2">
+                                <span class="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs">Historic</span>
+                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">Photo Ops</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('waterfire')">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-white flex items-center">
+                                    <span class="text-2xl mr-3">🔥</span>
+                                    WaterFire Location
+                                </h4>
+                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
+                            </div>
+                            <p class="text-white/80 text-sm mb-3">Downtown • Iconic romantic experience</p>
+                            <div class="flex gap-2">
+                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">Most Romantic</span>
+                                <span class="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs">Evening Event</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation -->
+                <div class="mt-12 text-center">
+                    <h3 class="text-xl font-bold mb-6 text-white">🧭 Quick Navigation</h3>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <button onclick="focusMapLocation('downtown')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
+                            🏙️ Downtown Providence
+                        </button>
+                        <button onclick="focusMapLocation('east-side')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
+                            🎓 East Side (Brown/RISD)
+                        </button>
+                        <button onclick="focusMapLocation('hill')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
+                            ⛰️ The Hill Neighborhood
+                        </button>
+                        <button onclick="focusMapLocation('waterfront')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
+                            🌊 Waterfront District
+                        </button>
                     </div>
                 </div>
             </div>
@@ -3753,6 +4047,181 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
     </footer>
 
 <script>
+// Interactive Providence Map using Leaflet (OpenStreetMap)
+let leafletMap;
+let leafletMarkers = [];
+let leafletMarkerLayer;
+
+const providenceLocations = [
+    // Restaurants
+    { name: "Gracie's Restaurant", lat: 41.8264, lng: -71.4106, type: "restaurant", category: "restaurants romantic", description: "Most romantic restaurant in Providence", price: "$59.99 Menu", rating: "★★★★★", address: "194 Washington St" },
+    { name: "Mill's Tavern", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants", description: "Contemporary American cuisine", price: "$55 Menu", rating: "★★★★☆", address: "Federal Hill" },
+    { name: "The Dorrance", lat: 41.8240, lng: -71.4128, type: "restaurant", category: "restaurants", description: "Historic bank turned elegant restaurant", price: "$$$$", rating: "★★★★☆", address: "60 Dorrance St" },
+    { name: "Hemenway's Restaurant", lat: 41.8236, lng: -71.4128, type: "restaurant", category: "restaurants", description: "Fresh seafood with harbor views", price: "$$$", rating: "★★★☆☆", address: "121 South Main St" },
+    { name: "Angelo's Civita Farnese", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants", description: "Traditional Italian Federal Hill", price: "$$", rating: "★★★☆☆", address: "311 Atwells Ave" },
+    { name: "Capital Grille", lat: 41.8240, lng: -71.4128, type: "restaurant", category: "restaurants", description: "Upscale steakhouse", price: "$$$", rating: "★★★★☆", address: "Downtown" },
+    { name: "Capriccio", lat: 41.8230, lng: -71.4120, type: "restaurant", category: "restaurants", description: "Italian & Mediterranean", price: "$51.95", rating: "★★★☆☆", address: "Providence" },
+    { name: "Legal Sea Foods", lat: 41.8190, lng: -71.4300, type: "restaurant", category: "restaurants", description: "Fresh seafood chain", price: "$30-45", rating: "★★★☆☆", address: "Cranston" },
+    
+    // Attractions
+    { name: "Providence Riverwalk", lat: 41.8270, lng: -71.4101, type: "attraction", category: "attractions waterfront romantic", description: "Romantic waterfront walkway", price: "FREE", rating: "★★★★★", address: "Downtown Waterfront" },
+    { name: "Federal Hill (Little Italy)", lat: 41.8162, lng: -71.4225, type: "attraction", category: "attractions", description: "Italian neighborhood with restaurants", price: "FREE", rating: "★★★★☆", address: "Atwells Avenue" },
+    { name: "Benefit Street", lat: 41.8264, lng: -71.4012, type: "attraction", category: "attractions", description: "'Mile of History' historic walking tour", price: "FREE", rating: "★★★★☆", address: "The Hill" },
+    { name: "WaterFire Providence", lat: 41.8270, lng: -71.4101, type: "attraction", category: "attractions waterfront romantic", description: "Iconic romantic fire sculpture installation", price: "FREE", rating: "★★★★★", address: "Downtown Rivers" },
+    { name: "RISD Museum", lat: 41.8264, lng: -71.4012, type: "attraction", category: "attractions", description: "World-class art museum", price: "$15", rating: "★★★★☆", address: "224 Benefit St" },
+    { name: "Brown University", lat: 41.8264, lng: -71.4025, type: "attraction", category: "attractions", description: "Historic Ivy League campus", price: "FREE", rating: "★★★★☆", address: "The Hill" },
+    { name: "Roger Williams Park", lat: 41.7887, lng: -71.4141, type: "outdoor", category: "attractions", description: "Large park with zoo and gardens", price: "FREE", rating: "★★★★☆", address: "South Providence" },
+    
+    // Hotels
+    { name: "Graduate Providence", lat: 41.8264, lng: -71.4012, type: "hotel", category: "hotels", description: "Boutique hotel in The Hill", price: "$200-300/night", rating: "★★★★☆", address: "The Hill" },
+    { name: "Hampton Inn Downtown", lat: 41.8240, lng: -71.4128, type: "hotel", category: "hotels", description: "Modern downtown hotel", price: "$150-250/night", rating: "★★★★☆", address: "Downtown" },
+    { name: "Omni Providence", lat: 41.8240, lng: -71.4128, type: "hotel", category: "hotels", description: "Luxury downtown hotel", price: "$250-400/night", rating: "★★★★★", address: "1 W Exchange St" },
+    
+    // Romantic Spots
+    { name: "Prospect Terrace", lat: 41.8264, lng: -71.4012, type: "romantic", category: "romantic", description: "Scenic overlook of downtown", price: "FREE", rating: "★★★★★", address: "Congdon St" },
+    { name: "India Point Park", lat: 41.8085, lng: -71.3938, type: "romantic", category: "romantic waterfront", description: "Waterfront park with city views", price: "FREE", rating: "★★★★☆", address: "India St" },
+    { name: "Blackstone Park", lat: 41.8350, lng: -71.3800, type: "romantic", category: "romantic", description: "Riverside park perfect for walks", price: "FREE", rating: "★★★★☆", address: "East Providence" }
+];
+
+function initLeafletMap() {
+    // Initialize the Leaflet map
+    leafletMap = L.map('providence-map').setView([41.8240, -71.4128], 14);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    }).addTo(leafletMap);
+
+    // Create marker layer group
+    leafletMarkerLayer = L.layerGroup().addTo(leafletMap);
+
+    // Add markers for all locations
+    providenceLocations.forEach(location => {
+        addLeafletMarker(location);
+    });
+
+    // Add map filter functionality
+    const filterButtons = document.querySelectorAll('.map-filter');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.getAttribute('data-map-category');
+            filterLeafletMarkers(category);
+            
+            // Update button states
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.remove('bg-white', 'text-[#433A3F]');
+                btn.classList.add('bg-white/20', 'text-white');
+            });
+            this.classList.add('active');
+            this.classList.add('bg-white', 'text-[#433A3F]');
+            this.classList.remove('bg-white/20', 'text-white');
+        });
+    });
+}
+
+function addLeafletMarker(location) {
+    const icon = getLeafletMarkerIcon(location.type);
+    
+    const marker = L.marker([location.lat, location.lng], { icon: icon })
+        .bindPopup(createLeafletPopupContent(location))
+        .addTo(leafletMarkerLayer);
+
+    // Store marker with its categories for filtering
+    marker.categories = location.category;
+    leafletMarkers.push(marker);
+}
+
+function getLeafletMarkerIcon(type) {
+    const colors = {
+        restaurant: '#ef4444', // red
+        attraction: '#3b82f6', // blue  
+        hotel: '#8b5cf6',      // purple
+        romantic: '#ec4899',   // pink
+        outdoor: '#10b981'     // green
+    };
+    
+    const iconHtml = `
+        <div style="
+            background-color: ${colors[type] || '#6b7280'};
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        "></div>
+    `;
+    
+    return L.divIcon({
+        html: iconHtml,
+        className: 'custom-marker',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+    });
+}
+
+function createLeafletPopupContent(location) {
+    return `
+        <div class="p-4 max-w-xs">
+            <h3 class="font-bold text-lg mb-2 text-[#433A3F]">${location.name}</h3>
+            <p class="text-sm text-[#433A3F]/80 mb-2">${location.description}</p>
+            <p class="text-xs text-[#433A3F]/60 mb-2">📍 ${location.address}</p>
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-sm font-semibold text-green-600">${location.price}</span>
+                <span class="text-sm text-yellow-500">${location.rating}</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="getDirections('${location.name}')" class="bg-[#C07F63] text-white px-3 py-1 rounded text-xs hover:bg-[#A9684C] transition-colors">
+                    📍 Directions
+                </button>
+                <button onclick="callUber(${location.lat}, ${location.lng})" class="bg-[#433A3F] text-white px-3 py-1 rounded text-xs hover:bg-black transition-colors">
+                    🚗 Uber
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function filterLeafletMarkers(category) {
+    leafletMarkerLayer.clearLayers();
+    
+    providenceLocations.forEach(location => {
+        if (category === 'all' || location.category.includes(category)) {
+            addLeafletMarker(location);
+        }
+    });
+}
+
+// Focus on specific location for Leaflet map
+window.focusMapLocation = function(locationId) {
+    const locationMap = {
+        'gracies': { lat: 41.8264, lng: -71.4106, zoom: 16 },
+        'mills-tavern': { lat: 41.8162, lng: -71.4225, zoom: 16 },
+        'riverwalk': { lat: 41.8270, lng: -71.4101, zoom: 15 },
+        'federal-hill': { lat: 41.8162, lng: -71.4225, zoom: 15 },
+        'benefit-street': { lat: 41.8264, lng: -71.4012, zoom: 15 },
+        'waterfire': { lat: 41.8270, lng: -71.4101, zoom: 16 },
+        'downtown': { lat: 41.8240, lng: -71.4128, zoom: 14 },
+        'east-side': { lat: 41.8264, lng: -71.4012, zoom: 14 },
+        'hill': { lat: 41.8264, lng: -71.4012, zoom: 15 },
+        'waterfront': { lat: 41.8270, lng: -71.4101, zoom: 15 }
+    };
+
+    const area = locationMap[locationId];
+    if (area && leafletMap) {
+        leafletMap.setView([area.lat, area.lng], area.zoom);
+    }
+};
+
+// Initialize Leaflet map when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure the map container is ready
+    setTimeout(initLeafletMap, 500);
+});
+
+// ...existing code...
+
 // Interactive functions for enhanced Plan Your Trip section
 
 window.showTransportTips = () => {
@@ -5261,6 +5730,468 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
+    }
+
+    // Interactive Map Functionality
+    let map;
+    let markers = [];
+    let infoWindows = [];
+
+    // Providence locations data
+    const providenceLocations = {
+        // Fine Dining Restaurants
+        'gracies': {
+            name: "Gracie's Restaurant",
+            lat: 41.8236,
+            lng: -71.4118,
+            category: 'restaurants',
+            type: 'fine-dining',
+            color: '#ef4444', // red
+            icon: '🌟',
+            description: 'Most romantic restaurant in Providence',
+            details: 'Contemporary American • $59.99 Restaurant Week Menu • ★★★★★ Romance',
+            address: '194 Washington St',
+            features: ['Intimate atmosphere', 'Tasting menus', 'Wine pairings', 'Anniversary perfect']
+        },
+        'mills-tavern': {
+            name: "Mill's Tavern",
+            lat: 41.8206,
+            lng: -71.4161,
+            category: 'restaurants',
+            type: 'fine-dining',
+            color: '#ef4444',
+            icon: '🍽️',
+            description: 'Contemporary American in Federal Hill area',
+            details: 'Contemporary American • $55 Restaurant Week Menu • ★★★★☆ Romance',
+            address: 'Federal Hill area',
+            features: ['Curated wine list', 'Smart casual', 'Street parking']
+        },
+        'capital-grille': {
+            name: 'The Capital Grille',
+            lat: 41.8240,
+            lng: -71.4100,
+            category: 'restaurants',
+            type: 'fine-dining',
+            color: '#ef4444',
+            icon: '🥩',
+            description: 'Premium steakhouse downtown',
+            details: 'Premium Steakhouse • ~$60 3-course dinner • Not available Saturdays',
+            address: 'Downtown Providence',
+            features: ['Award-winning wine list', 'Business casual', 'Valet available']
+        },
+        'capriccio': {
+            name: 'Capriccio',
+            lat: 41.8210,
+            lng: -71.4130,
+            category: 'restaurants',
+            type: 'fine-dining',
+            color: '#ef4444',
+            icon: '🍷',
+            description: 'Italian & Mediterranean cuisine',
+            details: 'Italian & Mediterranean • $51.95 Restaurant Week Menu',
+            address: 'Providence',
+            features: ['Italian wine selection', 'Casual to smart casual', 'Parking available']
+        },
+        
+        // Casual Dining
+        'legal-sea-foods': {
+            name: 'Legal Sea Foods',
+            lat: 41.7879,
+            lng: -71.4371,
+            category: 'restaurants',
+            type: 'casual-dining',
+            color: '#f97316', // orange
+            icon: '🐟',
+            description: 'Fresh seafood with confirmed pricing',
+            details: 'Fresh Seafood • $30 lunch, $45 dinner • Cranston location',
+            address: 'Cranston',
+            features: ['Famous chowder', 'Fresh daily catches', 'Reliable quality']
+        },
+        'il-massimo': {
+            name: 'Il Massimo',
+            lat: 41.8220,
+            lng: -71.4150,
+            category: 'restaurants',
+            type: 'casual-dining',
+            color: '#f97316',
+            icon: '🍝',
+            description: 'New Age Classic Neapolitan with wine included',
+            details: 'Neapolitan • $37 pasta, $48 protein • Wine included!',
+            address: 'Providence',
+            features: ['Wine included', '3-course prix fixe', 'Italian authentic']
+        },
+        
+        // Attractions
+        'riverwalk': {
+            name: 'Providence Riverwalk',
+            lat: 41.8236,
+            lng: -71.4128,
+            category: 'attractions',
+            type: 'outdoor',
+            color: '#3b82f6', // blue
+            icon: '🌊',
+            description: 'Perfect for romantic evening strolls',
+            details: 'Waterfront walking paths • FREE • Very romantic',
+            address: 'Downtown Providence',
+            features: ['Waterfront views', 'Perfect for photos', 'Evening ambiance', 'FREE access']
+        },
+        'federal-hill': {
+            name: 'Federal Hill (Little Italy)',
+            lat: 41.8198,
+            lng: -71.4169,
+            category: 'attractions',
+            type: 'district',
+            color: '#f97316',
+            icon: '🇮🇹',
+            description: 'Providence\'s Italian neighborhood',
+            details: 'Food District • Multiple restaurants • Walkable',
+            address: 'Atwells Avenue',
+            features: ['Multiple restaurants', 'Authentic Italian', 'Historic area', 'Walking district']
+        },
+        'benefit-street': {
+            name: 'Benefit Street',
+            lat: 41.8252,
+            lng: -71.4065,
+            category: 'attractions',
+            type: 'historic',
+            color: '#3b82f6',
+            icon: '🏛️',
+            description: 'Mile of History walking tour',
+            details: 'Historic walking tour • Photo opportunities • Free',
+            address: 'The Hill neighborhood',
+            features: ['Historic architecture', 'Photo opportunities', 'Self-guided tours', 'Beautiful homes']
+        },
+        'waterfire': {
+            name: 'WaterFire Location',
+            lat: 41.8240,
+            lng: -71.4115,
+            category: 'romantic',
+            type: 'event',
+            color: '#ec4899', // pink
+            icon: '🔥',
+            description: 'Iconic romantic experience',
+            details: 'Art installation • Most romantic • Evening events',
+            address: 'Downtown rivers',
+            features: ['Magical atmosphere', 'Evening events', 'Perfect for couples', 'Iconic Providence']
+        },
+        'risd-museum': {
+            name: 'RISD Museum',
+            lat: 41.8262,
+            lng: -71.4031,
+            category: 'attractions',
+            type: 'culture',
+            color: '#3b82f6',
+            icon: '🎨',
+            description: 'Renowned art and design museum',
+            details: 'Art museum • Free on Sundays • Diverse collections',
+            address: 'The Hill',
+            features: ['Free Sundays', 'World-class art', 'Contemporary works', 'Design focus']
+        },
+        'roger-williams-park': {
+            name: 'Roger Williams Park',
+            lat: 41.7915,
+            lng: -71.4358,
+            category: 'attractions',
+            type: 'park',
+            color: '#22c55e', // green
+            icon: '🌳',
+            description: '435-acre urban oasis with swan boats',
+            details: 'Urban park • Swan boat rides • Free admission',
+            address: 'South Providence',
+            features: ['Swan boat rides', 'Beautiful gardens', 'Walking trails', 'Peaceful setting']
+        },
+        
+        // Hotels
+        'neptune-hotel': {
+            name: 'Neptune Hotel',
+            lat: 41.8230,
+            lng: -71.4110,
+            category: 'hotels',
+            type: 'boutique',
+            color: '#8b5cf6', // purple
+            icon: '🏨',
+            description: 'Stylish boutique hotel',
+            details: 'Boutique hotel • Karaoke lounge • Central location',
+            address: 'Downtown Providence',
+            features: ['Boutique style', 'Karaoke lounge', 'Central location', 'Modern amenities']
+        },
+        
+        // Food Hall
+        'track-15': {
+            name: 'Track 15 Food Hall',
+            lat: 41.8277,
+            lng: -71.4155,
+            category: 'restaurants',
+            type: 'food-hall',
+            color: '#f97316',
+            icon: '🏢',
+            description: 'Modern food hall with multiple vendors',
+            details: 'Food hall • Multiple vendors • Next to train station',
+            address: '15 Station St',
+            features: ['Multiple cuisines', 'Shared seating', 'Casual dining', 'Good for lunch']
+        }
+    };
+
+    // Initialize map
+    window.initMap = function() {
+        // Center on downtown Providence
+        const providenceCenter = { lat: 41.8236, lng: -71.4128 };
+        
+        map = new google.maps.Map(document.getElementById('providence-map'), {
+            zoom: 14,
+            center: providenceCenter,
+            styles: [
+                {
+                    "featureType": "all",
+                    "elementType": "geometry.fill",
+                    "stylers": [{"weight": "2.00"}]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "geometry.stroke",
+                    "stylers": [{"color": "#9c9c9c"}]
+                },
+                {
+                    "featureType": "all",
+                    "elementType": "labels.text",
+                    "stylers": [{"visibility": "on"}]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "all",
+                    "stylers": [{"color": "#f2f2f2"}]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry.fill",
+                    "stylers": [{"color": "#ffffff"}]
+                },
+                {
+                    "featureType": "landscape.man_made",
+                    "elementType": "geometry.fill",
+                    "stylers": [{"color": "#ffffff"}]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "all",
+                    "stylers": [{"visibility": "off"}]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "all",
+                    "stylers": [{"saturation": -100}, {"lightness": 45}]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "geometry.fill",
+                    "stylers": [{"color": "#eeeeee"}]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "labels.text.fill",
+                    "stylers": [{"color": "#7b7b7b"}]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [{"color": "#ffffff"}]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "all",
+                    "stylers": [{"visibility": "simplified"}]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "labels.icon",
+                    "stylers": [{"visibility": "off"}]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "all",
+                    "stylers": [{"visibility": "off"}]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [{"color": "#C07F63"}, {"visibility": "on"}]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry.fill",
+                    "stylers": [{"color": "#C07F63"}]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels.text.fill",
+                    "stylers": [{"color": "#070707"}]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels.text.stroke",
+                    "stylers": [{"color": "#ffffff"}]
+                }
+            ],
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: true
+        });
+
+        // Create markers for all locations
+        createMarkers();
+        
+        // Set up filter event listeners
+        setupMapFilters();
+    };
+
+    function createMarkers() {
+        // Clear existing markers
+        markers.forEach(marker => marker.setMap(null));
+        markers = [];
+        infoWindows.forEach(window => window.close());
+        infoWindows = [];
+
+        Object.keys(providenceLocations).forEach(locationKey => {
+            const location = providenceLocations[locationKey];
+            
+            // Create custom marker
+            const marker = new google.maps.Marker({
+                position: { lat: location.lat, lng: location.lng },
+                map: map,
+                title: location.name,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    fillColor: location.color,
+                    fillOpacity: 0.8,
+                    strokeColor: '#ffffff',
+                    strokeWeight: 2,
+                    scale: 8
+                }
+            });
+
+            // Create info window
+            const infoWindow = new google.maps.InfoWindow({
+                content: createInfoWindowContent(location)
+            });
+
+            // Add click event
+            marker.addListener('click', () => {
+                // Close all other info windows
+                infoWindows.forEach(window => window.close());
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+            infoWindows.push(infoWindow);
+        });
+    }
+
+    function createInfoWindowContent(location) {
+        return `
+            <div class="p-4 max-w-sm">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-lg text-gray-900">${location.icon} ${location.name}</h3>
+                </div>
+                <p class="text-gray-700 mb-2">${location.description}</p>
+                <p class="text-sm text-gray-600 mb-3">${location.details}</p>
+                <div class="text-xs text-gray-500 mb-3">📍 ${location.address}</div>
+                <div class="mb-3">
+                    ${location.features.map(feature => `
+                        <span class="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs mr-1 mb-1">
+                            ${feature}
+                        </span>
+                    `).join('')}
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="getDirections('${location.name}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                        🗺️ Directions
+                    </button>
+                    <button onclick="callUber('${location.lat}', '${location.lng}')" class="bg-black text-white px-3 py-1 rounded text-sm hover:bg-gray-800">
+                        🚗 Uber
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    function setupMapFilters() {
+        const filterButtons = document.querySelectorAll('.map-filter');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update button states
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('bg-white', 'text-[#433A3F]');
+                    btn.classList.add('bg-white/20', 'text-white');
+                });
+                button.classList.remove('bg-white/20', 'text-white');
+                button.classList.add('bg-white', 'text-[#433A3F]');
+
+                // Filter markers
+                const category = button.getAttribute('data-map-category');
+                filterMarkers(category);
+            });
+        });
+    }
+
+    function filterMarkers(category) {
+        markers.forEach((marker, index) => {
+            const locationKey = Object.keys(providenceLocations)[index];
+            const location = providenceLocations[locationKey];
+            
+            if (category === 'all' || location.category === category || 
+                (category === 'romantic' && location.category === 'romantic') ||
+                (category === 'waterfront' && (location.name.includes('River') || location.name.includes('Water') || location.name.includes('Park')))) {
+                marker.setVisible(true);
+            } else {
+                marker.setVisible(false);
+            }
+        });
+    }
+
+    // Focus on specific locations
+    window.focusMapLocation = function(locationKey) {
+        const location = providenceLocations[locationKey];
+        if (location) {
+            map.setCenter({ lat: location.lat, lng: location.lng });
+            map.setZoom(16);
+            
+            // Find and trigger the marker
+            const markerIndex = Object.keys(providenceLocations).indexOf(locationKey);
+            if (markers[markerIndex]) {
+                google.maps.event.trigger(markers[markerIndex], 'click');
+            }
+        } else {
+            // Handle area focus
+            const areas = {
+                'downtown': { lat: 41.8236, lng: -71.4128, zoom: 15 },
+                'east-side': { lat: 41.8262, lng: -71.4031, zoom: 14 },
+                'hill': { lat: 41.8252, lng: -71.4065, zoom: 15 },
+                'waterfront': { lat: 41.8240, lng: -71.4115, zoom: 15 }
+            };
+            
+            const area = areas[locationKey];
+            if (area) {
+                map.setCenter({ lat: area.lat, lng: area.lng });
+                map.setZoom(area.zoom);
+            }
+        }
+    };
+
+    // Helper functions
+    window.getDirections = function(locationName) {
+        const encodedName = encodeURIComponent(locationName + ', Providence, RI');
+        window.open(`https://maps.google.com/maps?daddr=${encodedName}`, '_blank');
+    };
+
+    window.callUber = function(lat, lng) {
+        const uberUrl = `https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=${lat}&dropoff[longitude]=${lng}`;
+        window.open(uberUrl, '_blank');
+    };
+
+    // Initialize map when Google Maps API is loaded
+    if (typeof google !== 'undefined' && google.maps) {
+        initMap();
     }
 
 });
