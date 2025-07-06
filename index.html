@@ -778,6 +778,25 @@
         .boomerang-bg video {
             object-position: center center;
         }
+
+        /* Video Preview Enhancements */
+        .play-button-overlay {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+        
+        .memory-card video {
+            cursor: pointer;
+        }
+        
+        .memory-card:hover .play-button-overlay {
+            transform: scale(1.1);
+        }
+        
+        /* Video hover effects */
+        .memory-card video[poster]:hover {
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 <body>
@@ -2404,19 +2423,27 @@
                                 class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" 
                                 controls 
                                 preload="metadata"
-                                poster=""
+                                poster="memory-video-thumbnail.jpg"
                                 onclick="this.play()">
                                 <source src="memory-video.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
+                            <!-- Play Button Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:opacity-80 transition-opacity duration-300">
+                                <div class="bg-black/60 rounded-full p-4 play-button-overlay opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <svg class="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </div>
+                            </div>
                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                             <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                                <h3 class="text-xl font-bold font-display mb-2">Our Love in Motion</h3>
+                                <h3 class="text-xl font-bold font-display mb-2">Our Love in Motion 🎥</h3>
                                 <p class="text-sm">A special video capturing our beautiful moments together</p>
                             </div>
                             <div class="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-7 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
                         </div>
