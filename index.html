@@ -769,10 +769,11 @@
                     This suggested timeline blends romance, culture, and culinary delights into a perfect anniversary weekend. We've structured the plan day by day, but feel free to mix and match based on your mood. Click the tabs to switch between days.
                 </p>
                 <div class="border-b border-gray-200">
-                    <nav class="-mb-px flex justify-center space-x-8" aria-label="Tabs">
+                    <nav class="-mb-px flex justify-center space-x-6" aria-label="Tabs">
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-tab="day1">Friday, July 11</button>
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day2">Saturday, July 12</button>
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day3">Sunday, July 13</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day4">Monday, July 14</button>
                     </nav>
                 </div>
 
@@ -874,10 +875,11 @@
 
                 <!-- Notes Tabs -->
                 <div class="border-b border-gray-200 mb-8">
-                    <nav class="-mb-px flex justify-center space-x-8" aria-label="Notes Tabs">
+                    <nav class="-mb-px flex justify-center space-x-6" aria-label="Notes Tabs">
                         <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-notes-tab="notes1">Friday Notes</button>
                         <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes2">Saturday Notes</button>
                         <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes3">Sunday Notes</button>
+                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes4">Monday Notes</button>
                     </nav>
                 </div>
 
@@ -950,6 +952,30 @@
                                 <div class="flex justify-between items-center mt-2">
                                     <span id="char-count-3" class="text-sm text-gray-500">0 characters</span>
                                     <button id="save-notes-3" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monday Notes -->
+                    <div id="notes4" class="notes-day-content hidden">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
+                                <div class="mb-4">
+                                    <label for="photo-upload-4" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
+                                        📸 Upload Photo
+                                    </label>
+                                    <input type="file" id="photo-upload-4" class="hidden" accept="image/*" multiple>
+                                </div>
+                                <div id="photo-gallery-4" class="grid grid-cols-2 gap-2"></div>
+                            </div>
+                            <div class="bg-white rounded-lg p-6 shadow-sm">
+                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
+                                <textarea id="notes-text-4" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Monday..."></textarea>
+                                <div class="flex justify-between items-center mt-2">
+                                    <span id="char-count-4" class="text-sm text-gray-500">0 characters</span>
+                                    <button id="save-notes-4" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -1473,8 +1499,15 @@ const AppData = {
             { time: 'Night', icon: '🎤', title: 'Unique Entertainment', desc: 'Check the WaterFire schedule for a magical bonfire display on the river. For a guaranteed fun and private night, head back to The Boombox karaoke lounge at the Neptune Hotel.' }
         ],
         day3: [
-            { time: 'Morning', icon: '🏛️', title: 'Sweet Farewells', desc: 'Enjoy a final relaxed brunch. Take advantage of FREE Sunday admission at the RISD Museum for one last cultural dip. Remember, the Athenaeum is closed on Sundays.' },
-            { time: 'Afternoon', icon: '🚗', title: 'Departure', desc: 'After a memorable weekend, enjoy a relaxed check-out. Use a ride-sharing service for a comfortable and easy journey home, filled with new memories.' }
+            { time: 'Morning', icon: '🏛️', title: 'Sunday Cultural Morning', desc: 'Enjoy a leisurely brunch and take advantage of FREE Sunday admission at the RISD Museum. Perfect time for art appreciation and reflection on your wonderful weekend together.' },
+            { time: 'Afternoon', icon: '🌳', title: 'Roger Williams Park & Relaxation', desc: 'Spend a peaceful afternoon at Roger Williams Park. Take swan boat rides, walk the beautiful gardens, or simply enjoy each other\'s company in this urban oasis.' },
+            { time: 'Evening', icon: '🍽️', title: 'Final Anniversary Dinner', desc: 'Cap off your celebration with one last romantic dinner. If it\'s your final Restaurant Week opportunity, make it count at a participating restaurant you haven\'t tried yet.' },
+            { time: 'Night', icon: '🌙', title: 'Romantic Evening Stroll', desc: 'Take a moonlit walk through Providence\'s historic downtown. Check if WaterFire is happening for a magical finale to your anniversary weekend.' }
+        ],
+        day4: [
+            { time: 'Morning', icon: '☕', title: 'Farewell Coffee & Breakfast', desc: 'Start your last morning with coffee and pastries from a favorite local café you\'ve discovered. Take time to reflect on all the wonderful memories you\'ve created.' },
+            { time: 'Late Morning', icon: '🛍️', title: 'Last-Minute Souvenirs', desc: 'Pick up some Providence mementos - perhaps something from Federal Hill, local artisan goods, or a photo book to commemorate your anniversary trip.' },
+            { time: 'Afternoon', icon: '🚗', title: 'Departure', desc: 'Check out and head home with hearts full of beautiful memories from your extended Providence anniversary celebration. The magic of this trip will stay with you always.' }
         ]
     },
     explore: [
@@ -1508,7 +1541,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const photoStorage = {
         1: [],
         2: [],
-        3: []
+        3: [],
+        4: []
     };
 
     // Love notes array
@@ -1931,7 +1965,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.assign(photoStorage, parsed);
             
             // Render all galleries
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 renderPhotoGallery(i);
             }
         }
@@ -1943,7 +1977,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAccordion();
     
     // Setup notes and photos for each day
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 4; i++) {
         setupPhotoUpload(i);
         setupNotes(i);
     }
