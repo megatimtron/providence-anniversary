@@ -2707,6 +2707,112 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Enhanced Map Features -->
+                <div class="mt-8 space-y-6">
+                    <!-- Custom Points of Interest -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                            <span class="text-2xl mr-3">📌</span>
+                            Add Your Own Special Places
+                        </h3>
+                        <p class="text-white/80 text-sm mb-6">
+                            Found a hidden gem or special spot during your trip? Add it to the map to remember forever!
+                        </p>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-white text-sm font-medium mb-2">Place Name</label>
+                                <input 
+                                    type="text" 
+                                    id="custom-place-name" 
+                                    placeholder="e.g., 'Our First Kiss Spot'"
+                                    class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-white text-sm font-medium mb-2">Category</label>
+                                <select 
+                                    id="custom-place-category" 
+                                    class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+                                >
+                                    <option value="memory">💕 Special Memory</option>
+                                    <option value="restaurant">🍽️ Restaurant</option>
+                                    <option value="shop">🛍️ Shop</option>
+                                    <option value="attraction">🎭 Attraction</option>
+                                    <option value="photo-spot">📸 Photo Spot</option>
+                                    <option value="other">📍 Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label class="block text-white text-sm font-medium mb-2">Notes</label>
+                            <textarea 
+                                id="custom-place-notes" 
+                                placeholder="What made this place special? Any details you want to remember..."
+                                rows="3"
+                                class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 resize-none"
+                            ></textarea>
+                        </div>
+                        
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            <button 
+                                onclick="startAddingCustomPoint()" 
+                                class="bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-2 rounded-lg hover:from-pink-600 hover:to-red-600 transition-all duration-300 text-sm font-semibold"
+                            >
+                                📌 Click Map to Add Point
+                            </button>
+                            <button 
+                                onclick="viewCustomPoints()" 
+                                class="bg-white/20 text-white px-6 py-2 rounded-lg hover:bg-white/30 transition-all duration-300 text-sm font-semibold"
+                            >
+                                👁️ View My Places (<span id="custom-points-count">0</span>)
+                            </button>
+                            <button 
+                                onclick="clearCustomPoints()" 
+                                class="bg-red-500/30 text-white px-4 py-2 rounded-lg hover:bg-red-500/50 transition-all duration-300 text-sm"
+                            >
+                                🗑️ Clear All
+                            </button>
+                        </div>
+                        
+                        <div id="custom-points-status" class="mt-3 text-sm text-white/60">
+                            Click the "📌 Click Map to Add Point" button, then click anywhere on the map to add your special place!
+                        </div>
+                    </div>
+
+                    <!-- Quick Info Panel -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                            <span class="text-2xl mr-3">📋</span>
+                            Quick Location Info
+                        </h3>
+                        <div id="location-info-panel" class="text-white/80 text-sm">
+                            Click on any map marker to see detailed information, directions, and insider tips here.
+                        </div>
+                    </div>
+
+                    <!-- Map Statistics -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                            <div class="text-2xl font-bold text-white" id="restaurant-count">25+</div>
+                            <div class="text-sm text-white/70">Restaurants</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                            <div class="text-2xl font-bold text-white" id="attraction-count">12</div>
+                            <div class="text-sm text-white/70">Attractions</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                            <div class="text-2xl font-bold text-white" id="romantic-count">8</div>
+                            <div class="text-sm text-white/70">Romantic Spots</div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                            <div class="text-2xl font-bold text-white" id="custom-total-count">0</div>
+                            <div class="text-sm text-white/70">Your Places</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -4411,7 +4517,366 @@ window.focusMapLocation = function(locationId) {
 document.addEventListener('DOMContentLoaded', function() {
     // Small delay to ensure the map container is ready
     setTimeout(initLeafletMap, 500);
+    // Initialize custom points system
+    setTimeout(initializeCustomPoints, 600);
 });
+
+// Enhanced Map Features: Custom Points of Interest
+let customPoints = [];
+let isAddingCustomPoint = false;
+
+function initializeCustomPoints() {
+    // Load saved custom points from localStorage
+    const savedPoints = localStorage.getItem('providence-custom-points');
+    if (savedPoints) {
+        customPoints = JSON.parse(savedPoints);
+        customPoints.forEach(point => {
+            addCustomPointToMap(point);
+        });
+    }
+    
+    updateCustomPointsUI();
+    
+    // Add click listener to map for adding custom points
+    if (leafletMap) {
+        leafletMap.on('click', function(e) {
+            if (isAddingCustomPoint) {
+                addCustomPointAtLocation(e.latlng);
+            }
+        });
+    }
+}
+
+function startAddingCustomPoint() {
+    const name = document.getElementById('custom-place-name').value.trim();
+    const category = document.getElementById('custom-place-category').value;
+    const notes = document.getElementById('custom-place-notes').value.trim();
+    
+    if (!name) {
+        showStatusMessage('Please enter a name for your special place!', 'error');
+        return;
+    }
+    
+    isAddingCustomPoint = true;
+    showStatusMessage('Click anywhere on the map to place your marker!', 'info');
+    
+    // Change cursor style
+    if (leafletMap) {
+        leafletMap.getContainer().style.cursor = 'crosshair';
+    }
+}
+
+function addCustomPointAtLocation(latlng) {
+    const name = document.getElementById('custom-place-name').value.trim();
+    const category = document.getElementById('custom-place-category').value;
+    const notes = document.getElementById('custom-place-notes').value.trim();
+    
+    const customPoint = {
+        id: Date.now(),
+        name: name,
+        category: category,
+        notes: notes,
+        lat: latlng.lat,
+        lng: latlng.lng,
+        dateAdded: new Date().toLocaleDateString()
+    };
+    
+    customPoints.push(customPoint);
+    addCustomPointToMap(customPoint);
+    saveCustomPoints();
+    updateCustomPointsUI();
+    
+    // Clear form
+    document.getElementById('custom-place-name').value = '';
+    document.getElementById('custom-place-notes').value = '';
+    
+    // Reset map cursor and adding state
+    isAddingCustomPoint = false;
+    if (leafletMap) {
+        leafletMap.getContainer().style.cursor = '';
+    }
+    
+    showStatusMessage(`Added "${name}" to your map! 💕`, 'success');
+}
+
+function addCustomPointToMap(point) {
+    const categoryIcons = {
+        'memory': '💕',
+        'restaurant': '🍽️',
+        'shop': '🛍️',
+        'attraction': '🎭',
+        'photo-spot': '📸',
+        'other': '📍'
+    };
+    
+    const icon = L.divIcon({
+        html: `<div style="
+            background-color: #ec4899;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            font-size: 14px;
+        ">${categoryIcons[point.category] || '📍'}</div>`,
+        className: 'custom-marker',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+    
+    const marker = L.marker([point.lat, point.lng], { icon: icon })
+        .bindPopup(createCustomPointPopup(point))
+        .addTo(leafletMarkerLayer);
+    
+    marker.isCustom = true;
+    marker.customPointId = point.id;
+    leafletMarkers.push(marker);
+}
+
+function createCustomPointPopup(point) {
+    return `
+        <div class="p-4 min-w-[250px]">
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-lg text-[#433A3F]">${point.name}</h3>
+                <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">${point.category.replace('-', ' ')}</span>
+            </div>
+            ${point.notes ? `<p class="text-sm text-gray-600 mb-3">${point.notes}</p>` : ''}
+            <div class="text-xs text-gray-500 mb-3">Added: ${point.dateAdded}</div>
+            <div class="flex gap-2">
+                <button onclick="getDirections('${point.name}, Providence, RI')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                    🗺️ Directions
+                </button>
+                <button onclick="removeCustomPoint(${point.id})" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                    🗑️ Remove
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function removeCustomPoint(pointId) {
+    customPoints = customPoints.filter(point => point.id !== pointId);
+    
+    // Remove marker from map
+    leafletMarkers = leafletMarkers.filter(marker => {
+        if (marker.customPointId === pointId) {
+            leafletMarkerLayer.removeLayer(marker);
+            return false;
+        }
+        return true;
+    });
+    
+    saveCustomPoints();
+    updateCustomPointsUI();
+    showStatusMessage('Custom point removed', 'info');
+}
+
+function viewCustomPoints() {
+    if (customPoints.length === 0) {
+        showStatusMessage('No custom points added yet! Add some special places to your map.', 'info');
+        return;
+    }
+    
+    let content = '<div class="space-y-3">';
+    customPoints.forEach(point => {
+        content += `
+            <div class="bg-gray-50 p-3 rounded-lg border">
+                <div class="flex justify-between items-start mb-2">
+                    <h4 class="font-semibold text-[#433A3F]">${point.name}</h4>
+                    <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded-full">${point.category.replace('-', ' ')}</span>
+                </div>
+                ${point.notes ? `<p class="text-sm text-gray-600 mb-2">${point.notes}</p>` : ''}
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Added: ${point.dateAdded}</span>
+                    <button onclick="focusCustomPoint(${point.id})" class="text-blue-600 hover:text-blue-800 text-sm">View on Map →</button>
+                </div>
+            </div>
+        `;
+    });
+    content += '</div>';
+    
+    showInfoModal(`📌 Your Special Places (${customPoints.length})`, content);
+}
+
+function focusCustomPoint(pointId) {
+    const point = customPoints.find(p => p.id === pointId);
+    if (point && leafletMap) {
+        leafletMap.setView([point.lat, point.lng], 16);
+        
+        // Find and open the marker popup
+        const marker = leafletMarkers.find(m => m.customPointId === pointId);
+        if (marker) {
+            marker.openPopup();
+        }
+    }
+}
+
+function clearCustomPoints() {
+    if (customPoints.length === 0) {
+        showStatusMessage('No custom points to clear!', 'info');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to remove all ${customPoints.length} custom points? This cannot be undone.`)) {
+        // Remove all custom markers from map
+        leafletMarkers = leafletMarkers.filter(marker => {
+            if (marker.isCustom) {
+                leafletMarkerLayer.removeLayer(marker);
+                return false;
+            }
+            return true;
+        });
+        
+        customPoints = [];
+        saveCustomPoints();
+        updateCustomPointsUI();
+        showStatusMessage('All custom points cleared', 'info');
+    }
+}
+
+function saveCustomPoints() {
+    localStorage.setItem('providence-custom-points', JSON.stringify(customPoints));
+}
+
+function updateCustomPointsUI() {
+    const count = customPoints.length;
+    document.getElementById('custom-points-count').textContent = count;
+    document.getElementById('custom-total-count').textContent = count;
+}
+
+function showStatusMessage(message, type = 'info') {
+    const statusDiv = document.getElementById('custom-points-status');
+    if (statusDiv) {
+        const colors = {
+            'info': 'text-blue-100',
+            'success': 'text-green-100',
+            'error': 'text-red-100'
+        };
+        
+        statusDiv.className = `mt-3 text-sm ${colors[type] || 'text-white/60'}`;
+        statusDiv.textContent = message;
+        
+        // Reset after 5 seconds
+        setTimeout(() => {
+            statusDiv.className = 'mt-3 text-sm text-white/60';
+            statusDiv.textContent = 'Click the "📌 Click Map to Add Point" button, then click anywhere on the map to add your special place!';
+        }, 5000);
+    }
+}
+
+// Enhanced popup content with quick info
+function createLeafletPopupContent(location) {
+    const quickInfo = `
+        <div class="p-4 min-w-[280px] max-w-[320px]">
+            <div class="flex justify-between items-start mb-3">
+                <h3 class="font-bold text-lg text-[#433A3F] pr-2">${location.name}</h3>
+                <div class="flex items-center">
+                    <span class="text-sm">${location.rating}</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <p class="text-sm text-gray-600 mb-2">${location.description}</p>
+                <div class="flex items-center text-sm text-gray-500 mb-1">
+                    <span class="mr-2">📍</span>
+                    <span>${location.address}</span>
+                </div>
+                <div class="flex items-center text-sm font-semibold text-green-600">
+                    <span class="mr-2">💰</span>
+                    <span>${location.price}</span>
+                </div>
+            </div>
+            
+            ${getInsiderTips(location)}
+            
+            <div class="flex gap-2 pt-3 border-t border-gray-200">
+                <button onclick="getDirections('${location.name}, Providence, RI')" class="bg-[#C07F63] text-white px-3 py-1 rounded text-sm hover:bg-[#A9684C] transition-colors">
+                    🗺️ Directions
+                </button>
+                <button onclick="callUber(${location.lat}, ${location.lng})" class="bg-[#433A3F] text-white px-3 py-1 rounded text-sm hover:bg-black transition-colors">
+                    🚗 Uber
+                </button>
+                <button onclick="showLocationInfo('${location.name}')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                    📋 Info
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return quickInfo;
+}
+
+function getInsiderTips(location) {
+    const tips = {
+        "Gracie's Restaurant": "💡 Reserve the Chef's Table for an intimate anniversary experience! Best time: 7:30 PM for optimal lighting.",
+        "Providence Riverwalk": "💡 Best romantic walk time is sunset (around 7 PM in July). Look for the pedestrian bridges!",
+        "WaterFire Providence": "💡 Arrive 30 minutes early to find the best viewing spots. Bring a blanket for riverside seating!",
+        "Federal Hill": "💡 Start at Atwells Avenue for authentic Italian groceries. Perfect for picking up dessert!",
+        "RISD Museum": "💡 Free admission on Sundays for RI residents. The Egyptian collection is surprisingly romantic!",
+        "Mill's Tavern": "💡 Request a table by the windows for Federal Hill people-watching. Try their craft cocktails!"
+    };
+    
+    if (tips[location.name]) {
+        return `<div class="bg-blue-50 p-3 rounded-lg border border-blue-200 mb-3">
+            <p class="text-xs text-blue-800">${tips[location.name]}</p>
+        </div>`;
+    }
+    
+    return '';
+}
+
+function showLocationInfo(locationName) {
+    const location = providenceLocations.find(loc => loc.name === locationName);
+    if (!location) return;
+    
+    updateLocationInfoPanel(location);
+    
+    // Scroll to info panel
+    const panel = document.getElementById('location-info-panel');
+    if (panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function updateLocationInfoPanel(location) {
+    const panel = document.getElementById('location-info-panel');
+    if (!panel) return;
+    
+    panel.innerHTML = `
+        <div class="space-y-4">
+            <div class="flex justify-between items-start">
+                <h3 class="text-xl font-bold text-white">${location.name}</h3>
+                <span class="text-sm text-white/70">${location.rating}</span>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <h4 class="font-semibold text-white mb-2">📍 Location Details</h4>
+                    <p class="text-white/80 text-sm mb-1">${location.address}</p>
+                    <p class="text-white/80 text-sm mb-1">${location.description}</p>
+                    <p class="text-green-400 text-sm font-semibold">${location.price}</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-white mb-2">💡 Quick Actions</h4>
+                    <div class="flex flex-col gap-2">
+                        <button onclick="getDirections('${location.name}, Providence, RI')" class="bg-[#C07F63] text-white px-4 py-2 rounded text-sm hover:bg-[#A9684C] transition-colors">
+                            🗺️ Get Directions
+                        </button>
+                        <button onclick="callUber(${location.lat}, ${location.lng})" class="bg-[#433A3F] text-white px-4 py-2 rounded text-sm hover:bg-black transition-colors">
+                            🚗 Call Uber
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            ${getInsiderTips(location)}
+        </div>
+    `;
+}
 
 // ...existing code...
 
