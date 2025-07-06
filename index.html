@@ -68,6 +68,13 @@
             width: 100%;
             max-width: 700px;
         }
+        .memory-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .memory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -84,6 +91,7 @@
                 <a href="#itinerary" class="nav-link text-lg">Your Itinerary</a>
                 <a href="#explore" class="nav-link text-lg">Explore Providence</a>
                 <a href="#notes" class="nav-link text-lg">Couple's Notes</a>
+                <a href="#memories" class="nav-link text-lg">Our Memories</a>
                 <a href="#plan" class="nav-link text-lg">Plan Your Trip</a>
             </div>
             <div class="md:hidden">
@@ -96,6 +104,7 @@
             <a href="#itinerary" class="block py-2 nav-link">Your Itinerary</a>
             <a href="#explore" class="block py-2 nav-link">Explore Providence</a>
             <a href="#notes" class="block py-2 nav-link">Couple's Notes</a>
+            <a href="#memories" class="block py-2 nav-link">Our Memories</a>
             <a href="#plan" class="block py-2 nav-link">Plan Your Trip</a>
         </div>
     </header>
@@ -253,6 +262,46 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="memories" class="py-16 md:py-24">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Memories</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
+                    Capturing the beautiful moments from our Providence adventure. These special memories will always remind us of our perfect anniversary weekend together.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="relative group">
+                            <img src="ugo1.jpg" alt="Providence Memory 1" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <h3 class="text-xl font-bold font-display mb-2">Our Providence Adventure</h3>
+                                <p class="text-sm">A beautiful moment captured during our anniversary weekend</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="relative group">
+                            <img src="ugo2.jpg" alt="Providence Memory 2" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <h3 class="text-xl font-bold font-display mb-2">Special Moments</h3>
+                                <p class="text-sm">Creating memories that will last a lifetime in beautiful Providence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-lg font-display text-[#C07F63] mb-4">✨ Forever in our hearts ✨</p>
+                    <p class="text-[#433A3F]/80 max-w-2xl mx-auto">
+                        These photos represent just a glimpse of the magic we experienced together. Every corner of Providence holds a special memory from our anniversary celebration.
+                    </p>
                 </div>
             </div>
         </section>
