@@ -881,12 +881,12 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-[#433A3F] mb-4">🍽️ Providence Restaurant Week</h2>
                     <p class="text-xl text-[#C07F63] font-semibold mb-2">July 6-19, 2025</p>
                     <p class="text-lg max-w-3xl mx-auto text-[#433A3F]/80">
-                        Perfect timing! Your anniversary trip falls right during Providence Restaurant Week, featuring over 60 participating restaurants with special prix fixe menus and exclusive deals.
+                        Perfect timing! Your anniversary trip falls right during Providence Restaurant Week, featuring over 60 participating restaurants with special prix fixe menus and exclusive deals. This biannual event is formally presented by GoProvidence and includes restaurants throughout Providence and surrounding Rhode Island communities.
                     </p>
                 </div>
 
                 <!-- Event Highlights -->
-                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                <div class="grid md:grid-cols-4 gap-6 mb-12">
                     <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg">
                         <div class="text-4xl mb-4">📅</div>
                         <h3 class="text-xl font-bold text-[#433A3F] mb-2">Perfect Timing</h3>
@@ -902,132 +902,895 @@
                         <h3 class="text-xl font-bold text-[#433A3F] mb-2">Special Pricing</h3>
                         <p class="text-[#433A3F]/70">Prix fixe menus starting from $30-60 for multi-course meals</p>
                     </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg">
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold text-[#433A3F] mb-2">GoProvidence</h3>
+                        <p class="text-[#433A3F]/70">Officially presented by GoProvidence with winter events too</p>
+                    </div>
                 </div>
 
-                <!-- Featured Restaurant Week Deals -->
-                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-8 mb-8">
-                    <h3 class="text-2xl font-bold text-center mb-8 text-[#433A3F]">Featured Restaurant Week Deals</h3>
+                <!-- Restaurant Week Search & Filter -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-[#433A3F]">Find Your Perfect Anniversary Restaurant</h3>
                     
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <!-- Column 1 -->
-                        <div class="space-y-6">
-                            <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-4 border-l-4 border-[#C07F63]">
-                                <h4 class="font-bold text-[#433A3F] mb-2">🌟 Gracie's - Extended Offer!</h4>
-                                <p class="text-sm text-[#433A3F]/80 mb-2">
-                                    <strong>$59.99 per person</strong> • Available entire month of July
-                                </p>
-                                <p class="text-xs text-[#433A3F]/70">
-                                    A la carte menu with options like Hudson Valley Foie Gras, Point Judith Sea Scallops, and Gracie's famous Crème Brûlée
-                                </p>
-                            </div>
-
-                            <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-4 border-l-4 border-[#C07F63]">
-                                <h4 class="font-bold text-[#433A3F] mb-2">🥩 The Capital Grille</h4>
-                                <p class="text-sm text-[#433A3F]/80 mb-2">
-                                    <strong>~$60 3-course dinner</strong> • Not available Saturdays
-                                </p>
-                                <p class="text-xs text-[#433A3F]/70">
-                                    8oz Filet Mignon, Seared Citrus Glazed Salmon, with classic sides and signature desserts
-                                </p>
-                            </div>
-
-                            <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-4 border-l-4 border-[#C07F63]">
-                                <h4 class="font-bold text-[#433A3F] mb-2">🐟 Legal Sea Foods (Cranston)</h4>
-                                <p class="text-sm text-[#433A3F]/80 mb-2">
-                                    <strong>$30 lunch • $45 dinner</strong>
-                                </p>
-                                <p class="text-xs text-[#433A3F]/70">
-                                    Famous Creamy Shrimp & Corn Soup, Salt & Vinegar Crusted Cod, and New York Cheesecake
-                                </p>
+                    <!-- Search Bar -->
+                    <div class="max-w-md mx-auto mb-6">
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="restaurant-search" 
+                                placeholder="Search restaurants by name or cuisine..."
+                                class="w-full px-4 py-3 pl-10 bg-white/80 border border-[#C07F63]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent"
+                            >
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Column 2 -->
-                        <div class="space-y-6">
-                            <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-4 border-l-4 border-[#C07F63]">
-                                <h4 class="font-bold text-[#433A3F] mb-2">🍝 Mill's Tavern</h4>
-                                <p class="text-sm text-[#433A3F]/80 mb-2">
-                                    <strong>$55 per person</strong> • Contemporary American
+                    <!-- Anniversary Recommendations -->
+                    <div class="bg-gradient-to-r from-pink-100 to-red-50 rounded-xl p-6 mb-8 border border-pink-200">
+                        <h4 class="text-lg font-bold text-[#433A3F] mb-4 flex items-center">
+                            <span class="text-2xl mr-2">💕</span>
+                            Top Anniversary Picks
+                        </h4>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-white/80 rounded-lg p-4">
+                                <h5 class="font-semibold text-[#C07F63] mb-2">🌟 Most Romantic</h5>
+                                <p class="text-sm text-[#433A3F]/80">Gracie's, The Capital Grille, Mill's Tavern</p>
+                            </div>
+                            <div class="bg-white/80 rounded-lg p-4">
+                                <h5 class="font-semibold text-[#C07F63] mb-2">🍾 Best Value</h5>
+                                <p class="text-sm text-[#433A3F]/80">Capriccio, Il Massimo, Hemenway's</p>
+                            </div>
+                            <div class="bg-white/80 rounded-lg p-4">
+                                <h5 class="font-semibold text-[#C07F63] mb-2">🦞 For Seafood Lovers</h5>
+                                <p class="text-sm text-[#433A3F]/80">Legal Sea Foods, Mare Rooftop, Hemenway's</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div class="flex justify-center flex-wrap gap-3 mb-8">
+                        <button class="restaurant-filter bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors active" data-category="all">All Restaurants (60+)</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="romantic">💕 Most Romantic</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="premium">💎 Premium ($55+)</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="moderate">💰 Value ($30-55)</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="italian">🍝 Italian</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="steakhouse">🥩 Steakhouse</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="seafood">🦞 Seafood</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="american">🇺🇸 American</button>
+                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="food-hall">🏢 Food Hall</button>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-white/70 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-[#C07F63]">60+</div>
+                            <div class="text-sm text-[#433A3F]/70">Total Restaurants</div>
+                        </div>
+                        <div class="bg-white/70 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-[#C07F63]">$30-60</div>
+                            <div class="text-sm text-[#433A3F]/70">Price Range</div>
+                        </div>
+                        <div class="bg-white/70 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-[#C07F63]">14 Days</div>
+                            <div class="text-sm text-[#433A3F]/70">Event Duration</div>
+                        </div>
+                        <div class="bg-white/70 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-[#C07F63]">Jul 11-14</div>
+                            <div class="text-sm text-[#433A3F]/70">Your Trip Dates</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comprehensive Restaurant List -->
+                <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-8 mb-8">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-[#433A3F]">Complete Restaurant Week Directory</h3>
+                    
+                    <!-- Premium Restaurants ($55+) -->
+                    <div class="restaurant-category mb-12" data-category="premium romantic">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">💎 Premium Anniversary Experiences ($55+)</h4>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Gracie's -->
+                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium italian romantic">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h5 class="font-bold text-[#433A3F] text-lg">🌟 Gracie's</h5>
+                                    <div class="flex gap-1">
+                                        <span class="bg-[#C07F63] text-white px-2 py-1 rounded-full text-xs font-semibold">EXTENDED OFFER</span>
+                                        <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-3">
+                                    <strong>$59.99 per person</strong> • Seasonally Inspired American Cuisine • <strong>★★★★★ Romance</strong>
                                 </p>
-                                <p class="text-xs text-[#433A3F]/70">
-                                    6oz Black Angus Filet Mignon, Summer Risotto, with optional wine pairing (+$20)
+                                <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Why It's Perfect for Your Anniversary:</p>
+                                    <p class="text-xs text-[#433A3F]/80">Intimate lighting, impeccable service, elegant atmosphere. Known for consistently excellent food quality and romantic ambiance. Popular with couples celebrating special occasions.</p>
+                                </div>
+                                <p class="text-xs text-[#433A3F]/70 mb-3">
+                                    <strong>Available entire month of July!</strong> Choose one per course from options like Hudson Valley Foie Gras, Point Judith Sea Scallops, All Natural New York Strip, and Gracie's famous Crème Brûlée.
                                 </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <a href="https://graciesprov.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors">Menu</a>
+                                    <a href="https://maps.google.com/?q=Gracies+Restaurant+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
+                                    <a href="https://www.opentable.com/r/gracies-providence" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Reserve</a>
+                                </div>
+                                <div class="text-xs text-[#433A3F]/60">
+                                    📍 194 Washington St • 🍷 Extensive wine list • 👔 Smart casual • 🚗 Valet parking
+                                </div>
                             </div>
 
-                            <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-4 border-l-4 border-[#C07F63]">
-                                <h4 class="font-bold text-[#433A3F] mb-2">🍷 Capriccio</h4>
-                                <p class="text-sm text-[#433A3F]/80 mb-2">
-                                    <strong>$51.95 3-course menu</strong> • Italian & Mediterranean
+                            <!-- The Capital Grille -->
+                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium steakhouse romantic">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h5 class="font-bold text-[#433A3F] text-lg">🥩 The Capital Grille</h5>
+                                    <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-3">
+                                    <strong>~$60 3-course dinner</strong> • Steakhouse • <span class="text-red-600 font-semibold">Not available Saturdays</span>
                                 </p>
-                                <p class="text-xs text-[#433A3F]/70">
-                                    Burrata, Day Boat Sea Scallops, Medallions of Filet Mignon, and Tiramisu
+                                <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Anniversary Features:</p>
+                                    <p class="text-xs text-[#433A3F]/80">Sophisticated steakhouse atmosphere, exceptional service, premium cuts of meat. Perfect for a special celebration dinner with classic elegance.</p>
+                                </div>
+                                <p class="text-xs text-[#433A3F]/70 mb-3">
+                                    Wedge Salad or New England Clam Chowder, 8oz Filet Mignon or Seared Citrus Glazed Salmon, Flourless Chocolate Cake or Capital Grille Cheesecake. Optional: Maine Lobster Tail (+$15), Sliced Filet Mignon (+$12).
                                 </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Menu Available</span>
+                                    <a href="https://maps.google.com/?q=Capital+Grille+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
+                                    <a href="https://www.thecapitalgrille.com/" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Website</a>
+                                </div>
+                                <div class="text-xs text-[#433A3F]/60">
+                                    📍 Downtown • 🍷 Award-winning wine list • 👔 Business casual • 🚗 Valet available
+                                </div>
                             </div>
 
-                            <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-4 border-l-4 border-[#C07F63]">
-                                <h4 class="font-bold text-[#433A3F] mb-2">🍝 Il Massimo</h4>
-                                <p class="text-sm text-[#433A3F]/80 mb-2">
-                                    <strong>$37 pasta • $48 protein</strong> • Includes wine
+                            <!-- Mill's Tavern -->
+                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium american romantic">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h5 class="font-bold text-[#433A3F] text-lg">🍽️ Mill's Tavern</h5>
+                                    <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-3">
+                                    <strong>$55 per person</strong> • Contemporary American Cuisine • <strong>★★★★☆ Romance</strong>
                                 </p>
-                                <p class="text-xs text-[#433A3F]/70">
-                                    New Age Classic Neapolitan Cuisine with one glass of select wine included
+                                <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Romantic Details:</p>
+                                    <p class="text-xs text-[#433A3F]/80">Warm, intimate setting with excellent contemporary American fare. Known for creative presentations and attentive service. Great wine selection for pairing.</p>
+                                </div>
+                                <p class="text-xs text-[#433A3F]/70 mb-3">
+                                    Seasonal Artisanal Greens or Point Judith Calamari, Mill's Tavern Beef Ragu or 6oz Black Angus Filet Mignon, Vanilla Crème Brûlée or Portuguese Bread Pudding. Optional: Shaved Black Truffle (+$15), Lobster Tail (+$21), Wine Pairing (+$20).
                                 </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Menu Available</span>
+                                    <a href="https://maps.google.com/?q=Mills+Tavern+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
+                                    <a href="https://www.millstavern.com/" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Website</a>
+                                </div>
+                                <div class="text-xs text-[#433A3F]/60">
+                                    📍 Federal Hill area • 🍷 Curated wine list • 👔 Smart casual • 🅿️ Street parking
+                                </div>
+                            </div>
+
+                            <!-- Fogo de Chao -->
+                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium brazilian">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h5 class="font-bold text-[#433A3F] text-lg">🇧🇷 Fogo de Chao</h5>
+                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">UNIQUE</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-3">
+                                    <strong>$59 dinner</strong> • Brazilian Steakhouse • <strong>★★★☆☆ Romance</strong>
+                                </p>
+                                <div class="mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">🥩 Experience:</p>
+                                    <p class="text-xs text-[#433A3F]/80">Traditional Brazilian churrasco with tableside meat service. Interactive dining experience - great for couples who enjoy trying new cuisines together.</p>
+                                </div>
+                                <p class="text-xs text-[#433A3F]/70 mb-3">
+                                    Traditional Brazilian churrasco experience with continuous tableside service of fire-roasted meats and gourmet salad bar. All-you-can-eat format perfect for hearty appetites.
+                                </p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Prix Fixe Available</span>
+                                    <a href="https://maps.google.com/?q=Fogo+de+Chao+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
+                                    <a href="https://fogodechao.com/" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Website</a>
+                                </div>
+                                <div class="text-xs text-[#433A3F]/60">
+                                    📍 Downtown • 🥗 Gourmet salad bar included • 👔 Business casual • 🚗 Parking available
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Moderate Restaurants ($30-55) -->
+                    <div class="restaurant-category mb-12" data-category="moderate">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">💝 Great Value ($30-55)</h4>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Capriccio -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍷 Capriccio</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$51.95</strong> • Italian & Mediterranean</p>
+                                <p class="text-xs text-[#433A3F]/70">Burrata, Day Boat Sea Scallops, Tiramisu. Upgrades: Medallions of Filet Mignon (+$4), Clams Capriccio (+$2)</p>
+                            </div>
+
+                            <!-- Il Massimo -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍝 Il Massimo</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$37 pasta • $48 protein</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">New Age Classic Neapolitan Cuisine. Includes one glass of select wine with meal.</p>
+                            </div>
+
+                            <!-- Legal Sea Foods -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🐟 Legal Sea Foods</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$30 lunch • $45 dinner</strong> • Seafood</p>
+                                <p class="text-xs text-[#433A3F]/70">Cranston location. Famous Shrimp & Corn Soup, Salt & Vinegar Cod, NY Cheesecake</p>
+                            </div>
+
+                            <!-- Fleming's Prime Steakhouse -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate steakhouse">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🥩 Fleming's Prime Steakhouse</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Prix fixe available</strong> • Steakhouse</p>
+                                <p class="text-xs text-[#433A3F]/70">Prime steakhouse experience with 3-course dinner option</p>
+                            </div>
+
+                            <!-- Hemenway's Restaurant -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🦞 Hemenway's Restaurant</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Seafood</p>
+                                <p class="text-xs text-[#433A3F]/70">121 South Main St. Fresh seafood with 3-course prix fixe options</p>
+                            </div>
+
+                            <!-- Mare Rooftop -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌊 Mare Rooftop</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Prix fixe available</strong> • Seafood</p>
+                                <p class="text-xs text-[#433A3F]/70">Tuesday/Wednesday/Thursday/Sunday only. Rooftop dining experience</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Italian Restaurants -->
+                    <div class="restaurant-category mb-12" data-category="italian">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🍝 Italian Favorites</h4>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Angelo's Civita Farnese -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🏠 Angelo's Civita Farnese</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Southern Italian Comfort</p>
+                                <p class="text-xs text-[#433A3F]/70">Closed Mondays & Tuesdays. Authentic Southern Italian comfort food</p>
+                            </div>
+
+                            <!-- Bacaro Restaurant -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍷 Bacaro Restaurant</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Traditional Italian cuisine with prix fixe dinner menu</p>
+                            </div>
+
+                            <!-- Bar'Lino Ristorante -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍕 Bar'Lino Ristorante</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Winter example: $39.95 with Arancini, Gondola Pizza, Short Rib Gnocchi, Cannoli</p>
+                            </div>
+
+                            <!-- Bellini -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🥂 Bellini</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Previous summer: $30 lunch with Clam Venezian, Pappardelle, Pan Seared Salmon</p>
+                            </div>
+
+                            <!-- Cassarino's Ristorante -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">👨‍🍳 Cassarino's Ristorante</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Traditional Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Traditional Italian comfort food with 3-course prix fixe options</p>
+                            </div>
+
+                            <!-- Dolce Salato -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍰 Dolce Salato</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Italian cuisine with sweet and savory specialties</p>
+                            </div>
+
+                            <!-- Pane e Vino -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍞 Pane e Vino</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Neapolitan</p>
+                                <p class="text-xs text-[#433A3F]/70">New Age Classic Neapolitan Cuisine with Restaurant Week 2025 menu</p>
+                            </div>
+
+                            <!-- Pizzico Oyster Bar -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian seafood">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🦪 Pizzico Oyster Bar</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Upscale Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Monday-Sunday 4pm-9pm. Upscale Italian with oyster bar</p>
+                            </div>
+
+                            <!-- Rosalina -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌹 Rosalina</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Italian cuisine with 3-course prix fixe dinner menu</p>
+                            </div>
+
+                            <!-- Trattoria Appia -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🏛️ Trattoria Appia</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>"Dolce Estate" special</strong> • Southern Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Free dessert for every entree (limit 4/table). 3-course lunch Mon-Fri 11:30AM-4:30PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- American & Contemporary -->
+                    <div class="restaurant-category mb-12" data-category="american">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🇺🇸 American & Contemporary</h4>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- 110 Grill -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍔 110 Grill</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">Closed Mondays. 3-course prix fixe options available</p>
+                            </div>
+
+                            <!-- Cafe Nuovo -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">☕ Cafe Nuovo</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • New American</p>
+                                <p class="text-xs text-[#433A3F]/70">Contemporary New American cuisine with dinner prix fixe</p>
+                            </div>
+
+                            <!-- Circe Restaurant & Bar -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍸 Circe Restaurant & Bar</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Modern American</p>
+                                <p class="text-xs text-[#433A3F]/70">Modern American with European influence, 3-course prix fixe</p>
+                            </div>
+
+                            <!-- Moonshine Alley -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌙 Moonshine Alley</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">American cuisine with 3-course prix fixe options</p>
+                            </div>
+
+                            <!-- New Rivers -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌊 New Rivers</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • New American</p>
+                                <p class="text-xs text-[#433A3F]/70">Seasonal and local New American cuisine</p>
+                            </div>
+
+                            <!-- Nicks on Broadway -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🎭 Nicks on Broadway</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Breakfast, Lunch, Dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">Participating July 17-20th only. Contemporary American</p>
+                            </div>
+
+                            <!-- Oberlin -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🎨 Oberlin</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Contemporary</p>
+                                <p class="text-xs text-[#433A3F]/70">Contemporary cuisine with 3-course prix fixe</p>
+                            </div>
+
+                            <!-- Parkside Rotisserie & Bar -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍗 Parkside Rotisserie</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American Bistro</p>
+                                <p class="text-xs text-[#433A3F]/70">French technique & Asian influence, 3-course prix fixe</p>
+                            </div>
+
+                            <!-- Red Stripe -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🔴 Red Stripe</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Contemporary American</p>
+                                <p class="text-xs text-[#433A3F]/70">Contemporary American with 3-course prix fixe</p>
+                            </div>
+
+                            <!-- Troop -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">⭐ Troop</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">American cuisine with 3-course prix fixe dinner</p>
+                            </div>
+
+                            <!-- Waterman Grille -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">💧 Waterman Grille</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">Restaurant Week menu not available Saturdays</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Global & Specialty Cuisines -->
+                    <div class="restaurant-category mb-12" data-category="global">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🌍 Global & Specialty Cuisines</h4>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- CHOP (Culinary Hub of Providence) -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate global">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌐 CHOP</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Global</p>
+                                <p class="text-xs text-[#433A3F]/70">Culinary Hub of Providence with global cuisine options</p>
+                            </div>
+
+                            <!-- Diego's Providence East Side -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate mexican">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌮 Diego's Providence</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Mexican</p>
+                                <p class="text-xs text-[#433A3F]/70">East Side location with 3-course prix fixe Mexican cuisine</p>
+                            </div>
+
+                            <!-- Jacky's Waterplace -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate asian">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🥢 Jacky's Waterplace</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Contemporary Asian</p>
+                                <p class="text-xs text-[#433A3F]/70">Contemporary Asian cuisines with 3-course prix fixe</p>
+                            </div>
+
+                            <!-- Fleur -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate contemporary">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌸 Fleur</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Contemporary</p>
+                                <p class="text-xs text-[#433A3F]/70">Contemporary cuisine with 3-course prix fixe</p>
+                            </div>
+
+                            <!-- Gift Horse -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🐎 Gift Horse</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Seafood</p>
+                                <p class="text-xs text-[#433A3F]/70">Seafood specialties with 3-course prix fixe dinner</p>
+                            </div>
+
+                            <!-- Night Shift Kitchen & Tap -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍺 Night Shift Kitchen</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">@ Level99 Providence. American cuisine with other specials</p>
+                            </div>
+
+                            <!-- The Patio on Broadway -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🌿 The Patio on Broadway</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70">American cuisine with outdoor patio dining</p>
+                            </div>
+
+                            <!-- Providence Coal Fired Pizza -->
+                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate pizza">
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍕 Providence Coal Fired Pizza</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Pizza</p>
+                                <p class="text-xs text-[#433A3F]/70">Coal fired pizza with other specials available</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Track 15 Food Hall -->
+                    <div class="restaurant-category mb-8" data-category="food-hall">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🏢 Track 15 Food Hall Vendors</h4>
+                        <div class="bg-gradient-to-r from-[#433A3F]/10 to-[#C07F63]/10 rounded-lg p-6">
+                            <p class="text-sm text-[#433A3F]/80 mb-4">Multiple vendors at Track 15 are participating in Restaurant Week with lunch, dinner, and other specials:</p>
+                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">🥟 Dolores</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
+                                </div>
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">🦀 Dune Brothers</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Seafood</p>
+                                </div>
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">🥘 Giusto</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
+                                </div>
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">🌶️ Little Chaska</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
+                                </div>
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">🍕 Mother Pizzeria</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Pizza</p>
+                                </div>
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">☕ There, There</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
+                                </div>
+                                <div class="bg-white/70 rounded p-3 text-center">
+                                    <h6 class="font-semibold text-[#433A3F]">🥙 Tolia</h6>
+                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Planning Tips -->
-                <div class="bg-gradient-to-r from-[#C07F63]/20 to-[#433A3F]/10 rounded-2xl p-8">
-                    <h3 class="text-2xl font-bold text-center mb-6 text-[#433A3F]">💡 Restaurant Week Pro Tips</h3>
+                <!-- Enhanced Planning & Reservation Tools -->
+                <div class="bg-gradient-to-r from-[#C07F63]/20 to-[#433A3F]/10 rounded-2xl p-8 mb-8">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-[#433A3F]">💡 Complete Anniversary Planning Guide</h3>
                     
-                    <div class="grid md:grid-cols-2 gap-8">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Reservation Strategy -->
                         <div>
                             <h4 class="font-semibold text-[#433A3F] mb-4 flex items-center">
                                 <span class="text-2xl mr-2">📞</span>
-                                Make Reservations Early
+                                Reservation Strategy
                             </h4>
-                            <p class="text-[#433A3F]/80 text-sm mb-4">
-                                Tables fill quickly during Restaurant Week. Many restaurants require advance reservations, especially for dinner service.
-                            </p>
-                            
-                            <h4 class="font-semibold text-[#433A3F] mb-4 flex items-center">
-                                <span class="text-2xl mr-2">🌐</span>
-                                Check Individual Websites
-                            </h4>
-                            <p class="text-[#433A3F]/80 text-sm">
-                                While some menu links may be inaccessible, restaurants typically post their specific Restaurant Week menus on their own websites or social media.
-                            </p>
+                            <div class="space-y-3">
+                                <div class="bg-white/80 rounded-lg p-3">
+                                    <p class="text-sm font-semibold text-[#433A3F] mb-1">📅 Book NOW for July 11-14</p>
+                                    <p class="text-xs text-[#433A3F]/70">Tables fill quickly during Restaurant Week. Many restaurants require advance reservations.</p>
+                                </div>
+                                <div class="bg-white/80 rounded-lg p-3">
+                                    <p class="text-sm font-semibold text-[#433A3F] mb-1">⏰ Best Reservation Times</p>
+                                    <p class="text-xs text-[#433A3F]/70">6:30-7:30 PM for romantic dinner ambiance. 8:00+ PM for quieter, more intimate setting.</p>
+                                </div>
+                                <div class="bg-white/80 rounded-lg p-3">
+                                    <p class="text-sm font-semibold text-[#433A3F] mb-1">💡 Pro Tip</p>
+                                    <p class="text-xs text-[#433A3F]/70">Call restaurants directly - sometimes they have availability not shown online. Mention it's your anniversary!</p>
+                                </div>
+                            </div>
                         </div>
-                        
+
+                        <!-- Day-by-Day Recommendations -->
                         <div>
                             <h4 class="font-semibold text-[#433A3F] mb-4 flex items-center">
                                 <span class="text-2xl mr-2">📋</span>
-                                Know the Restrictions
+                                Perfect 4-Day Plan
                             </h4>
-                            <p class="text-[#433A3F]/80 text-sm mb-4">
-                                Some restaurants don't participate on weekends (like The Capital Grille on Saturdays) or have limited hours.
-                            </p>
-                            
-                            <h4 class="font-semibold text-[#433A3F] mb-4 flex items-center">
-                                <span class="text-2xl mr-2">🥡</span>
-                                Takeout Options Available
-                            </h4>
-                            <p class="text-[#433A3F]/80 text-sm">
-                                Some participating restaurants offer their special deals for takeout, perfect for a romantic dinner at your hotel.
-                            </p>
+                            <div class="space-y-3">
+                                <div class="bg-green-50 rounded-lg p-3 border border-green-200">
+                                    <p class="text-sm font-semibold text-green-800 mb-1">Friday Night (Arrival)</p>
+                                    <p class="text-xs text-green-700">Casual dinner at Il Massimo ($37) or Trattoria Appia ("Dolce Estate" special)</p>
+                                </div>
+                                <div class="bg-pink-50 rounded-lg p-3 border border-pink-200">
+                                    <p class="text-sm font-semibold text-pink-800 mb-1">Saturday (Anniversary!)</p>
+                                    <p class="text-xs text-pink-700">Special dinner at Gracie's ($59.99) - available all month! Most romantic choice.</p>
+                                </div>
+                                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                                    <p class="text-sm font-semibold text-blue-800 mb-1">Sunday (Adventure)</p>
+                                    <p class="text-xs text-blue-700">Lunch at Legal Sea Foods ($30), then Mare Rooftop for sunset dinner</p>
+                                </div>
+                                <div class="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
+                                    <p class="text-sm font-semibold text-yellow-800 mb-1">Monday (Departure)</p>
+                                    <p class="text-xs text-yellow-700">Farewell lunch at Track 15 Food Hall - try multiple vendors!</p>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Special Considerations -->
+                        <div>
+                            <h4 class="font-semibold text-[#433A3F] mb-4 flex items-center">
+                                <span class="text-2xl mr-2">⚠️</span>
+                                Important Notes
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-red-50 rounded-lg p-3 border border-red-200">
+                                    <p class="text-sm font-semibold text-red-800 mb-1">Saturday Restrictions</p>
+                                    <p class="text-xs text-red-700">Capital Grille & Waterman Grille don't offer Restaurant Week menus on Saturdays</p>
+                                </div>
+                                <div class="bg-orange-50 rounded-lg p-3 border border-orange-200">
+                                    <p class="text-sm font-semibold text-orange-800 mb-1">Limited Availability</p>
+                                    <p class="text-xs text-orange-700">Mare Rooftop: Tue/Wed/Thu/Sun only. Nicks on Broadway: July 17-20 only</p>
+                                </div>
+                                <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+                                    <p class="text-sm font-semibold text-purple-800 mb-1">Dress Codes</p>
+                                    <p class="text-xs text-purple-700">Premium restaurants: Smart casual to business casual. Italian places: Casual to smart casual</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action Buttons -->
+                    <div class="mt-8 text-center">
+                        <h4 class="font-semibold text-[#433A3F] mb-4">Quick Reservation Links</h4>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <a href="https://www.opentable.com/providence-restaurants" target="_blank" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A9684C] transition-colors text-sm font-semibold">
+                                📱 OpenTable Providence
+                            </a>
+                            <a href="https://resy.com/cities/providence" target="_blank" class="bg-[#433A3F] text-white px-4 py-2 rounded-lg hover:bg-black transition-colors text-sm font-semibold">
+                                🍽️ Resy Providence
+                            </a>
+                            <a href="https://www.goprovidence.com/restaurant-week/" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold">
+                                ℹ️ Official Restaurant Week Info
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Anniversary Budget Calculator -->
+                    <div class="mt-8 bg-white/80 rounded-xl p-6 border border-[#C07F63]/30">
+                        <h4 class="font-semibold text-[#433A3F] mb-4 text-center">💰 Anniversary Dining Budget Calculator</h4>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <h5 class="font-semibold text-[#C07F63] mb-2">Conservative</h5>
+                                <p class="text-2xl font-bold text-[#433A3F] mb-2">$240-320</p>
+                                <p class="text-xs text-[#433A3F]/70">4 meals for 2 people • Moderate restaurants • Basic wine</p>
+                                <p class="text-xs text-[#433A3F]/60 mt-2">Example: Il Massimo, Legal Sea Foods, Hemenway's, Track 15</p>
+                            </div>
+                            <div class="text-center bg-pink-50 rounded-lg p-4 border border-pink-200">
+                                <h5 class="font-semibold text-pink-700 mb-2">Romantic</h5>
+                                <p class="text-2xl font-bold text-pink-800 mb-2">$400-600</p>
+                                <p class="text-xs text-pink-700">Mix of premium & moderate • Wine pairings • Special upgrades</p>
+                                <p class="text-xs text-pink-600 mt-2">Example: Gracie's (anniversary), Mill's Tavern, Capriccio, lunch spots</p>
+                            </div>
+                            <div class="text-center">
+                                <h5 class="font-semibold text-[#C07F63] mb-2">Luxury</h5>
+                                <p class="text-2xl font-bold text-[#433A3F] mb-2">$600-800</p>
+                                <p class="text-xs text-[#433A3F]/70">Premium restaurants • Wine pairings • All upgrades</p>
+                                <p class="text-xs text-[#433A3F]/60 mt-2">Example: Gracie's, Capital Grille, Mill's Tavern, premium lunches</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-center text-[#433A3F]/60 mt-4">
+                            *Prices don't include alcohol, tax, or tip. Add 25-30% for full meal cost. Upgrades like lobster tail or wine pairings are additional.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Call to Action -->
-                <div class="text-center mt-12">
+                <!-- Interactive Restaurant Comparison Table -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-[#C07F63]/20">
+                    <h3 class="text-2xl font-bold text-center mb-8 text-[#433A3F]">📊 Quick Comparison Tool</h3>
+                    
+                    <!-- Table Controls -->
+                    <div class="flex flex-wrap justify-between items-center mb-6">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="comparison-filter bg-[#C07F63] text-white px-3 py-1 rounded-full text-sm active" data-sort="all">All Restaurants</button>
+                            <button class="comparison-filter bg-white text-[#433A3F] px-3 py-1 rounded-full text-sm border border-[#C07F63]/30" data-sort="romantic">Most Romantic</button>
+                            <button class="comparison-filter bg-white text-[#433A3F] px-3 py-1 rounded-full text-sm border border-[#C07F63]/30" data-sort="price-low">Price: Low to High</button>
+                            <button class="comparison-filter bg-white text-[#433A3F] px-3 py-1 rounded-full text-sm border border-[#C07F63]/30" data-sort="price-high">Price: High to Low</button>
+                        </div>
+                    </div>
+
+                    <!-- Responsive Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-[#C07F63]/10">
+                                <tr>
+                                    <th class="text-left p-3 font-semibold text-[#433A3F]">Restaurant</th>
+                                    <th class="text-center p-3 font-semibold text-[#433A3F]">Price</th>
+                                    <th class="text-center p-3 font-semibold text-[#433A3F]">Romance</th>
+                                    <th class="text-center p-3 font-semibold text-[#433A3F]">Cuisine</th>
+                                    <th class="text-center p-3 font-semibold text-[#433A3F]">Special Notes</th>
+                                    <th class="text-center p-3 font-semibold text-[#433A3F]">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#C07F63]/10">
+                                <!-- Top Romantic Picks -->
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="premium romantic">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🌟 Gracie's</div>
+                                        <div class="text-xs text-[#433A3F]/60">Available all month of July</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">$59.99</div>
+                                        <div class="text-xs text-[#433A3F]/60">per person</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★★★★</div>
+                                        <div class="text-xs text-[#433A3F]/60">Perfect</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">American</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-green-700">Extended offer</div>
+                                        <div class="text-xs text-[#433A3F]/60">Valet parking</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <a href="https://graciesprov.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-2 py-1 rounded text-xs">Menu</a>
+                                            <a href="https://www.opentable.com/r/gracies-providence" target="_blank" class="bg-green-600 text-white px-2 py-1 rounded text-xs">Reserve</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="premium romantic steakhouse">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🥩 The Capital Grille</div>
+                                        <div class="text-xs text-red-600">Not Saturdays</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">~$60</div>
+                                        <div class="text-xs text-[#433A3F]/60">3-course</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★★★★</div>
+                                        <div class="text-xs text-[#433A3F]/60">Elegant</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">Steakhouse</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-blue-700">Lobster +$15</div>
+                                        <div class="text-xs text-[#433A3F]/60">Valet available</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <a href="https://www.thecapitalgrille.com/" target="_blank" class="bg-[#C07F63] text-white px-2 py-1 rounded text-xs">Website</a>
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Call</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="premium romantic american">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🍽️ Mill's Tavern</div>
+                                        <div class="text-xs text-[#433A3F]/60">Contemporary American</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">$55</div>
+                                        <div class="text-xs text-[#433A3F]/60">per person</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★★★☆</div>
+                                        <div class="text-xs text-[#433A3F]/60">Intimate</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">American</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-blue-700">Wine +$20</div>
+                                        <div class="text-xs text-[#433A3F]/60">Truffle +$15</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <a href="https://www.millstavern.com/" target="_blank" class="bg-[#C07F63] text-white px-2 py-1 rounded text-xs">Website</a>
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Call</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Best Value Options -->
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="moderate italian">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🍷 Capriccio</div>
+                                        <div class="text-xs text-[#433A3F]/60">Italian & Mediterranean</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">$51.95</div>
+                                        <div class="text-xs text-[#433A3F]/60">3-course</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★★☆☆</div>
+                                        <div class="text-xs text-[#433A3F]/60">Cozy</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Italian</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-blue-700">Filet +$4</div>
+                                        <div class="text-xs text-[#433A3F]/60">Clams +$2</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Menu</span>
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Call</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="moderate italian">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🍝 Il Massimo</div>
+                                        <div class="text-xs text-[#433A3F]/60">Neapolitan Cuisine</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">$37-48</div>
+                                        <div class="text-xs text-[#433A3F]/60">pasta/protein</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★★☆☆</div>
+                                        <div class="text-xs text-[#433A3F]/60">Authentic</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Italian</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-green-700">Wine included</div>
+                                        <div class="text-xs text-[#433A3F]/60">Great value</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <a href="https://massimori.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-2 py-1 rounded text-xs">Menu</a>
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Call</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="moderate seafood">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🦞 Hemenway's</div>
+                                        <div class="text-xs text-[#433A3F]/60">Fresh Seafood</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">$35-45</div>
+                                        <div class="text-xs text-[#433A3F]/60">lunch/dinner</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★★☆☆</div>
+                                        <div class="text-xs text-[#433A3F]/60">Casual</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Seafood</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-green-700">Lunch available</div>
+                                        <div class="text-xs text-[#433A3F]/60">Downtown</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <a href="https://www.hemenwaysrestaurant.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-2 py-1 rounded text-xs">Menu</a>
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Call</span>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr class="restaurant-comparison-row hover:bg-[#C07F63]/5" data-categories="moderate seafood">
+                                    <td class="p-3">
+                                        <div class="font-semibold text-[#433A3F]">🐟 Legal Sea Foods</div>
+                                        <div class="text-xs text-[#433A3F]/60">Cranston location</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="font-semibold text-[#C07F63]">$30-45</div>
+                                        <div class="text-xs text-[#433A3F]/60">lunch/dinner</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="text-pink-500">★★☆☆☆</div>
+                                        <div class="text-xs text-[#433A3F]/60">Chain</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Seafood</span>
+                                    </td>
+                                    <td class="p-3 text-center">
+                                        <div class="text-xs text-green-700">$30 lunch</div>
+                                        <div class="text-xs text-[#433A3F]/60">Reliable quality</div>
+                                    </td>
+                                    <td class="text-center p-3">
+                                        <div class="flex justify-center gap-1">
+                                            <a href="https://www.legalseafoods.com/" target="_blank" class="bg-[#C07F63] text-white px-2 py-1 rounded text-xs">Website</a>
+                                            <span class="bg-gray-400 text-white px-2 py-1 rounded text-xs">Call</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile-friendly cards for smaller screens -->
+                    <div class="md:hidden space-y-4 mt-6">
+                        <div class="bg-gradient-to-r from-pink-50 to-red-50 rounded-lg p-4 border border-pink-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <h5 class="font-bold text-[#433A3F]">🌟 Gracie's</h5>
+                                <span class="text-pink-500">★★★★★</span>
+                            </div>
+                            <p class="text-sm text-[#433A3F]/80 mb-2">$59.99 • American • Available all July</p>
+                            <div class="flex gap-2">
+                                <a href="https://graciesprov.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded text-xs">Menu</a>
+                                <a href="https://www.opentable.com/r/gracies-providence" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded text-xs">Reserve</a>
+                            </div>
+                        </div>
+                        <!-- Add more mobile cards as needed -->
+                    </div>
+                </div>
+
+                <!-- Final Call to Action -->
+                <div class="text-center">
                     <p class="text-lg text-[#433A3F] mb-4">
-                        <strong>60+ participating restaurants</strong> throughout Providence and surrounding communities
+                        <strong>60+ participating restaurants</strong> throughout Providence and surrounding Rhode Island communities
                     </p>
-                    <p class="text-[#433A3F]/70 italic">
+                    <p class="text-[#433A3F]/70 italic mb-6">
                         "Come for dinner and stay for a day or two" - Perfect for your anniversary weekend!
                     </p>
+                    <div class="bg-[#C07F63]/10 rounded-lg p-4 max-w-2xl mx-auto">
+                        <p class="text-sm text-[#433A3F]/80">
+                            <strong>Support Local:</strong> Providence Restaurant Week serves as a crucial economic driver, encouraging both local patronage and tourism while helping sustain the city's dynamic culinary scene. Your participation directly supports Rhode Island's amazing restaurants.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2397,6 +3160,241 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
+        }
+    });
+
+    // Restaurant Week Functionality
+    
+    // Restaurant search functionality
+    const restaurantSearch = document.getElementById('restaurant-search');
+    if (restaurantSearch) {
+        restaurantSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            filterRestaurants(searchTerm);
+        });
+    }
+
+    // Restaurant filter buttons
+    document.querySelectorAll('.restaurant-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active filter button
+            document.querySelectorAll('.restaurant-filter').forEach(b => {
+                b.classList.remove('active', 'bg-[#C07F63]', 'text-white');
+                b.classList.add('bg-white/70', 'text-[#433A3F]');
+            });
+            btn.classList.add('active', 'bg-[#C07F63]', 'text-white');
+            btn.classList.remove('bg-white/70', 'text-[#433A3F]');
+            
+            // Filter restaurants by category
+            const category = btn.dataset.category;
+            filterRestaurantsByCategory(category);
+        });
+    });
+
+    // Comparison table filter buttons
+    document.querySelectorAll('.comparison-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active comparison filter button
+            document.querySelectorAll('.comparison-filter').forEach(b => {
+                b.classList.remove('active', 'bg-[#C07F63]', 'text-white');
+                b.classList.add('bg-white', 'text-[#433A3F]');
+            });
+            btn.classList.add('active', 'bg-[#C07F63]', 'text-white');
+            btn.classList.remove('bg-white', 'text-[#433A3F]');
+            
+            // Sort or filter comparison table
+            const sortType = btn.dataset.sort;
+            sortComparisonTable(sortType);
+        });
+    });
+
+    function filterRestaurants(searchTerm) {
+        const restaurantCards = document.querySelectorAll('.restaurant-card');
+        const restaurantRows = document.querySelectorAll('.restaurant-comparison-row');
+        
+        // Filter restaurant cards
+        restaurantCards.forEach(card => {
+            const restaurantName = card.querySelector('h5').textContent.toLowerCase();
+            const cuisineType = card.textContent.toLowerCase();
+            
+            if (restaurantName.includes(searchTerm) || cuisineType.includes(searchTerm)) {
+                card.style.display = 'block';
+                card.parentElement.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Filter comparison table rows
+        restaurantRows.forEach(row => {
+            const restaurantName = row.querySelector('td').textContent.toLowerCase();
+            const rowContent = row.textContent.toLowerCase();
+            
+            if (restaurantName.includes(searchTerm) || rowContent.includes(searchTerm)) {
+                row.style.display = 'table-row';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        
+        // Hide empty categories
+        const categories = document.querySelectorAll('.restaurant-category');
+        categories.forEach(category => {
+            const visibleCards = category.querySelectorAll('.restaurant-card[style="display: block"], .restaurant-card:not([style*="display: none"])');
+            if (visibleCards.length === 0) {
+                category.style.display = 'none';
+            } else {
+                category.style.display = 'block';
+            }
+        });
+    }
+
+    function filterRestaurantsByCategory(category) {
+        const restaurantCards = document.querySelectorAll('.restaurant-card');
+        const restaurantRows = document.querySelectorAll('.restaurant-comparison-row');
+        const categories = document.querySelectorAll('.restaurant-category');
+        
+        // Clear search if active
+        if (restaurantSearch) {
+            restaurantSearch.value = '';
+        }
+        
+        if (category === 'all') {
+            // Show all restaurants
+            restaurantCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            restaurantRows.forEach(row => {
+                row.style.display = 'table-row';
+            });
+            categories.forEach(cat => {
+                cat.style.display = 'block';
+            });
+        } else if (category === 'romantic') {
+            // Show only romantic restaurants
+            restaurantCards.forEach(card => {
+                const categories = card.dataset.categories || '';
+                if (categories.includes('romantic') || categories.includes('premium')) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            restaurantRows.forEach(row => {
+                const categories = row.dataset.categories || '';
+                if (categories.includes('romantic') || categories.includes('premium')) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        } else {
+            // Show restaurants matching specific category
+            restaurantCards.forEach(card => {
+                const categories = card.dataset.categories || '';
+                if (categories.includes(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            restaurantRows.forEach(row => {
+                const categories = row.dataset.categories || '';
+                if (categories.includes(category)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        
+        // Hide empty categories
+        categories.forEach(categoryDiv => {
+            const visibleCards = categoryDiv.querySelectorAll('.restaurant-card[style="display: block"], .restaurant-card:not([style*="display: none"])');
+            if (visibleCards.length === 0 && category !== 'all') {
+                categoryDiv.style.display = 'none';
+            } else {
+                categoryDiv.style.display = 'block';
+            }
+        });
+    }
+
+    function sortComparisonTable(sortType) {
+        const tbody = document.querySelector('.restaurant-comparison-row').parentElement;
+        const rows = Array.from(document.querySelectorAll('.restaurant-comparison-row'));
+        
+        if (sortType === 'all') {
+            // Show all rows in original order
+            rows.forEach(row => row.style.display = 'table-row');
+        } else if (sortType === 'romantic') {
+            // Show only romantic restaurants
+            rows.forEach(row => {
+                const categories = row.dataset.categories || '';
+                if (categories.includes('romantic') || categories.includes('premium')) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        } else if (sortType === 'price-low' || sortType === 'price-high') {
+            // Sort by price
+            const sortedRows = rows.sort((a, b) => {
+                const priceA = parseFloat(a.querySelector('td:nth-child(2) .font-semibold').textContent.replace(/[^0-9.]/g, '')) || 0;
+                const priceB = parseFloat(b.querySelector('td:nth-child(2) .font-semibold').textContent.replace(/[^0-9.]/g, '')) || 0;
+                
+                return sortType === 'price-low' ? priceA - priceB : priceB - priceA;
+            });
+            
+            // Re-append sorted rows
+            sortedRows.forEach(row => {
+                tbody.appendChild(row);
+                row.style.display = 'table-row';
+            });
+        }
+    }
+
+    // Add floating hearts when clicking restaurant cards
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.restaurant-card')) {
+            createFloatingHeart(e.clientX, e.clientY);
+        }
+    });
+
+    // Add anniversary celebration effect
+    function createAnniversarySparkle(x, y) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'floating-heart';
+        sparkle.innerHTML = '✨';
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        sparkle.style.color = '#FFD700';
+        sparkle.style.fontSize = '20px';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '9999';
+        
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => sparkle.remove(), 2000);
+    }
+
+    // Add sparkles when hovering over romantic restaurants
+    document.querySelectorAll('[data-categories*="romantic"]').forEach(card => {
+        card.addEventListener('mouseenter', (e) => {
+            if (Math.random() < 0.3) { // 30% chance
+                const rect = card.getBoundingClientRect();
+                createAnniversarySparkle(
+                    rect.left + Math.random() * rect.width,
+                    rect.top + Math.random() * rect.height
+                );
+            }
+        });
+    });
+
+    // Show special anniversary message when Gracie's is clicked
+    document.addEventListener('click', (e) => {
+        const graciesCard = e.target.closest('[data-categories*="premium"]:has([href*="graciesprov"])');
+        if (graciesCard) {
+            showLoveNote("Perfect choice for our anniversary dinner! Gracie's is known for creating magical moments for couples. 💕");
         }
     });
 
