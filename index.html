@@ -575,12 +575,12 @@
 
         /* Our Song Section */
         .our-song-section {
-            background: linear-gradient(135deg, #C07F63, #A9684C);
-            color: white;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background-attachment: fixed;
             position: relative;
             overflow: hidden;
         }
-
+        
         .our-song-section::before {
             content: '';
             position: absolute;
@@ -588,14 +588,60 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="80" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="60" cy="80" r="1" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.2;0.1" dur="5s" repeatCount="indefinite"/></circle></svg>');
-            background-size: 200px 200px;
-            animation: starfield 20s linear infinite;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(192, 127, 99, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
-        @keyframes starfield {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-200px, -200px); }
+        /* Enhanced Song Memory Cards */
+        .song-memory-card {
+            transition: all 0.3s ease;
+        }
+        
+        .song-memory-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15) !important;
+        }
+        
+        .song-memory-story {
+            border-left: 3px solid #C07F63;
+            font-style: italic;
+        }
+        
+        .add-song-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .add-song-card:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(192, 127, 99, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .service-status .w-2.bg-green-400 {
+            background-color: #10B981;
+        }
+        
+        .service-status .w-2.bg-red-400 {
+            background-color: #EF4444;
+        }
+        
+        /* Song Timeline Animation */
+        .song-memory-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .song-lyrics-preview {
@@ -1178,7 +1224,7 @@
                 <a href="#restaurant-week" class="nav-link text-lg" aria-label="Go to restaurant week section">Restaurant Week</a>
                 <a href="#map" class="nav-link text-lg" aria-label="Go to interactive map section">Interactive Map</a>
                 <a href="#notes" class="nav-link text-lg" aria-label="Go to couple's notes section">Couple's Notes</a>
-                <a href="#our-song" class="nav-link text-lg" aria-label="Go to our song section">Our Song</a>
+                <a href="#our-song" class="nav-link text-lg" aria-label="Go to our songs section">Our Songs</a>
                 <a href="#our-story" class="nav-link text-lg" aria-label="Go to our story section">Our Story</a>
                 <a href="#memories" class="nav-link text-lg" aria-label="Go to our memories section">Our Memories</a>
                 <a href="#plan" class="nav-link text-lg" aria-label="Go to plan your trip section">Plan Your Trip</a>
@@ -1196,7 +1242,7 @@
             <a href="#restaurant-week" class="block py-2 nav-link" role="menuitem">Restaurant Week</a>
             <a href="#map" class="block py-2 nav-link" role="menuitem">Interactive Map</a>
             <a href="#notes" class="block py-2 nav-link" role="menuitem">Couple's Notes</a>
-            <a href="#our-song" class="block py-2 nav-link" role="menuitem">Our Song</a>
+            <a href="#our-song" class="block py-2 nav-link" role="menuitem">Our Songs</a>
             <a href="#our-story" class="block py-2 nav-link" role="menuitem">Our Story</a>
             <a href="#memories" class="block py-2 nav-link" role="menuitem">Our Memories</a>
             <a href="#plan" class="block py-2 nav-link" role="menuitem">Plan Your Trip</a>
@@ -3458,65 +3504,123 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
         </section>
 
         <section id="our-song" class="our-song-section py-16 md:py-24 relative">
-            <div class="container mx-auto px-6 max-w-4xl relative z-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Our Song</h2>
-                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-white/90">
-                    Every love story has a soundtrack. This is the song that captures our journey and sets the mood for our romantic Providence adventure.
+            <div class="container mx-auto px-6 max-w-6xl relative z-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Our Songs & Memories</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-8 text-white/90">
+                    Every love story has a soundtrack. These are the songs that capture our journey and set the mood for our romantic Providence adventure.
                 </p>
 
-                <div class="grid md:grid-cols-2 gap-8 items-center">
-                    <div class="music-player">
-                        <div class="music-content text-center">
-                            <div class="music-note" style="top: 10px; right: 20px;">🎵</div>
-                            <div class="music-note" style="bottom: 15px; left: 15px;">🎶</div>
-                            
-                            <div class="song-title">Burning Blue</div>
-                            <div class="song-artist">by Mariah the Scientist</div>
-                            
-                            <button class="play-button" id="music-play-btn" onclick="toggleMusic()">
-                                <span id="play-icon">▶️</span>
+                <!-- Music Service Connection Status -->
+                <div class="flex justify-center mb-8">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                        <div class="flex flex-wrap gap-3 items-center justify-center">
+                            <div class="service-status flex items-center gap-2 text-white/80 text-sm">
+                                <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+                                <span>Spotify</span>
+                            </div>
+                            <div class="service-status flex items-center gap-2 text-white/80 text-sm">
+                                <span class="w-2 h-2 bg-red-400 rounded-full"></span>
+                                <span>YouTube Music</span>
+                            </div>
+                            <button class="connect-services-btn bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors">
+                                Connect Music Services
                             </button>
-                            
-                            <p class="text-sm text-[#433A3F]/70 mb-4">
-                                Click to experience our special song
-                            </p>
-                            
-                            <div class="soundcloud-embed">
-                                <iframe 
-                                    width="100%" 
-                                    height="300" 
-                                    scrolling="no" 
-                                    frameborder="no" 
-                                    allow="autoplay" 
-                                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2087427186&color=%23c07f63&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                                    style="border-radius: 12px; border: none;">
-                                </iframe>
-                                <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;">
-                                    <a href="https://soundcloud.com/mariahthescientist" title="Mariah the Scientist" target="_blank" style="color: #cccccc; text-decoration: none;">Mariah the Scientist</a> · 
-                                    <a href="https://soundcloud.com/mariahthescientist/burning-blue" title="Burning Blue" target="_blank" style="color: #cccccc; text-decoration: none;">Burning Blue</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song Timeline Container -->
+                <div id="song-timeline" class="space-y-8">
+                    <!-- First Song - Our Original -->
+                    <div class="song-memory-card bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div class="music-player">
+                                <div class="music-content text-center">
+                                    <div class="music-note" style="top: 10px; right: 20px;">🎵</div>
+                                    <div class="music-note" style="bottom: 15px; left: 15px;">🎶</div>
+                                    
+                                    <div class="song-title">Burning Blue</div>
+                                    <div class="song-artist">by Mariah the Scientist</div>
+                                    
+                                    <button class="play-button" id="music-play-btn-1" onclick="toggleMusic(1)">
+                                        <span id="play-icon-1">▶️</span>
+                                    </button>
+                                    
+                                    <div class="soundcloud-embed mt-4">
+                                        <iframe 
+                                            width="100%" 
+                                            height="200" 
+                                            scrolling="no" 
+                                            frameborder="no" 
+                                            allow="autoplay" 
+                                            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2087427186&color=%23c07f63&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+                                            style="border-radius: 12px; border: none;">
+                                        </iframe>
+                                    </div>
+                                    
+                                    <div class="mt-4 text-center">
+                                        <div class="flex justify-center gap-3">
+                                            <a href="https://music.youtube.com/search?q=burning+blue+mariah+the+scientist" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
+                                                🎵 YouTube Music
+                                            </a>
+                                            <a href="https://open.spotify.com/search/burning%20blue%20mariah%20the%20scientist" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
+                                                🎶 Spotify
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <div class="mt-4 text-center">
-                                <p class="text-xs text-[#433A3F]/60 mb-2">Can't hear the song? Listen here:</p>
-                                <div class="flex justify-center gap-3">
-                                    <a href="https://music.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
-                                        🎵 YouTube Music
-                                    </a>
-                                    <a href="https://open.spotify.com/search/burning%20blue%20mariah%20the%20scientist" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
-                                        🎶 Spotify
-                                    </a>
+
+                            <div class="text-white">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <h3 class="text-2xl font-bold font-display">Our First Song</h3>
+                                    <span class="bg-pink-500/20 text-pink-200 px-2 py-1 rounded-full text-xs">December 2024</span>
+                                </div>
+                                
+                                <div class="song-memory-story bg-white/5 rounded-lg p-4 mb-4">
+                                    <p class="text-white/90 leading-relaxed">
+                                        "This song played in the Omni that first night, and I have gotten chills every other time I have listened to it. It perfectly captures that magical moment when everything changed, and the melody takes me back to that perfect evening when I knew this was something special."
+                                    </p>
+                                </div>
+                                
+                                <div class="flex gap-2">
+                                    <button class="edit-memory-btn bg-white/10 text-white px-3 py-1 rounded-full text-sm hover:bg-white/20 transition-colors">
+                                        ✏️ Edit Memory
+                                    </button>
+                                    <button class="add-to-playlist-btn bg-[#C07F63]/20 text-[#C07F63] px-3 py-1 rounded-full text-sm hover:bg-[#C07F63]/30 transition-colors">
+                                        ➕ Add to Providence Playlist
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-white">
-                        <h3 class="text-2xl font-bold font-display mb-6">Why This Song Means Everything</h3>
-                        
-                        <div class="song-lyrics-preview">
-                            "This song played in the Omni that first night, and I have gotten chills every other time I have listened to it. It perfectly captures that magical moment when everything changed, and the melody takes me back to that perfect evening when I knew this was something special."
+                    <!-- Add Song Card -->
+                    <div class="add-song-card bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 border-dashed text-center">
+                        <div class="text-white/60 mb-4">
+                            <div class="text-6xl mb-4">🎵</div>
+                            <h3 class="text-xl font-semibold mb-2">Add Another Special Song</h3>
+                            <p class="text-sm text-white/40 mb-6">Every moment of your love story deserves its own soundtrack</p>
                         </div>
+                        <button id="add-song-btn" class="bg-[#C07F63] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#A9684C] transition-colors">
+                            Add a Memory Song
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Playlist Builder Teaser -->
+                <div class="mt-12 text-center">
+                    <div class="bg-gradient-to-r from-[#C07F63]/20 to-pink-500/20 rounded-xl p-6 border border-white/10">
+                        <h3 class="text-xl font-bold text-white mb-2">🎼 Coming Soon: Full Playlist Builder</h3>
+                        <p class="text-white/80 text-sm mb-4">Create collaborative playlists for every moment of your Providence adventure</p>
+                        <div class="flex justify-center gap-4 text-sm text-white/60">
+                            <span>🍽️ Dinner Music</span>
+                            <span>⛵ Boat Tour Vibes</span>
+                            <span>🌙 Evening Strolls</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
                         
                         <div class="space-y-4">
                             <div class="flex items-center">
@@ -4403,6 +4507,107 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
         <img id="modalImage" class="modal-content" alt="Full size image">
     </div>
     
+    <!-- Itinerary Item Modal -->
+    <div id="itinerary-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="modal-title" class="text-xl font-bold text-[#433A3F]">Add Activity</h3>
+                        <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                    </div>
+                    <form id="itinerary-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Time</label>
+                                <input type="text" id="activity-time" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="e.g., Morning, 2:00 PM" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Icon</label>
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="🍽️">🍽️</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="☕">☕</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="🎨">🎨</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="⛵">⛵</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="🎤">🎤</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="🌙">🌙</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="🧳">🧳</button>
+                                    <button type="button" class="icon-btn px-2 py-1 border rounded" data-icon="🛍️">🛍️</button>
+                                </div>
+                                <input type="text" id="activity-icon" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Or enter custom emoji" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Title</label>
+                                <input type="text" id="activity-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Activity name" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Description</label>
+                                <textarea id="activity-desc" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Describe this activity..." required></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-2 mt-6">
+                            <button type="button" id="cancel-modal" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-4 py-2 bg-[#C07F63] text-white rounded-lg hover:bg-[#A9684C]">Save Activity</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Song Modal -->
+    <div id="add-song-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-[#433A3F]">Add a Memory Song</h3>
+                        <button id="close-song-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                    </div>
+                    <form id="add-song-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Song Title</label>
+                                <input type="text" id="song-title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Enter the song title" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Artist</label>
+                                <input type="text" id="song-artist" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Artist name" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">When This Became Special</label>
+                                <input type="text" id="song-date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="e.g., December 2024, Our first date" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Your Memory</label>
+                                <textarea id="song-memory" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Tell the story of why this song is special to your relationship..." required></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Music Platform (Optional)</label>
+                                <select id="song-platform" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent">
+                                    <option value="">Select platform</option>
+                                    <option value="spotify">Spotify</option>
+                                    <option value="youtube">YouTube Music</option>
+                                    <option value="soundcloud">SoundCloud</option>
+                                    <option value="apple">Apple Music</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-[#433A3F] mb-1">Link to Song (Optional)</label>
+                                <input type="url" id="song-url" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="https://...">
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-2 mt-6">
+                            <button type="button" id="cancel-song-modal" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-4 py-2 bg-[#C07F63] text-white rounded-lg hover:bg-[#A9684C]">Add Memory Song</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-[#433A3F] text-[#FDF8F0] py-8 text-center">
         <p>Crafted with love for a memorable anniversary in Providence.</p>
     </footer>
@@ -6082,6 +6287,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize dynamic itinerary management
     loadItinerary();
     
+    // Initialize song memories
+    loadSongMemories();
+    updateMusicServiceStatus();
+    
+    // Song Memory Event Listeners
+    document.getElementById('add-song-btn').addEventListener('click', openAddSongModal);
+    document.getElementById('close-song-modal').addEventListener('click', closeAddSongModal);
+    document.getElementById('cancel-song-modal').addEventListener('click', closeAddSongModal);
+    document.getElementById('add-song-form').addEventListener('submit', handleAddSongSubmit);
+    
+    // Close song modal when clicking outside
+    document.getElementById('add-song-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            closeAddSongModal();
+        }
+    });
+    
+    // Event delegation for edit/delete song buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('.edit-song-btn') || e.target.closest('.edit-song-btn')) {
+            const btn = e.target.closest('.edit-song-btn');
+            const index = parseInt(btn.dataset.songIndex);
+            // TODO: Implement edit functionality
+            showNotification('Edit functionality coming soon!', 'info');
+        }
+        
+        if (e.target.matches('.delete-song-btn') || e.target.closest('.delete-song-btn')) {
+            const btn = e.target.closest('.delete-song-btn');
+            const index = parseInt(btn.dataset.songIndex);
+            deleteSongMemory(index);
+        }
+    });
+    
+    // Connect music services button (placeholder)
+    document.querySelector('.connect-services-btn').addEventListener('click', () => {
+        showNotification('Music service integration coming soon! For now, you can add songs manually.', 'info');
+    });
+    
     // Dynamic Itinerary Management Event Listeners
     document.getElementById('add-item-btn').addEventListener('click', () => {
         openItineraryModal();
@@ -6123,8 +6366,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Close modal with Escape key
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !document.getElementById('itinerary-modal').classList.contains('hidden')) {
-            closeItineraryModal();
+        if (e.key === 'Escape') {
+            if (!document.getElementById('itinerary-modal').classList.contains('hidden')) {
+                closeItineraryModal();
+            }
+            if (!document.getElementById('add-song-modal').classList.contains('hidden')) {
+                closeAddSongModal();
+            }
         }
     });
     
