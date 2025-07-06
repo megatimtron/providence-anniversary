@@ -53,64 +53,488 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <style>
+        /* 🎨 Design System - Cohesive Foundation */
+        :root {
+            /* Color Palette */
+            --primary-color: #C07F63;
+            --primary-dark: #A9684C;
+            --primary-light: #D4967C;
+            --secondary-color: #EAE0D5;
+            --secondary-dark: #D6C6B3;
+            --background-cream: #FDF8F0;
+            --background-light: #F5E6D3;
+            --text-primary: #433A3F;
+            --text-secondary: #6B7280;
+            --text-accent: #C07F63;
+            --border-color: #E5E7EB;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            
+            /* Typography */
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Roboto', sans-serif;
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        /* Base Typography */
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FDF8F0; /* Creamy background */
-            color: #433A3F; /* Muted dark gray */
+            font-family: var(--font-body);
+            background-color: var(--background-cream);
+            color: var(--text-primary);
+            line-height: 1.6;
         }
-        h1, h2, h3, .font-display {
-            font-family: 'Playfair Display', serif;
+
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: var(--font-display);
+            line-height: 1.2;
+            font-weight: 700;
         }
+
+        /* Unified Component Styles */
+        .cohesive-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
+            overflow: hidden;
+        }
+
+        .cohesive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-light);
+        }
+
+        .cohesive-btn {
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            font-size: var(--text-sm);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .cohesive-btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .cohesive-btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .cohesive-btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .cohesive-btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .cohesive-btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .cohesive-btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Small Action Buttons */
+        .cohesive-btn-small {
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-xl);
+            font-weight: 500;
+            font-size: var(--text-xs);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .cohesive-btn-small.primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .cohesive-btn-small.primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cohesive-btn-small.secondary {
+            background-color: var(--text-primary);
+            color: white;
+        }
+
+        .cohesive-btn-small.secondary:hover {
+            background-color: black;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cohesive-btn-small.success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .cohesive-btn-small.success:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Filter Button Active States */
+        .btn-filter.active,
+        .restaurant-filter.active {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+            border-color: var(--primary-color) !important;
+        }
+
+        .btn-filter:not(.active):hover,
+        .restaurant-filter:not(.active):hover {
+            background-color: var(--secondary-color) !important;
+            border-color: var(--primary-light) !important;
+        }
+
+        /* Enhanced Interactive States */
+        .card:hover,
+        .restaurant-card:hover,
+        .memory-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: var(--shadow-xl) !important;
+            border-color: var(--primary-light) !important;
+        }
+
+        /* Tab Button States */
+        .tab-btn.active-tab {
+            border-bottom-color: var(--primary-color) !important;
+            color: var(--primary-color) !important;
+        }
+
+        .tab-btn:hover:not(.active-tab) {
+            color: var(--primary-color) !important;
+            border-bottom-color: var(--primary-light) !important;
+        }
+
+        /* Focus States for Accessibility */
+        .cohesive-btn:focus,
+        .cohesive-btn-small:focus,
+        .nav-link:focus,
+        .tab-btn:focus,
+        .btn-filter:focus,
+        .restaurant-filter:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+            border-radius: var(--radius-md);
+        }
+
+        /* Enhanced Animation System */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(192, 127, 99, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(192, 127, 99, 0.6), 0 0 30px rgba(192, 127, 99, 0.4); }
+        }
+
+        .cohesive-card:hover {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .floating-nav:hover {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* Loading States */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Section Headers */
+        .cohesive-section-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+            padding: var(--space-8) var(--space-4);
+        }
+
+        .cohesive-section-title {
+            font-size: var(--text-3xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .cohesive-section-subtitle {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Navigation Styles */
+        .floating-nav {
+            position: fixed;
+            top: var(--space-6);
+            right: var(--space-6);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-4);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid rgba(192, 127, 99, 0.1);
+            transition: all var(--transition-normal);
+        }
+
+        .floating-nav.collapsed {
+            padding: var(--space-3);
+        }
+
+        .nav-toggle {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-toggle:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            margin-top: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            min-width: 200px;
+        }
+
+        .nav-menu.hidden {
+            display: none;
+        }
+
+        .nav-link {
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .nav-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(192, 127, 99, 0.1);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transition: width var(--transition-normal);
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Responsive Design for Floating Navigation */
+        @media (max-width: 768px) {
+            .floating-nav {
+                top: var(--space-4);
+                right: var(--space-4);
+                left: var(--space-4);
+                width: auto;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            
+            .nav-menu {
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+            
+            .nav-link {
+                font-size: var(--text-base);
+                padding: var(--space-4);
+            }
+        }
+
+        /* Section Bridge Styles */
+        .cohesive-section-bridge {
+            position: relative;
+            margin-top: var(--space-8);
+        }
+
+        .cohesive-section-bridge::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            z-index: 1;
+        }
+
+        .cohesive-section-bridge > div {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Legacy styles for backward compatibility - now using design system */
         .active-tab {
-            border-bottom-color: #C07F63; /* Terracotta accent */
-            color: #C07F63;
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
         }
         .nav-link {
-            transition: color 0.3s ease;
+            transition: color var(--transition-normal);
         }
         .nav-link:hover {
-            color: #C07F63;
+            color: var(--primary-color);
         }
         .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal);
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: var(--shadow-lg);
         }
         .btn-primary {
-            background-color: #C07F63;
-            color: #FDF8F0;
-            transition: background-color 0.3s ease;
+            background-color: var(--primary-color);
+            color: var(--background-cream);
+            transition: background-color var(--transition-normal);
         }
         .btn-primary:hover {
-            background-color: #A9684C;
+            background-color: var(--primary-dark);
         }
         .btn-secondary {
-            background-color: #EAE0D5;
-            color: #433A3F;
-            transition: background-color 0.3s ease;
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            transition: background-color var(--transition-normal);
         }
         .btn-secondary:hover {
-            background-color: #D6C6B3;
+            background-color: var(--secondary-dark);
         }
         .btn-filter.active {
-            background-color: #C07F63;
-            color: #FDF8F0;
+            background-color: var(--primary-color);
+            color: var(--background-cream);
         }
         
         /* Dynamic Itinerary Management Styles */
         .itinerary-item.edit-mode {
-            border: 2px dashed #C07F63;
-            border-radius: 8px;
-            padding: 8px;
-            margin: 4px 0;
-            transition: all 0.3s ease;
+            border: 2px dashed var(--primary-color);
+            border-radius: var(--radius-md);
+            padding: var(--space-2);
+            margin: var(--space-1) 0;
+            transition: all var(--transition-normal);
         }
         
         .itinerary-item.edit-mode:hover {
             background-color: rgba(192, 127, 99, 0.05);
-            border-color: #A9684C;
+            border-color: var(--primary-dark);
         }
         
         .itinerary-item[draggable="true"] {
@@ -122,20 +546,20 @@
         }
         
         .drag-handle {
-            font-size: 14px;
+            font-size: var(--text-sm);
             line-height: 1;
         }
         
         .icon-btn.active {
-            border-color: #C07F63 !important;
+            border-color: var(--primary-color) !important;
             background-color: rgba(192, 127, 99, 0.1) !important;
         }
         
         .edit-item-btn, .delete-item-btn, .move-up-btn, .move-down-btn {
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 12px;
-            transition: all 0.2s ease;
+            font-size: var(--text-xs);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
         }
         
         .edit-item-btn:hover {
@@ -162,11 +586,11 @@
         /* Modal animations */
         #itinerary-modal {
             backdrop-filter: blur(4px);
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn var(--transition-normal) ease-out;
         }
         
         #itinerary-modal > div > div {
-            animation: slideUp 0.3s ease-out;
+            animation: slideUp var(--transition-normal) ease-out;
         }
         
         @keyframes fadeIn {
@@ -182,17 +606,18 @@
             to { 
                 opacity: 1;
                 transform: translateY(0);
-            }        }
+            }
+        }
         
         /* Drag and drop visual feedback */
         .itinerary-item[style*="opacity: 0.5"] {
             transform: rotate(5deg);
-            border-color: #A9684C;
+            border-color: var(--primary-dark);
         }
 
         /* Playlist Interface Styles */
         .playlist-creation-card, .music-search-card, .active-playlist-card {
-            transition: all 0.3s ease;
+            transition: all var(--transition-normal);
         }
         
         .playlist-creation-card:hover, .music-search-card:hover, .active-playlist-card:hover {
@@ -1343,6 +1768,55 @@
     </style>
 </head>
 <body>
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <!-- Floating Navigation Menu -->
+    <nav class="floating-nav" id="floating-nav">
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu">
+            <span class="hamburger-icon">☰</span>
+        </button>
+        <div class="nav-menu hidden" id="nav-menu">
+            <a href="#hero" class="nav-link" data-section="hero">
+                <span>🏠</span> Home
+            </a>
+            <a href="#itinerary" class="nav-link" data-section="itinerary">
+                <span>📅</span> Your Itinerary
+            </a>
+            <a href="#explore" class="nav-link" data-section="explore">
+                <span>🗺️</span> Explore Providence
+            </a>
+            <a href="#restaurant-week" class="nav-link" data-section="restaurant-week">
+                <span>🍽️</span> Restaurant Week
+            </a>
+            <a href="#map" class="nav-link" data-section="map">
+                <span>📍</span> Interactive Map
+            </a>
+            <a href="#notes" class="nav-link" data-section="notes">
+                <span>📝</span> Couple's Notes
+            </a>
+            <a href="#our-song" class="nav-link" data-section="our-song">
+                <span>🎵</span> Our Songs
+            </a>
+            <a href="#our-story" class="nav-link" data-section="our-story">
+                <span>💕</span> Our Story
+            </a>
+            <a href="#memories" class="nav-link" data-section="memories">
+                <span>📸</span> Our Memories
+            </a>
+            <a href="#playlists" class="nav-link" data-section="playlists">
+                <span>🎶</span> Our Playlists
+            </a>
+            <a href="#plan" class="nav-link" data-section="plan">
+                <span>✈️</span> Plan Your Trip
+            </a>
+            <a href="#weather" class="nav-link" data-section="weather">
+                <span>🌤️</span> Weather
+            </a>
+        </div>
+    </nav>
 
     <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center" role="navigation" aria-label="Main navigation">
@@ -1527,15 +2001,15 @@
     <main>
         <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center" role="banner">
             <div class="container mx-auto hero-content">
-                <div class="countdown-container max-w-md mx-auto mb-8">
+                <div class="cohesive-card max-w-md mx-auto mb-8 p-6 bg-white/10 backdrop-blur-lg border-white/20">
                     <div class="text-center">
-                        <div class="countdown-number" id="countdown-days" aria-live="polite">6</div>
-                        <div class="countdown-label">Days Until Our Trip</div>
+                        <div class="countdown-number text-4xl font-bold text-white mb-2" id="countdown-days" aria-live="polite">6</div>
+                        <div class="countdown-label text-white/80 font-medium">Days Until Our Trip</div>
                         <p class="text-sm mt-2 text-white/60">Providence awaits us on July 11th at 4 PM! 💕</p>
                     </div>
                 </div>
                 
-                <h1 class="hero-title text-5xl md:text-7xl font-bold mb-6 text-white">
+                <h1 class="hero-title text-5xl md:text-7xl font-bold mb-6 text-white font-display">
                     Your Perfect Anniversary Escape
                 </h1>
                 <p class="hero-subtitle text-xl md:text-2xl max-w-4xl mx-auto text-white/90 mb-8 leading-relaxed">
@@ -1545,10 +2019,10 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <button class="cta-button" onclick="scrollToSection('itinerary')" aria-label="Go to itinerary section">
+                    <button class="cohesive-btn cohesive-btn-primary text-lg px-8 py-4" onclick="scrollToSection('itinerary')" aria-label="Go to itinerary section">
                         ✨ Start Planning Our Adventure
                     </button>
-                    <button class="btn-secondary px-6 py-3 rounded-full" onclick="showLoveNote()" aria-label="Send a romantic love note">
+                    <button class="cohesive-btn cohesive-btn-secondary text-lg px-8 py-4" onclick="showLoveNote()" aria-label="Send a romantic love note">
                         💌 Send a Love Note
                     </button>
                 </div>
@@ -1563,24 +2037,27 @@
         <!-- One Stop Shop Features -->
         <section class="py-12 bg-gradient-to-r from-[#FDF8F0] to-[#EAE0D5]">
             <div class="container mx-auto px-6 max-w-4xl">
-                <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 text-[#433A3F]">Everything You Need in One Place</h2>
+                <div class="cohesive-section-header">
+                    <h2 class="cohesive-section-title">Everything You Need in One Place</h2>
+                    <p class="cohesive-section-subtitle">Seamless planning for your perfect romantic getaway</p>
+                </div>
                 <div class="grid md:grid-cols-4 gap-6 text-center">
-                    <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                    <div class="cohesive-card p-6 bg-white/80 backdrop-blur-sm">
                         <div class="text-3xl mb-2">🗺️</div>
                         <h3 class="font-semibold text-[#433A3F] mb-1">Instant Directions</h3>
                         <p class="text-sm text-[#433A3F]/70">One-click Google Maps directions to every location</p>
                     </div>
-                    <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                    <div class="cohesive-card p-6 bg-white/80 backdrop-blur-sm">
                         <div class="text-3xl mb-2">🚗</div>
                         <h3 class="font-semibold text-[#433A3F] mb-1">Uber Integration</h3>
                         <p class="text-sm text-[#433A3F]/70">Direct Uber links for effortless transportation</p>
                     </div>
-                    <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                    <div class="cohesive-card p-6 bg-white/80 backdrop-blur-sm">
                         <div class="text-3xl mb-2">🎉</div>
                         <h3 class="font-semibold text-[#433A3F] mb-1">Restaurant Week</h3>
                         <p class="text-sm text-[#433A3F]/70">Your trip perfectly aligns with Providence Restaurant Week specials</p>
                     </div>
-                    <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-sm">
+                    <div class="cohesive-card p-6 bg-white/80 backdrop-blur-sm">
                         <div class="text-3xl mb-2">💕</div>
                         <h3 class="font-semibold text-[#433A3F] mb-1">Our Love Story</h3>
                         <p class="text-sm text-[#433A3F]/70">Complete Facebook Dating chat history and memories</p>
@@ -1607,10 +2084,12 @@
 
         <section id="itinerary" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Your Itinerary</h2>
-                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
-                    This suggested timeline blends romance, culture, and culinary delights into a perfect anniversary weekend. We've structured the plan day by day, but feel free to mix and match based on your mood. Click the tabs to switch between days.
-                </p>
+                <div class="cohesive-section-header">
+                    <h2 class="cohesive-section-title">Your Itinerary</h2>
+                    <p class="cohesive-section-subtitle">
+                        This suggested timeline blends romance, culture, and culinary delights into a perfect anniversary weekend. We've structured the plan day by day, but feel free to mix and match based on your mood.
+                    </p>
+                </div>
                 <div class="border-b border-gray-200">
                     <nav class="-mb-px flex justify-center space-x-6" aria-label="Tabs">
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-tab="day1">Friday, July 11</button>
@@ -1622,16 +2101,16 @@
                 
                 <!-- Itinerary Management Controls -->
                 <div class="flex flex-wrap justify-center gap-4 my-8">
-                    <button id="toggle-edit-mode" class="px-4 py-2 rounded-full text-white font-medium transition-colors" style="background-color: #433A3F;">
+                    <button id="toggle-edit-mode" class="cohesive-btn cohesive-btn-outline">
                         <span>✏️</span> Edit Mode
                     </button>
-                    <button id="add-item-btn" class="bg-[#C07F63] text-white px-4 py-2 rounded-full font-medium hover:bg-[#A9684C] transition-colors">
+                    <button id="add-item-btn" class="cohesive-btn cohesive-btn-primary">
                         ➕ Add Activity
                     </button>
-                    <button id="save-itinerary" class="bg-green-600 text-white px-4 py-2 rounded-full font-medium hover:bg-green-700 transition-colors">
+                    <button id="save-itinerary" class="cohesive-btn cohesive-btn-secondary bg-green-600 text-white hover:bg-green-700">
                         💾 Save Changes
                     </button>
-                    <button id="reset-itinerary" class="bg-red-600 text-white px-4 py-2 rounded-full font-medium hover:bg-red-700 transition-colors">
+                    <button id="reset-itinerary" class="cohesive-btn cohesive-btn-secondary bg-red-600 text-white hover:bg-red-700">
                         🔄 Reset to Default
                     </button>
                 </div>
@@ -1643,16 +2122,18 @@
 
         <section id="explore" class="py-16 md:py-24 bg-[#EAE0D5]">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Explore Providence</h2>
-                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
-                    Discover all the romantic possibilities Providence has to offer. Use the filters to find the perfect spots for your celebration, from intimate dining to scenic tours. Each location includes direct links to menus, directions, and Uber for effortless planning.
-                </p>
+                <div class="cohesive-section-header">
+                    <h2 class="cohesive-section-title">Explore Providence</h2>
+                    <p class="cohesive-section-subtitle">
+                        Discover all the romantic possibilities Providence has to offer. Use the filters to find the perfect spots for your celebration, from intimate dining to scenic tours. Each location includes direct links to menus, directions, and Uber for effortless planning.
+                    </p>
+                </div>
                 <div class="flex justify-center flex-wrap gap-2 mb-12">
-                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full active" data-filter="all">All</button>
-                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Dining">Dining</button>
-                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Tour">Tours</button>
-                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Culture">Culture</button>
-                    <button class="btn-filter btn-secondary px-4 py-2 rounded-full" data-filter="Outdoor">Outdoor</button>
+                    <button class="btn-filter cohesive-btn cohesive-btn-secondary active" data-filter="all">All</button>
+                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Dining">Dining</button>
+                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Tour">Tours</button>
+                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Culture">Culture</button>
+                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Outdoor">Outdoor</button>
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="explore-grid">
@@ -1728,32 +2209,32 @@
         <!-- Providence Restaurant Week Section -->
         <section id="restaurant-week" class="py-16 md:py-24 bg-gradient-to-br from-[#FDF8F0] to-[#F5E6D3]">
             <div class="container mx-auto px-6 max-w-6xl">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-[#433A3F] mb-4">🍽️ Providence Restaurant Week</h2>
-                    <p class="text-xl text-[#C07F63] font-semibold mb-2">July 6-19, 2025</p>
-                    <p class="text-lg max-w-3xl mx-auto text-[#433A3F]/80">
+                <div class="cohesive-section-header">
+                    <h2 class="cohesive-section-title">🍽️ Providence Restaurant Week</h2>
+                    <p class="text-xl text-[#C07F63] font-semibold mb-4">July 6-19, 2025</p>
+                    <p class="cohesive-section-subtitle">
                         Perfect timing! Your anniversary trip falls right during Providence Restaurant Week, featuring over 60 participating restaurants with special prix fixe menus and exclusive deals. This biannual event is formally presented by GoProvidence and includes restaurants throughout Providence and surrounding Rhode Island communities.
                     </p>
                 </div>
 
                 <!-- Event Highlights -->
                 <div class="grid md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg">
+                    <div class="cohesive-card p-6 text-center bg-white/80 backdrop-blur-sm">
                         <div class="text-4xl mb-4">📅</div>
                         <h3 class="text-xl font-bold text-[#433A3F] mb-2">Perfect Timing</h3>
                         <p class="text-[#433A3F]/70">Your July 11-14 trip falls perfectly within Restaurant Week dates</p>
                     </div>
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg">
+                    <div class="cohesive-card p-6 text-center bg-white/80 backdrop-blur-sm">
                         <div class="text-4xl mb-4">🍴</div>
                         <h3 class="text-xl font-bold text-[#433A3F] mb-2">60+ Restaurants</h3>
                         <p class="text-[#433A3F]/70">Amazing variety from Italian comfort food to modern American cuisine</p>
                     </div>
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg">
+                    <div class="cohesive-card p-6 text-center bg-white/80 backdrop-blur-sm">
                         <div class="text-4xl mb-4">💰</div>
                         <h3 class="text-xl font-bold text-[#433A3F] mb-2">Special Pricing</h3>
                         <p class="text-[#433A3F]/70">Prix fixe menus starting from $30-60 for multi-course meals</p>
                     </div>
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg">
+                    <div class="cohesive-card p-6 text-center bg-white/80 backdrop-blur-sm">
                         <div class="text-4xl mb-4">🎯</div>
                         <h3 class="text-xl font-bold text-[#433A3F] mb-2">GoProvidence</h3>
                         <p class="text-[#433A3F]/70">Officially presented by GoProvidence with winter events too</p>
@@ -1805,15 +2286,15 @@
 
                     <!-- Filter Buttons -->
                     <div class="flex justify-center flex-wrap gap-3 mb-8">
-                        <button class="restaurant-filter bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors active" data-category="all">All Restaurants (60+)</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="romantic">💕 Most Romantic</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="premium">💎 Premium ($55+)</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="moderate">💰 Value ($30-55)</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="italian">🍝 Italian</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="steakhouse">🥩 Steakhouse</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="seafood">🦞 Seafood</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="american">🇺🇸 American</button>
-                        <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="food-hall">🏢 Food Hall</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-primary active" data-category="all">All Restaurants (60+)</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="romantic">💕 Most Romantic</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="premium">💎 Premium ($55+)</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="moderate">💰 Value ($30-55)</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="italian">🍝 Italian</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="steakhouse">🥩 Steakhouse</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="seafood">🦞 Seafood</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="american">🇺🇸 American</button>
+                        <button class="restaurant-filter cohesive-btn cohesive-btn-outline" data-category="food-hall">🏢 Food Hall</button>
                     </div>
 
                     <!-- Enhanced Filtering & Sorting Options -->
@@ -1939,7 +2420,7 @@
                         <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">💎 Premium Anniversary Experiences ($55+)</h4>
                         <div class="grid md:grid-cols-2 gap-6">
                             <!-- Gracie's - CONFIRMED EXTENDED MENU -->
-                            <div class="restaurant-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 p-6" data-categories="premium american romantic">
+                            <div class="cohesive-card restaurant-card p-6" data-categories="premium american romantic">
                                 <div class="flex justify-between items-start mb-3">
                                     <h5 class="font-bold text-[#433A3F] text-lg">🌟 Gracie's</h5>
                                     <div class="flex gap-1">
@@ -3328,12 +3809,12 @@
 
         <section id="notes" class="py-16 md:py-24 bg-gradient-to-br from-[#EAE0D5] to-[#F5E6D3]">
             <div class="container mx-auto px-6 max-w-6xl">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#433A3F]">💝 Couple's Notes & Memories</h2>
-                    <p class="text-lg max-w-3xl mx-auto mb-6 text-[#433A3F]/80">
+                <div class="cohesive-section-header">
+                    <h2 class="cohesive-section-title">💝 Couple's Notes & Memories</h2>
+                    <p class="cohesive-section-subtitle">
                         Create a beautiful digital journal of your Providence anniversary weekend. Capture thoughts, upload photos, and preserve every special moment.
                     </p>
-                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 max-w-2xl mx-auto border border-[#C07F63]/20">
+                    <div class="cohesive-card p-4 max-w-2xl mx-auto bg-white/80 backdrop-blur-sm border-[#C07F63]/20 mt-6">
                         <p class="text-sm text-[#433A3F]/70 flex items-center justify-center">
                             <span class="text-lg mr-2">✨</span>
                             All your notes and photos are saved automatically in your browser
@@ -3877,10 +4358,12 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
 
         <section id="our-song" class="our-song-section py-16 md:py-24 relative">
             <div class="container mx-auto px-6 max-w-6xl relative z-10">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Our Songs & Memories</h2>
-                <p class="text-center text-lg max-w-3xl mx-auto mb-8 text-white/90">
-                    Every love story has a soundtrack. These are the songs that capture our journey and set the mood for our romantic Providence adventure.
-                </p>
+                <div class="cohesive-section-header">
+                    <h2 class="cohesive-section-title text-white">Our Songs & Memories</h2>
+                    <p class="cohesive-section-subtitle text-white/90">
+                        Every love story has a soundtrack. These are the songs that capture our journey and set the mood for our romantic Providence adventure.
+                    </p>
+                </div>
 
                 <!-- Music Service Connection Status -->
                 <div class="flex justify-center mb-8">
@@ -9953,6 +10436,157 @@ document.addEventListener('DOMContentLoaded', function() {
         currentPlaylist = playlists[0];
         setTimeout(updateCurrentPlaylistDisplay, 1000);
     }
+
+    // 🎨 Cohesive Navigation & Progress Bar System
+    // Initialize floating navigation and progress tracking
+    initFloatingNavigation();
+    initProgressBar();
+    initSectionTransitions();
+    
+    function initFloatingNavigation() {
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const floatingNav = document.getElementById('floating-nav');
+        const navLinks = document.querySelectorAll('.floating-nav .nav-link');
+        
+        // Toggle navigation menu
+        navToggle?.addEventListener('click', () => {
+            const isHidden = navMenu.classList.contains('hidden');
+            navMenu.classList.toggle('hidden');
+            floatingNav.classList.toggle('collapsed', !isHidden);
+            navToggle.querySelector('.hamburger-icon').textContent = isHidden ? '✕' : '☰';
+        });
+        
+        // Active section tracking
+        const sections = document.querySelectorAll('section[id]');
+        
+        function updateActiveSection() {
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-section') === sectionId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Smooth scroll for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Close mobile menu after navigation
+                    navMenu.classList.add('hidden');
+                    floatingNav.classList.add('collapsed');
+                    navToggle.querySelector('.hamburger-icon').textContent = '☰';
+                }
+            });
+        });
+        
+        // Update active section on scroll
+        window.addEventListener('scroll', updateActiveSection);
+        updateActiveSection(); // Initial call
+    }
+    
+    function initProgressBar() {
+        const progressBar = document.getElementById('progress-bar');
+        
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            
+            if (progressBar) {
+                progressBar.style.width = scrolled + '%';
+            }
+        }
+        
+        window.addEventListener('scroll', updateProgressBar);
+        updateProgressBar(); // Initial call
+    }
+    
+    function initSectionTransitions() {
+        // Add intersection observer for section animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all main sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            sectionObserver.observe(section);
+        });
+        
+        // Hero section should be visible immediately
+        const heroSection = document.getElementById('hero');
+        if (heroSection) {
+            heroSection.style.opacity = '1';
+            heroSection.style.transform = 'translateY(0)';
+        }
+    }
+    
+    // Add section cross-references and visual bridges
+    function addSectionBridges() {
+        const sections = [
+            { from: 'itinerary', to: 'explore', text: '🗺️ Discover more places to explore' },
+            { from: 'explore', to: 'restaurant-week', text: '🍽️ Check out Restaurant Week specials' },
+            { from: 'restaurant-week', to: 'map', text: '📍 See all locations on the map' },
+            { from: 'map', to: 'notes', text: '📝 Plan your perfect day together' },
+            { from: 'notes', to: 'our-song', text: '🎵 Set the mood with your song' },
+            { from: 'our-song', to: 'memories', text: '📸 Capture and share your memories' },
+            { from: 'memories', to: 'playlists', text: '🎶 Create the perfect soundtrack' },
+            { from: 'playlists', to: 'plan', text: '✈️ Get all the travel details' },
+            { from: 'plan', to: 'weather', text: '🌤️ Check the forecast for your trip' }
+        ];
+        
+        sections.forEach(bridge => {
+            const fromSection = document.getElementById(bridge.from);
+            if (fromSection) {
+                const bridgeElement = document.createElement('div');
+                bridgeElement.className = 'cohesive-section-bridge';
+                bridgeElement.innerHTML = `
+                    <div class="text-center py-8 bg-gradient-to-r from-transparent via-white/50 to-transparent">
+                        <a href="#${bridge.to}" class="cohesive-btn cohesive-btn-outline">
+                            ${bridge.text}
+                        </a>
+                    </div>
+                `;
+                fromSection.appendChild(bridgeElement);
+            }
+        });
+    }
+    
+    // Initialize section bridges
+    setTimeout(addSectionBridges, 1000);
 });
 </script>
 </body>
