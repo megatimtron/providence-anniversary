@@ -1619,6 +1619,22 @@
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-tab="day4">Monday, July 14</button>
                     </nav>
                 </div>
+                
+                <!-- Itinerary Management Controls -->
+                <div class="flex flex-wrap justify-center gap-4 my-8">
+                    <button id="toggle-edit-mode" class="px-4 py-2 rounded-full text-white font-medium transition-colors" style="background-color: #433A3F;">
+                        <span>✏️</span> Edit Mode
+                    </button>
+                    <button id="add-item-btn" class="bg-[#C07F63] text-white px-4 py-2 rounded-full font-medium hover:bg-[#A9684C] transition-colors">
+                        ➕ Add Activity
+                    </button>
+                    <button id="save-itinerary" class="bg-green-600 text-white px-4 py-2 rounded-full font-medium hover:bg-green-700 transition-colors">
+                        💾 Save Changes
+                    </button>
+                    <button id="reset-itinerary" class="bg-red-600 text-white px-4 py-2 rounded-full font-medium hover:bg-red-700 transition-colors">
+                        🔄 Reset to Default
+                    </button>
+                </div>
 
                 <div id="tab-content" class="mt-12">
                 </div>
@@ -6806,9 +6822,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderItinerary(day) {
+        console.log('renderItinerary called with day:', day);
+        console.log('AppData.itinerary:', AppData.itinerary);
+        console.log('tabContainer:', tabContainer);
+        
         currentDay = day;
         const items = AppData.itinerary[day];
-        if (!items) return;
+        if (!items) {
+            console.error('No items found for day:', day);
+            return;
+        }
+        
+        console.log('Items for', day, ':', items);
         
         tabContainer.innerHTML = `
             <div class="relative max-w-2xl mx-auto" id="itinerary-timeline">
@@ -6854,17 +6879,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add drag and drop functionality if in edit mode
         if (isEditMode) {
             setupDragAndDrop();
-            setupInlineActions();
         }
     }
 
     // Setup drag and drop functionality
     function setupDragAndDrop() {
         const timeline = document.getElementById('itinerary-timeline');
+        if (!timeline) return;
+        
         let draggedElement = null;
         let draggedIndex = null;
 
-        timeline.addEventListener('dragstart', (e) => {
+        // Remove existing event listeners if any
+        const clonedTimeline = timeline.cloneNode(true);
+        timeline.parentNode.replaceChild(clonedTimeline, timeline);
+        
+        // Get the new reference
+        const newTimeline = document.getElementById('itinerary-timeline');
+
+        newTimeline.addEventListener('dragstart', (e) => {
             if (e.target.classList.contains('itinerary-item')) {
                 draggedElement = e.target;
                 draggedIndex = parseInt(e.target.dataset.index);
@@ -6873,7 +6906,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        timeline.addEventListener('dragend', (e) => {
+        newTimeline.addEventListener('dragend', (e) => {
             if (e.target.classList.contains('itinerary-item')) {
                 e.target.style.opacity = '';
                 draggedElement = null;
@@ -6881,12 +6914,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        timeline.addEventListener('dragover', (e) => {
+        newTimeline.addEventListener('dragover', (e) => {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
         });
 
-        timeline.addEventListener('drop', (e) => {
+        newTimeline.addEventListener('drop', (e) => {
             e.preventDefault();
             if (draggedElement && e.target.closest('.itinerary-item')) {
                 const dropTarget = e.target.closest('.itinerary-item');
@@ -6895,52 +6928,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (draggedIndex !== dropIndex) {
                     moveItineraryItem(currentDay, draggedIndex, dropIndex);
                     renderItinerary(currentDay);
+                    saveItinerary(); // Save after drag and drop
                 }
             }
         });
     }
 
-    // Setup inline action buttons
+    // Setup inline action buttons (called once during initialization)
     function setupInlineActions() {
-        document.addEventListener('click', (e) => {
-            if (e.target.matches('.edit-item-btn') || e.target.closest('.edit-item-btn')) {
-                const btn = e.target.closest('.edit-item-btn');
-                const index = parseInt(btn.dataset.index);
-                editItineraryItem(currentDay, index);
-            }
-            
-            if (e.target.matches('.delete-item-btn') || e.target.closest('.delete-item-btn')) {
-                const btn = e.target.closest('.delete-item-btn');
-                const index = parseInt(btn.dataset.index);
-                if (confirm('Are you sure you want to delete this activity?')) {
-                    deleteItineraryItem(currentDay, index);
-                    renderItinerary(currentDay);
-                }
-            }
-            
-            if (e.target.matches('.move-up-btn') || e.target.closest('.move-up-btn')) {
-                const btn = e.target.closest('.move-up-btn');
-                const index = parseInt(btn.dataset.index);
-                if (index > 0) {
-                    moveItineraryItem(currentDay, index, index - 1);
-                    renderItinerary(currentDay);
-                }
-            }
-            
-            if (e.target.matches('.move-down-btn') || e.target.closest('.move-down-btn')) {
-                const btn = e.target.closest('.move-down-btn');
-                const index = parseInt(btn.dataset.index);
-                const items = AppData.itinerary[currentDay];
-                if (index < items.length - 1) {
-                    moveItineraryItem(currentDay, index, index + 1);
-                    renderItinerary(currentDay);
-                }
-            }
-            
-            if (e.target.matches('.add-item-inline') || e.target.closest('.add-item-inline')) {
-                openItineraryModal();
-            }
-        });
+        // This function is now empty since event delegation is handled globally
     }
 
     // Move itinerary item
@@ -7014,6 +7010,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         renderItinerary(currentDay);
+        saveItinerary(); // Auto-save after adding/editing
         closeItineraryModal();
     }
 
@@ -7522,6 +7519,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Initial renders
+    console.log('About to call renderItinerary for day1');
     renderItinerary('day1');
     renderExploreCards();
     // renderAccordion(); // Removed - replaced with enhanced planning cards
@@ -7546,8 +7544,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Event delegation for edit/delete song buttons
+    // Event delegation for edit/delete song buttons and itinerary inline actions
     document.addEventListener('click', (e) => {
+        // Song memory buttons
         if (e.target.matches('.edit-song-btn') || e.target.closest('.edit-song-btn')) {
             const btn = e.target.closest('.edit-song-btn');
             const index = parseInt(btn.dataset.songIndex);
@@ -7559,6 +7558,48 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = e.target.closest('.delete-song-btn');
             const index = parseInt(btn.dataset.songIndex);
             deleteSongMemory(index);
+        }
+        
+        // Itinerary inline action buttons
+        if (e.target.matches('.edit-item-btn') || e.target.closest('.edit-item-btn')) {
+            const btn = e.target.closest('.edit-item-btn');
+            const index = parseInt(btn.dataset.index);
+            editItineraryItem(currentDay, index);
+        }
+        
+        if (e.target.matches('.delete-item-btn') || e.target.closest('.delete-item-btn')) {
+            const btn = e.target.closest('.delete-item-btn');
+            const index = parseInt(btn.dataset.index);
+            if (confirm('Are you sure you want to delete this activity?')) {
+                deleteItineraryItem(currentDay, index);
+                renderItinerary(currentDay);
+                saveItinerary(); // Save after deletion
+            }
+        }
+        
+        if (e.target.matches('.move-up-btn') || e.target.closest('.move-up-btn')) {
+            const btn = e.target.closest('.move-up-btn');
+            const index = parseInt(btn.dataset.index);
+            if (index > 0) {
+                moveItineraryItem(currentDay, index, index - 1);
+                renderItinerary(currentDay);
+                saveItinerary(); // Save after reordering
+            }
+        }
+        
+        if (e.target.matches('.move-down-btn') || e.target.closest('.move-down-btn')) {
+            const btn = e.target.closest('.move-down-btn');
+            const index = parseInt(btn.dataset.index);
+            const items = AppData.itinerary[currentDay];
+            if (index < items.length - 1) {
+                moveItineraryItem(currentDay, index, index + 1);
+                renderItinerary(currentDay);
+                saveItinerary(); // Save after reordering
+            }
+        }
+        
+        if (e.target.matches('.add-item-inline') || e.target.closest('.add-item-inline')) {
+            openItineraryModal();
         }
     });
     
