@@ -1,0 +1,20 @@
+# OCR and image processing files
+enhanced_images/
+enhanced_chat_images/
+video_frames/
+*.py
+*.json
+*.txt
+chat_*.html
+ocr_*.txt
+video_*.json
+extracted_*.json
+facebook_dating_transcription.txt
+final_chat_messages.html
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
