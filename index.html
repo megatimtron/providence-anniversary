@@ -182,14 +182,143 @@
             to { 
                 opacity: 1;
                 transform: translateY(0);
-            }
-        }
+            }        }
         
         /* Drag and drop visual feedback */
         .itinerary-item[style*="opacity: 0.5"] {
             transform: rotate(5deg);
             border-color: #A9684C;
         }
+
+        /* Playlist Interface Styles */
+        .playlist-creation-card, .music-search-card, .active-playlist-card {
+            transition: all 0.3s ease;
+        }
+        
+        .playlist-creation-card:hover, .music-search-card:hover, .active-playlist-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.15);
+        }
+        
+        .playlist-template {
+            transition: all 0.2s ease;
+        }
+        
+        .playlist-template:hover {
+            transform: scale(1.02);
+        }
+        
+        .service-connection-card {
+            transition: all 0.3s ease;
+        }
+        
+        .service-connection-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-connection-card .w-3.bg-green-400 {
+            background-color: #10B981;
+        }
+        
+        .service-connection-card .w-3.bg-red-400 {
+            background-color: #EF4444;
+        }
+        
+        .search-filter.active {
+            background-color: #8B5CF6;
+            color: white;
+        }
+        
+        .search-filter:not(.active):hover {
+            background-color: #E5E7EB;
+        }
+        
+        /* Playlist Card Styles */
+        .playlist-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .playlist-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.2);
+            border-color: rgba(147, 51, 234, 0.3);
+        }
+        
+        .playlist-card .playlist-cover {
+            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        /* Song Item Styles */
+        .song-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .song-item:hover {
+            background-color: rgba(147, 51, 234, 0.05);
+            transform: translateX(4px);
+        }
+        
+        .song-item .play-btn {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .song-item:hover .play-btn {
+            opacity: 1;
+        }
+        
+        /* Search Results Styles */
+        .search-result-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .search-result-item:hover {
+            background-color: rgba(147, 51, 234, 0.05);
+            transform: scale(1.01);
+        }
+        
+        /* Loading Animations */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(147, 51, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: #8B5CF6;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Playlist Grid */
+        @media (max-width: 768px) {
+            .playlist-creation-card, .music-search-card, .active-playlist-card {
+                margin-bottom: 1rem;
+            }
+            
+            .service-connection-card {
+                flex: 1;
+                min-width: 0;
+            }
+            
+            .service-connection-card span:last-child {
+                display: none;
+            }
+        }
+
         .chart-container {
             position: relative;
             margin: auto;
@@ -1227,8 +1356,152 @@
                 <a href="#our-song" class="nav-link text-lg" aria-label="Go to our songs section">Our Songs</a>
                 <a href="#our-story" class="nav-link text-lg" aria-label="Go to our story section">Our Story</a>
                 <a href="#memories" class="nav-link text-lg" aria-label="Go to our memories section">Our Memories</a>
+                <a href="#playlists" class="nav-link text-lg" aria-label="Go to our playlists section">Our Playlists 🎵</a>
                 <a href="#plan" class="nav-link text-lg" aria-label="Go to plan your trip section">Plan Your Trip</a>
                 <a href="#weather" class="nav-link text-lg" aria-label="Go to weather forecast section">Weather 🌤️</a>
+            </div>
+    
+            <!-- Create Playlist Modal -->
+            <div id="create-playlist-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-2xl font-bold text-[#433A3F] font-display">Create New Playlist</h3>
+                                <button id="close-playlist-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                            </div>
+                            
+                            <form id="create-playlist-form">
+                                <div class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#433A3F] mb-2">Playlist Name</label>
+                                        <input type="text" id="playlist-name" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="e.g., Providence Anniversary 2025" required>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#433A3F] mb-2">Description</label>
+                                        <textarea id="playlist-description" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Tell the story of this playlist..."></textarea>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#433A3F] mb-2">Playlist Type</label>
+                                        <select id="playlist-type" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                            <option value="custom">Custom Playlist</option>
+                                            <option value="dinner">Romantic Dinner</option>
+                                            <option value="travel">Road Trip Vibes</option>
+                                            <option value="adventure">Adventure Time</option>
+                                            <option value="chill">Chill & Relax</option>
+                                            <option value="dance">Dance & Party</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-medium text-[#433A3F] mb-2">Collaboration</label>
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox" id="playlist-collaborative" class="w-4 h-4 text-purple-500 border-gray-300 rounded focus:ring-purple-500">
+                                            <label for="playlist-collaborative" class="text-[#433A3F]">Allow your partner to edit this playlist</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl">
+                                        <h4 class="font-semibold text-[#433A3F] mb-2">🎯 Suggested Starter Songs</h4>
+                                        <div class="space-y-2" id="suggested-songs">
+                                            <!-- Will be populated based on playlist type -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-end gap-3 mt-8">
+                                    <button type="button" id="cancel-playlist-modal" class="px-6 py-3 text-gray-600 border border-gray-300 rounded-xl hover:bg-gray-50 font-medium">Cancel</button>
+                                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 font-medium">Create Playlist</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Music Service OAuth Modal -->
+            <div id="oauth-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-[#433A3F]" id="oauth-title">Connect Music Service</h3>
+                                <button id="close-oauth-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                            </div>
+                            
+                            <div class="text-center" id="oauth-content">
+                                <div class="text-6xl mb-4" id="oauth-icon">🎵</div>
+                                <h4 class="text-lg font-semibold text-[#433A3F] mb-2" id="oauth-service-name">Spotify</h4>
+                                <p class="text-[#433A3F]/70 mb-6" id="oauth-description">
+                                    Connect your Spotify account to search millions of songs and create collaborative playlists.
+                                </p>
+                                
+                                <div class="space-y-4">
+                                    <button id="oauth-connect-btn" class="w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition-colors">
+                                        🎵 Connect with Spotify
+                                    </button>
+                                    
+                                    <div class="text-sm text-[#433A3F]/60">
+                                        <p>✓ Search and preview songs</p>
+                                        <p>✓ Create and sync playlists</p>
+                                        <p>✓ Share with your partner</p>
+                                    </div>
+                                    
+                                    <p class="text-xs text-[#433A3F]/50">
+                                        We'll redirect you to Spotify for secure authentication. Your credentials are never stored on our servers.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Playlist Sharing Modal -->
+            <div id="share-playlist-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-xl font-bold text-[#433A3F]">Share Playlist</h3>
+                                <button id="close-share-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                            </div>
+                            
+                            <div class="text-center">
+                                <div class="text-4xl mb-4">🔗</div>
+                                <h4 class="text-lg font-semibold text-[#433A3F] mb-2" id="share-playlist-name">My Playlist</h4>
+                                <p class="text-[#433A3F]/70 mb-6">Share this playlist with your partner or friends</p>
+                                
+                                <div class="space-y-4">
+                                    <div class="bg-gray-50 p-3 rounded-xl">
+                                        <label class="block text-sm font-medium text-[#433A3F] mb-2">Share Link</label>
+                                        <div class="flex gap-2">
+                                            <input type="text" id="share-link" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-white" readonly>
+                                            <button id="copy-link-btn" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                                                📋 Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2">
+                                        <button class="flex-1 bg-blue-500 text-white py-3 rounded-xl font-medium hover:bg-blue-600 transition-colors">
+                                            📱 Text
+                                        </button>
+                                        <button class="flex-1 bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors">
+                                            📧 Email
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="text-sm text-[#433A3F]/60">
+                                        <p>👫 Collaborative editing: <span class="font-medium" id="collab-status">Enabled</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="md:hidden">
                 <button id="menu-btn" class="focus:outline-none" aria-label="Toggle mobile menu" aria-expanded="false">
@@ -1245,6 +1518,7 @@
             <a href="#our-song" class="block py-2 nav-link" role="menuitem">Our Songs</a>
             <a href="#our-story" class="block py-2 nav-link" role="menuitem">Our Story</a>
             <a href="#memories" class="block py-2 nav-link" role="menuitem">Our Memories</a>
+            <a href="#playlists" class="block py-2 nav-link" role="menuitem">Our Playlists 🎵</a>
             <a href="#plan" class="block py-2 nav-link" role="menuitem">Plan Your Trip</a>
             <a href="#weather" class="block py-2 nav-link" role="menuitem">Weather 🌤️</a>
         </div>
@@ -3522,7 +3796,7 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                                 <span class="w-2 h-2 bg-red-400 rounded-full"></span>
                                 <span>YouTube Music</span>
                             </div>
-                            <button class="connect-services-btn bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors">
+                            <button class="connect-services-btn bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors" onclick="showMusicServicesModal()">
                                 Connect Music Services
                             </button>
                         </div>
@@ -3828,6 +4102,339 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                     <p class="text-[#433A3F]/80 max-w-2xl mx-auto">
                         These photos and videos represent just a glimpse of the magic we experienced together. Every corner of Providence holds a special memory from our anniversary celebration.
                     </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Playlists Section - Phase 2 Implementation -->
+        <section id="playlists" class="py-16 md:py-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 relative overflow-hidden">
+            <!-- Animated musical background elements -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-20 left-20 text-6xl animate-pulse">🎵</div>
+                <div class="absolute top-40 right-32 text-4xl animate-bounce delay-300">🎶</div>
+                <div class="absolute bottom-40 left-1/4 text-5xl animate-pulse delay-700">🎤</div>
+                <div class="absolute bottom-20 right-1/4 text-3xl animate-bounce delay-1000">🎧</div>
+                <div class="absolute top-1/2 left-10 text-4xl animate-pulse delay-500">🎹</div>
+                <div class="absolute top-1/3 right-10 text-3xl animate-bounce delay-800">🎸</div>
+            </div>
+            
+            <div class="container mx-auto px-6 max-w-6xl relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white font-display">
+                        🎵 Our Playlists 🎵
+                    </h2>
+                    <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                        Create the perfect soundtrack for every moment of your Providence anniversary. From romantic dinners to adventurous explorations - build collaborative playlists that capture the magic of your love story.
+                    </p>
+                </div>
+
+                <!-- Music Service Connection Status -->
+                <div class="flex justify-center mb-12">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <h3 class="text-lg font-semibold text-white mb-4 text-center">🔗 Connect Your Music Services</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <!-- Spotify Connection -->
+                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-green-400/50 transition-colors cursor-pointer" onclick="connectMusicService('spotify')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">🎵</div>
+                                    <h4 class="font-semibold text-white mb-2">Spotify</h4>
+                                    <div class="flex items-center justify-center gap-2 mb-3">
+                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="spotify-status"></span>
+                                        <span class="text-white/80 text-sm" id="spotify-status-text">Not Connected</span>
+                                    </div>
+                                    <button class="bg-green-500 text-white px-4 py-2 rounded-full text-sm hover:bg-green-600 transition-colors w-full">
+                                        Connect
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- YouTube Music Connection -->
+                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-red-400/50 transition-colors cursor-pointer" onclick="connectMusicService('youtube')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">📺</div>
+                                    <h4 class="font-semibold text-white mb-2">YouTube Music</h4>
+                                    <div class="flex items-center justify-center gap-2 mb-3">
+                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="youtube-status"></span>
+                                        <span class="text-white/80 text-sm" id="youtube-status-text">Not Connected</span>
+                                    </div>
+                                    <button class="bg-red-500 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600 transition-colors w-full">
+                                        Connect
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Apple Music Connection -->
+                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-gray-400/50 transition-colors cursor-pointer" onclick="connectMusicService('apple')">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-3">🍎</div>
+                                    <h4 class="font-semibold text-white mb-2">Apple Music</h4>
+                                    <div class="flex items-center justify-center gap-2 mb-3">
+                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="apple-status"></span>
+                                        <span class="text-white/80 text-sm" id="apple-status-text">Not Connected</span>
+                                    </div>
+                                    <button class="bg-gray-600 text-white px-4 py-2 rounded-full text-sm hover:bg-gray-700 transition-colors w-full">
+                                        Connect
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playlist Management Interface -->
+                <div class="grid lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Create New Playlist Card -->
+                    <div class="playlist-creation-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center hover:border-purple-400/50 transition-all duration-300 cursor-pointer" onclick="openCreatePlaylistModal()">
+                        <div class="text-6xl mb-4">➕</div>
+                        <h3 class="text-xl font-bold text-white mb-2">Create New Playlist</h3>
+                        <p class="text-white/80 text-sm mb-6">Start building the perfect soundtrack for your Providence adventure</p>
+                        <button class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors">
+                            🎵 Create Playlist
+                        </button>
+                    </div>
+
+                    <!-- Music Search Card -->
+                    <div class="music-search-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="text-center mb-6">
+                            <div class="text-4xl mb-4">🔍</div>
+                            <h3 class="text-xl font-bold text-white mb-2">Search Music</h3>
+                            <p class="text-white/80 text-sm">Find the perfect songs across all connected services</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="relative">
+                                <input type="text" id="music-search-input" placeholder="Search for songs, artists, or albums..." class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-purple-400 focus:outline-none">
+                                <button id="music-search-btn" class="absolute right-2 top-2 bg-purple-500 text-white p-2 rounded-lg hover:bg-purple-600 transition-colors">
+                                    🔍
+                                </button>
+                            </div>
+                            
+                            <div id="music-search-results" class="hidden">
+                                <div class="bg-white/5 rounded-xl p-4 max-h-64 overflow-y-auto">
+                                    <h4 class="text-white font-semibold mb-3">Search Results</h4>
+                                    <div id="search-results-list" class="space-y-2">
+                                        <!-- Search results will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Playlist Card -->
+                    <div class="active-playlist-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="text-center mb-6">
+                            <div class="text-4xl mb-4">🎼</div>
+                            <h3 class="text-xl font-bold text-white mb-2">Now Playing</h3>
+                            <p class="text-white/80 text-sm">Currently editing: <span id="current-playlist-name">Providence Anniversary</span></p>
+                        </div>
+                        
+                        <div class="space-y-3" id="current-playlist-songs">
+                            <div class="song-item bg-white/5 rounded-lg p-3 flex items-center justify-between">
+                                <div>
+                                    <div class="text-white font-medium text-sm">Burning Blue</div>
+                                    <div class="text-white/60 text-xs">Mariah the Scientist</div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-white/60 hover:text-white text-sm">▶️</button>
+                                    <button class="text-white/60 hover:text-white text-sm">❌</button>
+                                </div>
+                            </div>
+                            
+                            <div class="song-item bg-white/5 rounded-lg p-3 flex items-center justify-between">
+                                <div>
+                                    <div class="text-white font-medium text-sm">Little Things</div>
+                                    <div class="text-white/60 text-xs">Ella Mai</div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="text-white/60 hover:text-white text-sm">▶️</button>
+                                    <button class="text-white/60 hover:text-white text-sm">❌</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors w-full">
+                                🔀 Shuffle & Play
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playlist Templates Section -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🎯 Curated Playlist Templates</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Romantic Dinner Template -->
+                        <div class="playlist-template bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-xl p-6 border border-white/20 hover:border-red-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('dinner')">
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🍽️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Romantic Dinner</h4>
+                                <p class="text-white/80 text-sm mb-4">Smooth jazz, soul, and intimate vocals for your special evening</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 12 hand-picked songs</p>
+                                    <p>• 45 min duration</p>
+                                    <p>• Perfect for Gracie's</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Adventure Time Template -->
+                        <div class="playlist-template bg-gradient-to-br from-orange-500/20 to-yellow-500/20 rounded-xl p-6 border border-white/20 hover:border-orange-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('adventure')">
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🚀</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Adventure Time</h4>
+                                <p class="text-white/80 text-sm mb-4">Upbeat tracks for exploring Providence together</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 15 energetic songs</p>
+                                    <p>• 55 min duration</p>
+                                    <p>• Walking & sightseeing</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chill & Relax Template -->
+                        <div class="playlist-template bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-white/20 hover:border-blue-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('chill')">
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🌊</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Chill & Relax</h4>
+                                <p class="text-white/80 text-sm mb-4">Mellow vibes for quiet moments and sunset walks</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 10 soothing songs</p>
+                                    <p>• 35 min duration</p>
+                                    <p>• Waterfront strolls</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Road Trip Template -->
+                        <div class="playlist-template bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-white/20 hover:border-green-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('roadtrip')">
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🚗</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Road Trip Vibes</h4>
+                                <p class="text-white/80 text-sm mb-4">Feel-good classics for the journey to and from Providence</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 20 classic hits</p>
+                                    <p>• 80 min duration</p>
+                                    <p>• Car singalongs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Your Playlists Grid -->
+                <div class="mb-12">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-2xl font-bold text-white">📚 Your Playlists</h3>
+                        <div class="flex gap-3">
+                            <button class="bg-white/10 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                🔄 Sync All
+                            </button>
+                            <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" onclick="openCreatePlaylistModal()">
+                                ➕ New Playlist
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="playlists-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Existing Playlists will be populated here -->
+                        <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-purple-400/50 transition-all duration-300">
+                            <div class="playlist-cover bg-gradient-to-br from-purple-500 to-pink-500 h-48 flex items-center justify-center">
+                                <div class="text-6xl">💕</div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold text-white mb-1">Providence Anniversary 2025</h4>
+                                <p class="text-white/70 text-sm mb-2">Our romantic weekend soundtrack</p>
+                                <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                                    <span>12 songs • 48 min</span>
+                                    <span>👫 Collaborative</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('providence-2025')">
+                                        🔗
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                        ⋯
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-red-400/50 transition-all duration-300">
+                            <div class="playlist-cover bg-gradient-to-br from-red-500 to-orange-500 h-48 flex items-center justify-center">
+                                <div class="text-6xl">🍽️</div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold text-white mb-1">Dinner at Gracie's</h4>
+                                <p class="text-white/70 text-sm mb-2">Smooth jazz for our special evening</p>
+                                <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                                    <span>8 songs • 32 min</span>
+                                    <span>🎵 Jazz & Soul</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm hover:bg-red-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('gracies-dinner')">
+                                        🔗
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                        ⋯
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-blue-400/50 transition-all duration-300">
+                            <div class="playlist-cover bg-gradient-to-br from-blue-500 to-cyan-500 h-48 flex items-center justify-center">
+                                <div class="text-6xl">⛵</div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold text-white mb-1">Waterfront Walks</h4>
+                                <p class="text-white/70 text-sm mb-2">Chill vibes for seaside strolls</p>
+                                <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                                    <span>15 songs • 58 min</span>
+                                    <span>🌊 Chill</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('waterfront-walks')">
+                                        🔗
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                        ⋯
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collaboration Features -->
+                <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-8 border border-white/20">
+                    <h3 class="text-2xl font-bold text-white text-center mb-6">👫 Collaborative Music Magic</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">🔄</div>
+                            <h4 class="text-lg font-semibold text-white mb-2">Real-Time Sync</h4>
+                            <p class="text-white/80 text-sm">Both partners can add songs simultaneously. Changes appear instantly for a truly collaborative experience.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">🎯</div>
+                            <h4 class="text-lg font-semibold text-white mb-2">Smart Suggestions</h4>
+                            <p class="text-white/80 text-sm">AI-powered recommendations based on both your music tastes and Providence activities.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">💌</div>
+                            <h4 class="text-lg font-semibold text-white mb-2">Song Stories</h4>
+                            <p class="text-white/80 text-sm">Add romantic memories and stories to each song, creating a musical diary of your love.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -5176,6 +5783,423 @@ function updateLocationInfoPanel(location) {
 }
 
 // ...existing code...
+
+    // Collaborative Playlist Builder (Phase 2)
+    let playlists = [];
+    let currentPlaylist = null;
+    let connectedServices = {
+        spotify: { connected: false, token: null },
+        youtube: { connected: false, token: null },
+        qobuz: { connected: false, credentials: null }
+    };
+    let searchCache = {};
+
+    // Load playlists from localStorage
+    function loadPlaylists() {
+        const saved = localStorage.getItem('providence-playlists');
+        if (saved) {
+            try {
+                playlists = JSON.parse(saved);
+                renderPlaylistsGrid();
+            } catch (e) {
+                console.warn('Failed to load saved playlists:', e);
+            }
+        }
+    }
+
+    // Save playlists to localStorage
+    function savePlaylists() {
+        try {
+            localStorage.setItem('providence-playlists', JSON.stringify(playlists));
+            showNotification('Playlists saved successfully!', 'success');
+        } catch (e) {
+            showNotification('Failed to save playlists. Please try again.', 'error');
+        }
+    }
+
+    // Load connected services status
+    function loadConnectedServices() {
+        const saved = localStorage.getItem('providence-music-services');
+        if (saved) {
+            try {
+                connectedServices = { ...connectedServices, ...JSON.parse(saved) };
+                updateServiceConnectionStatus();
+            } catch (e) {
+                console.warn('Failed to load service connections:', e);
+            }
+        }
+    }
+
+    // Save connected services
+    function saveConnectedServices() {
+        try {
+            localStorage.setItem('providence-music-services', JSON.stringify(connectedServices));
+        } catch (e) {
+            console.warn('Failed to save service connections:', e);
+        }
+    }
+
+    // Update service connection status UI
+    function updateServiceConnectionStatus() {
+        const services = ['spotify', 'youtube', 'qobuz'];
+        services.forEach(service => {
+            const statusEl = document.getElementById(`${service}-status`);
+            if (statusEl) {
+                statusEl.className = `w-3 h-3 rounded-full ${connectedServices[service].connected ? 'bg-green-400' : 'bg-red-400'}`;
+            }
+        });
+    }
+
+    // Render playlists grid
+    function renderPlaylistsGrid() {
+        const grid = document.getElementById('playlists-grid');
+        if (!grid) return;
+
+        if (playlists.length === 0) {
+            grid.innerHTML = `
+                <div class="empty-playlists text-center py-12 col-span-full">
+                    <div class="text-6xl mb-4">🎼</div>
+                    <h4 class="text-xl font-semibold text-[#433A3F] mb-2">No playlists yet</h4>
+                    <p class="text-[#433A3F]/70 mb-6">Create your first romantic playlist to get started!</p>
+                    <button class="create-first-playlist bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-600 hover:to-pink-600 transition-all">
+                        Create Your First Playlist
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = playlists.map((playlist, index) => `
+            <div class="playlist-card rounded-2xl p-6 cursor-pointer" data-playlist-index="${index}">
+                <div class="playlist-cover w-full h-32 rounded-xl mb-4">
+                    ${getPlaylistEmoji(playlist.type)}
+                </div>
+                <h4 class="font-bold text-[#433A3F] mb-2 truncate">${playlist.name}</h4>
+                <p class="text-[#433A3F]/70 text-sm mb-3 line-clamp-2">${playlist.description || 'No description'}</p>
+                <div class="flex items-center justify-between text-sm text-[#433A3F]/60">
+                    <span>${playlist.songs.length} songs</span>
+                    <span class="flex items-center gap-1">
+                        ${playlist.collaborative ? '<span title="Collaborative">👫</span>' : '<span title="Private">🔒</span>'}
+                        ${playlist.type !== 'custom' ? `<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">${playlist.type}</span>` : ''}
+                    </span>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button class="play-playlist-btn flex-1 bg-green-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-green-600 transition-colors" data-playlist-index="${index}">
+                        ▶️ Play
+                    </button>
+                    <button class="edit-playlist-btn bg-gray-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-gray-600 transition-colors" data-playlist-index="${index}">
+                        ✏️
+                    </button>
+                    <button class="share-playlist-btn bg-blue-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors" data-playlist-index="${index}">
+                        🔗
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Get emoji for playlist type
+    function getPlaylistEmoji(type) {
+        const emojis = {
+            custom: '🎵',
+            dinner: '🍽️',
+            travel: '🚗',
+            adventure: '⛵',
+            chill: '🌙',
+            dance: '💃'
+        };
+        return emojis[type] || '🎵';
+    }
+
+    // Open create playlist modal
+    function openCreatePlaylistModal(template = null) {
+        const modal = document.getElementById('create-playlist-modal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        
+        if (template) {
+            document.getElementById('playlist-type').value = template;
+            updateSuggestedSongs(template);
+        }
+    }
+
+    // Close create playlist modal
+    function closeCreatePlaylistModal() {
+        const modal = document.getElementById('create-playlist-modal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        document.getElementById('create-playlist-form').reset();
+    }
+
+    // Update suggested songs based on playlist type
+    function updateSuggestedSongs(type) {
+        const suggestions = {
+            dinner: [
+                { title: 'The Way You Look Tonight', artist: 'Frank Sinatra' },
+                { title: 'At Last', artist: 'Etta James' },
+                { title: 'La Vie En Rose', artist: 'Édith Piaf' }
+            ],
+            travel: [
+                { title: 'Life is a Highway', artist: 'Tom Cochrane' },
+                { title: 'Born to Be Wild', artist: 'Steppenwolf' },
+                { title: 'Take Me Home, Country Roads', artist: 'John Denver' }
+            ],
+            adventure: [
+                { title: 'Adventure of a Lifetime', artist: 'Coldplay' },
+                { title: 'Roar', artist: 'Katy Perry' },
+                { title: 'High Hopes', artist: 'Panic! At The Disco' }
+            ],
+            chill: [
+                { title: 'Stay', artist: 'Rihanna' },
+                { title: 'Golden', artist: 'Harry Styles' },
+                { title: 'Breathe', artist: 'Telepopmusik' }
+            ],
+            dance: [
+                { title: 'Uptown Funk', artist: 'Mark Ronson ft. Bruno Mars' },
+                { title: 'Can\'t Stop the Feeling!', artist: 'Justin Timberlake' },
+                { title: 'Levitating', artist: 'Dua Lipa' }
+            ]
+        };
+
+        const container = document.getElementById('suggested-songs');
+        if (suggestions[type]) {
+            container.innerHTML = suggestions[type].map(song => `
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-[#433A3F]">${song.title} - ${song.artist}</span>
+                    <button class="add-suggested-song text-purple-500 hover:text-purple-700" data-title="${song.title}" data-artist="${song.artist}">
+                        ➕
+                    </button>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = '<p class="text-sm text-[#433A3F]/60">No suggestions for this playlist type</p>';
+        }
+    }
+
+    // Handle create playlist form submission
+    function handleCreatePlaylistSubmit(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('playlist-name').value;
+        const description = document.getElementById('playlist-description').value;
+        const type = document.getElementById('playlist-type').value;
+        const collaborative = document.getElementById('playlist-collaborative').checked;
+        
+        const newPlaylist = {
+            id: Date.now().toString(),
+            name,
+            description,
+            type,
+            collaborative,
+            songs: [],
+            createdAt: new Date().toISOString(),
+            lastModified: new Date().toISOString()
+        };
+        
+        playlists.push(newPlaylist);
+        savePlaylists();
+        renderPlaylistsGrid();
+        closeCreatePlaylistModal();
+        
+        showNotification(`Playlist "${name}" created successfully!`, 'success');
+    }
+
+    // Open OAuth modal for service connection
+    function openOAuthModal(service) {
+        const modal = document.getElementById('oauth-modal');
+        const serviceInfo = {
+            spotify: {
+                icon: '🎵',
+                name: 'Spotify',
+                description: 'Connect your Spotify account to search millions of songs and create collaborative playlists.',
+                buttonText: '🎵 Connect with Spotify',
+                color: 'black'
+            },
+            youtube: {
+                icon: '📺',
+                name: 'YouTube Music',
+                description: 'Access YouTube\'s vast music library and discover new songs for your playlists.',
+                buttonText: '📺 Connect with YouTube',
+                color: 'red-600'
+            },
+            qobuz: {
+                icon: '🎧',
+                name: 'Qobuz',
+                description: 'High-quality audio streaming for audiophiles. Coming soon!',
+                buttonText: '🎧 Connect with Qobuz',
+                color: 'blue-900'
+            }
+        };
+
+        const info = serviceInfo[service];
+        document.getElementById('oauth-icon').textContent = info.icon;
+        document.getElementById('oauth-service-name').textContent = info.name;
+        document.getElementById('oauth-description').textContent = info.description;
+        document.getElementById('oauth-connect-btn').textContent = info.buttonText;
+        document.getElementById('oauth-connect-btn').className = `w-full bg-${info.color} text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition-colors`;
+        document.getElementById('oauth-connect-btn').setAttribute('data-service', service);
+
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close OAuth modal
+    function closeOAuthModal() {
+        const modal = document.getElementById('oauth-modal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    // Handle OAuth connection (placeholder)
+    function handleOAuthConnection(service) {
+        showNotification(`${service} integration coming soon! For now, you can create playlists and add songs manually.`, 'info');
+        
+        // Simulate connection for demo purposes
+        if (service !== 'qobuz') {
+            connectedServices[service].connected = true;
+            saveConnectedServices();
+            updateServiceConnectionStatus();
+            closeOAuthModal();
+            showNotification(`${service} connected! (Demo mode)`, 'success');
+        }
+    }
+
+    // Perform music search (placeholder)
+    function performMusicSearch(query, filter = 'all') {
+        const resultsContainer = document.getElementById('search-results');
+        
+        if (!query.trim()) {
+            resultsContainer.innerHTML = `
+                <div class="text-center text-[#433A3F]/60 py-8">
+                    <span class="text-3xl">🎵</span>
+                    <p class="mt-2">Enter a search term to find music!</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Show loading
+        resultsContainer.innerHTML = `
+            <div class="text-center py-8">
+                <div class="loading-spinner mx-auto mb-4"></div>
+                <p class="text-[#433A3F]/60">Searching for "${query}"...</p>
+            </div>
+        `;
+
+        // Simulate search results (replace with actual API calls)
+        setTimeout(() => {
+            const mockResults = [
+                {
+                    id: '1',
+                    title: query,
+                    artist: 'Various Artists',
+                    album: 'Search Results',
+                    platform: 'spotify',
+                    duration: '3:45',
+                    preview_url: null
+                },
+                {
+                    id: '2',
+                    title: `${query} (Acoustic Version)`,
+                    artist: 'Indie Artist',
+                    album: 'Acoustic Sessions',
+                    platform: 'youtube',
+                    duration: '4:12',
+                    preview_url: null
+                }
+            ];
+
+            renderSearchResults(mockResults, query);
+        }, 1000);
+    }
+
+    // Render search results
+    function renderSearchResults(results, query) {
+        const container = document.getElementById('search-results');
+        
+        if (results.length === 0) {
+            container.innerHTML = `
+                <div class="text-center text-[#433A3F]/60 py-8">
+                    <span class="text-3xl">😔</span>
+                    <p class="mt-2">No results found for "${query}"</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = results.map(song => `
+            <div class="search-result-item flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center text-white font-semibold">
+                    ${song.platform === 'spotify' ? '🎵' : '📺'}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="font-semibold text-[#433A3F] truncate">${song.title}</h4>
+                    <p class="text-sm text-[#433A3F]/70 truncate">${song.artist} • ${song.album}</p>
+                    <p class="text-xs text-[#433A3F]/50">${song.duration} • ${song.platform}</p>
+                </div>
+                <button class="add-to-playlist-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" data-song='${JSON.stringify(song)}'>
+                    ➕ Add
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // Set current playlist
+    function setCurrentPlaylist(playlistIndex) {
+        if (playlistIndex >= 0 && playlistIndex < playlists.length) {
+            currentPlaylist = playlists[playlistIndex];
+            updateCurrentPlaylistDisplay();
+        }
+    }
+
+    // Update current playlist display
+    function updateCurrentPlaylistDisplay() {
+        const nameEl = document.getElementById('current-playlist-name');
+        const songsEl = document.getElementById('current-playlist-songs');
+        const playBtn = document.getElementById('play-playlist');
+        const shareBtn = document.getElementById('share-playlist');
+
+        if (!currentPlaylist) {
+            nameEl.textContent = 'Select or create a playlist';
+            songsEl.innerHTML = `
+                <div class="text-center text-[#433A3F]/60 py-8">
+                    <span class="text-3xl">📝</span>
+                    <p class="mt-2">Your playlist songs will appear here</p>
+                </div>
+            `;
+            playBtn.disabled = true;
+            shareBtn.disabled = true;
+            return;
+        }
+
+        nameEl.textContent = currentPlaylist.name;
+        playBtn.disabled = currentPlaylist.songs.length === 0;
+        shareBtn.disabled = false;
+
+        if (currentPlaylist.songs.length === 0) {
+            songsEl.innerHTML = `
+                <div class="text-center text-[#433A3F]/60 py-8">
+                    <span class="text-3xl">🎵</span>
+                    <p class="mt-2">Add songs to this playlist!</p>
+                </div>
+            `;
+        } else {
+            songsEl.innerHTML = currentPlaylist.songs.map((song, index) => `
+                <div class="song-item flex items-center gap-3 p-2 rounded-lg">
+                    <button class="play-btn w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm hover:bg-green-600 transition-colors">
+                        ▶️
+                    </button>
+                    <div class="flex-1 min-w-0">
+                        <h5 class="font-medium text-[#433A3F] truncate text-sm">${song.title}</h5>
+                        <p class="text-xs text-[#433A3F]/70 truncate">${song.artist}</p>
+                    </div>
+                    <button class="remove-song-btn text-red-500 hover:text-red-700 text-sm" data-song-index="${index}">
+                        🗑️
+                    </button>
+                </div>
+            `).join('');
+        }
+    }
 
 // Interactive functions for enhanced Plan Your Trip section
 
@@ -7909,6 +8933,194 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(() => {
             weatherContainer.innerHTML = '<div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg"><div class="text-lg font-semibold text-[#433A3F] mb-2">Weather unavailable</div><div class="text-3xl mb-2">❓</div><div class="text-sm text-[#433A3F]/70">Please try again later</div></div>';
         });
+    
+    // Playlist Management System
+    let playlists = JSON.parse(localStorage.getItem('provitinerary_playlists') || '[]');
+    let currentPlaylist = null;
+    
+    if (playlists.length === 0) {
+        playlists = [
+            {
+                id: 'providence-2025',
+                name: 'Providence Anniversary 2025',
+                description: 'Our romantic weekend soundtrack',
+                type: 'custom',
+                collaborative: true,
+                songs: [
+                    { id: 'burning-blue', title: 'Burning Blue', artist: 'Mariah the Scientist', duration: '3:24' },
+                    { id: 'little-things', title: 'Little Things', artist: 'Ella Mai', duration: '3:18' }
+                ],
+                cover: 'gradient-to-br from-purple-500 to-pink-500'
+            }
+        ];
+        localStorage.setItem('provitinerary_playlists', JSON.stringify(playlists));
+    }
+    
+    function updateCurrentPlaylistDisplay() {
+        const nameEl = document.getElementById('current-playlist-name');
+        const songsEl = document.getElementById('current-playlist-songs');
+        
+        if (!nameEl || !songsEl) return;
+        
+        if (!currentPlaylist) {
+            nameEl.textContent = 'Select a playlist';
+            songsEl.innerHTML = '<div class="text-center text-white/60 py-4"><span class="text-3xl">📝</span><p class="mt-2 text-sm">Select a playlist to view songs</p></div>';
+            return;
+        }
+        
+        nameEl.textContent = currentPlaylist.name;
+        
+        if (currentPlaylist.songs.length === 0) {
+            songsEl.innerHTML = '<div class="text-center text-white/60 py-4"><span class="text-3xl">🎵</span><p class="mt-2 text-sm">Add songs to this playlist!</p></div>';
+        } else {
+            songsEl.innerHTML = currentPlaylist.songs.map((song, index) => `
+                <div class="song-item bg-white/5 rounded-lg p-3 flex items-center justify-between">
+                    <div><div class="text-white font-medium text-sm">${song.title}</div><div class="text-white/60 text-xs">${song.artist}</div></div>
+                    <div class="flex gap-2"><button class="text-white/60 hover:text-white text-sm">▶️</button><button class="text-white/60 hover:text-red-400 text-sm">❌</button></div>
+                </div>
+            `).join('');
+        }
+    }
+    
+    // Enhanced music service connection functionality
+    window.connectMusicService = (service) => {
+        const serviceInfo = {
+            spotify: { name: 'Spotify', icon: '🎵', color: '#1DB954' },
+            youtube: { name: 'YouTube Music', icon: '📺', color: '#FF0000' },
+            apple: { name: 'Apple Music', icon: '🍎', color: '#000000' }
+        };
+        
+        const info = serviceInfo[service];
+        if (!info) return;
+        
+        // Update OAuth modal content
+        const modal = document.getElementById('oauth-modal');
+        if (modal) {
+            document.getElementById('oauth-icon').textContent = info.icon;
+            document.getElementById('oauth-service-name').textContent = info.name;
+            document.getElementById('oauth-description').textContent = `Connect your ${info.name} account to search millions of songs and create collaborative playlists.`;
+            
+            const connectBtn = document.getElementById('oauth-connect-btn');
+            connectBtn.textContent = `${info.icon} Connect with ${info.name}`;
+            connectBtn.style.backgroundColor = info.color;
+            connectBtn.setAttribute('data-service', service);
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+    
+    window.showMusicServicesModal = () => {
+        // Scroll to playlists section to show the music service connection options
+        const playlistsSection = document.getElementById('playlists');
+        if (playlistsSection) {
+            playlistsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            showNotification('Scroll down to connect your music services! 🎵', 'info');
+        } else {
+            showNotification('Music service integration coming soon! 🎵', 'info');
+        }
+    };
+    
+    // Close OAuth modal function
+    window.closeOAuthModal = () => {
+        const modal = document.getElementById('oauth-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    };
+    
+    // Handle OAuth connection
+    window.handleOAuthConnection = (service) => {
+        // Simulate connection for demo
+        showNotification(`${service.charAt(0).toUpperCase() + service.slice(1)} connected successfully! (Demo mode)`, 'success');
+        closeOAuthModal();
+        
+        // Update status indicators
+        const statusDot = document.getElementById(`${service}-status`);
+        const statusText = document.getElementById(`${service}-status-text`);
+        if (statusDot && statusText) {
+            statusDot.className = 'w-2 h-2 bg-green-400 rounded-full';
+            statusText.textContent = 'Connected';
+        }
+    };
+    
+    // Add event listeners for OAuth modal
+    document.addEventListener('DOMContentLoaded', () => {
+        const closeOAuthBtn = document.getElementById('close-oauth-modal');
+        const oauthConnectBtn = document.getElementById('oauth-connect-btn');
+        
+        if (closeOAuthBtn) {
+            closeOAuthBtn.addEventListener('click', closeOAuthModal);
+        }
+        
+        if (oauthConnectBtn) {
+            oauthConnectBtn.addEventListener('click', (e) => {
+                const service = e.target.getAttribute('data-service');
+                if (service) {
+                    handleOAuthConnection(service);
+                }
+            });
+        }
+        
+        // Close modal on backdrop click
+        const oauthModal = document.getElementById('oauth-modal');
+        if (oauthModal) {
+            oauthModal.addEventListener('click', (e) => {
+                if (e.target === oauthModal) {
+                    closeOAuthModal();
+                }
+            });
+        }
+        
+        // Playlist modal event listeners
+        const closePlaylistModal = document.getElementById('close-playlist-modal');
+        const cancelPlaylistModal = document.getElementById('cancel-playlist-modal');
+        const closeShareModal = document.getElementById('close-share-modal');
+        
+        if (closePlaylistModal) {
+            closePlaylistModal.addEventListener('click', () => {
+                document.getElementById('create-playlist-modal')?.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        if (cancelPlaylistModal) {
+            cancelPlaylistModal.addEventListener('click', () => {
+                document.getElementById('create-playlist-modal')?.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        if (closeShareModal) {
+            closeShareModal.addEventListener('click', () => {
+                document.getElementById('share-playlist-modal')?.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+        }
+    });
+    
+    window.openCreatePlaylistModal = () => {
+        const modal = document.getElementById('create-playlist-modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+    
+    window.createFromTemplate = (type) => showNotification('Creating ' + type + ' playlist...', 'success');
+    window.selectPlaylist = (id) => {
+        currentPlaylist = playlists.find(p => p.id === id);
+        updateCurrentPlaylistDisplay();
+        showNotification('Selected playlist', 'info');
+    };
+    window.playPlaylist = (id) => showNotification('Playing playlist...', 'success');
+    window.sharePlaylist = (id) => document.getElementById('share-playlist-modal')?.classList.remove('hidden');
+    
+    if (playlists.length > 0) {
+        currentPlaylist = playlists[0];
+        setTimeout(updateCurrentPlaylistDisplay, 1000);
+    }
 });
 </script>
 </body>
