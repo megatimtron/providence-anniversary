@@ -75,56 +75,412 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
+        
+        /* Hero Section with Background Image & Overlay */
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(192, 127, 99, 0.7), rgba(192, 127, 99, 0.5)), 
+                        url('ugo1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
             top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(253, 248, 240, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(192, 127, 99, 0.1) 0%, transparent 50%);
+            animation: heroShimmer 20s ease-in-out infinite;
+        }
+        
+        @keyframes heroShimmer {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            text-shadow: 2px 2px 4px rgba(67, 58, 63, 0.3);
+            animation: heroFadeInUp 1.2s ease-out;
+        }
+        
+        .hero-subtitle {
+            text-shadow: 1px 1px 2px rgba(67, 58, 63, 0.2);
+            animation: heroFadeInUp 1.2s ease-out 0.3s both;
+        }
+        
+        @keyframes heroFadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Enhanced Call-to-Action Button */
+        .cta-button {
+            background: linear-gradient(45deg, #C07F63, #A9684C);
+            color: #FDF8F0;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(192, 127, 99, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            animation: heroFadeInUp 1.2s ease-out 0.6s both;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
         }
-        .modal.show {
+        
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(192, 127, 99, 0.4);
+            background: linear-gradient(45deg, #A9684C, #8B5A3C);
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Love Notes Feature */
+        .love-note {
+            position: fixed;
+            background: rgba(253, 248, 240, 0.95);
+            border: 2px solid #C07F63;
+            border-radius: 12px;
+            padding: 16px;
+            max-width: 250px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            font-style: italic;
+            color: #433A3F;
+            transform: scale(0);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+        
+        .love-note.show {
+            transform: scale(1);
+            animation: loveNoteFloat 6s ease-in-out infinite;
+        }
+        
+        .love-note::before {
+            content: '💕';
+            position: absolute;
+            top: -10px;
+            right: -5px;
+            font-size: 20px;
+        }
+        
+        @keyframes loveNoteFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        /* Anniversary Countdown */
+        .countdown-container {
+            background: linear-gradient(135deg, rgba(253, 248, 240, 0.9), rgba(234, 224, 213, 0.9));
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 127, 99, 0.2);
+        }
+        
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #C07F63;
+            text-shadow: 2px 2px 4px rgba(67, 58, 63, 0.1);
+        }
+        
+        .countdown-label {
+            font-size: 0.9rem;
+            color: #433A3F;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Floating Hearts Animation */
+        .floating-heart {
+            position: fixed;
+            color: #C07F63;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 20px;
+            animation: floatHeart 4s ease-in-out forwards;
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                opacity: 1;
+                transform: translateY(0px) scale(0);
+            }
+            15% {
+                transform: translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.5);
+            }
+        }
+        
+        /* Interactive Timeline Enhancement */
+        .timeline-item {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .timeline-item:hover .timeline-icon {
+            transform: scale(1.2);
+            box-shadow: 0 8px 20px rgba(192, 127, 99, 0.3);
+        }
+        
+        .timeline-icon {
+            transition: all 0.3s ease;
+        }
+        
+        /* Wish List & Bucket List Styles */
+        .wish-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid #C07F63;
+        }
+        
+        .wish-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .wish-item.completed {
+            background: #f0f9f0;
+            border-left-color: #4CAF50;
+        }
+        
+        /* Responsive Design Enhancements */
+        @media (max-width: 768px) {
+            .hero-bg {
+                background-attachment: scroll;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+            
+            .cta-button {
+                padding: 14px 28px;
+                font-size: 14px;
+            }
+            
+            .love-note {
+                max-width: 200px;
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Modern Color Palette Variables */
+        :root {
+            --primary-color: #C07F63;      /* Warm terracotta */
+            --secondary-color: #A9684C;    /* Deeper terracotta */
+            --accent-color: #D6C6B3;       /* Warm beige */
+            --background-color: #FDF8F0;   /* Creamy white */
+            --surface-color: #EAE0D5;      /* Light warm gray */
+            --text-primary: #433A3F;       /* Dark gray */
+            --text-secondary: #6B5B73;     /* Medium gray */
+            --success-color: #4CAF50;      /* Green */
+            --warning-color: #FF9800;      /* Orange */
+            --error-color: #F44336;        /* Red */
+        }
+
+        /* Music Player Styles */
+        .music-player {
+            background: linear-gradient(135deg, rgba(253, 248, 240, 0.95), rgba(234, 224, 213, 0.95));
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 127, 99, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(192, 127, 99, 0.05) 0%, transparent 50%);
+            animation: musicShimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes musicShimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .music-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .song-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #C07F63;
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .song-artist {
+            color: #433A3F;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .play-button {
+            background: linear-gradient(45deg, #C07F63, #A9684C);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(192, 127, 99, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.3s ease;
+            margin: 0 auto 16px;
         }
-        .modal-content {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: zoomIn 0.3s ease;
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(192, 127, 99, 0.4);
         }
-        .modal-close {
+
+        .play-button.playing {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .music-note {
             position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-            transition: color 0.3s ease;
-        }
-        .modal-close:hover {
             color: #C07F63;
+            font-size: 20px;
+            animation: floatNote 3s ease-in-out infinite;
+            pointer-events: none;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        @keyframes floatNote {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-15px) rotate(10deg); opacity: 1; }
         }
-        @keyframes zoomIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+
+        .soundcloud-embed {
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 16px;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
+        
+        .soundcloud-embed iframe {
+            border: none !important;
+            border-radius: 12px;
+            display: block;
+        }
+
+        /* Our Song Section */
+        .our-song-section {
+            background: linear-gradient(135deg, #C07F63, #A9684C);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .our-song-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="80" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="60" cy="80" r="1" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0.1;0.2;0.1" dur="5s" repeatCount="indefinite"/></circle></svg>');
+            background-size: 200px 200px;
+            animation: starfield 20s linear infinite;
+        }
+
+        @keyframes starfield {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-200px, -200px); }
+        }
+
+        .song-lyrics-preview {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Responsive Music Player */
+        @media (max-width: 768px) {
+            .music-player {
+                padding: 16px;
+                margin: 16px;
+            }
+            
+            .play-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .song-title {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -138,6 +494,7 @@
                 <a href="#itinerary" class="nav-link text-lg">Your Itinerary</a>
                 <a href="#explore" class="nav-link text-lg">Explore Providence</a>
                 <a href="#notes" class="nav-link text-lg">Couple's Notes</a>
+                <a href="#our-song" class="nav-link text-lg">Our Song</a>
                 <a href="#memories" class="nav-link text-lg">Our Memories</a>
                 <a href="#plan" class="nav-link text-lg">Plan Your Trip</a>
             </div>
@@ -151,17 +508,56 @@
             <a href="#itinerary" class="block py-2 nav-link">Your Itinerary</a>
             <a href="#explore" class="block py-2 nav-link">Explore Providence</a>
             <a href="#notes" class="block py-2 nav-link">Couple's Notes</a>
+            <a href="#our-song" class="block py-2 nav-link">Our Song</a>
             <a href="#memories" class="block py-2 nav-link">Our Memories</a>
             <a href="#plan" class="block py-2 nav-link">Plan Your Trip</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="text-center py-20 px-6 bg-[#EAE0D5]">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">Your Perfect Anniversary Escape</h1>
-            <p class="text-lg md:text-xl max-w-3xl mx-auto text-[#433A3F]/80">
-                An interactive guide to a romantic weekend in Providence, designed for your one-month anniversary. Explore, plan, and create unforgettable memories together from June 11th to 13th.
-            </p>
+        <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center">
+            <div class="container mx-auto hero-content">
+                <div class="countdown-container max-w-md mx-auto mb-8">
+                    <div class="text-center">
+                        <div class="countdown-number" id="countdown-days">6</div>
+                        <div class="countdown-label">Days Until Our Trip</div>
+                        <p class="text-sm mt-2 text-[#433A3F]/70">Providence awaits us on July 11th at 4 PM! 💕</p>
+                    </div>
+                </div>
+                
+                <h1 class="hero-title text-5xl md:text-7xl font-bold mb-6 text-white">
+                    Your Perfect Anniversary Escape
+                </h1>
+                <p class="hero-subtitle text-xl md:text-2xl max-w-4xl mx-auto text-white/90 mb-8 leading-relaxed">
+                    An interactive guide to a romantic weekend in Providence, designed for your one-month anniversary. 
+                    Explore, plan, and create unforgettable memories together from June 11th to 13th.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button class="cta-button" onclick="scrollToSection('itinerary')">
+                        ✨ Start Planning Our Adventure
+                    </button>
+                    <button class="btn-secondary px-6 py-3 rounded-full" onclick="showLoveNote()">
+                        💌 Send a Love Note
+                    </button>
+                </div>
+                
+                <div class="mt-12 text-white/70">
+                    <p class="text-sm">Scroll down to begin our romantic journey</p>
+                    <div class="animate-bounce mt-2">↓</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Love Notes Container -->
+        <div id="love-notes-container"></div>
+                        <div class="countdown-label">Days Until Your Anniversary</div>
+                    </div>
+                </div>
+                <a href="#itinerary" class="btn-primary cta-button px-8 py-3 rounded-full text-lg font-semibold">
+                    Start Planning Your Getaway
+                </a>
+            </div>
         </section>
 
         <section id="itinerary" class="py-16 md:py-24">
@@ -313,6 +709,114 @@
             </div>
         </section>
 
+        <section id="our-song" class="our-song-section py-16 md:py-24 relative">
+            <div class="container mx-auto px-6 max-w-4xl relative z-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Our Song</h2>
+                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-white/90">
+                    Every love story has a soundtrack. This is the song that captures our journey and sets the mood for our romantic Providence adventure.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="music-player">
+                        <div class="music-content text-center">
+                            <div class="music-note" style="top: 10px; right: 20px;">🎵</div>
+                            <div class="music-note" style="bottom: 15px; left: 15px;">🎶</div>
+                            
+                            <div class="song-title">Burning Blue</div>
+                            <div class="song-artist">by Mariah the Scientist</div>
+                            
+                            <button class="play-button" id="music-play-btn" onclick="toggleMusic()">
+                                <span id="play-icon">▶️</span>
+                            </button>
+                            
+                            <p class="text-sm text-[#433A3F]/70 mb-4">
+                                Click to experience our special song
+                            </p>
+                            
+                            <div class="soundcloud-embed">
+                                <iframe 
+                                    width="100%" 
+                                    height="300" 
+                                    scrolling="no" 
+                                    frameborder="no" 
+                                    allow="autoplay" 
+                                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2087427186&color=%23c07f63&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+                                    style="border-radius: 12px; border: none;">
+                                </iframe>
+                                <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;">
+                                    <a href="https://soundcloud.com/mariahthescientist" title="Mariah the Scientist" target="_blank" style="color: #cccccc; text-decoration: none;">Mariah the Scientist</a> · 
+                                    <a href="https://soundcloud.com/mariahthescientist/burning-blue" title="Burning Blue" target="_blank" style="color: #cccccc; text-decoration: none;">Burning Blue</a>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 text-center">
+                                <p class="text-xs text-[#433A3F]/60 mb-2">Can't hear the song? Listen here:</p>
+                                <div class="flex justify-center gap-3">
+                                    <a href="https://music.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
+                                        🎵 YouTube Music
+                                    </a>
+                                    <a href="https://open.spotify.com/search/burning%20blue%20mariah%20the%20scientist" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
+                                        🎶 Spotify
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-white">
+                        <h3 class="text-2xl font-bold font-display mb-6">Why This Song Means Everything</h3>
+                        
+                        <div class="song-lyrics-preview">
+                            "This song played in the Omni that first night, and I have gotten chills every other time I have listened to it. It perfectly captures that magical moment when everything changed, and the melody takes me back to that perfect evening when I knew this was something special."
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">🏨</span>
+                                <span>The song that played at the Omni that first night</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">✨</span>
+                                <span>Gives me chills every single time I hear it</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-2xl mr-3">💕</span>
+                                <span>The soundtrack to our Providence adventure</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-4 bg-white/10 rounded-lg backdrop-filter backdrop-blur-sm">
+                            <p class="italic text-center">
+                                "Music is the universal language of love, and this song speaks directly to our hearts. Every note reminds me why I chose you, today and always."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Music controls and playlist -->
+                <div class="mt-12 text-center">
+                    <h4 class="text-xl font-bold mb-4 text-white">Our Anniversary Playlist</h4>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
+                            <div class="text-lg font-semibold">🎵 Burning Blue</div>
+                            <div class="text-sm opacity-80">Mariah the Scientist</div>
+                            <div class="text-xs mt-2">Our special song</div>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
+                            <div class="text-lg font-semibold">💕 Perfect</div>
+                            <div class="text-sm opacity-80">Ed Sheeran</div>
+                            <div class="text-xs mt-2">Dinner soundtrack</div>
+                        </div>
+                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
+                            <div class="text-lg font-semibold">🌙 La Vie En Rose</div>
+                            <div class="text-sm opacity-80">Édith Piaf</div>
+                            <div class="text-xs mt-2">Evening stroll vibes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="memories" class="py-16 md:py-24">
             <div class="container mx-auto px-6 max-w-6xl">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Memories</h2>
@@ -438,6 +942,175 @@ document.addEventListener('DOMContentLoaded', () => {
         2: [],
         3: []
     };
+
+    // Love notes array
+    const loveNotes = [
+        "I love how you make every ordinary moment feel like magic ✨",
+        "Your smile is my favorite view in any city, including Providence 😊",
+        "Thank you for being my adventure partner in life and love 💕",
+        "Every day with you feels like our first date all over again 🥰",
+        "You make my heart feel at home, no matter where we are 🏡",
+        "I choose you today, tomorrow, and for all our adventures to come 💖",
+        "Your laugh is the best soundtrack to any trip we take together 🎵",
+        "With you, even planning is part of the romance 📝💕"
+    ];
+
+    // Romantic Interactive Features
+    function createFloatingHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = ['💖', '💕', '💝', '💗', '💘'][Math.floor(Math.random() * 5)];
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        document.body.appendChild(heart);
+        
+        setTimeout(() => heart.remove(), 4000);
+    }
+
+    function showLoveNote() {
+        const note = document.createElement('div');
+        note.className = 'love-note';
+        note.textContent = loveNotes[Math.floor(Math.random() * loveNotes.length)];
+        
+        // Random position
+        note.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+        note.style.left = Math.random() * (window.innerWidth - 250) + 'px';
+        
+        document.getElementById('love-notes-container').appendChild(note);
+        
+        setTimeout(() => note.classList.add('show'), 100);
+        
+        note.addEventListener('click', () => {
+            note.classList.remove('show');
+            setTimeout(() => note.remove(), 500);
+        });
+        
+        // Auto remove after 8 seconds
+        setTimeout(() => {
+            if (note.parentNode) {
+                note.classList.remove('show');
+                setTimeout(() => note.remove(), 500);
+            }
+        }, 8000);
+    }
+
+    function scrollToSection(sectionId) {
+        document.getElementById(sectionId).scrollIntoView({ 
+            behavior: 'smooth' 
+        });
+    }
+
+    function startCountdown() {
+        const targetDate = new Date('2025-07-11T16:00:00'); // Friday, July 11th, 2025 at 4:00 PM
+        const now = new Date();
+        const timeDiff = targetDate.getTime() - now.getTime();
+        
+        const countdownElement = document.getElementById('countdown-days');
+        const labelElement = document.querySelector('.countdown-label');
+        const messageElement = document.querySelector('.countdown-container p');
+        
+        if (countdownElement && labelElement) {
+            if (timeDiff > 0) {
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                
+                if (days > 0) {
+                    countdownElement.textContent = days;
+                    labelElement.textContent = days === 1 ? 'Day Until Our Trip' : 'Days Until Our Trip';
+                    if (messageElement) {
+                        messageElement.textContent = `Providence awaits us on July 11th at 4 PM! 💕`;
+                    }
+                } else if (hours > 0) {
+                    countdownElement.textContent = hours;
+                    labelElement.textContent = hours === 1 ? 'Hour Until Our Trip' : 'Hours Until Our Trip';
+                    if (messageElement) {
+                        messageElement.textContent = `Almost time for our Providence adventure! 🎉`;
+                    }
+                } else {
+                    countdownElement.textContent = minutes;
+                    labelElement.textContent = minutes === 1 ? 'Minute Until Our Trip' : 'Minutes Until Our Trip';
+                    if (messageElement) {
+                        messageElement.textContent = `Our romantic getaway starts any moment now! ✨`;
+                    }
+                }
+            } else {
+                countdownElement.textContent = '🎉';
+                labelElement.textContent = 'Our Trip Has Begun!';
+                if (messageElement) {
+                    messageElement.textContent = 'Welcome to our magical Providence weekend! 💖';
+                }
+            }
+        }
+    }
+
+    // Add random floating hearts on scroll
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+        if (Math.random() < 0.05) { // 5% chance on scroll
+            createFloatingHeart(
+                Math.random() * window.innerWidth,
+                window.innerHeight + 50
+            );
+        }
+        lastScrollY = window.scrollY;
+    });
+
+    // Make these functions global
+    window.showLoveNote = showLoveNote;
+    window.scrollToSection = scrollToSection;
+    window.createFloatingHeart = createFloatingHeart;
+
+    // Music player functionality
+    let isPlaying = false;
+    
+    window.toggleMusic = () => {
+        const playBtn = document.getElementById('music-play-btn');
+        const playIcon = document.getElementById('play-icon');
+        
+        if (!isPlaying) {
+            playBtn.classList.add('playing');
+            playIcon.textContent = '⏸️';
+            isPlaying = true;
+            
+            // Create floating music notes
+            setInterval(() => {
+                if (isPlaying) {
+                    createMusicNote();
+                }
+            }, 2000);
+            
+        } else {
+            playBtn.classList.remove('playing');
+            playIcon.textContent = '▶️';
+            isPlaying = false;
+        }
+    };
+
+    function createMusicNote() {
+        const note = document.createElement('div');
+        note.className = 'floating-heart';
+        note.textContent = ['🎵', '🎶', '♪', '♫'][Math.floor(Math.random() * 4)];
+        note.style.left = Math.random() * window.innerWidth + 'px';
+        note.style.top = window.innerHeight + 'px';
+        note.style.color = '#C07F63';
+        document.body.appendChild(note);
+        
+        setTimeout(() => note.remove(), 4000);
+    }
+
+    // Start countdown
+    startCountdown();
+    
+    // Update countdown every minute
+    setInterval(startCountdown, 60000);
+    
+    // Add click hearts to memory cards
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.memory-card')) {
+            createFloatingHeart(e.clientX, e.clientY);
+        }
+    });
 
     function renderItinerary(day) {
         const items = AppData.itinerary[day];
