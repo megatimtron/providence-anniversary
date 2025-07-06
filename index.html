@@ -205,24 +205,30 @@
         
         /* Anniversary Countdown */
         .countdown-container {
-            background: linear-gradient(135deg, rgba(253, 248, 240, 0.9), rgba(234, 224, 213, 0.9));
+            background: linear-gradient(135deg, rgba(253, 248, 240, 0.3), rgba(234, 224, 213, 0.2));
             border-radius: 20px;
             padding: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(192, 127, 99, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(192, 127, 99, 0.1);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .countdown-container:hover {
+            opacity: 1;
         }
         
         .countdown-number {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #C07F63;
-            text-shadow: 2px 2px 4px rgba(67, 58, 63, 0.1);
+            color: rgba(192, 127, 99, 0.9);
+            text-shadow: 2px 2px 4px rgba(67, 58, 63, 0.05);
         }
         
         .countdown-label {
             font-size: 0.9rem;
-            color: #433A3F;
+            color: rgba(67, 58, 63, 0.8);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -295,6 +301,7 @@
         @media (max-width: 768px) {
             .hero-bg {
                 background-attachment: scroll;
+                background-position: center 20%; /* Center horizontally, move up slightly to center the mirror */
             }
             
             .countdown-number {
@@ -310,6 +317,13 @@
                 max-width: 200px;
                 padding: 12px;
                 font-size: 14px;
+            }
+        }
+        
+        /* Extra small mobile devices */
+        @media (max-width: 480px) {
+            .hero-bg {
+                background-position: center 15%; /* Adjust further for very small screens */
             }
         }
         
@@ -839,7 +853,7 @@
                     <div class="text-center">
                         <div class="countdown-number" id="countdown-days">6</div>
                         <div class="countdown-label">Days Until Our Trip</div>
-                        <p class="text-sm mt-2 text-[#433A3F]/70">Providence awaits us on July 11th at 4 PM! 💕</p>
+                        <p class="text-sm mt-2 text-white/60">Providence awaits us on July 11th at 4 PM! 💕</p>
                     </div>
                 </div>
                 
