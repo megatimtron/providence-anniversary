@@ -75,6 +75,53 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: color 0.3s ease;
+        }
+        .modal-close:hover {
+            color: #C07F63;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
         @media (min-width: 768px) {
             .chart-container {
                 height: 400px;
@@ -275,23 +322,33 @@
 
                 <div class="grid md:grid-cols-2 gap-8 mb-12">
                     <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="relative group">
+                        <div class="relative group cursor-pointer" onclick="openModal('ugo1.jpg', 'Our Providence Adventure')">
                             <img src="ugo1.jpg" alt="Providence Memory 1" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <h3 class="text-xl font-bold font-display mb-2">Our Providence Adventure</h3>
                                 <p class="text-sm">A beautiful moment captured during our anniversary weekend</p>
                             </div>
+                            <div class="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                </svg>
+                            </div>
                         </div>
                     </div>
 
                     <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div class="relative group">
+                        <div class="relative group cursor-pointer" onclick="openModal('ugo2.jpg', 'Special Moments')">
                             <img src="ugo2.jpg" alt="Providence Memory 2" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <h3 class="text-xl font-bold font-display mb-2">Special Moments</h3>
                                 <p class="text-sm">Creating memories that will last a lifetime in beautiful Providence</p>
+                            </div>
+                            <div class="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -318,6 +375,12 @@
         </section>
 
     </main>
+
+    <!-- Full Screen Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" class="modal-content" alt="Full size image">
+    </div>
     
     <footer class="bg-[#433A3F] text-[#FDF8F0] py-8 text-center">
         <p>Crafted with love for a memorable anniversary in Providence.</p>
@@ -610,6 +673,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu');
     menuBtn.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
+    });
+
+    // Image Modal Functions
+    window.openModal = (imageSrc, imageAlt) => {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        
+        modalImage.src = imageSrc;
+        modalImage.alt = imageAlt;
+        modal.classList.add('show');
+        
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeModal = () => {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('show');
+        
+        // Restore body scroll
+        document.body.style.overflow = 'auto';
+    };
+
+    // Close modal when clicking outside the image
+    document.getElementById('imageModal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            closeModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
     });
     
     // Charts
