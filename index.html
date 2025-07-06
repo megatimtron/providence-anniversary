@@ -483,78 +483,6 @@
                 font-size: 1.1rem;
             }
         }
-
-        /* Facebook Dating Style Floating Bubble */
-        .dating-bubble {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
-            color: white;
-            padding: 16px 20px;
-            border-radius: 25px;
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-            z-index: 1000;
-            font-weight: 500;
-            font-size: 14px;
-            max-width: 200px;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .dating-bubble.show {
-            transform: translateY(0);
-            opacity: 1;
-            animation: bubbleBounce 3s ease-in-out infinite;
-        }
-
-        .dating-bubble::before {
-            content: '💜';
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            font-size: 16px;
-            background: white;
-            border-radius: 50%;
-            padding: 2px;
-        }
-
-        .dating-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 20px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 8px solid #8B5CF6;
-        }
-
-        @keyframes bubbleBounce {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-5px) scale(1.02); }
-        }
-
-        .dating-bubble:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
-        }
-
-        /* Responsive dating bubble */
-        @media (max-width: 768px) {
-            .dating-bubble {
-                bottom: 20px;
-                right: 20px;
-                padding: 12px 16px;
-                font-size: 12px;
-                max-width: 160px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -623,11 +551,6 @@
         
         <!-- Love Notes Container -->
         <div id="love-notes-container"></div>
-        
-        <!-- Facebook Dating Style Bubble -->
-        <div id="dating-bubble" class="dating-bubble">
-            You are incredible. 💜
-        </div>
                         <div class="countdown-label">Days Until Your Anniversary</div>
                     </div>
                 </div>
@@ -1032,37 +955,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "With you, even planning is part of the romance 📝💕"
     ];
 
-    // Facebook Dating Style Bubble
-    function showDatingBubble() {
-        const bubble = document.getElementById('dating-bubble');
-        if (bubble) {
-            setTimeout(() => {
-                bubble.classList.add('show');
-            }, 2000); // Show after 2 seconds
-            
-            // Hide bubble when clicked
-            bubble.addEventListener('click', () => {
-                bubble.classList.remove('show');
-                createFloatingHeart(
-                    bubble.offsetLeft + bubble.offsetWidth / 2,
-                    bubble.offsetTop + bubble.offsetHeight / 2
-                );
-            });
-            
-            // Auto hide after 10 seconds, then show again after 30 seconds
-            setTimeout(() => {
-                if (bubble.classList.contains('show')) {
-                    bubble.classList.remove('show');
-                }
-                
-                // Show again after 30 seconds
-                setTimeout(() => {
-                    bubble.classList.add('show');
-                }, 30000);
-            }, 10000);
-        }
-    }
-
     // Romantic Interactive Features
     function createFloatingHeart(x, y) {
         const heart = document.createElement('div');
@@ -1212,9 +1104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Update countdown every minute
     setInterval(startCountdown, 60000);
-    
-    // Initialize dating bubble
-    showDatingBubble();
     
     // Add click hearts to memory cards
     document.addEventListener('click', (e) => {
