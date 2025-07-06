@@ -3818,45 +3818,107 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enhanced Photo upload functionality
     function setupPhotoUpload(dayNumber) {
+        console.log(`Setting up photo upload for day ${dayNumber}`);
+        
         const uploadInput = document.getElementById(`photo-upload-${dayNumber}`);
         const gallery = document.getElementById(`photo-gallery-${dayNumber}`);
         const emptyState = document.getElementById(`empty-state-${dayNumber}`);
         const photoCount = document.getElementById(`photo-count-${dayNumber}`);
 
+        // Check if all elements exist
+        if (!uploadInput || !gallery || !emptyState || !photoCount) {
+            console.error(`Missing photo upload elements for day ${dayNumber}:`, {
+                uploadInput: !!uploadInput,
+                gallery: !!gallery,
+                emptyState: !!emptyState,
+                photoCount: !!photoCount
+            });
+            return;
+        }
+
         // Setup drag and drop
         const uploadZone = uploadInput.parentElement.querySelector('.upload-zone');
+        if (!uploadZone) {
+            console.error(`Upload zone not found for day ${dayNumber}`);
+            return;
+        }
         
-        uploadZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadZone.classList.add('border-[#C07F63]', 'bg-[#C07F63]/10');
-        });
-        
-        uploadZone.addEventListener('dragleave', (e) => {
-            e.preventDefault();
-            uploadZone.classList.remove('border-[#C07F63]', 'bg-[#C07F63]/10');
-        });
-        
-        uploadZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadZone.classList.remove('border-[#C07F63]', 'bg-[#C07F63]/10');
-            const files = Array.from(e.dataTransfer.files);
-            handleFiles(files, dayNumber);
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
         });
 
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, () => {
+                uploadZone.classList.add('border-[#C07F63]', 'bg-[#C07F63]/10');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, () => {
+                uploadZone.classList.remove('border-[#C07F63]', 'bg-[#C07F63]/10');
+            }, false);
+        });
+        
+        // Handle dropped files
+        uploadZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = Array.from(dt.files);
+            console.log(`Files dropped for day ${dayNumber}:`, files);
+            handleFiles(files, dayNumber);
+        }, false);
+
+        // Handle file input change
         uploadInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
+            console.log(`Files selected for day ${dayNumber}:`, files);
             handleFiles(files, dayNumber);
+        });
+        
+        // Make upload zone clickable
+        uploadZone.addEventListener('click', () => {
+            uploadInput.click();
         });
         
         // Initial render
         updatePhotoDisplay(dayNumber);
+        console.log(`Photo upload setup complete for day ${dayNumber}`);
     }
 
     function handleFiles(files, dayNumber) {
-        files.forEach(file => {
+        console.log(`Handling ${files.length} files for day ${dayNumber}`);
+        
+        if (files.length === 0) {
+            console.log('No files to handle');
+            return;
+        }
+
+        // Show loading indicator
+        const photoCount = document.getElementById(`photo-count-${dayNumber}`);
+        if (photoCount) {
+            photoCount.textContent = `Uploading ${files.length} photo${files.length !== 1 ? 's' : ''}...`;
+            photoCount.classList.add('text-blue-500');
+        }
+
+        let uploadedCount = 0;
+        const totalFiles = files.filter(file => file.type.startsWith('image/')).length;
+
+        files.forEach((file, index) => {
+            console.log(`Processing file ${index + 1}:`, file.name, file.type, file.size);
+            
             if (file.type.startsWith('image/')) {
                 const reader = new FileReader();
+                
                 reader.onload = (e) => {
+                    console.log(`File ${file.name} loaded successfully`);
+                    
                     const photoData = {
                         id: Date.now() + Math.random(),
                         src: e.target.result,
@@ -3864,39 +3926,99 @@ document.addEventListener('DOMContentLoaded', () => {
                         uploadDate: new Date().toISOString()
                     };
                     
+                    // Ensure photoStorage[dayNumber] exists and is an array
+                    if (!photoStorage[dayNumber]) {
+                        photoStorage[dayNumber] = [];
+                    }
+                    
                     photoStorage[dayNumber].push(photoData);
+                    uploadedCount++;
+                    
+                    console.log(`Photo added to storage for day ${dayNumber}. Total photos:`, photoStorage[dayNumber].length);
+                    
                     savePhotosToStorage();
                     updatePhotoDisplay(dayNumber);
+
+                    // Show success feedback for final upload
+                    if (uploadedCount === totalFiles) {
+                        showSuccessMessage(`${totalFiles} photo${totalFiles !== 1 ? 's' : ''} uploaded successfully!`);
+                    }
                 };
+                
+                reader.onerror = (e) => {
+                    console.error(`Error reading file ${file.name}:`, e);
+                    showErrorMessage(`Failed to upload ${file.name}`);
+                    
+                    uploadedCount++;
+                    if (uploadedCount === totalFiles) {
+                        updatePhotoDisplay(dayNumber);
+                    }
+                };
+                
                 reader.readAsDataURL(file);
+            } else {
+                console.warn(`File ${file.name} is not an image (${file.type}). Skipping.`);
+                showErrorMessage(`${file.name} is not a valid image file`);
             }
         });
     }
 
+    // Show success message to user
+    function showSuccessMessage(message) {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+        successDiv.innerHTML = `
+            <span class="mr-2">✅</span>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(successDiv);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            successDiv.remove();
+        }, 3000);
+    }
+
     function updatePhotoDisplay(dayNumber) {
+        console.log(`Updating photo display for day ${dayNumber}`);
+        
         const gallery = document.getElementById(`photo-gallery-${dayNumber}`);
         const emptyState = document.getElementById(`empty-state-${dayNumber}`);
         const photoCount = document.getElementById(`photo-count-${dayNumber}`);
-        const photos = photoStorage[dayNumber];
+        
+        if (!gallery || !emptyState || !photoCount) {
+            console.error(`Missing photo display elements for day ${dayNumber}:`, {
+                gallery: !!gallery,
+                emptyState: !!emptyState,
+                photoCount: !!photoCount
+            });
+            return;
+        }
+        
+        const photos = photoStorage[dayNumber] || [];
+        console.log(`Found ${photos.length} photos for day ${dayNumber}`);
 
-        // Update photo count
+        // Reset loading state and update photo count
+        photoCount.classList.remove('text-blue-500');
         photoCount.textContent = `${photos.length} photo${photos.length !== 1 ? 's' : ''}`;
 
         if (photos.length === 0) {
             gallery.classList.add('hidden');
             emptyState.classList.remove('hidden');
+            console.log(`Showing empty state for day ${dayNumber}`);
         } else {
             gallery.classList.remove('hidden');
             emptyState.classList.add('hidden');
             
             gallery.innerHTML = photos.map(photo => `
                 <div class="relative group">
-                    <img src="${photo.src}" alt="${photo.name}" class="w-full h-32 object-cover rounded-xl shadow-sm">
+                    <img src="${photo.src}" alt="${photo.name}" class="w-full h-32 object-cover rounded-xl shadow-sm" loading="lazy">
                     <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 rounded-xl flex items-center justify-center">
                         <button 
                             onclick="removePhoto(${dayNumber}, '${photo.id}')" 
                             class="bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg"
                             title="Remove photo"
+                            aria-label="Remove photo ${photo.name}"
                         >×</button>
                     </div>
                     <div class="absolute bottom-2 left-2 right-2">
@@ -3906,12 +4028,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `).join('');
+            
+            console.log(`Gallery updated with ${photos.length} photos for day ${dayNumber}`);
         }
     }
 
     // Make removePhoto function global
     window.removePhoto = (dayNumber, photoId) => {
+        console.log(`Removing photo ${photoId} from day ${dayNumber}`);
+        
+        if (!photoStorage[dayNumber]) {
+            console.error(`No photos found for day ${dayNumber}`);
+            return;
+        }
+        
+        const initialCount = photoStorage[dayNumber].length;
         photoStorage[dayNumber] = photoStorage[dayNumber].filter(photo => photo.id != photoId);
+        const finalCount = photoStorage[dayNumber].length;
+        
+        if (initialCount === finalCount) {
+            console.warn(`Photo ${photoId} not found in day ${dayNumber} storage`);
+            return;
+        }
+        
+        console.log(`Photo removed. Remaining photos for day ${dayNumber}: ${finalCount}`);
         savePhotosToStorage();
         updatePhotoDisplay(dayNumber);
     };
@@ -3999,21 +4139,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Save photos to localStorage
     function savePhotosToStorage() {
-        localStorage.setItem('anniversary-photos', JSON.stringify(photoStorage));
+        try {
+            const photoData = JSON.stringify(photoStorage);
+            localStorage.setItem('anniversary-photos', photoData);
+            console.log('Photos saved to localStorage successfully');
+        } catch (error) {
+            console.error('Error saving photos to localStorage:', error);
+            // Show user-friendly error message
+            showErrorMessage('Unable to save photos. Your browser storage might be full.');
+        }
     }
 
     // Load photos from localStorage
     function loadPhotosFromStorage() {
-        const saved = localStorage.getItem('anniversary-photos');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            Object.assign(photoStorage, parsed);
-            
-            // Update all photo displays
+        try {
+            const saved = localStorage.getItem('anniversary-photos');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                console.log('Loading photos from localStorage:', parsed);
+                
+                // Ensure all day arrays exist
+                for (let i = 1; i <= 4; i++) {
+                    if (!parsed[i]) {
+                        parsed[i] = [];
+                    }
+                }
+                
+                Object.assign(photoStorage, parsed);
+                console.log('Photos loaded successfully:', photoStorage);
+                
+                // Update all photo displays
+                for (let i = 1; i <= 4; i++) {
+                    updatePhotoDisplay(i);
+                }
+            } else {
+                console.log('No saved photos found');
+            }
+        } catch (error) {
+            console.error('Error loading photos from localStorage:', error);
+            // Initialize empty storage if loading fails
             for (let i = 1; i <= 4; i++) {
-                updatePhotoDisplay(i);
+                photoStorage[i] = [];
             }
         }
+    }
+
+    // Show error message to user
+    function showErrorMessage(message) {
+        // Create a toast-style error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        errorDiv.textContent = message;
+        document.body.appendChild(errorDiv);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
     }
     
     // Initial renders
@@ -4021,14 +4203,21 @@ document.addEventListener('DOMContentLoaded', () => {
     renderExploreCards();
     renderAccordion();
     
-    // Setup notes and photos for each day
-    for (let i = 1; i <= 4; i++) {
-        setupPhotoUpload(i);
-        setupNotes(i);
-    }
-    
-    // Load saved photos
-    loadPhotosFromStorage();
+    // Wait for DOM to be fully ready before setting up photo uploads
+    setTimeout(() => {
+        console.log('Setting up photo uploads and notes for all days...');
+        
+        // Setup notes and photos for each day
+        for (let i = 1; i <= 4; i++) {
+            setupPhotoUpload(i);
+            setupNotes(i);
+        }
+        
+        // Load saved photos after setup is complete
+        loadPhotosFromStorage();
+        
+        console.log('Photo upload setup complete for all days');
+    }, 100);
     
     // Event Listeners for itinerary tabs
     document.querySelector('.tab-btn[data-tab="day1"]').classList.add('active-tab');
