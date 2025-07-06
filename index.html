@@ -98,6 +98,98 @@
             background-color: #C07F63;
             color: #FDF8F0;
         }
+        
+        /* Dynamic Itinerary Management Styles */
+        .itinerary-item.edit-mode {
+            border: 2px dashed #C07F63;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .itinerary-item.edit-mode:hover {
+            background-color: rgba(192, 127, 99, 0.05);
+            border-color: #A9684C;
+        }
+        
+        .itinerary-item[draggable="true"] {
+            cursor: move;
+        }
+        
+        .itinerary-item[draggable="true"]:hover {
+            transform: scale(1.02);
+        }
+        
+        .drag-handle {
+            font-size: 14px;
+            line-height: 1;
+        }
+        
+        .icon-btn.active {
+            border-color: #C07F63 !important;
+            background-color: rgba(192, 127, 99, 0.1) !important;
+        }
+        
+        .edit-item-btn, .delete-item-btn, .move-up-btn, .move-down-btn {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .edit-item-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 4px rgba(192, 127, 99, 0.3);
+        }
+        
+        .delete-item-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        }
+        
+        .move-up-btn:hover, .move-down-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+        }
+        
+        .move-up-btn:disabled, .move-down-btn:disabled {
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        
+        /* Modal animations */
+        #itinerary-modal {
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        #itinerary-modal > div > div {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Drag and drop visual feedback */
+        .itinerary-item[style*="opacity: 0.5"] {
+            transform: rotate(5deg);
+            border-color: #A9684C;
+        }
         .chart-container {
             position: relative;
             margin: auto;
@@ -5223,21 +5315,278 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Dynamic Itinerary Management
+    let isEditMode = false;
+    let editingItem = null;
+    let currentDay = 'day1';
+
+    // Load custom itinerary from localStorage or use default
+    function loadItinerary() {
+        const saved = localStorage.getItem('providence-itinerary');
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                AppData.itinerary = { ...AppData.itinerary, ...parsed };
+            } catch (e) {
+                console.warn('Failed to load saved itinerary:', e);
+            }
+        }
+    }
+
+    // Save itinerary to localStorage
+    function saveItinerary() {
+        try {
+            localStorage.setItem('providence-itinerary', JSON.stringify(AppData.itinerary));
+            showNotification('Itinerary saved successfully!', 'success');
+        } catch (e) {
+            showNotification('Failed to save itinerary. Please try again.', 'error');
+        }
+    }
+
+    // Show notification
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 z-50 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all duration-300 transform translate-x-full`;
+        notification.style.backgroundColor = type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#6B7280';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.style.transform = 'translate-x-0', 100);
+        setTimeout(() => {
+            notification.style.transform = 'translate-x-full';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
     function renderItinerary(day) {
+        currentDay = day;
         const items = AppData.itinerary[day];
         if (!items) return;
+        
         tabContainer.innerHTML = `
-            <div class="relative max-w-2xl mx-auto">
+            <div class="relative max-w-2xl mx-auto" id="itinerary-timeline">
                 <div class="absolute left-4 top-0 h-full w-0.5 bg-[#EAE0D5]"></div>
-                ${items.map(item => `
-                    <div class="relative pl-12 pb-12">
+                ${items.map((item, index) => `
+                    <div class="itinerary-item relative pl-12 pb-12 ${isEditMode ? 'edit-mode' : ''}" 
+                         data-index="${index}" 
+                         ${isEditMode ? 'draggable="true"' : ''}>
                         <div class="absolute left-0 top-1.5 flex items-center justify-center bg-[#C07F63] text-white rounded-full h-8 w-8 text-xl">${item.icon}</div>
-                        <h3 class="text-xl font-bold font-display">${item.title} <span class="text-sm font-normal text-gray-500 ml-2">${item.time}</span></h3>
-                        <p class="mt-1 text-[#433A3F]/80">${item.desc}</p>
+                        <div class="itinerary-content">
+                            <h3 class="text-xl font-bold font-display">${item.title} <span class="text-sm font-normal text-gray-500 ml-2">${item.time}</span></h3>
+                            <p class="mt-1 text-[#433A3F]/80">${item.desc}</p>
+                            ${isEditMode ? `
+                                <div class="mt-3 flex gap-2">
+                                    <button class="edit-item-btn bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors" data-index="${index}">
+                                        ✏️ Edit
+                                    </button>
+                                    <button class="delete-item-btn bg-red-600 text-white px-3 py-1 rounded-full text-xs hover:bg-red-700 transition-colors" data-index="${index}">
+                                        🗑️ Delete
+                                    </button>
+                                    <button class="move-up-btn bg-gray-600 text-white px-3 py-1 rounded-full text-xs hover:bg-gray-700 transition-colors ${index === 0 ? 'opacity-50 cursor-not-allowed' : ''}" data-index="${index}" ${index === 0 ? 'disabled' : ''}>
+                                        ⬆️ Up
+                                    </button>
+                                    <button class="move-down-btn bg-gray-600 text-white px-3 py-1 rounded-full text-xs hover:bg-gray-700 transition-colors ${index === items.length - 1 ? 'opacity-50 cursor-not-allowed' : ''}" data-index="${index}" ${index === items.length - 1 ? 'disabled' : ''}>
+                                        ⬇️ Down
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${isEditMode ? '<div class="drag-handle absolute right-0 top-1.5 cursor-move text-gray-400 hover:text-gray-600">⋮⋮</div>' : ''}
                     </div>
                 `).join('')}
+                ${isEditMode ? `
+                    <div class="text-center pt-4">
+                        <button class="add-item-inline bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors">
+                            ➕ Add Activity Here
+                        </button>
+                    </div>
+                ` : ''}
             </div>
         `;
+
+        // Add drag and drop functionality if in edit mode
+        if (isEditMode) {
+            setupDragAndDrop();
+            setupInlineActions();
+        }
+    }
+
+    // Setup drag and drop functionality
+    function setupDragAndDrop() {
+        const timeline = document.getElementById('itinerary-timeline');
+        let draggedElement = null;
+        let draggedIndex = null;
+
+        timeline.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('itinerary-item')) {
+                draggedElement = e.target;
+                draggedIndex = parseInt(e.target.dataset.index);
+                e.target.style.opacity = '0.5';
+                e.dataTransfer.effectAllowed = 'move';
+            }
+        });
+
+        timeline.addEventListener('dragend', (e) => {
+            if (e.target.classList.contains('itinerary-item')) {
+                e.target.style.opacity = '';
+                draggedElement = null;
+                draggedIndex = null;
+            }
+        });
+
+        timeline.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        });
+
+        timeline.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (draggedElement && e.target.closest('.itinerary-item')) {
+                const dropTarget = e.target.closest('.itinerary-item');
+                const dropIndex = parseInt(dropTarget.dataset.index);
+                
+                if (draggedIndex !== dropIndex) {
+                    moveItineraryItem(currentDay, draggedIndex, dropIndex);
+                    renderItinerary(currentDay);
+                }
+            }
+        });
+    }
+
+    // Setup inline action buttons
+    function setupInlineActions() {
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.edit-item-btn') || e.target.closest('.edit-item-btn')) {
+                const btn = e.target.closest('.edit-item-btn');
+                const index = parseInt(btn.dataset.index);
+                editItineraryItem(currentDay, index);
+            }
+            
+            if (e.target.matches('.delete-item-btn') || e.target.closest('.delete-item-btn')) {
+                const btn = e.target.closest('.delete-item-btn');
+                const index = parseInt(btn.dataset.index);
+                if (confirm('Are you sure you want to delete this activity?')) {
+                    deleteItineraryItem(currentDay, index);
+                    renderItinerary(currentDay);
+                }
+            }
+            
+            if (e.target.matches('.move-up-btn') || e.target.closest('.move-up-btn')) {
+                const btn = e.target.closest('.move-up-btn');
+                const index = parseInt(btn.dataset.index);
+                if (index > 0) {
+                    moveItineraryItem(currentDay, index, index - 1);
+                    renderItinerary(currentDay);
+                }
+            }
+            
+            if (e.target.matches('.move-down-btn') || e.target.closest('.move-down-btn')) {
+                const btn = e.target.closest('.move-down-btn');
+                const index = parseInt(btn.dataset.index);
+                const items = AppData.itinerary[currentDay];
+                if (index < items.length - 1) {
+                    moveItineraryItem(currentDay, index, index + 1);
+                    renderItinerary(currentDay);
+                }
+            }
+            
+            if (e.target.matches('.add-item-inline') || e.target.closest('.add-item-inline')) {
+                openItineraryModal();
+            }
+        });
+    }
+
+    // Move itinerary item
+    function moveItineraryItem(day, fromIndex, toIndex) {
+        const items = AppData.itinerary[day];
+        const [movedItem] = items.splice(fromIndex, 1);
+        items.splice(toIndex, 0, movedItem);
+    }
+
+    // Delete itinerary item
+    function deleteItineraryItem(day, index) {
+        AppData.itinerary[day].splice(index, 1);
+    }
+
+    // Edit itinerary item
+    function editItineraryItem(day, index) {
+        const item = AppData.itinerary[day][index];
+        editingItem = { day, index };
+        openItineraryModal(item);
+    }
+
+    // Open itinerary modal
+    function openItineraryModal(item = null) {
+        const modal = document.getElementById('itinerary-modal');
+        const title = document.getElementById('modal-title');
+        const form = document.getElementById('itinerary-form');
+        
+        title.textContent = item ? 'Edit Activity' : 'Add Activity';
+        
+        if (item) {
+            document.getElementById('activity-time').value = item.time;
+            document.getElementById('activity-icon').value = item.icon;
+            document.getElementById('activity-title').value = item.title;
+            document.getElementById('activity-desc').value = item.desc;
+        } else {
+            form.reset();
+            editingItem = null;
+        }
+        
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close itinerary modal
+    function closeItineraryModal() {
+        const modal = document.getElementById('itinerary-modal');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        editingItem = null;
+    }
+
+    // Handle itinerary form submission
+    function handleItineraryFormSubmit(e) {
+        e.preventDefault();
+        
+        const time = document.getElementById('activity-time').value;
+        const icon = document.getElementById('activity-icon').value;
+        const title = document.getElementById('activity-title').value;
+        const desc = document.getElementById('activity-desc').value;
+        
+        const newItem = { time, icon, title, desc };
+        
+        if (editingItem) {
+            // Edit existing item
+            AppData.itinerary[editingItem.day][editingItem.index] = newItem;
+            showNotification('Activity updated successfully!', 'success');
+        } else {
+            // Add new item
+            AppData.itinerary[currentDay].push(newItem);
+            showNotification('Activity added successfully!', 'success');
+        }
+        
+        renderItinerary(currentDay);
+        closeItineraryModal();
+    }
+
+    // Reset itinerary to default
+    function resetItinerary() {
+        if (confirm('This will reset your itinerary to the default. Are you sure?')) {
+            localStorage.removeItem('providence-itinerary');
+            location.reload();
+        }
+    }
+
+    // Toggle edit mode
+    function toggleEditMode() {
+        isEditMode = !isEditMode;
+        const btn = document.getElementById('toggle-edit-mode');
+        btn.innerHTML = isEditMode 
+            ? '<span>👁️</span> View Mode' 
+            : '<span>✏️</span> Edit Mode';
+        btn.style.backgroundColor = isEditMode ? '#10B981' : '#433A3F';
+        renderItinerary(currentDay);
     }
 
     function renderExploreCards(filter = 'all') {
@@ -5729,6 +6078,55 @@ document.addEventListener('DOMContentLoaded', () => {
     renderItinerary('day1');
     renderExploreCards();
     // renderAccordion(); // Removed - replaced with enhanced planning cards
+    
+    // Initialize dynamic itinerary management
+    loadItinerary();
+    
+    // Dynamic Itinerary Management Event Listeners
+    document.getElementById('add-item-btn').addEventListener('click', () => {
+        openItineraryModal();
+    });
+    
+    document.getElementById('toggle-edit-mode').addEventListener('click', toggleEditMode);
+    
+    document.getElementById('save-itinerary').addEventListener('click', saveItinerary);
+    
+    document.getElementById('reset-itinerary').addEventListener('click', resetItinerary);
+    
+    // Modal event listeners
+    document.getElementById('close-modal').addEventListener('click', closeItineraryModal);
+    document.getElementById('cancel-modal').addEventListener('click', closeItineraryModal);
+    document.getElementById('itinerary-form').addEventListener('submit', handleItineraryFormSubmit);
+    
+    // Close modal when clicking outside
+    document.getElementById('itinerary-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+            closeItineraryModal();
+        }
+    });
+    
+    // Icon selector functionality
+    document.querySelectorAll('.icon-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all icon buttons
+            document.querySelectorAll('.icon-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            // Set the icon in the input
+            document.getElementById('activity-icon').value = btn.dataset.icon;
+        });
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !document.getElementById('itinerary-modal').classList.contains('hidden')) {
+            closeItineraryModal();
+        }
+    });
     
     // Wait for DOM to be fully ready before setting up photo uploads
     setTimeout(() => {
