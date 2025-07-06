@@ -1177,10 +1177,10 @@
             <div class="container mx-auto px-6 max-w-6xl">
                 <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Memories</h2>
                 <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
-                    Capturing the beautiful moments from our Providence adventure. These special memories will always remind us of our perfect anniversary weekend together.
+                    Capturing the beautiful moments from our Providence adventure. These special photos and videos will always remind us of our perfect anniversary weekend together.
                 </p>
 
-                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
                     <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
                         <div class="relative group cursor-pointer" onclick="openModal('ugo1.jpg', 'Our Providence Adventure')">
                             <img src="ugo1.jpg" alt="Providence Memory 1" class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105">
@@ -1212,12 +1212,36 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="memory-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="relative group">
+                            <video 
+                                class="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105" 
+                                controls 
+                                preload="metadata"
+                                poster=""
+                                onclick="this.play()">
+                                <source src="memory-video.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                <h3 class="text-xl font-bold font-display mb-2">Our Love in Motion</h3>
+                                <p class="text-sm">A special video capturing our beautiful moments together</p>
+                            </div>
+                            <div class="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-7 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="text-center">
                     <p class="text-lg font-display text-[#C07F63] mb-4">✨ Forever in our hearts ✨</p>
                     <p class="text-[#433A3F]/80 max-w-2xl mx-auto">
-                        These photos represent just a glimpse of the magic we experienced together. Every corner of Providence holds a special memory from our anniversary celebration.
+                        These photos and videos represent just a glimpse of the magic we experienced together. Every corner of Providence holds a special memory from our anniversary celebration.
                     </p>
                 </div>
             </div>
