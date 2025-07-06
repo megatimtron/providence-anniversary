@@ -7039,80 +7039,148 @@ document.addEventListener('DOMContentLoaded', () => {
             : AppData.explore.filter(item => item.category === filter);
         
         exploreGrid.innerHTML = filteredItems.map(item => {
-            // Define URLs for menus and locations
-            const getMenuUrl = (title) => {
-                const menuUrls = {
-                    "Gracie's": "https://graciesprov.com/menu/",
-                    "Hemenway's Restaurant": "https://www.hemenwaysrestaurant.com/menu/",
-                    "Massimo Restaurant": "https://massimori.com/menu/",
-                    "CAV Providence": "https://cavrestaurant.com/providence-jewelry-district-cav-providence-food-menu"
+            // Enhanced location data for all locations
+            const getLocationData = (title) => {
+                const locationData = {
+                    "Gracie's": {
+                        address: "194 Washington St, Providence, RI",
+                        mapUrl: "https://maps.google.com/?q=Gracies+Restaurant+194+Washington+St+Providence+RI",
+                        uberLocation: "Gracies%20Restaurant%20194%20Washington%20St%20Providence%20RI",
+                        menuUrl: "https://graciesprov.com/menu/"
+                    },
+                    "Hemenway's Restaurant": {
+                        address: "121 South Main St, Providence, RI",
+                        mapUrl: "https://maps.google.com/?q=Hemenwaysrestaurant+121+South+Main+St+Providence+RI",
+                        uberLocation: "Hemenwaysrestaurant%20121%20South%20Main%20St%20Providence%20RI",
+                        menuUrl: "https://www.hemenwaysrestaurant.com/menu/"
+                    },
+                    "Massimo Restaurant": {
+                        address: "134 Atwells Ave, Federal Hill, RI",
+                        mapUrl: "https://maps.google.com/?q=Massimo+Restaurant+134+Atwells+Ave+Providence+RI",
+                        uberLocation: "Massimo%20Restaurant%20134%20Atwells%20Ave%20Providence%20RI",
+                        menuUrl: "https://massimori.com/menu/"
+                    },
+                    "CAV Providence": {
+                        address: "14 Imperial Pl, Providence, RI",
+                        mapUrl: "https://maps.google.com/?q=CAV+Restaurant+14+Imperial+Pl+Providence+RI",
+                        uberLocation: "CAV%20Restaurant%2014%20Imperial%20Pl%20Providence%20RI",
+                        menuUrl: "https://cavrestaurant.com/providence-jewelry-district-cav-providence-food-menu"
+                    },
+                    "Wine & Brine Cruise": {
+                        address: "Providence Harbor, RI",
+                        mapUrl: "https://maps.google.com/?q=Providence+Harbor+Providence+RI",
+                        uberLocation: "Providence%20Harbor%20Providence%20RI",
+                        website: "https://providenceriverboat.com/"
+                    },
+                    "Twilight River Cruise": {
+                        address: "Providence Harbor, RI", 
+                        mapUrl: "https://maps.google.com/?q=Providence+Harbor+Providence+RI",
+                        uberLocation: "Providence%20Harbor%20Providence%20RI",
+                        website: "https://providenceriverboat.com/"
+                    },
+                    "Private Charter": {
+                        address: "Providence Harbor, RI",
+                        mapUrl: "https://maps.google.com/?q=Providence+Harbor+Providence+RI", 
+                        uberLocation: "Providence%20Harbor%20Providence%20RI",
+                        website: "https://providenceriverboat.com/"
+                    },
+                    "RISD Museum": {
+                        address: "20 N Main St, Providence, RI",
+                        mapUrl: "https://maps.google.com/?q=RISD+Museum+20+N+Main+St+Providence+RI",
+                        uberLocation: "RISD%20Museum%2020%20N%20Main%20St%20Providence%20RI",
+                        website: "https://risdmuseum.org/"
+                    },
+                    "Providence Athenaeum": {
+                        address: "251 Benefit St, Providence, RI",
+                        mapUrl: "https://maps.google.com/?q=Providence+Athenaeum+251+Benefit+St+Providence+RI",
+                        uberLocation: "Providence%20Athenaeum%20251%20Benefit%20St%20Providence%20RI",
+                        website: "https://providenceathenaeum.org/"
+                    },
+                    "Roger Williams Park": {
+                        address: "1000 Elmwood Ave, Providence, RI",
+                        mapUrl: "https://maps.google.com/?q=Roger+Williams+Park+1000+Elmwood+Ave+Providence+RI",
+                        uberLocation: "Roger%20Williams%20Park%201000%20Elmwood%20Ave%20Providence%20RI",
+                        website: "https://www.providenceri.gov/parks/"
+                    },
+                    "WaterFire": {
+                        address: "Downtown Providence Rivers, RI",
+                        mapUrl: "https://maps.google.com/?q=WaterFire+Providence+RI",
+                        uberLocation: "WaterFire%20Providence%20RI",
+                        website: "https://waterfire.org/"
+                    },
+                    "The Boombox": {
+                        address: "11 Dorrance St (Neptune Hotel), RI",
+                        mapUrl: "https://maps.google.com/?q=The+Graduate+Providence+11+Dorrance+St+Providence+RI",
+                        uberLocation: "The%20Graduate%20Providence%2011%20Dorrance%20St%20Providence%20RI",
+                        website: "https://www.graduatehotels.com/providence/"
+                    }
                 };
-                return menuUrls[title] || null;
+                
+                return locationData[title] || {
+                    address: "Providence, RI",
+                    mapUrl: `https://maps.google.com/?q=${encodeURIComponent(title + ' Providence RI')}`,
+                    uberLocation: encodeURIComponent(title + ' Providence RI'),
+                    website: null
+                };
             };
             
-            const getLocationUrl = (title) => {
-                const locationUrls = {
-                    "Gracie's": "https://maps.google.com/?q=Gracies+Restaurant+194+Washington+St+Providence+RI",
-                    "Hemenway's Restaurant": "https://maps.google.com/?q=Hemenwaysrestaurant+121+South+Main+St+Providence+RI",
-                    "Massimo Restaurant": "https://maps.google.com/?q=Massimo+Restaurant+134+Atwells+Ave+Providence+RI",
-                    "CAV Providence": "https://maps.google.com/?q=CAV+Restaurant+14+Imperial+Pl+Providence+RI",
-                    "RISD Museum": "https://maps.google.com/?q=RISD+Museum+20+N+Main+St+Providence+RI",
-                    "Providence Athenaeum": "https://maps.google.com/?q=Providence+Athenaeum+251+Benefit+St+Providence+RI",
-                    "Roger Williams Park": "https://maps.google.com/?q=Roger+Williams+Park+1000+Elmwood+Ave+Providence+RI",
-                    "The Boombox": "https://maps.google.com/?q=The+Graduate+Providence+11+Dorrance+St+Providence+RI"
-                };
-                return locationUrls[title] || `https://maps.google.com/?q=${encodeURIComponent(title + ' Providence RI')}`;
-            };
+            const locationData = getLocationData(item.title);
+            const uberUrl = `https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=${locationData.uberLocation}`;
             
-            const getUberUrl = (title) => {
-                const locations = {
-                    "Gracie's": "Gracies%20Restaurant%20194%20Washington%20St%20Providence%20RI",
-                    "Hemenway's Restaurant": "Hemenwaysrestaurant%20121%20South%20Main%20St%20Providence%20RI",
-                    "Massimo Restaurant": "Massimo%20Restaurant%20134%20Atwells%20Ave%20Providence%20RI",
-                    "CAV Providence": "CAV%20Restaurant%2014%20Imperial%20Pl%20Providence%20RI",
-                    "RISD Museum": "RISD%20Museum%2020%20N%20Main%20St%20Providence%20RI",
-                    "Providence Athenaeum": "Providence%20Athenaeum%20251%20Benefit%20St%20Providence%20RI",
-                    "Roger Williams Park": "Roger%20Williams%20Park%201000%20Elmwood%20Ave%20Providence%20RI",
-                    "The Boombox": "The%20Graduate%20Providence%2011%20Dorrance%20St%20Providence%20RI"
-                };
-                const location = locations[title] || encodeURIComponent(title + ' Providence RI');
-                return `https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=${location}`;
-            };
+            // Enhanced action buttons for all cards
+            let actionButtons = `
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <a href="${locationData.mapUrl}" target="_blank" 
+                       class="bg-[#433A3F] text-white px-3 py-2 rounded-lg text-sm text-center hover:bg-black transition-colors flex items-center justify-center">
+                        <span class="mr-1">📍</span> Directions
+                    </a>
+                    <a href="${uberUrl}" target="_blank" 
+                       class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm text-center hover:bg-green-700 transition-colors flex items-center justify-center">
+                        <span class="mr-1">🚗</span> Uber
+                    </a>
+            `;
             
-            const menuUrl = getMenuUrl(item.title);
-            const locationUrl = getLocationUrl(item.title);
-            const uberUrl = getUberUrl(item.title);
-            
-            let actionButtons = '';
-            if (item.category === 'Dining') {
-                actionButtons = `
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        ${menuUrl ? `<a href="${menuUrl}" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-sm hover:bg-[#A9684C] transition-colors">View Menu</a>` : ''}
-                        <a href="${locationUrl}" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                        <a href="${uberUrl}" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                    </div>
+            // Add category-specific buttons in second row
+            if (item.category === 'Dining' && locationData.menuUrl) {
+                actionButtons += `
+                    <a href="${locationData.menuUrl}" target="_blank" 
+                       class="bg-[#C07F63] text-white px-3 py-2 rounded-lg text-sm text-center hover:bg-[#A9684C] transition-colors flex items-center justify-center col-span-2">
+                        <span class="mr-1">🍽️</span> View Menu
+                    </a>
+                `;
+            } else if (locationData.website) {
+                actionButtons += `
+                    <a href="${locationData.website}" target="_blank" 
+                       class="bg-[#C07F63] text-white px-3 py-2 rounded-lg text-sm text-center hover:bg-[#A9684C] transition-colors flex items-center justify-center col-span-2">
+                        <span class="mr-1">🌐</span> Visit Website
+                    </a>
                 `;
             } else {
-                actionButtons = `
-                    <div class="flex flex-wrap gap-2 mt-4">
-                        <a href="${locationUrl}" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                        <a href="${uberUrl}" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                    </div>
+                actionButtons += `
+                    <button onclick="focusMapLocation('${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}')" 
+                            class="bg-[#C07F63] text-white px-3 py-2 rounded-lg text-sm text-center hover:bg-[#A9684C] transition-colors flex items-center justify-center col-span-2">
+                        <span class="mr-1">🗺️</span> Show on Map
+                    </button>
                 `;
             }
             
+            actionButtons += '</div>';
+            
             return `
-                <div class="card bg-white rounded-lg shadow-md overflow-hidden" data-category="${item.category}">
+                <div class="card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100" data-category="${item.category}">
                     <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="text-3xl mr-4">${item.icon}</div>
-                            <div>
-                                <h3 class="text-xl font-bold font-display">${item.title}</h3>
-                                <p class="text-sm text-[#C07F63] font-medium">${item.category}</p>
+                        <div class="flex items-start mb-4">
+                            <div class="text-4xl mr-4 flex-shrink-0">${item.icon}</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold font-display text-[#433A3F] mb-1">${item.title}</h3>
+                                <p class="text-sm text-[#C07F63] font-medium mb-1">${item.category}</p>
+                                <p class="text-xs text-gray-500">${locationData.address}</p>
                             </div>
                         </div>
-                        <p class="text-[#433A3F]/80 mb-4">${item.desc}</p>
-                        <div class="text-right font-medium text-[#433A3F] mb-2">${item.keyInfo}</div>
+                        <p class="text-[#433A3F]/80 mb-4 line-clamp-3">${item.desc}</p>
+                        <div class="bg-[#EAE0D5] rounded-lg px-3 py-2 mb-4">
+                            <div class="text-sm font-semibold text-[#433A3F]">${item.keyInfo}</div>
+                        </div>
                         ${actionButtons}
                     </div>
                 </div>
