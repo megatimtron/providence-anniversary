@@ -4053,15 +4053,45 @@ let leafletMarkers = [];
 let leafletMarkerLayer;
 
 const providenceLocations = [
-    // Restaurants
+    // Primary Restaurants from Main Site
     { name: "Gracie's Restaurant", lat: 41.8264, lng: -71.4106, type: "restaurant", category: "restaurants romantic", description: "Most romantic restaurant in Providence", price: "$59.99 Menu", rating: "★★★★★", address: "194 Washington St" },
-    { name: "Mill's Tavern", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants", description: "Contemporary American cuisine", price: "$55 Menu", rating: "★★★★☆", address: "Federal Hill" },
     { name: "The Dorrance", lat: 41.8240, lng: -71.4128, type: "restaurant", category: "restaurants", description: "Historic bank turned elegant restaurant", price: "$$$$", rating: "★★★★☆", address: "60 Dorrance St" },
     { name: "Hemenway's Restaurant", lat: 41.8236, lng: -71.4128, type: "restaurant", category: "restaurants", description: "Fresh seafood with harbor views", price: "$$$", rating: "★★★☆☆", address: "121 South Main St" },
-    { name: "Angelo's Civita Farnese", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants", description: "Traditional Italian Federal Hill", price: "$$", rating: "★★★☆☆", address: "311 Atwells Ave" },
-    { name: "Capital Grille", lat: 41.8240, lng: -71.4128, type: "restaurant", category: "restaurants", description: "Upscale steakhouse", price: "$$$", rating: "★★★★☆", address: "Downtown" },
-    { name: "Capriccio", lat: 41.8230, lng: -71.4120, type: "restaurant", category: "restaurants", description: "Italian & Mediterranean", price: "$51.95", rating: "★★★☆☆", address: "Providence" },
-    { name: "Legal Sea Foods", lat: 41.8190, lng: -71.4300, type: "restaurant", category: "restaurants", description: "Fresh seafood chain", price: "$30-45", rating: "★★★☆☆", address: "Cranston" },
+    { name: "CAV Providence", lat: 41.8134, lng: -71.4079, type: "restaurant", category: "restaurants", description: "Contemporary cuisine in Jewelry District", price: "$$$", rating: "★★★★☆", address: "14 Imperial Pl" },
+    { name: "Massimo Restaurant", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants italian", description: "Authentic Italian Federal Hill", price: "$$", rating: "★★★★☆", address: "134 Atwells Ave" },
+    
+    // Restaurant Week Premium Restaurants ($55+)
+    { name: "Mill's Tavern", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants romantic", description: "Contemporary American cuisine", price: "$55 Menu", rating: "★★★★☆", address: "Federal Hill" },
+    { name: "Capital Grille", lat: 41.8240, lng: -71.4128, type: "restaurant", category: "restaurants steakhouse", description: "Upscale steakhouse", price: "~$60", rating: "★★★★☆", address: "Downtown" },
+    { name: "Capriccio", lat: 41.8230, lng: -71.4120, type: "restaurant", category: "restaurants italian", description: "Italian & Mediterranean", price: "$51.95", rating: "★★★☆☆", address: "Providence" },
+    { name: "Fogo de Chao", lat: 41.8240, lng: -71.4130, type: "restaurant", category: "restaurants steakhouse", description: "Brazilian steakhouse experience", price: "$59", rating: "★★★☆☆", address: "Downtown" },
+    { name: "Fleming's Prime Steakhouse", lat: 41.8240, lng: -71.4125, type: "restaurant", category: "restaurants steakhouse", description: "Premium steakhouse", price: "~$60", rating: "★★★★☆", address: "Providence" },
+    
+    // Restaurant Week Moderate Restaurants ($30-55)
+    { name: "Legal Sea Foods", lat: 41.8190, lng: -71.4300, type: "restaurant", category: "restaurants seafood", description: "Fresh seafood chain", price: "$30-45", rating: "★★★☆☆", address: "Cranston" },
+    { name: "Il Massimo", lat: 41.8170, lng: -71.4230, type: "restaurant", category: "restaurants italian", description: "New Age Classic Neapolitan", price: "$37-48", rating: "★★★★☆", address: "Providence" },
+    { name: "Mare Rooftop", lat: 41.8245, lng: -71.4130, type: "restaurant", category: "restaurants seafood", description: "Rooftop seafood dining", price: "$$$", rating: "★★★★☆", address: "Downtown" },
+    { name: "Waterman Grille", lat: 41.8280, lng: -71.4020, type: "restaurant", category: "restaurants american", description: "American cuisine", price: "$$$", rating: "★★★☆☆", address: "East Side" },
+    
+    // Italian Restaurants from Restaurant Week
+    { name: "Angelo's Civita Farnese", lat: 41.8162, lng: -71.4225, type: "restaurant", category: "restaurants italian", description: "Southern Italian comfort - Federal Hill classic", price: "$$", rating: "★★★☆☆", address: "311 Atwells Ave" },
+    { name: "Bacaro Restaurant", lat: 41.8220, lng: -71.4090, type: "restaurant", category: "restaurants italian", description: "Traditional Italian", price: "$$$", rating: "★★★★☆", address: "262 S Water St" },
+    { name: "Cassarino's Ristorante", lat: 41.8162, lng: -71.4220, type: "restaurant", category: "restaurants italian", description: "Traditional Italian comfort food", price: "$$", rating: "★★★☆☆", address: "177 Atwells Ave" },
+    { name: "Pane e Vino", lat: 41.8162, lng: -71.4215, type: "restaurant", category: "restaurants italian", description: "Neapolitan cuisine with wood-fired oven", price: "$$", rating: "★★★★☆", address: "365 Atwells Ave" },
+    { name: "Trattoria Appia", lat: 41.8170, lng: -71.4200, type: "restaurant", category: "restaurants italian", description: "Southern Italian with special dessert deal", price: "$$", rating: "★★★☆☆", address: "Federal Hill" },
+    
+    // American & Contemporary Restaurants
+    { name: "Cafe Nuovo", lat: 41.8240, lng: -71.4100, type: "restaurant", category: "restaurants american", description: "New American with waterfront views", price: "$$$", rating: "★★★★☆", address: "1 Citizens Plaza" },
+    { name: "New Rivers", lat: 41.8260, lng: -71.4050, type: "restaurant", category: "restaurants american romantic", description: "Seasonal & local New American - farm-to-table pioneer", price: "$$$", rating: "★★★★★", address: "7 Steeple St" },
+    { name: "Oberlin", lat: 41.8290, lng: -71.4010, type: "restaurant", category: "restaurants american", description: "Contemporary with natural wine focus", price: "$$$", rating: "★★★★☆", address: "Wayland Square" },
+    { name: "Parkside Rotisserie", lat: 41.8235, lng: -71.4125, type: "restaurant", category: "restaurants american", description: "American bistro with French technique", price: "$$$", rating: "★★★★☆", address: "76 S Main St" },
+    
+    // Global & Specialty Restaurants
+    { name: "CHOP (Culinary Hub)", lat: 41.8280, lng: -71.4000, type: "restaurant", category: "restaurants", description: "Food hall with multiple cuisine stations", price: "$$", rating: "★★★★☆", address: "267 Thayer St" },
+    { name: "Jacky's Waterplace", lat: 41.8245, lng: -71.4105, type: "restaurant", category: "restaurants", description: "Contemporary Asian with waterfront views", price: "$$$", rating: "★★★★☆", address: "200 Exchange St" },
+    
+    // Track 15 Food Hall
+    { name: "Track 15 Food Hall", lat: 41.8290, lng: -71.4140, type: "restaurant", category: "restaurants", description: "Modern food hall with multiple vendors", price: "$", rating: "★★★★☆", address: "15 Station St" },
     
     // Attractions
     { name: "Providence Riverwalk", lat: 41.8270, lng: -71.4101, type: "attraction", category: "attractions waterfront romantic", description: "Romantic waterfront walkway", price: "FREE", rating: "★★★★★", address: "Downtown Waterfront" },
