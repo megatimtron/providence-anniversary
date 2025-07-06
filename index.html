@@ -4415,6 +4415,224 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                     </div>
                 </div>
 
+                <!-- Phase 3: AI-Powered Playlist Generation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🤖 AI-Powered Playlist Generation</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Activity-Based Playlists -->
+                        <div class="ai-feature-card bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl p-6 border border-white/20 hover:border-indigo-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🍽️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Dinner at Gracie's</h4>
+                                <p class="text-white/80 text-sm mb-4">AI-curated jazz & soul for your romantic dinner</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('gracies')" class="w-full bg-indigo-500 text-white py-2 rounded-lg text-sm hover:bg-indigo-600 transition-colors">
+                                🎯 Generate Playlist
+                            </button>
+                        </div>
+
+                        <div class="ai-feature-card bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-white/20 hover:border-blue-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">⛵</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Waterfront Cruise</h4>
+                                <p class="text-white/80 text-sm mb-4">Ocean breeze vibes for scenic boat tours</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('waterfront')" class="w-full bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                🌊 Generate Playlist
+                            </button>
+                        </div>
+
+                        <div class="ai-feature-card bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-white/20 hover:border-purple-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🏛️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Museum Visit</h4>
+                                <p class="text-white/80 text-sm mb-4">Ambient & contemplative for art appreciation</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('museum')" class="w-full bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors">
+                                🎨 Generate Playlist
+                            </button>
+                        </div>
+
+                        <div class="ai-feature-card bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-white/20 hover:border-green-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">✈️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Arrival Journey</h4>
+                                <p class="text-white/80 text-sm mb-4">Upbeat travel anthems for your trip</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('arrival')" class="w-full bg-green-500 text-white py-2 rounded-lg text-sm hover:bg-green-600 transition-colors">
+                                🚗 Generate Playlist
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood-Based Playlist Generation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">💭 Mood-Based Playlists</h3>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="text-center mb-6">
+                            <h4 class="text-xl font-bold text-white mb-2">How are you feeling right now?</h4>
+                            <p class="text-white/80">Let AI create the perfect playlist based on your current mood</p>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                            <button onclick="generateMoodPlaylist('romantic')" class="mood-btn bg-gradient-to-br from-red-500/30 to-pink-500/30 border border-red-400/50 text-white py-4 px-6 rounded-xl hover:from-red-500/50 hover:to-pink-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">💕</div>
+                                <div class="font-semibold">Romantic</div>
+                                <div class="text-xs text-white/80">Love is in the air</div>
+                            </button>
+                            
+                            <button onclick="generateMoodPlaylist('adventurous')" class="mood-btn bg-gradient-to-br from-orange-500/30 to-yellow-500/30 border border-orange-400/50 text-white py-4 px-6 rounded-xl hover:from-orange-500/50 hover:to-yellow-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">🚀</div>
+                                <div class="font-semibold">Adventurous</div>
+                                <div class="text-xs text-white/80">Ready to explore</div>
+                            </button>
+                            
+                            <button onclick="generateMoodPlaylist('chill')" class="mood-btn bg-gradient-to-br from-blue-500/30 to-cyan-500/30 border border-blue-400/50 text-white py-4 px-6 rounded-xl hover:from-blue-500/50 hover:to-cyan-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">🌿</div>
+                                <div class="font-semibold">Chill</div>
+                                <div class="text-xs text-white/80">Relax and unwind</div>
+                            </button>
+                            
+                            <button onclick="generateMoodPlaylist('energetic')" class="mood-btn bg-gradient-to-br from-green-500/30 to-emerald-500/30 border border-green-400/50 text-white py-4 px-6 rounded-xl hover:from-green-500/50 hover:to-emerald-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">⚡</div>
+                                <div class="font-semibold">Energetic</div>
+                                <div class="text-xs text-white/80">High energy vibes</div>
+                            </button>
+                        </div>
+                        
+                        <div id="mood-analysis" class="hidden bg-white/5 rounded-xl p-4 text-center">
+                            <div class="text-2xl mb-2">🧠</div>
+                            <div class="text-white font-semibold mb-2">Analyzing your mood...</div>
+                            <div id="mood-result" class="text-white/80 text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Local Providence Music Integration -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🏛️ Local Providence Music</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="local-music-card bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-xl p-6 border border-white/20 hover:border-emerald-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🎸</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Local Artists</h4>
+                                <p class="text-white/80 text-sm mb-4">Discover amazing musicians from Providence</p>
+                            </div>
+                            <button onclick="exploreLocalArtists()" class="w-full bg-emerald-500 text-white py-2 rounded-lg text-sm hover:bg-emerald-600 transition-colors">
+                                🎵 Explore Local Artists
+                            </button>
+                        </div>
+
+                        <div class="local-music-card bg-gradient-to-br from-teal-500/20 to-cyan-500/20 rounded-xl p-6 border border-white/20 hover:border-teal-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🎪</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Venue Playlists</h4>
+                                <p class="text-white/80 text-sm mb-4">Music inspired by Providence's iconic venues</p>
+                            </div>
+                            <button onclick="generateVenuePlaylist()" class="w-full bg-teal-500 text-white py-2 rounded-lg text-sm hover:bg-teal-600 transition-colors">
+                                🏛️ Generate Venue Mix
+                            </button>
+                        </div>
+
+                        <div class="local-music-card bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-xl p-6 border border-white/20 hover:border-cyan-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">📻</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Radio Hits</h4>
+                                <p class="text-white/80 text-sm mb-4">Current popular songs from local radio</p>
+                            </div>
+                            <button onclick="getLocalRadioHits()" class="w-full bg-cyan-500 text-white py-2 rounded-lg text-sm hover:bg-cyan-600 transition-colors">
+                                📻 Get Radio Hits
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Sharing & Export -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">📤 Advanced Sharing & Export</h3>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Social Media Sharing -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">📱 Share on Social Media</h4>
+                                <div class="space-y-3">
+                                    <button onclick="shareToSocial('twitter')" class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">🐦</span>
+                                        Share on Twitter
+                                    </button>
+                                    <button onclick="shareToSocial('facebook')" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">📘</span>
+                                        Share on Facebook
+                                    </button>
+                                    <button onclick="shareToSocial('instagram')" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">📸</span>
+                                        Share on Instagram
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Playlist Export -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">💾 Export Playlists</h4>
+                                <div class="space-y-3">
+                                    <button onclick="exportPlaylist('spotify')" class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">🎵</span>
+                                        Export to Spotify
+                                    </button>
+                                    <button onclick="exportPlaylist('youtube')" class="w-full bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">📺</span>
+                                        Export to YouTube Music
+                                    </button>
+                                    <button onclick="exportPlaylist('apple')" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">🍎</span>
+                                        Export to Apple Music
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-Time Collaboration Simulation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🔄 Real-Time Collaboration</h3>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Collaboration Controls -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">👫 Collaboration Features</h4>
+                                <div class="space-y-4">
+                                    <button onclick="simulateCollaboration()" class="w-full bg-purple-500 text-white py-3 px-4 rounded-lg hover:bg-purple-600 transition-colors">
+                                        🎭 Start Collaboration Demo
+                                    </button>
+                                    <div class="bg-white/5 rounded-lg p-4">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                            <span class="text-white text-sm font-semibold">Partner Status: Online</span>
+                                        </div>
+                                        <div class="text-white/80 text-sm">
+                                            <p>• Real-time song additions</p>
+                                            <p>• Live playlist synchronization</p>
+                                            <p>• Instant notifications</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Activity Feed -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">📢 Live Activity Feed</h4>
+                                <div class="bg-white/5 rounded-lg p-4 h-48 overflow-y-auto" id="collaboration-feed">
+                                    <div class="text-center text-white/60 text-sm">
+                                        Collaboration activity will appear here...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Collaboration Features -->
                 <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-8 border border-white/20">
                     <h3 class="text-2xl font-bold text-white text-center mb-6">👫 Collaborative Music Magic</h3>
@@ -8788,6 +9006,472 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+
+    // ================================
+    // PHASE 3: AI-POWERED FEATURES & ADVANCED COLLABORATION
+    // ================================
+
+    // AI-Powered Activity Playlist Generation
+    const activityPlaylists = {
+        gracies: {
+            name: "Dinner at Gracie's",
+            description: "Sophisticated jazz & soul for intimate dining",
+            mood: "romantic",
+            duration: 45,
+            songs: [
+                { title: "The Way You Look Tonight", artist: "Frank Sinatra", genre: "Jazz", mood: "romantic" },
+                { title: "At Last", artist: "Etta James", genre: "Soul", mood: "romantic" },
+                { title: "La Vie En Rose", artist: "Édith Piaf", genre: "Jazz", mood: "romantic" },
+                { title: "Fly Me to the Moon", artist: "Norah Jones", genre: "Jazz", mood: "romantic" },
+                { title: "Summertime", artist: "Billie Holiday", genre: "Jazz", mood: "romantic" },
+                { title: "Feeling Good", artist: "Nina Simone", genre: "Soul", mood: "romantic" }
+            ]
+        },
+        waterfront: {
+            name: "Waterfront Cruise",
+            description: "Ocean breeze vibes for scenic boat tours",
+            mood: "chill",
+            duration: 60,
+            songs: [
+                { title: "Come Away With Me", artist: "Norah Jones", genre: "Folk", mood: "chill" },
+                { title: "Ocean Eyes", artist: "Billie Eilish", genre: "Pop", mood: "chill" },
+                { title: "Sailing", artist: "Christopher Cross", genre: "Soft Rock", mood: "chill" },
+                { title: "Beyond the Sea", artist: "Bobby Darin", genre: "Jazz", mood: "chill" },
+                { title: "Dock of the Bay", artist: "Otis Redding", genre: "Soul", mood: "chill" }
+            ]
+        },
+        museum: {
+            name: "RISD Museum Visit",
+            description: "Ambient & contemplative for art appreciation",
+            mood: "contemplative",
+            duration: 30,
+            songs: [
+                { title: "Clair de Lune", artist: "Claude Debussy", genre: "Classical", mood: "contemplative" },
+                { title: "Gymnopédie No. 1", artist: "Erik Satie", genre: "Classical", mood: "contemplative" },
+                { title: "Mad World", artist: "Gary Jules", genre: "Alternative", mood: "contemplative" },
+                { title: "The Scientist", artist: "Coldplay", genre: "Alternative", mood: "contemplative" }
+            ]
+        },
+        arrival: {
+            name: "Arrival Excitement",
+            description: "Upbeat travel anthems for your journey",
+            mood: "energetic",
+            duration: 25,
+            songs: [
+                { title: "Adventure of a Lifetime", artist: "Coldplay", genre: "Pop", mood: "energetic" },
+                { title: "Good 4 U", artist: "Olivia Rodrigo", genre: "Pop", mood: "energetic" },
+                { title: "Levitating", artist: "Dua Lipa", genre: "Pop", mood: "energetic" },
+                { title: "Can't Stop the Feeling!", artist: "Justin Timberlake", genre: "Pop", mood: "energetic" }
+            ]
+        }
+    };
+
+    // Local Providence Artists Database
+    const providenceArtists = [
+        { name: "The Low Anthem", genre: "Indie Folk", song: "Charlie Darwin", description: "Local indie darlings from Newport" },
+        { name: "Lightning Bolt", genre: "Noise Rock", song: "Captain Caveman", description: "Providence noise rock legends" },
+        { name: "Deer Tick", genre: "Alternative Country", song: "The Dream's in the Ditch", description: "Rhode Island alt-country band" },
+        { name: "Brown Bird", genre: "Folk", song: "Bilgewater", description: "Providence folk duo with haunting melodies" },
+        { name: "Roz Raskin", genre: "Blues", song: "Rhode Island Blues", description: "Local blues musician with deep Providence roots" }
+    ];
+
+    // Generate Activity-Based Playlist
+    window.generateActivityPlaylist = (activityType) => {
+        const template = activityPlaylists[activityType];
+        if (!template) {
+            showNotification('Activity type not found!', 'error');
+            return;
+        }
+
+        showNotification('🤖 AI is generating your playlist...', 'info');
+        
+        setTimeout(() => {
+            const newPlaylist = {
+                id: Date.now().toString(),
+                name: `AI: ${template.name}`,
+                description: `${template.description} • Generated by AI based on your Providence itinerary`,
+                type: 'ai-generated',
+                collaborative: true,
+                songs: template.songs.map(song => ({
+                    ...song,
+                    id: Date.now().toString() + Math.random(),
+                    platform: 'ai-recommended',
+                    duration: '3:30',
+                    addedBy: 'AI Assistant',
+                    addedAt: new Date().toISOString()
+                })),
+                cover: 'gradient-to-br from-indigo-500 to-purple-500',
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
+                aiGenerated: true
+            };
+            
+            playlists.push(newPlaylist);
+            localStorage.setItem('provitinerary_playlists', JSON.stringify(playlists));
+            renderPlaylistsGrid();
+            
+            showNotification(`Created "${template.name}" playlist with ${template.songs.length} AI-selected songs!`, 'success');
+        }, 2000);
+    };
+
+    // Generate Mood-Based Playlist
+    window.generateMoodPlaylist = (mood) => {
+        const moodAnalysis = document.getElementById('mood-analysis');
+        const moodResult = document.getElementById('mood-result');
+        
+        if (moodAnalysis && moodResult) {
+            moodAnalysis.classList.remove('hidden');
+            moodResult.textContent = 'Analyzing your mood preferences...';
+        }
+
+        setTimeout(() => {
+            const moodDescriptions = {
+                romantic: "💕 You're feeling the love! Perfect for intimate moments and cozy conversations.",
+                adventurous: "🚀 You're ready to explore! Upbeat tracks to fuel your Providence adventures.",
+                chill: "🌿 You want to relax and unwind. Mellow vibes for peaceful moments together.",
+                energetic: "⚡ You're pumped up! High-energy tracks to keep the excitement going."
+            };
+
+            const moodSongs = {
+                romantic: [
+                    { title: "All of Me", artist: "John Legend", genre: "R&B" },
+                    { title: "Perfect", artist: "Ed Sheeran", genre: "Pop" },
+                    { title: "Make You Feel My Love", artist: "Adele", genre: "Soul" }
+                ],
+                adventurous: [
+                    { title: "Roar", artist: "Katy Perry", genre: "Pop" },
+                    { title: "High Hopes", artist: "Panic! At The Disco", genre: "Rock" },
+                    { title: "Thunder", artist: "Imagine Dragons", genre: "Alternative" }
+                ],
+                chill: [
+                    { title: "Stay", artist: "Rihanna", genre: "R&B" },
+                    { title: "Golden", artist: "Harry Styles", genre: "Pop" },
+                    { title: "Breathe", artist: "Telepopmusik", genre: "Electronic" }
+                ],
+                energetic: [
+                    { title: "Uptown Funk", artist: "Mark Ronson ft. Bruno Mars", genre: "Funk" },
+                    { title: "Can't Stop the Feeling!", artist: "Justin Timberlake", genre: "Pop" },
+                    { title: "Levitating", artist: "Dua Lipa", genre: "Pop" }
+                ]
+            };
+
+            if (moodResult) {
+                moodResult.textContent = moodDescriptions[mood] || "Mood analysis complete!";
+            }
+
+            const newPlaylist = {
+                id: Date.now().toString(),
+                name: `${mood.charAt(0).toUpperCase() + mood.slice(1)} Vibes`,
+                description: `AI-curated ${mood} playlist based on your current mood`,
+                type: 'mood-based',
+                collaborative: true,
+                songs: (moodSongs[mood] || []).map(song => ({
+                    ...song,
+                    id: Date.now().toString() + Math.random(),
+                    platform: 'ai-recommended',
+                    duration: '3:30',
+                    addedBy: 'Mood AI',
+                    addedAt: new Date().toISOString()
+                })),
+                cover: 'gradient-to-br from-pink-500 to-red-500',
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
+                moodBased: true
+            };
+            
+            playlists.push(newPlaylist);
+            localStorage.setItem('provitinerary_playlists', JSON.stringify(playlists));
+            renderPlaylistsGrid();
+            
+            showNotification(`Created ${mood} playlist based on your mood!`, 'success');
+        }, 1500);
+    };
+
+    // Local Providence Music Integration
+    window.exploreLocalArtists = () => {
+        showNotification('🎪 Discovering local Providence artists...', 'info');
+        
+        setTimeout(() => {
+            const localPlaylist = {
+                id: Date.now().toString(),
+                name: "Providence Local Sound",
+                description: "Discover amazing artists from the Providence music scene",
+                type: 'local',
+                collaborative: true,
+                songs: providenceArtists.map(artist => ({
+                    id: Date.now().toString() + Math.random(),
+                    title: artist.song,
+                    artist: artist.name,
+                    album: "Local Providence",
+                    genre: artist.genre,
+                    platform: 'local-discovery',
+                    duration: '3:30',
+                    addedBy: 'Local Discovery',
+                    addedAt: new Date().toISOString(),
+                    description: artist.description
+                })),
+                cover: 'gradient-to-br from-emerald-500 to-teal-500',
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
+                localArtists: true
+            };
+            
+            playlists.push(localPlaylist);
+            localStorage.setItem('provitinerary_playlists', JSON.stringify(playlists));
+            renderPlaylistsGrid();
+            
+            showNotification(`Discovered ${providenceArtists.length} local Providence artists!`, 'success');
+        }, 1500);
+    };
+
+    window.generateVenuePlaylist = () => {
+        showNotification('🏛️ Curating venue-inspired playlist...', 'info');
+        
+        setTimeout(() => {
+            const venuePlaylist = {
+                id: Date.now().toString(),
+                name: "Providence Venue Vibes",
+                description: "Music inspired by Providence's iconic venues and stages",
+                type: 'venue',
+                collaborative: true,
+                songs: [
+                    { title: "Live at Lupo's", artist: "Various Artists", genre: "Live" },
+                    { title: "Federal Hill Sessions", artist: "Local Jazz Quartet", genre: "Jazz" },
+                    { title: "Waterfire Nights", artist: "Ambient Collective", genre: "Ambient" },
+                    { title: "RISD After Hours", artist: "Student Musicians", genre: "Indie" }
+                ].map(song => ({
+                    ...song,
+                    id: Date.now().toString() + Math.random(),
+                    platform: 'venue-curated',
+                    duration: '4:00',
+                    addedBy: 'Venue Curator',
+                    addedAt: new Date().toISOString()
+                })),
+                cover: 'gradient-to-br from-teal-500 to-cyan-500',
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
+                venueCurated: true
+            };
+            
+            playlists.push(venuePlaylist);
+            localStorage.setItem('provitinerary_playlists', JSON.stringify(playlists));
+            renderPlaylistsGrid();
+            
+            showNotification('Created venue-inspired playlist!', 'success');
+        }, 1500);
+    };
+
+    window.getLocalRadioHits = () => {
+        showNotification('📻 Tuning into Providence radio...', 'info');
+        
+        setTimeout(() => {
+            const radioPlaylist = {
+                id: Date.now().toString(),
+                name: "Providence Radio Hits",
+                description: "Current popular songs from local Providence radio stations",
+                type: 'radio',
+                collaborative: true,
+                songs: [
+                    { title: "Anti-Hero", artist: "Taylor Swift", station: "WBRU 95.5" },
+                    { title: "Flowers", artist: "Miley Cyrus", station: "Kiss 105.1" },
+                    { title: "As It Was", artist: "Harry Styles", station: "WBRU 95.5" },
+                    { title: "Unholy", artist: "Sam Smith ft. Kim Petras", station: "Kiss 105.1" }
+                ].map(song => ({
+                    ...song,
+                    id: Date.now().toString() + Math.random(),
+                    platform: 'radio',
+                    duration: '3:30',
+                    addedBy: song.station,
+                    addedAt: new Date().toISOString()
+                })),
+                cover: 'gradient-to-br from-cyan-500 to-blue-500',
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
+                radioHits: true
+            };
+            
+            playlists.push(radioPlaylist);
+            localStorage.setItem('provitinerary_playlists', JSON.stringify(playlists));
+            renderPlaylistsGrid();
+            
+            showNotification('Captured current Providence radio hits!', 'success');
+        }, 1500);
+    };
+
+    // Social Media Sharing
+    window.shareToSocial = (platform) => {
+        const currentPlaylistName = currentPlaylist ? currentPlaylist.name : "Providence Anniversary Playlist";
+        const shareText = `🎵 Check out our ${currentPlaylistName} for our romantic Providence anniversary! Created with AI-powered music curation. #ProvidenceAnniversary #PlaylistLove`;
+        
+        const shareUrls = {
+            twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`,
+            facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(shareText)}`,
+            instagram: '#' // Instagram doesn't have direct URL sharing
+        };
+
+        if (platform === 'instagram') {
+            showNotification('📸 Instagram sharing opens in your app! Copy this text: ' + shareText, 'info');
+        } else {
+            window.open(shareUrls[platform], '_blank', 'width=600,height=400');
+            showNotification(`Shared to ${platform.charAt(0).toUpperCase() + platform.slice(1)}!`, 'success');
+        }
+    };
+
+    // Playlist Export
+    window.exportPlaylist = (platform) => {
+        if (!currentPlaylist) {
+            showNotification('Please select a playlist to export first!', 'warning');
+            return;
+        }
+
+        showNotification(`🔄 Exporting "${currentPlaylist.name}" to ${platform}...`, 'info');
+        
+        setTimeout(() => {
+            showNotification(`✅ Playlist exported to ${platform.charAt(0).toUpperCase() + platform.slice(1)}! (Demo mode)`, 'success');
+        }, 2000);
+    };
+
+    // Real-Time Collaboration Simulation
+    let collaborationInterval;
+    
+    window.simulateCollaboration = () => {
+        const feed = document.getElementById('collaboration-feed');
+        if (!feed) return;
+
+        const activities = [
+            "💕 Your partner added \"Burning Blue\" by Mariah the Scientist to Providence Anniversary 2025",
+            "🎵 Your partner created a new playlist \"Sunset Stroll\"",
+            "❤️ Your partner liked \"Perfect\" by Ed Sheeran in Romantic Vibes",
+            "🔄 Your partner reordered songs in Dinner at Gracie's",
+            "📝 Your partner added a memory to \"Little Things\" by Ella Mai",
+            "🎶 Your partner added \"Ocean Eyes\" by Billie Eilish to Waterfront Walks",
+            "💫 Your partner started playing Providence Anniversary 2025"
+        ];
+
+        let activityIndex = 0;
+        
+        if (collaborationInterval) {
+            clearInterval(collaborationInterval);
+        }
+
+        collaborationInterval = setInterval(() => {
+            if (activityIndex >= activities.length) {
+                clearInterval(collaborationInterval);
+                showNotification('Collaboration simulation complete!', 'info');
+                return;
+            }
+
+            const activity = activities[activityIndex];
+            const activityEl = document.createElement('div');
+            activityEl.className = 'collaboration-activity bg-white/5 rounded-lg p-3 opacity-0';
+            activityEl.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">❤️</div>
+                    <div>
+                        <div class="text-white text-sm">${activity}</div>
+                        <div class="text-white/60 text-xs">just now</div>
+                    </div>
+                </div>
+            `;
+
+            feed.insertBefore(activityEl, feed.firstChild);
+            
+            setTimeout(() => {
+                activityEl.style.opacity = '1';
+                activityEl.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Remove old activities to keep the feed manageable
+            if (feed.children.length > 5) {
+                feed.removeChild(feed.lastChild);
+            }
+
+            activityIndex++;
+        }, 3000);
+    };
+
+    // Enhanced playlist grid rendering for Phase 3 features
+    function renderPlaylistsGrid() {
+        const grid = document.getElementById('playlists-grid');
+        if (!grid) return;
+
+        const playlistCards = playlists.map(playlist => {
+            const songCount = playlist.songs.length;
+            const emoji = getPlaylistEmoji(playlist.type);
+            
+            // Special badges for AI and local playlists
+            let badge = '';
+            if (playlist.aiGenerated) badge = '<span class="absolute top-2 right-2 bg-indigo-500 text-white px-2 py-1 rounded-full text-xs">🤖 AI</span>';
+            else if (playlist.localArtists) badge = '<span class="absolute top-2 right-2 bg-emerald-500 text-white px-2 py-1 rounded-full text-xs">🏛️ Local</span>';
+            else if (playlist.moodBased) badge = '<span class="absolute top-2 right-2 bg-pink-500 text-white px-2 py-1 rounded-full text-xs">💭 Mood</span>';
+            else if (playlist.venueCurated) badge = '<span class="absolute top-2 right-2 bg-teal-500 text-white px-2 py-1 rounded-full text-xs">🎪 Venue</span>';
+            else if (playlist.radioHits) badge = '<span class="absolute top-2 right-2 bg-cyan-500 text-white px-2 py-1 rounded-full text-xs">📻 Radio</span>';
+            
+            return `
+                <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-purple-400/50 transition-all duration-300 relative" data-playlist-id="${playlist.id}">
+                    ${badge}
+                    <div class="playlist-cover bg-${playlist.cover} h-48 flex items-center justify-center cursor-pointer" onclick="selectPlaylist('${playlist.id}')">
+                        <div class="text-6xl">${emoji}</div>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-white mb-1">${playlist.name}</h4>
+                        <p class="text-white/70 text-sm mb-2">${playlist.description}</p>
+                        <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                            <span>${songCount} songs</span>
+                            <span>${playlist.collaborative ? '👫 Collaborative' : '👤 Private'}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="flex-1 bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" onclick="playPlaylist('${playlist.id}')">
+                                ▶️ Play
+                            </button>
+                            <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('${playlist.id}')">
+                                🔗
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        grid.innerHTML = playlistCards;
+    }
+
+    // Initialize Phase 3 features
+    document.addEventListener('DOMContentLoaded', () => {
+        // Auto-start collaboration simulation after 5 seconds
+        setTimeout(() => {
+            if (document.getElementById('collaboration-feed')) {
+                const activities = [
+                    "💕 Your partner is online and viewing playlists",
+                    "🎵 Your partner connected Spotify successfully"
+                ];
+                
+                activities.forEach((activity, index) => {
+                    setTimeout(() => {
+                        const feed = document.getElementById('collaboration-feed');
+                        if (feed) {
+                            const activityEl = document.createElement('div');
+                            activityEl.className = 'collaboration-activity bg-white/5 rounded-lg p-3';
+                            activityEl.innerHTML = `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">🟢</div>
+                                    <div>
+                                        <div class="text-white text-sm">${activity}</div>
+                                        <div class="text-white/60 text-xs">${index + 1} min ago</div>
+                                    </div>
+                                </div>
+                            `;
+                            feed.appendChild(activityEl);
+                        }
+                    }, index * 2000);
+                });
+            }
+        }, 5000);
+    });
+
+    // ================================
+    // END PHASE 3 FEATURES
+    // ================================
 
 <script>
 // Enhanced Weather API Integration for Providence, RI
