@@ -1090,6 +1090,7 @@
                 <a href="#our-story" class="nav-link text-lg" aria-label="Go to our story section">Our Story</a>
                 <a href="#memories" class="nav-link text-lg" aria-label="Go to our memories section">Our Memories</a>
                 <a href="#plan" class="nav-link text-lg" aria-label="Go to plan your trip section">Plan Your Trip</a>
+                <a href="#weather" class="nav-link text-lg" aria-label="Go to weather forecast section">Weather 🌤️</a>
             </div>
             <div class="md:hidden">
                 <button id="menu-btn" class="focus:outline-none" aria-label="Toggle mobile menu" aria-expanded="false">
@@ -1107,6 +1108,7 @@
             <a href="#our-story" class="block py-2 nav-link" role="menuitem">Our Story</a>
             <a href="#memories" class="block py-2 nav-link" role="menuitem">Our Memories</a>
             <a href="#plan" class="block py-2 nav-link" role="menuitem">Plan Your Trip</a>
+            <a href="#weather" class="block py-2 nav-link" role="menuitem">Weather 🌤️</a>
         </div>
     </header>
 
@@ -1386,6 +1388,70 @@
                         <button class="restaurant-filter bg-white/70 text-[#433A3F] px-4 py-2 rounded-full text-sm hover:bg-white transition-colors" data-category="food-hall">🏢 Food Hall</button>
                     </div>
 
+                    <!-- Enhanced Filtering & Sorting Options -->
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 mb-8 shadow-lg">
+                        <h4 class="text-lg font-bold text-[#433A3F] mb-4 flex items-center">
+                            <span class="text-xl mr-2">🔍</span>
+                            Advanced Filters & Sorting
+                        </h4>
+                        
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <!-- Dietary Restrictions -->
+                            <div>
+                                <label class="block text-sm font-semibold text-[#433A3F] mb-2">Dietary Options</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="vegetarian" class="dietary-filter mr-2 rounded text-[#C07F63]" data-diet="vegetarian">
+                                        <span class="text-sm">🥗 Vegetarian Options</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="gluten-free" class="dietary-filter mr-2 rounded text-[#C07F63]" data-diet="gluten-free">
+                                        <span class="text-sm">🌾 Gluten-Free Options</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="vegan" class="dietary-filter mr-2 rounded text-[#C07F63]" data-diet="vegan">
+                                        <span class="text-sm">🌱 Vegan Options</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Ambiance Type -->
+                            <div>
+                                <label class="block text-sm font-semibold text-[#433A3F] mb-2">Ambiance</label>
+                                <select id="ambiance-filter" class="w-full px-3 py-2 bg-white border border-[#C07F63]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C07F63]">
+                                    <option value="all">All Ambiances</option>
+                                    <option value="intimate">💕 Intimate & Romantic</option>
+                                    <option value="upscale">✨ Upscale Dining</option>
+                                    <option value="casual">😊 Casual & Comfortable</option>
+                                    <option value="waterfront">🌊 Waterfront Views</option>
+                                    <option value="historic">🏛️ Historic Setting</option>
+                                </select>
+                            </div>
+
+                            <!-- Sort Options -->
+                            <div>
+                                <label class="block text-sm font-semibold text-[#433A3F] mb-2">Sort By</label>
+                                <select id="restaurant-sort" class="w-full px-3 py-2 bg-white border border-[#C07F63]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C07F63]">
+                                    <option value="featured">Featured First</option>
+                                    <option value="price-low">Price: Low to High</option>
+                                    <option value="price-high">Price: High to Low</option>
+                                    <option value="romance">Most Romantic First</option>
+                                    <option value="alphabet">Alphabetical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Filter Summary & Clear Button -->
+                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-[#C07F63]/20">
+                            <div id="filter-summary" class="text-sm text-[#433A3F]/70">
+                                Showing all restaurants
+                            </div>
+                            <button id="clear-filters" class="bg-gray-100 hover:bg-gray-200 text-[#433A3F] px-4 py-2 rounded-lg text-sm transition-colors">
+                                Clear All Filters
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Quick Stats -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                         <div class="bg-white/70 rounded-lg p-4 text-center">
@@ -1456,6 +1522,9 @@
                                 <p class="text-sm text-[#433A3F]/80 mb-3">
                                     <strong>$59.99 per person</strong> • Seasonally Inspired American Cuisine • <strong>★★★★★ Romance</strong>
                                 </p>
+                                <div class="dietary-info text-xs text-green-600 mb-3 bg-green-50 p-2 rounded">
+                                    🌱 Vegetarian options available • 🌾 Gluten-free modifications possible
+                                </div>
                                 <div class="mb-3 p-3 bg-green-50 rounded-lg border border-green-200">
                                     <p class="text-xs text-green-800 font-semibold mb-1">🎉 SPECIAL EXTENDED OFFER:</p>
                                     <p class="text-xs text-green-700">Available ENTIRE MONTH of July 2025 (July 1-31), not just Restaurant Week dates! Maximum flexibility for your anniversary.</p>
@@ -4036,6 +4105,100 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
 
     </main>
 
+    <!-- Real-Time Weather Integration -->
+    <section id="weather" class="bg-gradient-to-br from-blue-50 via-white to-orange-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-[#433A3F] mb-4 font-display">
+                    🌤️ Providence Weather for Your Trip
+                </h2>
+                <p class="text-[#433A3F]/70 text-lg max-w-2xl mx-auto">
+                    Real-time weather forecast to help you plan the perfect romantic getaway. Updated every hour for July 11-14, 2025.
+                </p>
+            </div>
+
+            <!-- Current Weather Display -->
+            <div class="mb-8">
+                <div id="current-weather" class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg text-center max-w-md mx-auto">
+                    <div class="animate-pulse">
+                        <div class="text-lg font-semibold text-[#433A3F] mb-2">Loading current weather...</div>
+                        <div class="text-6xl mb-4">⏳</div>
+                        <div class="text-sm text-[#433A3F]/70">Please wait a moment</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4-Day Forecast -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold text-[#433A3F] text-center mb-6 font-display">
+                    Your Anniversary Weekend Forecast
+                </h3>
+                <div id="weather-forecast" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Weather cards will be populated by JavaScript -->
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg animate-pulse">
+                        <div class="text-lg font-semibold text-[#433A3F] mb-2">Loading...</div>
+                        <div class="text-3xl mb-2">⏳</div>
+                        <div class="text-sm text-[#433A3F]/70">Fetching weather data</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg animate-pulse">
+                        <div class="text-lg font-semibold text-[#433A3F] mb-2">Loading...</div>
+                        <div class="text-3xl mb-2">⏳</div>
+                        <div class="text-sm text-[#433A3F]/70">Fetching weather data</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg animate-pulse">
+                        <div class="text-lg font-semibold text-[#433A3F] mb-2">Loading...</div>
+                        <div class="text-3xl mb-2">⏳</div>
+                        <div class="text-sm text-[#433A3F]/70">Fetching weather data</div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg animate-pulse">
+                        <div class="text-lg font-semibold text-[#433A3F] mb-2">Loading...</div>
+                        <div class="text-3xl mb-2">⏳</div>
+                        <div class="text-sm text-[#433A3F]/70">Fetching weather data</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather-Based Recommendations -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                <h3 class="text-2xl font-bold text-[#433A3F] text-center mb-6 font-display">
+                    💡 Weather-Smart Planning Tips
+                </h3>
+                <div id="weather-tips" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="tip-card bg-gradient-to-br from-yellow-50 to-orange-50 p-6 rounded-xl border border-yellow-200/50">
+                        <h4 class="font-bold text-[#433A3F] mb-3 flex items-center">
+                            ☀️ Sunny Days
+                        </h4>
+                        <ul class="text-[#433A3F]/80 text-sm space-y-2">
+                            <li>• Perfect for waterfront walks and Roger Williams Park</li>
+                            <li>• Book outdoor dining patios at restaurants</li>
+                            <li>• Don't forget sunscreen for boat tours</li>
+                            <li>• Evening WaterFire events are magical</li>
+                        </ul>
+                    </div>
+                    <div class="tip-card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200/50">
+                        <h4 class="font-bold text-[#433A3F] mb-3 flex items-center">
+                            🌧️ Rainy Weather
+                        </h4>
+                        <ul class="text-[#433A3F]/80 text-sm space-y-2">
+                            <li>• Perfect excuse for cozy indoor dining</li>
+                            <li>• Visit RISD Museum or Providence Athenaeum</li>
+                            <li>• Federal Hill covered markets and shops</li>
+                            <li>• Romantic umbrella walks through downtown</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Packing Suggestions Based on Weather -->
+                <div class="mt-6 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200/50">
+                    <h4 class="font-bold text-[#433A3F] mb-3">👜 Smart Packing for Your Forecast</h4>
+                    <div id="packing-suggestions" class="text-[#433A3F]/80 text-sm">
+                        <p>Packing suggestions will update based on your weather forecast...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Full Screen Image Modal -->
     <div id="imageModal" class="modal">
         <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -5269,16 +5432,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Restaurant Week Functionality
     
-    // Restaurant search functionality
+    // Restaurant search functionality (enhanced)
     const restaurantSearch = document.getElementById('restaurant-search');
     if (restaurantSearch) {
         restaurantSearch.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            filterRestaurants(searchTerm);
+            applyAllFilters();
         });
     }
 
-    // Restaurant filter buttons
+    // Restaurant filter buttons (enhanced)
     document.querySelectorAll('.restaurant-filter').forEach(btn => {
         btn.addEventListener('click', () => {
             // Update active filter button
@@ -5289,9 +5451,9 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active', 'bg-[#C07F63]', 'text-white');
             btn.classList.remove('bg-white/70', 'text-[#433A3F]');
             
-            // Filter restaurants by category
-            const category = btn.dataset.category;
-            filterRestaurantsByCategory(category);
+            // Update current filter and apply all filters
+            currentFilters.category = btn.dataset.category;
+            applyAllFilters();
         });
     });
 
@@ -5492,6 +5654,271 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
         });
+    });
+
+    // Enhanced Restaurant Filtering & Sorting System
+    let currentFilters = {
+        category: 'all',
+        dietary: [],
+        ambiance: 'all',
+        sort: 'featured'
+    };
+
+    // Initialize enhanced filtering
+    function initializeEnhancedFiltering() {
+        // Dietary filters
+        document.querySelectorAll('.dietary-filter').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                updateDietaryFilters();
+            });
+        });
+
+        // Ambiance filter
+        const ambianceFilter = document.getElementById('ambiance-filter');
+        if (ambianceFilter) {
+            ambianceFilter.addEventListener('change', function() {
+                currentFilters.ambiance = this.value;
+                applyAllFilters();
+            });
+        }
+
+        // Sort dropdown
+        const sortDropdown = document.getElementById('restaurant-sort');
+        if (sortDropdown) {
+            sortDropdown.addEventListener('change', function() {
+                currentFilters.sort = this.value;
+                applyAllFilters();
+            });
+        }
+
+        // Clear filters button
+        const clearButton = document.getElementById('clear-filters');
+        if (clearButton) {
+            clearButton.addEventListener('click', function() {
+                clearAllFilters();
+            });
+        }
+    }
+
+    function updateDietaryFilters() {
+        currentFilters.dietary = [];
+        document.querySelectorAll('.dietary-filter:checked').forEach(checkbox => {
+            currentFilters.dietary.push(checkbox.dataset.diet);
+        });
+        applyAllFilters();
+    }
+
+    function clearAllFilters() {
+        // Reset category filter
+        currentFilters.category = 'all';
+        document.querySelectorAll('.restaurant-filter').forEach(btn => {
+            btn.classList.remove('active', 'bg-[#C07F63]', 'text-white');
+            btn.classList.add('bg-white/70', 'text-[#433A3F]');
+        });
+        document.querySelector('.restaurant-filter[data-category="all"]').classList.add('active', 'bg-[#C07F63]', 'text-white');
+
+        // Reset dietary filters
+        currentFilters.dietary = [];
+        document.querySelectorAll('.dietary-filter').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // Reset ambiance and sort
+        currentFilters.ambiance = 'all';
+        currentFilters.sort = 'featured';
+        document.getElementById('ambiance-filter').value = 'all';
+        document.getElementById('restaurant-sort').value = 'featured';
+
+        // Clear search
+        const searchInput = document.getElementById('restaurant-search');
+        if (searchInput) searchInput.value = '';
+
+        // Apply filters
+        applyAllFilters();
+    }
+
+    function applyAllFilters() {
+        const restaurantCards = document.querySelectorAll('.restaurant-card');
+        const categories = document.querySelectorAll('.restaurant-category');
+        let visibleCount = 0;
+
+        // Get search term
+        const searchInput = document.getElementById('restaurant-search');
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+        // Filter and collect visible restaurants
+        let visibleRestaurants = [];
+
+        restaurantCards.forEach(card => {
+            const isVisible = shouldShowRestaurant(card, searchTerm);
+            if (isVisible) {
+                visibleRestaurants.push(card);
+                visibleCount++;
+            }
+            card.style.display = isVisible ? 'block' : 'none';
+        });
+
+        // Sort visible restaurants
+        if (currentFilters.sort !== 'featured') {
+            sortRestaurants(visibleRestaurants, currentFilters.sort);
+        }
+
+        // Hide empty categories
+        categories.forEach(category => {
+            const visibleCards = category.querySelectorAll('.restaurant-card[style="display: block"], .restaurant-card:not([style*="display: none"])');
+            category.style.display = visibleCards.length > 0 ? 'block' : 'none';
+        });
+
+        // Update filter summary
+        updateFilterSummary(visibleCount);
+    }
+
+    function shouldShowRestaurant(card, searchTerm) {
+        // Search filter
+        if (searchTerm) {
+            const cardText = card.textContent.toLowerCase();
+            if (!cardText.includes(searchTerm)) {
+                return false;
+            }
+        }
+
+        // Category filter
+        if (currentFilters.category !== 'all') {
+            const categories = card.dataset.categories || '';
+            if (!categories.includes(currentFilters.category)) {
+                return false;
+            }
+        }
+
+        // Dietary filters
+        if (currentFilters.dietary.length > 0) {
+            const hasAnyDietary = currentFilters.dietary.some(diet => {
+                return checkDietaryOption(card, diet);
+            });
+            if (!hasAnyDietary) {
+                return false;
+            }
+        }
+
+        // Ambiance filter
+        if (currentFilters.ambiance !== 'all') {
+            if (!checkAmbianceMatch(card, currentFilters.ambiance)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function checkDietaryOption(card, diet) {
+        const cardText = card.textContent.toLowerCase();
+        const dietaryInfo = card.querySelector('.dietary-info')?.textContent.toLowerCase() || '';
+        
+        switch (diet) {
+            case 'vegetarian':
+                return cardText.includes('vegetarian') || cardText.includes('plant-based') || dietaryInfo.includes('vegetarian');
+            case 'gluten-free':
+                return cardText.includes('gluten-free') || cardText.includes('gluten free') || dietaryInfo.includes('gluten-free');
+            case 'vegan':
+                return cardText.includes('vegan') || dietaryInfo.includes('vegan');
+            default:
+                return false;
+        }
+    }
+
+    function checkAmbianceMatch(card, ambiance) {
+        const categories = card.dataset.categories || '';
+        const cardText = card.textContent.toLowerCase();
+        
+        switch (ambiance) {
+            case 'intimate':
+                return categories.includes('romantic') || cardText.includes('intimate') || cardText.includes('romantic');
+            case 'upscale':
+                return categories.includes('premium') || cardText.includes('upscale') || cardText.includes('fine dining');
+            case 'casual':
+                return categories.includes('moderate') || cardText.includes('casual') || cardText.includes('relaxed');
+            case 'waterfront':
+                return cardText.includes('waterfront') || cardText.includes('harbor') || cardText.includes('water');
+            case 'historic':
+                return cardText.includes('historic') || cardText.includes('heritage') || cardText.includes('1800s');
+            default:
+                return true;
+        }
+    }
+
+    function sortRestaurants(restaurants, sortType) {
+        const parent = restaurants[0]?.parentElement;
+        if (!parent) return;
+
+        restaurants.sort((a, b) => {
+            switch (sortType) {
+                case 'price-low':
+                    return getPriceValue(a) - getPriceValue(b);
+                case 'price-high':
+                    return getPriceValue(b) - getPriceValue(a);
+                case 'romance':
+                    return getRomanceScore(b) - getRomanceScore(a);
+                case 'alphabet':
+                    return getRestaurantName(a).localeCompare(getRestaurantName(b));
+                default:
+                    return 0;
+            }
+        });
+
+        // Reorder DOM elements
+        restaurants.forEach(restaurant => {
+            parent.appendChild(restaurant);
+        });
+    }
+
+    function getPriceValue(card) {
+        const text = card.textContent;
+        if (text.includes('$55+') || text.includes('$59.99') || text.includes('Premium')) return 60;
+        if (text.includes('$45') || text.includes('$49.99')) return 50;
+        if (text.includes('$35') || text.includes('$39.99')) return 40;
+        if (text.includes('$30')) return 30;
+        return 45; // default
+    }
+
+    function getRomanceScore(card) {
+        const categories = card.dataset.categories || '';
+        const text = card.textContent.toLowerCase();
+        let score = 0;
+        
+        if (categories.includes('romantic')) score += 10;
+        if (categories.includes('premium')) score += 8;
+        if (text.includes('intimate')) score += 5;
+        if (text.includes('waterfront')) score += 3;
+        if (text.includes('anniversary')) score += 7;
+        
+        return score;
+    }
+
+    function getRestaurantName(card) {
+        return card.querySelector('h5')?.textContent || '';
+    }
+
+    function updateFilterSummary(count) {
+        const summary = document.getElementById('filter-summary');
+        if (!summary) return;
+
+        let text = `Showing ${count} restaurant${count !== 1 ? 's' : ''}`;
+        
+        const activeFilters = [];
+        if (currentFilters.category !== 'all') activeFilters.push(currentFilters.category);
+        if (currentFilters.dietary.length > 0) activeFilters.push(`${currentFilters.dietary.length} dietary option${currentFilters.dietary.length > 1 ? 's' : ''}`);
+        if (currentFilters.ambiance !== 'all') activeFilters.push(currentFilters.ambiance);
+
+        if (activeFilters.length > 0) {
+            text += ` with filters: ${activeFilters.join(', ')}`;
+        }
+
+        summary.textContent = text;
+    }
+
+    // Initialize enhanced filtering when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(initializeEnhancedFiltering, 100);
     });
 
     // Show special anniversary message when Gracie's is clicked
@@ -6227,5 +6654,151 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script>
+// Enhanced Weather API Integration for Providence, RI
+document.addEventListener('DOMContentLoaded', function() {
+    const weatherContainer = document.getElementById('weather-forecast');
+    const currentWeatherContainer = document.getElementById('current-weather');
+    const packingSuggestions = document.getElementById('packing-suggestions');
+    
+    if (!weatherContainer) return;
+
+    // Open-Meteo API for 4-day forecast (no API key required)
+    const lat = 41.8240;
+    const lon = -71.4128;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&current_weather=true&timezone=America%2FNew_York&forecast_days=5`;
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            if (!data || !data.daily) {
+                weatherContainer.innerHTML = '<div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg"><div class="text-lg font-semibold text-[#433A3F] mb-2">Weather unavailable</div><div class="text-3xl mb-2">❓</div><div class="text-sm text-[#433A3F]/70">Please try again later</div></div>';
+                return;
+            }
+
+            // Update current weather display
+            if (currentWeatherContainer && data.current_weather) {
+                const current = data.current_weather;
+                const currentTemp = Math.round(current.temperature);
+                const currentIcon = getWeatherIcon(current.weathercode);
+                const description = getWeatherDescription(current.weathercode);
+                
+                currentWeatherContainer.innerHTML = `
+                    <div class="text-lg font-semibold text-[#433A3F] mb-2">Current Weather in Providence</div>
+                    <div class="text-6xl mb-4">${currentIcon}</div>
+                    <div class="text-3xl font-bold text-[#433A3F] mb-2">${currentTemp}°F</div>
+                    <div class="text-sm text-[#433A3F]/70">${description}</div>
+                    <div class="text-xs text-[#433A3F]/50 mt-2">Updated: ${new Date().toLocaleTimeString()}</div>
+                `;
+            }
+
+            const days = data.daily.time;
+            const maxTemps = data.daily.temperature_2m_max;
+            const minTemps = data.daily.temperature_2m_min;
+            const precip = data.daily.precipitation_probability_max;
+            const codes = data.daily.weathercode;
+
+            // Weather code to emoji/icon
+            function getWeatherIcon(code) {
+                // Open-Meteo weather codes: https://open-meteo.com/en/docs
+                if ([0].includes(code)) return "☀️";
+                if ([1,2].includes(code)) return "🌤️";
+                if ([3].includes(code)) return "☁️";
+                if ([45,48].includes(code)) return "🌫️";
+                if ([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) return "🌦️";
+                if ([71,73,75,77,85,86].includes(code)) return "❄️";
+                if ([95,96,99].includes(code)) return "⛈️";
+                return "🌡️";
+            }
+
+            // Weather description function
+            function getWeatherDescription(code) {
+                if ([0].includes(code)) return "Clear and sunny";
+                if ([1,2].includes(code)) return "Partly cloudy";
+                if ([3].includes(code)) return "Overcast";
+                if ([45,48].includes(code)) return "Foggy";
+                if ([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) return "Rainy";
+                if ([71,73,75,77,85,86].includes(code)) return "Snowy";
+                if ([95,96,99].includes(code)) return "Thunderstorms";
+                return "Variable conditions";
+            }
+
+            // Generate packing suggestions based on weather
+            function generatePackingSuggestions(temps, precipitations, codes) {
+                const suggestions = [];
+                const avgTemp = temps.reduce((a, b) => a + b, 0) / temps.length;
+                const maxPrecip = Math.max(...precipitations);
+                const hasRain = maxPrecip > 30;
+                const hasCold = Math.min(...temps) < 60;
+                const hasHot = Math.max(...temps) > 85;
+
+                // Temperature-based suggestions
+                if (avgTemp >= 70 && avgTemp <= 80) {
+                    suggestions.push("🌡️ Perfect temperatures! Light layers and comfortable walking shoes are ideal");
+                } else if (avgTemp > 80) {
+                    suggestions.push("🌡️ Warm weather ahead! Pack lightweight, breathable fabrics and sun protection");
+                } else if (avgTemp < 70) {
+                    suggestions.push("🌡️ Cool weather expected. Bring a light jacket or sweater for evenings");
+                }
+
+                // Precipitation-based suggestions
+                if (hasRain) {
+                    suggestions.push("☔ Rain likely! Pack a compact umbrella and waterproof jacket for romantic rainy walks");
+                    suggestions.push("👢 Consider comfortable waterproof shoes for wet sidewalks");
+                } else {
+                    suggestions.push("☀️ Low chance of rain! Perfect for outdoor dining and waterfront strolls");
+                }
+
+                // Activity-specific suggestions
+                suggestions.push("🍽️ Pack a nice outfit for romantic Restaurant Week dinners");
+                suggestions.push("👟 Comfortable walking shoes are essential for exploring Providence's charming streets");
+                suggestions.push("📸 Don't forget your camera - the weather looks great for memorable photos!");
+
+                return suggestions;
+            }
+
+            // Format date
+            function formatDate(dateStr) {
+                const d = new Date(dateStr);
+                return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            }
+
+            let html = '';
+            for (let i = 0; i < 4; i++) {
+                html += `
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg hover:transform hover:scale-105 transition-all duration-300">
+                    <div class="text-lg font-semibold text-[#433A3F] mb-2">${formatDate(days[i])}</div>
+                    <div class="text-3xl mb-2">${getWeatherIcon(codes[i])}</div>
+                    <div class="text-sm text-[#433A3F]/80 mb-1">High: <span class="font-bold">${Math.round(maxTemps[i])}°F</span></div>
+                    <div class="text-sm text-[#433A3F]/60 mb-1">Low: <span>${Math.round(minTemps[i])}°F</span></div>
+                    <div class="text-xs text-blue-600">${precip[i]}% chance of rain</div>
+                    <div class="text-xs text-[#433A3F]/50 mt-2">${getWeatherDescription(codes[i])}</div>
+                </div>
+                `;
+            }
+            weatherContainer.innerHTML = html;
+
+            // Update packing suggestions based on forecast
+            if (packingSuggestions) {
+                const allTemps = [...maxTemps.slice(0, 4), ...minTemps.slice(0, 4)];
+                const suggestions = generatePackingSuggestions(allTemps, precip.slice(0, 4), codes.slice(0, 4));
+                
+                packingSuggestions.innerHTML = `
+                    <div class="space-y-3">
+                        ${suggestions.map(suggestion => `
+                            <div class="flex items-start space-x-2">
+                                <span class="text-[#C07F63] mt-1">•</span>
+                                <span class="text-sm">${suggestion}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        })
+        .catch(() => {
+            weatherContainer.innerHTML = '<div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg"><div class="text-lg font-semibold text-[#433A3F] mb-2">Weather unavailable</div><div class="text-3xl mb-2">❓</div><div class="text-sm text-[#433A3F]/70">Please try again later</div></div>';
+        });
+});
+</script>
 </body>
 </html>
