@@ -4,7 +4,13 @@ A beautiful, interactive web application designed for planning the perfect roman
 
 ## ✨ Features
 
-### 🕐 **Countdown Timer**
+### � **Romantic Login Experience**
+- Beautiful themed login page with floating hearts animation
+- Demo authentication system (GitHub Pages compatible)
+- Guest access option for easy sharing
+- Romantic entrance that sets the mood for your anniversary planning
+
+### �🕐 **Countdown Timer**
 - Real-time countdown to your special anniversary date
 - Customizable date picker with persistent storage
 - Beautiful animated display
@@ -49,7 +55,20 @@ A beautiful, interactive web application designed for planning the perfect roman
 
 ## 🚀 Live Demo
 
-Visit the live version: [https://megatimtron.github.io/providence-anniversary](https://megatimtron.github.io/providence-anniversary)
+**Two Ways to Experience the Site:**
+
+🔐 **Romantic Login Experience**: [https://megatimtron.github.io/providence-anniversary/login.html](https://megatimtron.github.io/providence-anniversary/login.html)
+- Beautiful themed login page with floating hearts
+- Demo authentication (enter any username/password)
+- Guest access option for easy sharing
+- Perfect romantic entrance to your anniversary site
+
+💕 **Direct Access**: [https://megatimtron.github.io/providence-anniversary](https://megatimtron.github.io/providence-anniversary)
+- Skip directly to the main anniversary planner
+- All features immediately available
+- Great for quick planning sessions
+
+> **Tip**: Start with the login page for the full romantic experience, or use direct access when sharing with friends and family!
 
 ## 🛠️ Technology Stack
 
@@ -74,14 +93,17 @@ Works perfectly on:
    git clone https://github.com/megatimtron/providence-anniversary.git
    ```
 
-2. **Open the file:**
-   - Simply double-click `index.html` to open in your browser
-   - Or use a local server for the best experience
+2. **Open the application:**
+   - **For the romantic login experience**: Open `login.html` in your browser
+   - **For direct access**: Open `index.html` in your browser
+   - Both work offline and require no server setup!
 
-3. **For local development:**
+3. **For local development with live server:**
    ```bash
    python3 -m http.server 8000
-   # Then visit http://localhost:8000
+   # Then visit:
+   # http://localhost:8000/login.html (romantic entrance)
+   # http://localhost:8000 (direct access)
    ```
 
 ## 💕 Perfect For
@@ -93,7 +115,9 @@ Works perfectly on:
 
 ## 🌟 Highlights
 
-- **No Server Required**: Pure client-side application
+- **GitHub Pages Ready**: Complete client-side application with romantic login
+- **No Server Required**: Pure HTML/CSS/JavaScript with demo authentication
+- **Two Entry Points**: Romantic login experience or direct access
 - **Offline Capable**: Works without internet after initial load
 - **Data Persistence**: Your notes and settings are saved locally
 - **Print Friendly**: Beautiful layout for printing itineraries

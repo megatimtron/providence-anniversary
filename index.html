@@ -3,12 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A romantic Providence anniversary weekend planner featuring Restaurant Week dining, waterfront tours, and comprehensive itinerary with menus, directions, and Uber links.">
+    <meta name="keywords" content="Providence anniversary, romantic weekend, Restaurant Week, Providence dining, romantic getaway">
+    <meta name="author" content="Providence Anniversary Planner">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Providence Anniversary Weekend Planner">
+    <meta property="og:description" content="Your complete romantic getaway guide featuring Restaurant Week dining, waterfront walks, historic tours, and all the special moments that make Providence perfect for love.">
+    <meta property="og:image" content="ugo1.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Providence Anniversary Weekend Planner">
+    <meta property="twitter:description" content="Your complete romantic getaway guide featuring Restaurant Week dining, waterfront walks, historic tours, and all the special moments that make Providence perfect for love.">
+    <meta property="twitter:image" content="ugo1.jpg">
+
     <title>Providence Anniversary Weekend Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="ugo1.jpg" as="image">
+    <link rel="preload" href="kiss-boomerang.mp4" as="video" type="video/mp4">
+    <link rel="prefetch" href="memory-video.mp4" as="video" type="video/mp4">
     
     <!-- Chosen Palette: Warm Harmony -->
     <!-- Application Structure Plan: The SPA is designed as an interactive dashboard, moving away from the linear report structure for better usability. It's organized into three main thematic sections navigated by a sticky header: 1. "Your Itinerary": A tabbed timeline (Day 1/2/3) that presents the suggested plan chronologically but interactively. This respects the original report's flow while making it more digestible. 2. "Explore Providence": A filterable gallery of all recommendations (dining, activities, tours). This is the core interactive element, allowing the couple to compare options by category and build their own plan, which is more user-friendly than scrolling through a long document. 3. "Plan Your Trip": Consolidates all practical logistics (transport, reservations) into an accordion, making this crucial but secondary information easily accessible without cluttering the main itinerary. This structure prioritizes user-driven exploration and comparison over passive reading. -->
@@ -811,47 +833,195 @@
         .memory-card video[poster]:hover {
             filter: brightness(1.1);
         }
+
+        /* Loading and Performance Enhancements */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Smooth scrolling enhancement */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Improved loading states */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: loading-shimmer 2s infinite;
+        }
+
+        @keyframes loading-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Enhanced accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Focus indicators for better accessibility */
+        .nav-link:focus,
+        .btn-primary:focus,
+        .btn-secondary:focus,
+        .cta-button:focus {
+            outline: 2px solid #C07F63;
+            outline-offset: 2px;
+        }
+
+        /* Enhanced mobile touch targets */
+        @media (max-width: 768px) {
+            .nav-link,
+            .btn-primary,
+            .btn-secondary,
+            .cta-button {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Preload critical resources */
+        .preload {
+            position: absolute;
+            left: -9999px;
+            visibility: hidden;
+        }
+
+        /* Enhanced Notes UI Styles */
+        .upload-zone {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover {
+            border-color: #C07F63 !important;
+            background-color: rgba(192, 127, 99, 0.05) !important;
+        }
+        
+        .photo-gallery img {
+            transition: all 0.3s ease;
+        }
+        
+        .photo-gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .empty-gallery-state {
+            transition: all 0.3s ease;
+        }
+        
+        .quick-note-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .quick-note-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .save-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Drag and drop styles */
+        .upload-zone.drag-over {
+            border-color: #C07F63 !important;
+            background-color: rgba(192, 127, 99, 0.1) !important;
+            transform: scale(1.02);
+        }
+        
+        /* Tab animation */
+        .notes-tab-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .notes-day-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* Photo hover effects */
+        .photo-gallery .relative:hover img {
+            filter: brightness(0.8);
+        }
+        
+        /* Auto-save indicator */
+        #save-status-1, #save-status-2, #save-status-3, #save-status-4 {
+            transition: opacity 0.3s ease;
+        }
+        
     </style>
 </head>
 <body>
 
     <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center" role="navigation" aria-label="Main navigation">
             <h1 class="text-xl md:text-2xl font-bold text-[#433A3F]">A Providence Anniversary</h1>
             <div class="hidden md:flex space-x-8">
-                <a href="#itinerary" class="nav-link text-lg">Your Itinerary</a>
-                <a href="#explore" class="nav-link text-lg">Explore Providence</a>
-                <a href="#restaurant-week" class="nav-link text-lg">Restaurant Week</a>
-                <a href="#notes" class="nav-link text-lg">Couple's Notes</a>
-                <a href="#our-song" class="nav-link text-lg">Our Song</a>
-                <a href="#our-story" class="nav-link text-lg">Our Story</a>
-                <a href="#memories" class="nav-link text-lg">Our Memories</a>
-                <a href="#plan" class="nav-link text-lg">Plan Your Trip</a>
+                <a href="#itinerary" class="nav-link text-lg" aria-label="Go to itinerary section">Your Itinerary</a>
+                <a href="#explore" class="nav-link text-lg" aria-label="Go to explore section">Explore Providence</a>
+                <a href="#restaurant-week" class="nav-link text-lg" aria-label="Go to restaurant week section">Restaurant Week</a>
+                <a href="#notes" class="nav-link text-lg" aria-label="Go to couple's notes section">Couple's Notes</a>
+                <a href="#our-song" class="nav-link text-lg" aria-label="Go to our song section">Our Song</a>
+                <a href="#our-story" class="nav-link text-lg" aria-label="Go to our story section">Our Story</a>
+                <a href="#memories" class="nav-link text-lg" aria-label="Go to our memories section">Our Memories</a>
+                <a href="#plan" class="nav-link text-lg" aria-label="Go to plan your trip section">Plan Your Trip</a>
             </div>
             <div class="md:hidden">
-                <button id="menu-btn" class="focus:outline-none">
+                <button id="menu-btn" class="focus:outline-none" aria-label="Toggle mobile menu" aria-expanded="false">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#itinerary" class="block py-2 nav-link">Your Itinerary</a>
-            <a href="#explore" class="block py-2 nav-link">Explore Providence</a>
-            <a href="#restaurant-week" class="block py-2 nav-link">Restaurant Week</a>
-            <a href="#notes" class="block py-2 nav-link">Couple's Notes</a>
-            <a href="#our-song" class="block py-2 nav-link">Our Song</a>
-            <a href="#our-story" class="block py-2 nav-link">Our Story</a>
-            <a href="#memories" class="block py-2 nav-link">Our Memories</a>
-            <a href="#plan" class="block py-2 nav-link">Plan Your Trip</a>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4" role="menu" aria-label="Mobile navigation menu">
+            <a href="#itinerary" class="block py-2 nav-link" role="menuitem">Your Itinerary</a>
+            <a href="#explore" class="block py-2 nav-link" role="menuitem">Explore Providence</a>
+            <a href="#restaurant-week" class="block py-2 nav-link" role="menuitem">Restaurant Week</a>
+            <a href="#notes" class="block py-2 nav-link" role="menuitem">Couple's Notes</a>
+            <a href="#our-song" class="block py-2 nav-link" role="menuitem">Our Song</a>
+            <a href="#our-story" class="block py-2 nav-link" role="menuitem">Our Story</a>
+            <a href="#memories" class="block py-2 nav-link" role="menuitem">Our Memories</a>
+            <a href="#plan" class="block py-2 nav-link" role="menuitem">Plan Your Trip</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center">
+        <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center" role="banner">
             <div class="container mx-auto hero-content">
                 <div class="countdown-container max-w-md mx-auto mb-8">
                     <div class="text-center">
-                        <div class="countdown-number" id="countdown-days">6</div>
+                        <div class="countdown-number" id="countdown-days" aria-live="polite">6</div>
                         <div class="countdown-label">Days Until Our Trip</div>
                         <p class="text-sm mt-2 text-white/60">Providence awaits us on July 11th at 4 PM! 💕</p>
                     </div>
@@ -867,17 +1037,17 @@
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <button class="cta-button" onclick="scrollToSection('itinerary')">
+                    <button class="cta-button" onclick="scrollToSection('itinerary')" aria-label="Go to itinerary section">
                         ✨ Start Planning Our Adventure
                     </button>
-                    <button class="btn-secondary px-6 py-3 rounded-full" onclick="showLoveNote()">
+                    <button class="btn-secondary px-6 py-3 rounded-full" onclick="showLoveNote()" aria-label="Send a romantic love note">
                         💌 Send a Love Note
                     </button>
                 </div>
                 
                 <div class="mt-12 text-white/70">
                     <p class="text-sm">Scroll down to begin our romantic journey</p>
-                    <div class="animate-bounce mt-2">↓</div>
+                    <div class="animate-bounce mt-2" aria-hidden="true">↓</div>
                 </div>
             </div>
         </section>
@@ -1148,92 +1318,167 @@
                     </div>
                 </div>
 
-                <!-- Comprehensive Restaurant List -->
+                <!-- Complete Restaurant Week Directory with Comprehensive Details -->
                 <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-8 mb-8">
                     <h3 class="text-2xl font-bold text-center mb-8 text-[#433A3F]">Complete Restaurant Week Directory</h3>
                     
-                    <!-- Premium Restaurants ($55+) -->
+                    <!-- Important Notice -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-200">
+                        <h4 class="text-lg font-bold text-blue-900 mb-3 flex items-center">
+                            <span class="text-2xl mr-2">ℹ️</span>
+                            Menu Accessibility Notice
+                        </h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-blue-800 mb-2">
+                                    <strong>Research Finding:</strong> While 60+ restaurants are participating, many specific Restaurant Week menus aren't yet published online. This is normal for Restaurant Weeks!
+                                </p>
+                                <p class="text-blue-700">
+                                    <strong>What this means:</strong> The detailed menus shown here are confirmed examples. Other restaurants will have similar prix fixe offerings.
+                                </p>
+                            </div>
+                            <div class="bg-white/70 rounded-lg p-4">
+                                <h5 class="font-semibold text-blue-900 mb-2">📞 Pro Planning Tips:</h5>
+                                <ul class="text-xs text-blue-800 space-y-1">
+                                    <li>• Call restaurants directly for current menus</li>
+                                    <li>• Check restaurant websites closer to July 6th</li>
+                                    <li>• Follow restaurants on social media for updates</li>
+                                    <li>• Make reservations early - tables fill quickly!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Premium Restaurants ($55+) - Confirmed Menus -->
                     <div class="restaurant-category mb-12" data-category="premium romantic">
                         <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">💎 Premium Anniversary Experiences ($55+)</h4>
                         <div class="grid md:grid-cols-2 gap-6">
-                            <!-- Gracie's -->
-                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium italian romantic">
+                            <!-- Gracie's - CONFIRMED EXTENDED MENU -->
+                            <div class="restaurant-card bg-gradient-to-r from-green-50 to-[#C07F63]/10 rounded-lg p-6 border-l-4 border-green-500" data-categories="premium american romantic">
                                 <div class="flex justify-between items-start mb-3">
                                     <h5 class="font-bold text-[#433A3F] text-lg">🌟 Gracie's</h5>
                                     <div class="flex gap-1">
-                                        <span class="bg-[#C07F63] text-white px-2 py-1 rounded-full text-xs font-semibold">EXTENDED OFFER</span>
-                                        <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                        <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">CONFIRMED MENU</span>
+                                        <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">MOST ROMANTIC</span>
                                     </div>
                                 </div>
                                 <p class="text-sm text-[#433A3F]/80 mb-3">
                                     <strong>$59.99 per person</strong> • Seasonally Inspired American Cuisine • <strong>★★★★★ Romance</strong>
                                 </p>
-                                <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
-                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Why It's Perfect for Your Anniversary:</p>
-                                    <p class="text-xs text-[#433A3F]/80">Intimate lighting, impeccable service, elegant atmosphere. Known for consistently excellent food quality and romantic ambiance. Popular with couples celebrating special occasions.</p>
+                                <div class="mb-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                                    <p class="text-xs text-green-800 font-semibold mb-1">🎉 SPECIAL EXTENDED OFFER:</p>
+                                    <p class="text-xs text-green-700">Available ENTIRE MONTH of July 2025 (July 1-31), not just Restaurant Week dates! Maximum flexibility for your anniversary.</p>
                                 </div>
-                                <p class="text-xs text-[#433A3F]/70 mb-3">
-                                    <strong>Available entire month of July!</strong> Choose one per course from options like Hudson Valley Foie Gras, Point Judith Sea Scallops, All Natural New York Strip, and Gracie's famous Crème Brûlée.
-                                </p>
+                                <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Confirmed Menu Highlights:</p>
+                                    <p class="text-xs text-[#433A3F]/80">
+                                        <strong>1st Course:</strong> Hudson Valley Foie Gras, White Asparagus Soup, or Artisan Cheese<br>
+                                        <strong>2nd Course:</strong> Point Judith Sea Scallops, All Natural NY Strip, or Culver Farms Duck<br>
+                                        <strong>3rd Course:</strong> Gracie's Crème Brûlée, Chocolate Matcha Tarte, or Trio of Ice Cream
+                                    </p>
+                                </div>
                                 <div class="flex flex-wrap gap-2 mb-3">
-                                    <a href="https://graciesprov.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors">Menu</a>
+                                    <a href="https://graciesprov.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors">View Menu</a>
+                                    <a href="https://www.opentable.com/r/gracies-providence" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Reserve Now</a>
                                     <a href="https://maps.google.com/?q=Gracies+Restaurant+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://www.opentable.com/r/gracies-providence" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Reserve</a>
                                 </div>
                                 <div class="text-xs text-[#433A3F]/60">
                                     📍 194 Washington St • 🍷 Extensive wine list • 👔 Smart casual • 🚗 Valet parking
                                 </div>
                             </div>
 
-                            <!-- The Capital Grille -->
-                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium steakhouse romantic">
+                            <!-- The Capital Grille - CONFIRMED MENU -->
+                            <div class="restaurant-card bg-gradient-to-r from-green-50 to-[#C07F63]/10 rounded-lg p-6 border-l-4 border-green-500" data-categories="premium steakhouse romantic">
                                 <div class="flex justify-between items-start mb-3">
                                     <h5 class="font-bold text-[#433A3F] text-lg">🥩 The Capital Grille</h5>
-                                    <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                    <div class="flex gap-1">
+                                        <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">CONFIRMED MENU</span>
+                                        <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                    </div>
                                 </div>
                                 <p class="text-sm text-[#433A3F]/80 mb-3">
-                                    <strong>~$60 3-course dinner</strong> • Steakhouse • <span class="text-red-600 font-semibold">Not available Saturdays</span>
+                                    <strong>~$60 3-course dinner</strong> • Premium Steakhouse • <span class="text-red-600 font-semibold">⚠️ Not available Saturdays</span>
                                 </p>
                                 <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
-                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Anniversary Features:</p>
-                                    <p class="text-xs text-[#433A3F]/80">Sophisticated steakhouse atmosphere, exceptional service, premium cuts of meat. Perfect for a special celebration dinner with classic elegance.</p>
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Confirmed Menu Highlights:</p>
+                                    <p class="text-xs text-[#433A3F]/80">
+                                        <strong>1st Course:</strong> Wedge Salad, Field Greens, or New England Clam Chowder<br>
+                                        <strong>Main Course:</strong> 8oz Filet Mignon, Roasted Chicken, or Seared Citrus Glazed Salmon<br>
+                                        <strong>Dessert:</strong> Flourless Chocolate Cake or Capital Grille Cheesecake<br>
+                                        <strong>Add-ons:</strong> Maine Lobster Tail (+$15), Sliced Filet (+$12)
+                                    </p>
                                 </div>
-                                <p class="text-xs text-[#433A3F]/70 mb-3">
-                                    Wedge Salad or New England Clam Chowder, 8oz Filet Mignon or Seared Citrus Glazed Salmon, Flourless Chocolate Cake or Capital Grille Cheesecake. Optional: Maine Lobster Tail (+$15), Sliced Filet Mignon (+$12).
-                                </p>
+                                <div class="bg-red-50 rounded-lg p-2 mb-3 border border-red-200">
+                                    <p class="text-xs text-red-700">
+                                        <strong>Important:</strong> Saturday, July 12th is your anniversary, but this restaurant doesn't offer Restaurant Week pricing on Saturdays. Perfect for Friday or Sunday instead!
+                                    </p>
+                                </div>
                                 <div class="flex flex-wrap gap-2 mb-3">
-                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Menu Available</span>
+                                    <a href="https://www.thecapitalgrille.com/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors">Website</a>
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Call for Reservations</span>
                                     <a href="https://maps.google.com/?q=Capital+Grille+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://www.thecapitalgrille.com/" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Website</a>
                                 </div>
                                 <div class="text-xs text-[#433A3F]/60">
                                     📍 Downtown • 🍷 Award-winning wine list • 👔 Business casual • 🚗 Valet available
                                 </div>
                             </div>
 
-                            <!-- Mill's Tavern -->
-                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium american romantic">
+                            <!-- Mill's Tavern - CONFIRMED MENU -->
+                            <div class="restaurant-card bg-gradient-to-r from-green-50 to-[#C07F63]/10 rounded-lg p-6 border-l-4 border-green-500" data-categories="premium american romantic">
                                 <div class="flex justify-between items-start mb-3">
                                     <h5 class="font-bold text-[#433A3F] text-lg">🍽️ Mill's Tavern</h5>
-                                    <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                    <div class="flex gap-1">
+                                        <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">CONFIRMED MENU</span>
+                                        <span class="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold">ROMANTIC</span>
+                                    </div>
                                 </div>
                                 <p class="text-sm text-[#433A3F]/80 mb-3">
                                     <strong>$55 per person</strong> • Contemporary American Cuisine • <strong>★★★★☆ Romance</strong>
                                 </p>
                                 <div class="mb-3 p-3 bg-pink-50 rounded-lg border border-pink-200">
-                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Romantic Details:</p>
-                                    <p class="text-xs text-[#433A3F]/80">Warm, intimate setting with excellent contemporary American fare. Known for creative presentations and attentive service. Great wine selection for pairing.</p>
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">💕 Confirmed Menu Highlights:</p>
+                                    <p class="text-xs text-[#433A3F]/80">
+                                        <strong>Starter:</strong> Seasonal Artisanal Greens (GF), Melon Cucumber Gazpacho (GF), Point Judith Calamari<br>
+                                        <strong>Main Course:</strong> Mill's Tavern Beef Ragu, Summer Risotto (GF), or 6oz Black Angus Filet Mignon (GF)<br>
+                                        <strong>Dessert:</strong> Vanilla Crème Brûlée, Portuguese Bread Pudding, or Sorbet Tasting (GF)<br>
+                                        <strong>Add-ons:</strong> Shaved Black Truffle (+$15), Lobster Tail (+$21), Wine Pairing (+$20)
+                                    </p>
                                 </div>
-                                <p class="text-xs text-[#433A3F]/70 mb-3">
-                                    Seasonal Artisanal Greens or Point Judith Calamari, Mill's Tavern Beef Ragu or 6oz Black Angus Filet Mignon, Vanilla Crème Brûlée or Portuguese Bread Pudding. Optional: Shaved Black Truffle (+$15), Lobster Tail (+$21), Wine Pairing (+$20).
-                                </p>
                                 <div class="flex flex-wrap gap-2 mb-3">
-                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Menu Available</span>
+                                    <a href="https://www.millstavern.com/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors">Website</a>
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Call for Reservations</span>
                                     <a href="https://maps.google.com/?q=Mills+Tavern+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://www.millstavern.com/" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Website</a>
                                 </div>
                                 <div class="text-xs text-[#433A3F]/60">
                                     📍 Federal Hill area • 🍷 Curated wine list • 👔 Smart casual • 🅿️ Street parking
+                                </div>
+                            </div>
+
+                            <!-- Capriccio - CONFIRMED MENU -->
+                            <div class="restaurant-card bg-gradient-to-r from-green-50 to-[#C07F63]/10 rounded-lg p-6 border-l-4 border-green-500" data-categories="premium italian">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h5 class="font-bold text-[#433A3F] text-lg">🍷 Capriccio</h5>
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">CONFIRMED MENU</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-3">
+                                    <strong>$51.95 per person</strong> • Italian & Mediterranean • <strong>★★★☆☆ Romance</strong>
+                                </p>
+                                <div class="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">🍝 Confirmed Menu Highlights:</p>
+                                    <p class="text-xs text-[#433A3F]/80">
+                                        <strong>Appetizers:</strong> Burrata Cheese, Caesar Salad, Kobe Carpaccio, Escargot à la Bourguignonne<br>
+                                        <strong>Main Courses:</strong> Day Boat Sea Scallops, Scottish Salmon, Shells Bolognese, Veal Parmigiana<br>
+                                        <strong>Desserts:</strong> Tiramisu, Crème Brûlée, Angela's Chocolate Cake<br>
+                                        <strong>Add-ons:</strong> Filet Mignon upgrade (+$4), Shrimp Cocktail (+$2)
+                                    </p>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Menu Confirmed</span>
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Call for Reservations</span>
+                                    <a href="https://maps.google.com/?q=Capriccio+Restaurant+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
+                                </div>
+                                <div class="text-xs text-[#433A3F]/60">
+                                    📍 Providence • 🍷 Italian wine selection • 👔 Casual to smart casual • 🅿️ Parking available
                                 </div>
                             </div>
 
@@ -1241,63 +1486,95 @@
                             <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium brazilian">
                                 <div class="flex justify-between items-start mb-3">
                                     <h5 class="font-bold text-[#433A3F] text-lg">🇧🇷 Fogo de Chao</h5>
-                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">UNIQUE</span>
+                                    <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">UNIQUE EXPERIENCE</span>
                                 </div>
                                 <p class="text-sm text-[#433A3F]/80 mb-3">
-                                    <strong>$59 dinner</strong> • Brazilian Steakhouse • <strong>★★★☆☆ Romance</strong>
+                                    <strong>$59 dinner prix fixe</strong> • Brazilian Steakhouse • <strong>★★★☆☆ Romance</strong>
                                 </p>
                                 <div class="mb-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
                                     <p class="text-xs text-[#433A3F] font-semibold mb-1">🥩 Experience:</p>
-                                    <p class="text-xs text-[#433A3F]/80">Traditional Brazilian churrasco with tableside meat service. Interactive dining experience - great for couples who enjoy trying new cuisines together.</p>
+                                    <p class="text-xs text-[#433A3F]/80">Traditional Brazilian churrasco with tableside meat service and gourmet salad bar. Interactive all-you-can-eat experience - great for couples who enjoy trying new cuisines together and have hearty appetites.</p>
                                 </div>
-                                <p class="text-xs text-[#433A3F]/70 mb-3">
-                                    Traditional Brazilian churrasco experience with continuous tableside service of fire-roasted meats and gourmet salad bar. All-you-can-eat format perfect for hearty appetites.
-                                </p>
                                 <div class="flex flex-wrap gap-2 mb-3">
-                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Prix Fixe Available</span>
+                                    <a href="https://fogodechao.com/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-xs hover:bg-[#A9684C] transition-colors">Website</a>
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Call for Details</span>
                                     <a href="https://maps.google.com/?q=Fogo+de+Chao+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://fogodechao.com/" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-xs hover:bg-green-700 transition-colors">Website</a>
                                 </div>
                                 <div class="text-xs text-[#433A3F]/60">
                                     📍 Downtown • 🥗 Gourmet salad bar included • 👔 Business casual • 🚗 Parking available
                                 </div>
                             </div>
+
+                            <!-- Fleming's -->
+                            <div class="restaurant-card bg-gradient-to-r from-[#C07F63]/10 to-[#C07F63]/5 rounded-lg p-6 border-l-4 border-[#C07F63]" data-categories="premium steakhouse">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h5 class="font-bold text-[#433A3F] text-lg">🥩 Fleming's Prime Steakhouse</h5>
+                                    <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold">PRIX FIXE</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-3">
+                                    <strong>Prix fixe available</strong> • Premium Steakhouse • <strong>★★★★☆ Romance</strong>
+                                </p>
+                                <div class="mb-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                    <p class="text-xs text-[#433A3F] font-semibold mb-1">🍽️ Expected Offering:</p>
+                                    <p class="text-xs text-[#433A3F]/80">Based on other Fleming's locations, expect 3-course dinner menu (~$60) with premium steakhouse selections. Known for excellent service and wine program.</p>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-xs">Call for Menu Details</span>
+                                    <a href="https://maps.google.com/?q=Flemings+Prime+Steakhouse+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-xs hover:bg-black transition-colors">Directions</a>
+                                </div>
+                                <div class="text-xs text-[#433A3F]/60">
+                                    📍 Providence • 🍷 Award-winning wine list • 👔 Business casual • 🚗 Valet parking
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Moderate Restaurants ($30-55) -->
+                    <!-- Moderate Restaurants ($30-55) with Confirmed Details -->
                     <div class="restaurant-category mb-12" data-category="moderate">
-                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">💝 Great Value ($30-55)</h4>
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">💝 Great Value & Confirmed Options ($30-55)</h4>
                         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- Capriccio -->
+                            
+                            <!-- Legal Sea Foods - CONFIRMED PRICING -->
+                            <div class="restaurant-card bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border-l-4 border-green-500" data-categories="moderate seafood">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 class="font-bold text-[#433A3F] mb-2">🐟 Legal Sea Foods</h5>
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">CONFIRMED</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$30 lunch • $45 dinner</strong> • Fresh Seafood</p>
+                                <p class="text-xs text-[#433A3F]/70 mb-2">
+                                    <strong>Confirmed menu:</strong> Famous Shrimp & Corn Soup, Salt & Vinegar Crusted Cod, Shrimp Scampi, NY Cheesecake
+                                </p>
+                                <p class="text-xs text-blue-700 font-semibold">📍 Cranston location participating</p>
+                            </div>
+
+                            <!-- Il Massimo - CONFIRMED PRICING -->
+                            <div class="restaurant-card bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border-l-4 border-green-500" data-categories="moderate italian">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 class="font-bold text-[#433A3F] mb-2">🍝 Il Massimo</h5>
+                                    <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-semibold">CONFIRMED</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$37 pasta • $48 protein</strong> • New Age Classic Neapolitan</p>
+                                <p class="text-xs text-[#433A3F]/70 mb-2">
+                                    <strong>Special bonus:</strong> Includes one glass of select wine with meal. 3-course prix fixe format.
+                                </p>
+                                <p class="text-xs text-green-700 font-semibold">🍷 Wine included!</p>
+                            </div>
+
+                            <!-- Bar'Lino (Winter Example) -->
                             <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍷 Capriccio</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$51.95</strong> • Italian & Mediterranean</p>
-                                <p class="text-xs text-[#433A3F]/70">Burrata, Day Boat Sea Scallops, Tiramisu. Upgrades: Medallions of Filet Mignon (+$4), Clams Capriccio (+$2)</p>
+                                <h5 class="font-bold text-[#433A3F] mb-2">🍕 Bar'Lino Ristorante</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>~$39.95</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Winter 2025 example: Arancini, Gondola Pizza, Short Rib Gnocchi, Cannoli. Call for July menu.</p>
                             </div>
 
-                            <!-- Il Massimo -->
+                            <!-- Bellini (Previous Summer) -->
                             <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍝 Il Massimo</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$37 pasta • $48 protein</strong> • Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">New Age Classic Neapolitan Cuisine. Includes one glass of select wine with meal.</p>
+                                <h5 class="font-bold text-[#433A3F] mb-2">� Bellini</h5>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>~$30 lunch</strong> • Italian</p>
+                                <p class="text-xs text-[#433A3F]/70">Previous summer: Clam Venezian, Pappardelle, Pan Seared Salmon. Call for current menu.</p>
                             </div>
 
-                            <!-- Legal Sea Foods -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🐟 Legal Sea Foods</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>$30 lunch • $45 dinner</strong> • Seafood</p>
-                                <p class="text-xs text-[#433A3F]/70">Cranston location. Famous Shrimp & Corn Soup, Salt & Vinegar Cod, NY Cheesecake</p>
-                            </div>
-
-                            <!-- Fleming's Prime Steakhouse -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate steakhouse">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🥩 Fleming's Prime Steakhouse</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Prix fixe available</strong> • Steakhouse</p>
-                                <p class="text-xs text-[#433A3F]/70">Prime steakhouse experience with 3-course dinner option</p>
-                            </div>
-
-                            <!-- Hemenway's Restaurant -->
+                            <!-- Hemenway's -->
                             <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
                                 <h5 class="font-bold text-[#433A3F] mb-2">🦞 Hemenway's Restaurant</h5>
                                 <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Seafood</p>
@@ -1308,267 +1585,221 @@
                             <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
                                 <h5 class="font-bold text-[#433A3F] mb-2">🌊 Mare Rooftop</h5>
                                 <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Prix fixe available</strong> • Seafood</p>
-                                <p class="text-xs text-[#433A3F]/70">Tuesday/Wednesday/Thursday/Sunday only. Rooftop dining experience</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Italian Restaurants -->
-                    <div class="restaurant-category mb-12" data-category="italian">
-                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🍝 Italian Favorites</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- Angelo's Civita Farnese -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🏠 Angelo's Civita Farnese</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Southern Italian Comfort</p>
-                                <p class="text-xs text-[#433A3F]/70">Closed Mondays & Tuesdays. Authentic Southern Italian comfort food</p>
-                            </div>
-
-                            <!-- Bacaro Restaurant -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍷 Bacaro Restaurant</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Traditional Italian cuisine with prix fixe dinner menu</p>
-                            </div>
-
-                            <!-- Bar'Lino Ristorante -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍕 Bar'Lino Ristorante</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Winter example: $39.95 with Arancini, Gondola Pizza, Short Rib Gnocchi, Cannoli</p>
-                            </div>
-
-                            <!-- Bellini -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🥂 Bellini</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Previous summer: $30 lunch with Clam Venezian, Pappardelle, Pan Seared Salmon</p>
-                            </div>
-
-                            <!-- Cassarino's Ristorante -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">👨‍🍳 Cassarino's Ristorante</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Traditional Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Traditional Italian comfort food with 3-course prix fixe options</p>
-                            </div>
-
-                            <!-- Dolce Salato -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍰 Dolce Salato</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Italian cuisine with sweet and savory specialties</p>
-                            </div>
-
-                            <!-- Pane e Vino -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍞 Pane e Vino</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Neapolitan</p>
-                                <p class="text-xs text-[#433A3F]/70">New Age Classic Neapolitan Cuisine with Restaurant Week 2025 menu</p>
-                            </div>
-
-                            <!-- Pizzico Oyster Bar -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian seafood">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🦪 Pizzico Oyster Bar</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Upscale Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Monday-Sunday 4pm-9pm. Upscale Italian with oyster bar</p>
-                            </div>
-
-                            <!-- Rosalina -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌹 Rosalina</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Italian cuisine with 3-course prix fixe dinner menu</p>
-                            </div>
-
-                            <!-- Trattoria Appia -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate italian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🏛️ Trattoria Appia</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>"Dolce Estate" special</strong> • Southern Italian</p>
-                                <p class="text-xs text-[#433A3F]/70">Free dessert for every entree (limit 4/table). 3-course lunch Mon-Fri 11:30AM-4:30PM</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- American & Contemporary -->
-                    <div class="restaurant-category mb-12" data-category="american">
-                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🇺🇸 American & Contemporary</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- 110 Grill -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍔 110 Grill</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">Closed Mondays. 3-course prix fixe options available</p>
-                            </div>
-
-                            <!-- Cafe Nuovo -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">☕ Cafe Nuovo</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • New American</p>
-                                <p class="text-xs text-[#433A3F]/70">Contemporary New American cuisine with dinner prix fixe</p>
-                            </div>
-
-                            <!-- Circe Restaurant & Bar -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍸 Circe Restaurant & Bar</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Modern American</p>
-                                <p class="text-xs text-[#433A3F]/70">Modern American with European influence, 3-course prix fixe</p>
-                            </div>
-
-                            <!-- Moonshine Alley -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌙 Moonshine Alley</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">American cuisine with 3-course prix fixe options</p>
-                            </div>
-
-                            <!-- New Rivers -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌊 New Rivers</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • New American</p>
-                                <p class="text-xs text-[#433A3F]/70">Seasonal and local New American cuisine</p>
-                            </div>
-
-                            <!-- Nicks on Broadway -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🎭 Nicks on Broadway</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Breakfast, Lunch, Dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">Participating July 17-20th only. Contemporary American</p>
-                            </div>
-
-                            <!-- Oberlin -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🎨 Oberlin</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Contemporary</p>
-                                <p class="text-xs text-[#433A3F]/70">Contemporary cuisine with 3-course prix fixe</p>
-                            </div>
-
-                            <!-- Parkside Rotisserie & Bar -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍗 Parkside Rotisserie</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American Bistro</p>
-                                <p class="text-xs text-[#433A3F]/70">French technique & Asian influence, 3-course prix fixe</p>
-                            </div>
-
-                            <!-- Red Stripe -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🔴 Red Stripe</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Contemporary American</p>
-                                <p class="text-xs text-[#433A3F]/70">Contemporary American with 3-course prix fixe</p>
-                            </div>
-
-                            <!-- Troop -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">⭐ Troop</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">American cuisine with 3-course prix fixe dinner</p>
+                                <p class="text-xs text-[#433A3F]/70"><span class="text-orange-600">⚠️ Tuesday/Wednesday/Thursday/Sunday only</span> • Rooftop dining</p>
                             </div>
 
                             <!-- Waterman Grille -->
                             <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
                                 <h5 class="font-bold text-[#433A3F] mb-2">💧 Waterman Grille</h5>
                                 <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">Restaurant Week menu not available Saturdays</p>
+                                <p class="text-xs text-[#433A3F]/70"><span class="text-red-600">⚠️ Not available Saturdays</span> • American cuisine</p>
+                            </div>
+
+                            <!-- Trattoria Appia -->
+                            <div class="restaurant-card bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 border-l-4 border-orange-400" data-categories="moderate italian">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 class="font-bold text-[#433A3F] mb-2">🏛️ Trattoria Appia</h5>
+                                    <span class="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold">SPECIAL DEAL</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>"Dolce Estate" Special</strong> • Southern Italian</p>
+                                <p class="text-xs text-[#433A3F]/70 mb-2">
+                                    <strong>Free dessert for every entree!</strong> (limit 4/table). 3-course lunch Mon-Fri 11:30AM-4:30PM
+                                </p>
+                                <p class="text-xs text-orange-700 font-semibold">🍰 Free dessert deal!</p>
+                            </div>
+
+                            <!-- Nicks on Broadway -->
+                            <div class="restaurant-card bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border-l-4 border-purple-400" data-categories="moderate american">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 class="font-bold text-[#433A3F] mb-2">🎭 Nicks on Broadway</h5>
+                                    <span class="bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-semibold">LIMITED DATES</span>
+                                </div>
+                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Breakfast, Lunch, Dinner</strong> • American</p>
+                                <p class="text-xs text-[#433A3F]/70 mb-2">
+                                    <span class="text-purple-600 font-semibold">⚠️ July 17-20th ONLY</span> • Contemporary American
+                                </p>
+                                <p class="text-xs text-purple-700">Won't overlap with your July 11-14 trip</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Global & Specialty Cuisines -->
-                    <div class="restaurant-category mb-12" data-category="global">
-                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🌍 Global & Specialty Cuisines</h4>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- CHOP (Culinary Hub of Providence) -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate global">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌐 CHOP</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Global</p>
-                                <p class="text-xs text-[#433A3F]/70">Culinary Hub of Providence with global cuisine options</p>
+                    <!-- All Other Participating Restaurants (Research-Based) -->
+                    <div class="restaurant-category mb-12" data-category="all">
+                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">�️ All Other Participating Restaurants (Call for Menus)</h4>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+                            
+                            <!-- Italian Restaurants -->
+                            <div class="bg-gradient-to-br from-green-50 to-red-50 rounded-lg p-4 border border-green-200">
+                                <h5 class="font-semibold text-green-800 mb-3 flex items-center">
+                                    <span class="text-lg mr-2">🇮🇹</span>
+                                    Italian Cuisine
+                                </h5>
+                                <div class="space-y-2 text-xs">
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Angelo's Civita Farnese</span>
+                                        <p class="text-green-700">Southern Italian comfort • Closed Mon/Tue</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Bacaro Restaurant</span>
+                                        <p class="text-green-700">Traditional Italian • 3-course dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Cassarino's Ristorante</span>
+                                        <p class="text-green-700">Traditional Italian comfort food</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Dolce Salato</span>
+                                        <p class="text-green-700">Sweet & savory specialties</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Pane e Vino</span>
+                                        <p class="text-green-700">Neapolitan cuisine • Has 2025 menu</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Pizzico Oyster Bar</span>
+                                        <p class="text-green-700">Upscale Italian • 4pm-9pm</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Rosalina</span>
+                                        <p class="text-green-700">Italian • 3-course dinner</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Diego's Providence East Side -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate mexican">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌮 Diego's Providence</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Mexican</p>
-                                <p class="text-xs text-[#433A3F]/70">East Side location with 3-course prix fixe Mexican cuisine</p>
+                            <!-- American & Contemporary -->
+                            <div class="bg-gradient-to-br from-blue-50 to-red-50 rounded-lg p-4 border border-blue-200">
+                                <h5 class="font-semibold text-blue-800 mb-3 flex items-center">
+                                    <span class="text-lg mr-2">🇺🇸</span>
+                                    American & Contemporary
+                                </h5>
+                                <div class="space-y-2 text-xs">
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">110 Grill</span>
+                                        <p class="text-blue-700">American • Closed Mondays</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Cafe Nuovo</span>
+                                        <p class="text-blue-700">New American • 3-course dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Circe Restaurant & Bar</span>
+                                        <p class="text-blue-700">Modern American w/ European influence</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Moonshine Alley</span>
+                                        <p class="text-blue-700">American • Lunch & dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">New Rivers</span>
+                                        <p class="text-blue-700">Seasonal & local New American</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Oberlin</span>
+                                        <p class="text-blue-700">Contemporary • Lunch & dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Parkside Rotisserie</span>
+                                        <p class="text-blue-700">American bistro w/ French technique</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Red Stripe</span>
+                                        <p class="text-blue-700">Contemporary American</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Troop</span>
+                                        <p class="text-blue-700">American • 3-course dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">The Patio on Broadway</span>
+                                        <p class="text-blue-700">American • Outdoor patio dining</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Jacky's Waterplace -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate asian">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🥢 Jacky's Waterplace</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Contemporary Asian</p>
-                                <p class="text-xs text-[#433A3F]/70">Contemporary Asian cuisines with 3-course prix fixe</p>
+                            <!-- Global & Specialty -->
+                            <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-200">
+                                <h5 class="font-semibold text-purple-800 mb-3 flex items-center">
+                                    <span class="text-lg mr-2">🌍</span>
+                                    Global & Specialty
+                                </h5>
+                                <div class="space-y-2 text-xs">
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">CHOP</span>
+                                        <p class="text-purple-700">Culinary Hub of Providence • Global</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Diego's Providence</span>
+                                        <p class="text-purple-700">Mexican • East Side location</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Jacky's Waterplace</span>
+                                        <p class="text-purple-700">Contemporary Asian cuisines</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Fleur</span>
+                                        <p class="text-purple-700">Contemporary • 3-course dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Gift Horse</span>
+                                        <p class="text-purple-700">Seafood • 3-course dinner</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Night Shift Kitchen</span>
+                                        <p class="text-purple-700">@ Level99 Providence • American</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Providence Coal Fired Pizza</span>
+                                        <p class="text-purple-700">Pizza • Lunch & dinner</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Fleur -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate contemporary">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌸 Fleur</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Contemporary</p>
-                                <p class="text-xs text-[#433A3F]/70">Contemporary cuisine with 3-course prix fixe</p>
-                            </div>
-
-                            <!-- Gift Horse -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate seafood">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🐎 Gift Horse</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • Seafood</p>
-                                <p class="text-xs text-[#433A3F]/70">Seafood specialties with 3-course prix fixe dinner</p>
-                            </div>
-
-                            <!-- Night Shift Kitchen & Tap -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍺 Night Shift Kitchen</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">@ Level99 Providence. American cuisine with other specials</p>
-                            </div>
-
-                            <!-- The Patio on Broadway -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate american">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🌿 The Patio on Broadway</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>3-course dinner</strong> • American</p>
-                                <p class="text-xs text-[#433A3F]/70">American cuisine with outdoor patio dining</p>
-                            </div>
-
-                            <!-- Providence Coal Fired Pizza -->
-                            <div class="restaurant-card bg-white/80 rounded-lg p-4 border border-[#C07F63]/20" data-categories="moderate pizza">
-                                <h5 class="font-bold text-[#433A3F] mb-2">🍕 Providence Coal Fired Pizza</h5>
-                                <p class="text-sm text-[#433A3F]/80 mb-2"><strong>Lunch & Dinner</strong> • Pizza</p>
-                                <p class="text-xs text-[#433A3F]/70">Coal fired pizza with other specials available</p>
+                            <!-- Track 15 Food Hall -->
+                            <div class="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-lg p-4 border border-orange-200">
+                                <h5 class="font-semibold text-orange-800 mb-3 flex items-center">
+                                    <span class="text-lg mr-2">🏢</span>
+                                    Track 15 Food Hall
+                                </h5>
+                                <div class="space-y-2 text-xs">
+                                    <p class="text-orange-700 font-semibold mb-2">Multiple vendors participating:</p>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Dolores</span>
+                                        <p class="text-orange-700">Food hall vendor</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Dune Brothers</span>
+                                        <p class="text-orange-700">Seafood vendor</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Giusto</span>
+                                        <p class="text-orange-700">Food hall vendor</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Little Chaska</span>
+                                        <p class="text-orange-700">Food hall vendor</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Mother Pizzeria</span>
+                                        <p class="text-orange-700">Pizza vendor</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">There, There</span>
+                                        <p class="text-orange-700">Food hall vendor</p>
+                                    </div>
+                                    <div class="restaurant-item">
+                                        <span class="font-semibold">Tolia</span>
+                                        <p class="text-orange-700">Food hall vendor</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Track 15 Food Hall -->
-                    <div class="restaurant-category mb-8" data-category="food-hall">
-                        <h4 class="text-xl font-bold text-[#C07F63] mb-6 border-b-2 border-[#C07F63]/30 pb-2">🏢 Track 15 Food Hall Vendors</h4>
-                        <div class="bg-gradient-to-r from-[#433A3F]/10 to-[#C07F63]/10 rounded-lg p-6">
-                            <p class="text-sm text-[#433A3F]/80 mb-4">Multiple vendors at Track 15 are participating in Restaurant Week with lunch, dinner, and other specials:</p>
-                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">🥟 Dolores</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
-                                </div>
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">🦀 Dune Brothers</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Seafood</p>
-                                </div>
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">🥘 Giusto</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
-                                </div>
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">🌶️ Little Chaska</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
-                                </div>
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">🍕 Mother Pizzeria</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Pizza</p>
-                                </div>
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">☕ There, There</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
-                                </div>
-                                <div class="bg-white/70 rounded p-3 text-center">
-                                    <h6 class="font-semibold text-[#433A3F]">🥙 Tolia</h6>
-                                    <p class="text-xs text-[#433A3F]/70">Food Hall</p>
-                                </div>
-                            </div>
+                        
+                        <!-- Research Note -->
+                        <div class="mt-6 bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <p class="text-sm text-gray-700 text-center">
+                                <strong>📋 Research Note:</strong> This directory is based on comprehensive research of participating restaurants. 
+                                Many specific menus aren't published yet (normal for Restaurant Weeks). Call restaurants directly for current menu details and reservations.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -2033,44 +2264,168 @@
             </div>
         </section>
 
-        <section id="notes" class="py-16 md:py-24 bg-[#EAE0D5]">
-            <div class="container mx-auto px-6 max-w-4xl">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Couple's Notes</h2>
-                <p class="text-center text-lg max-w-3xl mx-auto mb-12 text-[#433A3F]/80">
-                    Capture your thoughts, plans, and memories for each day. Upload photos and jot down notes to make this trip uniquely yours.
-                </p>
-
-                <!-- Notes Tabs -->
-                <div class="border-b border-gray-200 mb-8">
-                    <nav class="-mb-px flex justify-center space-x-6" aria-label="Notes Tabs">
-                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-notes-tab="notes1">Friday Notes</button>
-                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes2">Saturday Notes</button>
-                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes3">Sunday Notes</button>
-                        <button class="notes-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#C07F63] hover:border-[#C07F63]" data-notes-tab="notes4">Monday Notes</button>
-                    </nav>
+        <section id="notes" class="py-16 md:py-24 bg-gradient-to-br from-[#EAE0D5] to-[#F5E6D3]">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#433A3F]">💝 Couple's Notes & Memories</h2>
+                    <p class="text-lg max-w-3xl mx-auto mb-6 text-[#433A3F]/80">
+                        Create a beautiful digital journal of your Providence anniversary weekend. Capture thoughts, upload photos, and preserve every special moment.
+                    </p>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 max-w-2xl mx-auto border border-[#C07F63]/20">
+                        <p class="text-sm text-[#433A3F]/70 flex items-center justify-center">
+                            <span class="text-lg mr-2">✨</span>
+                            All your notes and photos are saved automatically in your browser
+                        </p>
+                    </div>
                 </div>
 
-                <!-- Notes Content -->
+                <!-- Modern Tab Navigation -->
+                <div class="mb-8">
+                    <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-2 max-w-2xl mx-auto border border-[#C07F63]/20">
+                        <nav class="flex justify-center space-x-1" aria-label="Notes Tabs">
+                            <button class="notes-tab-btn flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-300 active-tab bg-[#C07F63] text-white shadow-lg" data-notes-tab="notes1">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-lg mb-1">📅</span>
+                                    <span>Friday 7/11</span>
+                                    <span class="text-xs opacity-75">Arrival Day</span>
+                                </div>
+                            </button>
+                            <button class="notes-tab-btn flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-300 text-[#433A3F]/70 hover:text-[#C07F63] hover:bg-white/50" data-notes-tab="notes2">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-lg mb-1">💝</span>
+                                    <span>Saturday 7/12</span>
+                                    <span class="text-xs opacity-75">Anniversary!</span>
+                                </div>
+                            </button>
+                            <button class="notes-tab-btn flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-300 text-[#433A3F]/70 hover:text-[#C07F63] hover:bg-white/50" data-notes-tab="notes3">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-lg mb-1">🌅</span>
+                                    <span>Sunday 7/13</span>
+                                    <span class="text-xs opacity-75">Adventure</span>
+                                </div>
+                            </button>
+                            <button class="notes-tab-btn flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-300 text-[#433A3F]/70 hover:text-[#C07F63] hover:bg-white/50" data-notes-tab="notes4">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-lg mb-1">👋</span>
+                                    <span>Monday 7/14</span>
+                                    <span class="text-xs opacity-75">Farewell</span>
+                                </div>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Notes Content with Enhanced UI -->
                 <div id="notes-content">
                     <!-- Friday Notes -->
                     <div id="notes1" class="notes-day-content">
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
-                                <div class="mb-4">
-                                    <label for="photo-upload-1" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
-                                        📸 Upload Photo
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Photo Section - Enhanced -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">📸</span>
+                                        Friday Photos
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="photo-count-1" class="text-sm text-[#433A3F]/60 bg-[#C07F63]/10 px-3 py-1 rounded-full">0 photos</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Upload Area -->
+                                <div class="mb-6">
+                                    <label for="photo-upload-1" class="block">
+                                        <div class="upload-zone border-2 border-dashed border-[#C07F63]/40 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 hover:border-[#C07F63] hover:bg-[#C07F63]/5 group">
+                                            <div class="text-4xl mb-3 transition-transform group-hover:scale-110">📷</div>
+                                            <p class="text-lg font-semibold text-[#433A3F] mb-2">Upload Your Photos</p>
+                                            <p class="text-sm text-[#433A3F]/60 mb-3">Drag & drop photos here, or click to browse</p>
+                                            <div class="inline-flex items-center bg-[#C07F63] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#A9684C] transition-colors">
+                                                <span class="mr-2">📁</span>
+                                                Choose Photos
+                                            </div>
+                                        </div>
                                     </label>
                                     <input type="file" id="photo-upload-1" class="hidden" accept="image/*" multiple>
                                 </div>
-                                <div id="photo-gallery-1" class="grid grid-cols-2 gap-2"></div>
+                                
+                                <!-- Photo Gallery -->
+                                <div id="photo-gallery-1" class="photo-gallery grid grid-cols-2 gap-3"></div>
+                                
+                                <!-- Empty State -->
+                                <div id="empty-state-1" class="empty-gallery-state text-center py-8">
+                                    <div class="text-6xl mb-4 opacity-30">📷</div>
+                                    <p class="text-[#433A3F]/50 italic">Your Friday photos will appear here</p>
+                                </div>
                             </div>
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
-                                <textarea id="notes-text-1" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Friday..."></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="char-count-1" class="text-sm text-gray-500">0 characters</span>
-                                    <button id="save-notes-1" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+
+                            <!-- Notes Section - Enhanced -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">✍️</span>
+                                        Friday Journal
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="char-count-1" class="text-sm text-[#433A3F]/60 bg-[#C07F63]/10 px-3 py-1 rounded-full">0 characters</span>
+                                        <button id="save-notes-1" class="save-btn bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors flex items-center">
+                                            <span class="mr-1">💾</span>
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Writing Area -->
+                                <div class="relative">
+                                    <textarea 
+                                        id="notes-text-1" 
+                                        class="w-full h-64 p-4 border-2 border-[#C07F63]/20 rounded-xl resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-[#C07F63] transition-all duration-300 text-[#433A3F] placeholder-[#433A3F]/40" 
+                                        placeholder="Capture your arrival day thoughts and first impressions of Providence...
+
+What did you see first? How did it feel to arrive? Any surprise discoveries? Restaurant recommendations from locals? Weather observations? Special moments walking around together?"
+                                    ></textarea>
+                                    
+                                    <!-- Floating Suggestions -->
+                                    <div class="absolute bottom-4 right-4">
+                                        <div class="bg-[#C07F63]/10 backdrop-blur-sm rounded-lg p-2 text-xs text-[#433A3F]/60">
+                                            💡 Writing prompts available
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Writing Prompts -->
+                                <div class="mt-4 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg border border-pink-200">
+                                    <h4 class="text-sm font-semibold text-pink-800 mb-2 flex items-center">
+                                        <span class="mr-2">💭</span>
+                                        Writing Prompts for Friday
+                                    </h4>
+                                    <div class="grid md:grid-cols-2 gap-2 text-xs text-pink-700">
+                                        <div>• First thing you noticed about Providence?</div>
+                                        <div>• How did you feel stepping off the plane/train?</div>
+                                        <div>• Any funny travel moments?</div>
+                                        <div>• Best surprise discovery today?</div>
+                                        <div>• Restaurant Week excitement level?</div>
+                                        <div>• One word to describe today?</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quick Actions -->
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <button class="quick-note-btn bg-[#433A3F]/10 text-[#433A3F] px-3 py-1 rounded-full text-xs hover:bg-[#433A3F]/20 transition-colors" data-text="Weather was perfect today! ☀️">
+                                        ☀️ Great weather
+                                    </button>
+                                    <button class="quick-note-btn bg-[#433A3F]/10 text-[#433A3F] px-3 py-1 rounded-full text-xs hover:bg-[#433A3F]/20 transition-colors" data-text="Can't wait for our anniversary dinner tomorrow! 💕">
+                                        💕 Excited for tomorrow
+                                    </button>
+                                    <button class="quick-note-btn bg-[#433A3F]/10 text-[#433A3F] px-3 py-1 rounded-full text-xs hover:bg-[#433A3F]/20 transition-colors" data-text="Providence is more beautiful than expected! 🏛️">
+                                        🏛️ Beautiful city
+                                    </button>
+                                </div>
+                                
+                                <!-- Auto-save indicator -->
+                                <div class="mt-4 text-center">
+                                    <div id="save-status-1" class="text-xs text-green-600 opacity-0 transition-opacity duration-300">
+                                        ✅ Auto-saved
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2078,23 +2433,98 @@
 
                     <!-- Saturday Notes -->
                     <div id="notes2" class="notes-day-content hidden">
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
-                                <div class="mb-4">
-                                    <label for="photo-upload-2" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
-                                        📸 Upload Photo
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Photo Section -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">💝</span>
+                                        Anniversary Photos
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="photo-count-2" class="text-sm text-[#433A3F]/60 bg-pink-100 px-3 py-1 rounded-full">0 photos</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label for="photo-upload-2" class="block">
+                                        <div class="upload-zone border-2 border-dashed border-pink-300 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 hover:border-pink-500 hover:bg-pink-50 group">
+                                            <div class="text-4xl mb-3 transition-transform group-hover:scale-110">💖</div>
+                                            <p class="text-lg font-semibold text-[#433A3F] mb-2">Anniversary Memories</p>
+                                            <p class="text-sm text-[#433A3F]/60 mb-3">Capture your special day together</p>
+                                            <div class="inline-flex items-center bg-pink-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-pink-600 transition-colors">
+                                                <span class="mr-2">💕</span>
+                                                Add Photos
+                                            </div>
+                                        </div>
                                     </label>
                                     <input type="file" id="photo-upload-2" class="hidden" accept="image/*" multiple>
                                 </div>
-                                <div id="photo-gallery-2" class="grid grid-cols-2 gap-2"></div>
+                                
+                                <div id="photo-gallery-2" class="photo-gallery grid grid-cols-2 gap-3"></div>
+                                <div id="empty-state-2" class="empty-gallery-state text-center py-8">
+                                    <div class="text-6xl mb-4 opacity-30">💖</div>
+                                    <p class="text-[#433A3F]/50 italic">Your anniversary photos will appear here</p>
+                                </div>
                             </div>
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
-                                <textarea id="notes-text-2" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Saturday..."></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="char-count-2" class="text-sm text-gray-500">0 characters</span>
-                                    <button id="save-notes-2" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+
+                            <!-- Notes Section -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">💕</span>
+                                        Anniversary Journal
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="char-count-2" class="text-sm text-[#433A3F]/60 bg-pink-100 px-3 py-1 rounded-full">0 characters</span>
+                                        <button id="save-notes-2" class="save-btn bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors flex items-center">
+                                            <span class="mr-1">💾</span>
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative">
+                                    <textarea 
+                                        id="notes-text-2" 
+                                        class="w-full h-64 p-4 border-2 border-pink-200 rounded-xl resize-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400 transition-all duration-300 text-[#433A3F] placeholder-[#433A3F]/40" 
+                                        placeholder="Today is your anniversary! Capture every beautiful moment...
+
+How did you feel waking up on your anniversary? What made you smile? Any romantic surprises? How was your special dinner? What moments do you want to remember forever?"
+                                    ></textarea>
+                                </div>
+                                
+                                <div class="mt-4 p-4 bg-gradient-to-r from-pink-50 to-red-50 rounded-lg border border-pink-200">
+                                    <h4 class="text-sm font-semibold text-pink-800 mb-2 flex items-center">
+                                        <span class="mr-2">💕</span>
+                                        Anniversary Prompts
+                                    </h4>
+                                    <div class="grid md:grid-cols-2 gap-2 text-xs text-pink-700">
+                                        <div>• Most romantic moment today?</div>
+                                        <div>• How did dinner make you feel?</div>
+                                        <div>• Any surprise romantic gestures?</div>
+                                        <div>• Perfect anniversary moment?</div>
+                                        <div>• What made you fall in love again?</div>
+                                        <div>• How does it feel to celebrate here?</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <button class="quick-note-btn bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs hover:bg-pink-200 transition-colors" data-text="Perfect anniversary dinner! So romantic 💕">
+                                        💕 Romantic dinner
+                                    </button>
+                                    <button class="quick-note-btn bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs hover:bg-pink-200 transition-colors" data-text="Feeling so grateful for this beautiful day together ✨">
+                                        ✨ Feeling grateful
+                                    </button>
+                                    <button class="quick-note-btn bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs hover:bg-pink-200 transition-colors" data-text="Providence is the perfect anniversary destination! 🏛️">
+                                        🏛️ Perfect location
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-4 text-center">
+                                    <div id="save-status-2" class="text-xs text-green-600 opacity-0 transition-opacity duration-300">
+                                        ✅ Auto-saved
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2102,23 +2532,98 @@
 
                     <!-- Sunday Notes -->
                     <div id="notes3" class="notes-day-content hidden">
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
-                                <div class="mb-4">
-                                    <label for="photo-upload-3" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
-                                        📸 Upload Photo
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Photo Section -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">🌅</span>
+                                        Sunday Adventures
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="photo-count-3" class="text-sm text-[#433A3F]/60 bg-blue-100 px-3 py-1 rounded-full">0 photos</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label for="photo-upload-3" class="block">
+                                        <div class="upload-zone border-2 border-dashed border-blue-300 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 hover:border-blue-500 hover:bg-blue-50 group">
+                                            <div class="text-4xl mb-3 transition-transform group-hover:scale-110">🗺️</div>
+                                            <p class="text-lg font-semibold text-[#433A3F] mb-2">Adventure Day</p>
+                                            <p class="text-sm text-[#433A3F]/60 mb-3">Document your explorations</p>
+                                            <div class="inline-flex items-center bg-blue-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                                                <span class="mr-2">🗺️</span>
+                                                Add Photos
+                                            </div>
+                                        </div>
                                     </label>
                                     <input type="file" id="photo-upload-3" class="hidden" accept="image/*" multiple>
                                 </div>
-                                <div id="photo-gallery-3" class="grid grid-cols-2 gap-2"></div>
+                                
+                                <div id="photo-gallery-3" class="photo-gallery grid grid-cols-2 gap-3"></div>
+                                <div id="empty-state-3" class="empty-gallery-state text-center py-8">
+                                    <div class="text-6xl mb-4 opacity-30">🗺️</div>
+                                    <p class="text-[#433A3F]/50 italic">Your Sunday adventure photos will appear here</p>
+                                </div>
                             </div>
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
-                                <textarea id="notes-text-3" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Sunday..."></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="char-count-3" class="text-sm text-gray-500">0 characters</span>
-                                    <button id="save-notes-3" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+
+                            <!-- Notes Section -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">🌊</span>
+                                        Adventure Journal
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="char-count-3" class="text-sm text-[#433A3F]/60 bg-blue-100 px-3 py-1 rounded-full">0 characters</span>
+                                        <button id="save-notes-3" class="save-btn bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors flex items-center">
+                                            <span class="mr-1">💾</span>
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative">
+                                    <textarea 
+                                        id="notes-text-3" 
+                                        class="w-full h-64 p-4 border-2 border-blue-200 rounded-xl resize-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 text-[#433A3F] placeholder-[#433A3F]/40" 
+                                        placeholder="Sunday exploration day! What adventures did you discover...
+
+Where did you explore? What hidden gems did you find? Any spontaneous discoveries? How was the riverboat or waterfront walk? Best view of the day? Favorite discovery together?"
+                                    ></textarea>
+                                </div>
+                                
+                                <div class="mt-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
+                                    <h4 class="text-sm font-semibold text-blue-800 mb-2 flex items-center">
+                                        <span class="mr-2">🗺️</span>
+                                        Adventure Prompts
+                                    </h4>
+                                    <div class="grid md:grid-cols-2 gap-2 text-xs text-blue-700">
+                                        <div>• Coolest place you discovered?</div>
+                                        <div>• Best view of Providence?</div>
+                                        <div>• Any unplanned adventures?</div>
+                                        <div>• Most photogenic spot?</div>
+                                        <div>• How was the waterfront?</div>
+                                        <div>• Favorite local interaction?</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <button class="quick-note-btn bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs hover:bg-blue-200 transition-colors" data-text="Amazing views from the waterfront! 🌊">
+                                        🌊 Great views
+                                    </button>
+                                    <button class="quick-note-btn bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs hover:bg-blue-200 transition-colors" data-text="Discovered so many hidden gems today! 💎">
+                                        💎 Hidden gems
+                                    </button>
+                                    <button class="quick-note-btn bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs hover:bg-blue-200 transition-colors" data-text="Perfect day for exploring together! ☀️">
+                                        ☀️ Perfect weather
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-4 text-center">
+                                    <div id="save-status-3" class="text-xs text-green-600 opacity-0 transition-opacity duration-300">
+                                        ✅ Auto-saved
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2126,24 +2631,130 @@
 
                     <!-- Monday Notes -->
                     <div id="notes4" class="notes-day-content hidden">
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Photos</h3>
-                                <div class="mb-4">
-                                    <label for="photo-upload-4" class="btn-primary px-4 py-2 rounded cursor-pointer inline-block">
-                                        📸 Upload Photo
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Photo Section -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">👋</span>
+                                        Farewell Moments
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="photo-count-4" class="text-sm text-[#433A3F]/60 bg-yellow-100 px-3 py-1 rounded-full">0 photos</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-6">
+                                    <label for="photo-upload-4" class="block">
+                                        <div class="upload-zone border-2 border-dashed border-yellow-300 rounded-xl p-8 text-center cursor-pointer transition-all duration-300 hover:border-yellow-500 hover:bg-yellow-50 group">
+                                            <div class="text-4xl mb-3 transition-transform group-hover:scale-110">🌅</div>
+                                            <p class="text-lg font-semibold text-[#433A3F] mb-2">Last Morning</p>
+                                            <p class="text-sm text-[#433A3F]/60 mb-3">Final Providence memories</p>
+                                            <div class="inline-flex items-center bg-yellow-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-yellow-600 transition-colors">
+                                                <span class="mr-2">📸</span>
+                                                Add Photos
+                                            </div>
+                                        </div>
                                     </label>
                                     <input type="file" id="photo-upload-4" class="hidden" accept="image/*" multiple>
                                 </div>
-                                <div id="photo-gallery-4" class="grid grid-cols-2 gap-2"></div>
-                            </div>
-                            <div class="bg-white rounded-lg p-6 shadow-sm">
-                                <h3 class="text-xl font-bold font-display mb-4">Your Notes</h3>
-                                <textarea id="notes-text-4" class="w-full h-40 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-[#C07F63] focus:border-transparent" placeholder="Write your thoughts, plans, or memories for Monday..."></textarea>
-                                <div class="flex justify-between items-center mt-2">
-                                    <span id="char-count-4" class="text-sm text-gray-500">0 characters</span>
-                                    <button id="save-notes-4" class="btn-secondary px-3 py-1 rounded text-sm">Save</button>
+                                
+                                <div id="photo-gallery-4" class="photo-gallery grid grid-cols-2 gap-3"></div>
+                                <div id="empty-state-4" class="empty-gallery-state text-center py-8">
+                                    <div class="text-6xl mb-4 opacity-30">🌅</div>
+                                    <p class="text-[#433A3F]/50 italic">Your farewell photos will appear here</p>
                                 </div>
+                            </div>
+
+                            <!-- Notes Section -->
+                            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-[#C07F63]/20">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-xl font-bold font-display text-[#433A3F] flex items-center">
+                                        <span class="text-2xl mr-3">💭</span>
+                                        Farewell Reflections
+                                    </h3>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="char-count-4" class="text-sm text-[#433A3F]/60 bg-yellow-100 px-3 py-1 rounded-full">0 characters</span>
+                                        <button id="save-notes-4" class="save-btn bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors flex items-center">
+                                            <span class="mr-1">💾</span>
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="relative">
+                                    <textarea 
+                                        id="notes-text-4" 
+                                        class="w-full h-64 p-4 border-2 border-yellow-200 rounded-xl resize-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-300 text-[#433A3F] placeholder-[#433A3F]/40" 
+                                        placeholder="Time to say goodbye to Providence... Reflect on your amazing weekend...
+
+How did this trip exceed expectations? What will you miss most? Favorite memory overall? How did this strengthen your relationship? Would you come back? What surprised you most about Providence?"
+                                    ></textarea>
+                                </div>
+                                
+                                <div class="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
+                                    <h4 class="text-sm font-semibold text-yellow-800 mb-2 flex items-center">
+                                        <span class="mr-2">💭</span>
+                                        Reflection Prompts
+                                    </h4>
+                                    <div class="grid md:grid-cols-2 gap-2 text-xs text-yellow-700">
+                                        <div>• Overall trip highlight?</div>
+                                        <div>• How did Providence surprise you?</div>
+                                        <div>• Best couple moment?</div>
+                                        <div>• What will you miss most?</div>
+                                        <div>• Would you recommend to others?</div>
+                                        <div>• Planning to return?</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <button class="quick-note-btn bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs hover:bg-yellow-200 transition-colors" data-text="Perfect anniversary weekend! Can't wait to come back 💕">
+                                        💕 Perfect trip
+                                    </button>
+                                    <button class="quick-note-btn bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs hover:bg-yellow-200 transition-colors" data-text="Providence exceeded all our expectations! ✨">
+                                        ✨ Exceeded expectations
+                                    </button>
+                                    <button class="quick-note-btn bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs hover:bg-yellow-200 transition-colors" data-text="So grateful for this beautiful time together 🙏">
+                                        🙏 Feeling grateful
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-4 text-center">
+                                    <div id="save-status-4" class="text-xs text-green-600 opacity-0 transition-opacity duration-300">
+                                        ✅ Auto-saved
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="mt-12 text-center">
+                    <div class="bg-gradient-to-r from-[#C07F63]/10 to-[#433A3F]/10 rounded-2xl p-8 max-w-4xl mx-auto border border-[#C07F63]/20">
+                        <h4 class="text-xl font-bold text-[#433A3F] mb-4 flex items-center justify-center">
+                            <span class="text-2xl mr-3">📖</span>
+                            Your Complete Providence Story
+                        </h4>
+                        <p class="text-[#433A3F]/80 mb-6">
+                            Every note, every photo, every moment captured here creates your unique Providence anniversary story. 
+                            These memories will be saved automatically and will always be here to revisit your perfect weekend together.
+                        </p>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-white/80 rounded-lg p-4">
+                                <div class="text-2xl mb-2">📱</div>
+                                <h5 class="font-semibold text-[#433A3F] mb-1">Auto-Save</h5>
+                                <p class="text-sm text-[#433A3F]/70">Everything saves automatically to your browser</p>
+                            </div>
+                            <div class="bg-white/80 rounded-lg p-4">
+                                <div class="text-2xl mb-2">📸</div>
+                                <h5 class="font-semibold text-[#433A3F] mb-1">Photo Gallery</h5>
+                                <p class="text-sm text-[#433A3F]/70">Upload unlimited photos for each day</p>
+                            </div>
+                            <div class="bg-white/80 rounded-lg p-4">
+                                <div class="text-2xl mb-2">💝</div>
+                                <h5 class="font-semibold text-[#433A3F] mb-1">Forever Memories</h5>
+                                <p class="text-sm text-[#433A3F]/70">Your anniversary journal to cherish always</p>
                             </div>
                         </div>
                     </div>
@@ -3199,58 +3810,112 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    // Photo upload functionality
+    // Enhanced Photo upload functionality
     function setupPhotoUpload(dayNumber) {
         const uploadInput = document.getElementById(`photo-upload-${dayNumber}`);
         const gallery = document.getElementById(`photo-gallery-${dayNumber}`);
+        const emptyState = document.getElementById(`empty-state-${dayNumber}`);
+        const photoCount = document.getElementById(`photo-count-${dayNumber}`);
+
+        // Setup drag and drop
+        const uploadZone = uploadInput.parentElement.querySelector('.upload-zone');
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('border-[#C07F63]', 'bg-[#C07F63]/10');
+        });
+        
+        uploadZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('border-[#C07F63]', 'bg-[#C07F63]/10');
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('border-[#C07F63]', 'bg-[#C07F63]/10');
+            const files = Array.from(e.dataTransfer.files);
+            handleFiles(files, dayNumber);
+        });
 
         uploadInput.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
-            
-            files.forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const photoData = {
-                            id: Date.now() + Math.random(),
-                            src: e.target.result,
-                            name: file.name
-                        };
-                        
-                        photoStorage[dayNumber].push(photoData);
-                        savePhotosToStorage();
-                        renderPhotoGallery(dayNumber);
+            handleFiles(files, dayNumber);
+        });
+        
+        // Initial render
+        updatePhotoDisplay(dayNumber);
+    }
+
+    function handleFiles(files, dayNumber) {
+        files.forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const photoData = {
+                        id: Date.now() + Math.random(),
+                        src: e.target.result,
+                        name: file.name,
+                        uploadDate: new Date().toISOString()
                     };
-                    reader.readAsDataURL(file);
-                }
-            });
+                    
+                    photoStorage[dayNumber].push(photoData);
+                    savePhotosToStorage();
+                    updatePhotoDisplay(dayNumber);
+                };
+                reader.readAsDataURL(file);
+            }
         });
     }
 
-    function renderPhotoGallery(dayNumber) {
+    function updatePhotoDisplay(dayNumber) {
         const gallery = document.getElementById(`photo-gallery-${dayNumber}`);
+        const emptyState = document.getElementById(`empty-state-${dayNumber}`);
+        const photoCount = document.getElementById(`photo-count-${dayNumber}`);
         const photos = photoStorage[dayNumber];
 
-        gallery.innerHTML = photos.map(photo => `
-            <div class="relative group">
-                <img src="${photo.src}" alt="${photo.name}" class="w-full h-24 object-cover rounded-lg">
-                <button onclick="removePhoto(${dayNumber}, '${photo.id}')" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs opacity-0 group-hover:opacity-100 transition-opacity">×</button>
-            </div>
-        `).join('');
+        // Update photo count
+        photoCount.textContent = `${photos.length} photo${photos.length !== 1 ? 's' : ''}`;
+
+        if (photos.length === 0) {
+            gallery.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+        } else {
+            gallery.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            
+            gallery.innerHTML = photos.map(photo => `
+                <div class="relative group">
+                    <img src="${photo.src}" alt="${photo.name}" class="w-full h-32 object-cover rounded-xl shadow-sm">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 rounded-xl flex items-center justify-center">
+                        <button 
+                            onclick="removePhoto(${dayNumber}, '${photo.id}')" 
+                            class="bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg"
+                            title="Remove photo"
+                        >×</button>
+                    </div>
+                    <div class="absolute bottom-2 left-2 right-2">
+                        <div class="bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            ${photo.name.length > 20 ? photo.name.substring(0, 20) + '...' : photo.name}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
     }
 
     // Make removePhoto function global
     window.removePhoto = (dayNumber, photoId) => {
         photoStorage[dayNumber] = photoStorage[dayNumber].filter(photo => photo.id != photoId);
         savePhotosToStorage();
-        renderPhotoGallery(dayNumber);
+        updatePhotoDisplay(dayNumber);
     };
 
-    // Notes functionality
+    // Enhanced Notes functionality
     function setupNotes(dayNumber) {
         const textarea = document.getElementById(`notes-text-${dayNumber}`);
         const charCount = document.getElementById(`char-count-${dayNumber}`);
         const saveBtn = document.getElementById(`save-notes-${dayNumber}`);
+        const saveStatus = document.getElementById(`save-status-${dayNumber}`);
 
         // Load saved notes
         const savedNotes = localStorage.getItem(`anniversary-notes-${dayNumber}`);
@@ -3259,28 +3924,71 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCharCount(dayNumber);
         }
 
-        // Character count update
-        textarea.addEventListener('input', () => updateCharCount(dayNumber));
-
-        // Save notes
-        saveBtn.addEventListener('click', () => {
-            localStorage.setItem(`anniversary-notes-${dayNumber}`, textarea.value);
-            saveBtn.textContent = 'Saved!';
-            saveBtn.classList.remove('btn-secondary');
-            saveBtn.classList.add('btn-primary');
+        // Auto-save functionality
+        let saveTimeout;
+        textarea.addEventListener('input', () => {
+            updateCharCount(dayNumber);
             
-            setTimeout(() => {
-                saveBtn.textContent = 'Save';
-                saveBtn.classList.remove('btn-primary');
-                saveBtn.classList.add('btn-secondary');
-            }, 2000);
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                autoSaveNotes(dayNumber);
+            }, 1000); // Auto-save after 1 second of no typing
+        });
+
+        // Manual save
+        saveBtn.addEventListener('click', () => {
+            saveNotes(dayNumber);
+        });
+
+        // Quick note buttons
+        document.querySelectorAll(`#notes${dayNumber} .quick-note-btn`).forEach(btn => {
+            btn.addEventListener('click', () => {
+                const text = btn.dataset.text;
+                const currentText = textarea.value;
+                const newText = currentText ? currentText + '\n\n' + text : text;
+                textarea.value = newText;
+                updateCharCount(dayNumber);
+                autoSaveNotes(dayNumber);
+            });
         });
     }
 
     function updateCharCount(dayNumber) {
         const textarea = document.getElementById(`notes-text-${dayNumber}`);
         const charCount = document.getElementById(`char-count-${dayNumber}`);
-        charCount.textContent = `${textarea.value.length} characters`;
+        charCount.textContent = `${textarea.value.length} character${textarea.value.length !== 1 ? 's' : ''}`;
+    }
+
+    function autoSaveNotes(dayNumber) {
+        const textarea = document.getElementById(`notes-text-${dayNumber}`);
+        const saveStatus = document.getElementById(`save-status-${dayNumber}`);
+        
+        localStorage.setItem(`anniversary-notes-${dayNumber}`, textarea.value);
+        
+        // Show auto-save indicator
+        saveStatus.classList.remove('opacity-0');
+        setTimeout(() => {
+            saveStatus.classList.add('opacity-0');
+        }, 2000);
+    }
+
+    function saveNotes(dayNumber) {
+        const textarea = document.getElementById(`notes-text-${dayNumber}`);
+        const saveBtn = document.getElementById(`save-notes-${dayNumber}`);
+        
+        localStorage.setItem(`anniversary-notes-${dayNumber}`, textarea.value);
+        
+        // Visual feedback
+        const originalContent = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<span class="mr-1">✅</span>Saved!';
+        saveBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+        saveBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+        
+        setTimeout(() => {
+            saveBtn.innerHTML = originalContent;
+            saveBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+            saveBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+        }, 2000);
     }
 
     // Save photos to localStorage
@@ -3295,9 +4003,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const parsed = JSON.parse(saved);
             Object.assign(photoStorage, parsed);
             
-            // Render all galleries
+            // Update all photo displays
             for (let i = 1; i <= 4; i++) {
-                renderPhotoGallery(i);
+                updatePhotoDisplay(i);
             }
         }
     }
@@ -3326,29 +4034,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Event Listeners for notes tabs
-    document.querySelector('.notes-tab-btn[data-notes-tab="notes1"]').classList.add('active-tab');
+    // Enhanced Event Listeners for notes tabs
     document.querySelectorAll('.notes-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             // Remove active class from all notes tabs
             document.querySelectorAll('.notes-tab-btn').forEach(b => {
-                b.classList.remove('active-tab', 'text-[#C07F63]');
-                b.classList.add('text-gray-500');
+                b.classList.remove('active-tab', 'bg-[#C07F63]', 'text-white', 'shadow-lg');
+                b.classList.add('text-[#433A3F]/70', 'hover:text-[#C07F63]', 'hover:bg-white/50');
             });
             
             // Add active class to clicked tab
-            btn.classList.add('active-tab');
-            btn.classList.remove('text-gray-500');
+            btn.classList.add('active-tab', 'bg-[#C07F63]', 'text-white', 'shadow-lg');
+            btn.classList.remove('text-[#433A3F]/70', 'hover:text-[#C07F63]', 'hover:bg-white/50');
             
             // Hide all notes content
             document.querySelectorAll('.notes-day-content').forEach(content => {
                 content.classList.add('hidden');
             });
             
-            // Show selected notes content
+            // Show selected notes content with animation
             const targetContent = document.getElementById(btn.dataset.notesTab);
             if (targetContent) {
                 targetContent.classList.remove('hidden');
+                // Add fade-in animation
+                targetContent.style.opacity = '0';
+                requestAnimationFrame(() => {
+                    targetContent.style.transition = 'opacity 0.3s ease-in-out';
+                    targetContent.style.opacity = '1';
+                });
             }
         });
     });
@@ -3812,7 +4525,148 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initial calculation
         calculateBudget();
+
+        // Initialize enhanced features
+        initializeScrollAnimations();
+        initializeAccessibilityFeatures();
+        initializePerformanceOptimizations();
+        initializeEnhancedMobileMenu();
     });
+
+    // Smooth scroll animations for elements entering viewport
+    function initializeScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Add fade-in class to sections and observe them
+        const sections = document.querySelectorAll('section:not(#hero)');
+        sections.forEach(section => {
+            section.classList.add('fade-in');
+            observer.observe(section);
+        });
+    }
+
+    // Enhanced accessibility features
+    function initializeAccessibilityFeatures() {
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                // Close any open modals
+                const openModal = document.querySelector('.modal[style*="display: block"]');
+                if (openModal) {
+                    closeModal();
+                }
+                
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    document.getElementById('menu-btn').setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        // Announce dynamic content changes
+        const announcer = document.createElement('div');
+        announcer.setAttribute('aria-live', 'polite');
+        announcer.setAttribute('aria-atomic', 'true');
+        announcer.classList.add('sr-only');
+        document.body.appendChild(announcer);
+        
+        window.announceToScreenReader = function(message) {
+            announcer.textContent = message;
+            setTimeout(() => {
+                announcer.textContent = '';
+            }, 1000);
+        };
+    }
+
+    // Performance optimizations
+    function initializePerformanceOptimizations() {
+        // Optimize smooth scrolling
+        const smoothScrollTo = (target) => {
+            const element = document.querySelector(target);
+            if (element) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const elementPosition = element.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: elementPosition,
+                    behavior: 'smooth'
+                });
+            }
+        };
+
+        // Replace all anchor scrolling with optimized version
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = this.getAttribute('href');
+                smoothScrollTo(target);
+                
+                // Announce navigation to screen readers
+                const targetElement = document.querySelector(target);
+                if (targetElement) {
+                    const targetName = targetElement.querySelector('h1, h2, h3')?.textContent || 'section';
+                    window.announceToScreenReader?.(`Navigated to ${targetName}`);
+                }
+            });
+        });
+
+        // Optimize animations on low-end devices
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (prefersReducedMotion.matches) {
+            document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+        }
+    }
+
+    // Enhanced mobile menu functionality
+    function initializeEnhancedMobileMenu() {
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', function() {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    menuBtn.setAttribute('aria-expanded', 'true');
+                    window.announceToScreenReader?.('Mobile menu opened');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    window.announceToScreenReader?.('Mobile menu closed');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Close menu when selecting a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+    }
 
 });
 </script>
