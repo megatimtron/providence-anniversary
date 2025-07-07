@@ -9827,6 +9827,271 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
+    // Enhanced Qobuz Integration Features
+    window.qobuzFeatures = {
+        searchResults: {
+            'romantic': [
+                { title: 'At Last', artist: 'Etta James', album: 'At Last!', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'La Vie En Rose', artist: 'Édith Piaf', album: 'The Complete Recordings', quality: '24-bit/192kHz', platform: 'qobuz' },
+                { title: 'The Way You Look Tonight', artist: 'Frank Sinatra', album: 'The Complete Capitol Collection', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Summertime', artist: 'Ella Fitzgerald', album: 'Porgy and Bess', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Fly Me to the Moon', artist: 'Diana Krall', album: 'The Look of Love', quality: '24-bit/192kHz', platform: 'qobuz' }
+            ],
+            'jazz': [
+                { title: 'Take Five', artist: 'Dave Brubeck', album: 'Time Out', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Blue in Green', artist: 'Miles Davis', album: 'Kind of Blue', quality: '24-bit/192kHz', platform: 'qobuz' },
+                { title: 'Autumn Leaves', artist: 'Bill Evans Trio', album: 'Waltz for Debby', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Body and Soul', artist: 'John Coltrane', album: 'Ballads', quality: '24-bit/96kHz', platform: 'qobuz' }
+            ],
+            'classical': [
+                { title: 'Claire de Lune', artist: 'Claude Debussy', album: 'Suite Bergamasque', quality: '24-bit/192kHz', platform: 'qobuz' },
+                { title: 'Canon in D', artist: 'Johann Pachelbel', album: 'Wedding Classics', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Moonlight Sonata', artist: 'Ludwig van Beethoven', album: 'Piano Sonatas', quality: '24-bit/192kHz', platform: 'qobuz' }
+            ]
+        },
+        
+        qualityBadges: {
+            '16-bit/44.1kHz': 'CD Quality',
+            '24-bit/96kHz': 'Hi-Res',
+            '24-bit/192kHz': 'Studio Master',
+            'DSD64': 'DSD',
+            'DSD128': 'DSD+'
+        },
+        
+        generateQobuzPlaylist: (type) => {
+            const templates = {
+                audiophile: {
+                    name: 'Audiophile Romance',
+                    description: 'High-fidelity romantic tracks for the perfect listening experience',
+                    songs: qobuzFeatures.searchResults.romantic.slice(0, 10),
+                    totalDuration: '42:18',
+                    averageQuality: '24-bit/144kHz'
+                },
+                jazz: {
+                    name: 'Hi-Res Jazz Evening',
+                    description: 'Premium jazz recordings for your special dinner',
+                    songs: qobuzFeatures.searchResults.jazz,
+                    totalDuration: '38:45',
+                    averageQuality: '24-bit/128kHz'
+                },
+                classical: {
+                    name: 'Classical Masterpieces',
+                    description: 'Timeless classical pieces in studio master quality',
+                    songs: qobuzFeatures.searchResults.classical,
+                    totalDuration: '45:32',
+                    averageQuality: '24-bit/176kHz'
+                }
+            };
+            
+            return templates[type] || templates.audiophile;
+        },
+        
+        createQualityBadge: (quality) => {
+            const badge = qobuzFeatures.qualityBadges[quality] || 'Hi-Res';
+            return `<span class="qobuz-quality-badge">${badge}</span>`;
+        },
+        
+        renderQobuzSearchResults: (query, container) => {
+            if (!container) return;
+            
+            const searchCategory = query.toLowerCase().includes('jazz') ? 'jazz' : 
+                                  query.toLowerCase().includes('classical') ? 'classical' : 'romantic';
+            
+            const results = qobuzFeatures.searchResults[searchCategory] || qobuzFeatures.searchResults.romantic;
+            
+            container.innerHTML = results.map(song => `
+                <div class="search-result-item bg-white/5 rounded-lg p-3 cursor-pointer hover:bg-white/10 transition-colors" data-platform="qobuz">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2">
+                                <div class="text-white font-medium text-sm">${song.title}</div>
+                                ${qobuzFeatures.createQualityBadge(song.quality)}
+                            </div>
+                            <div class="text-white/60 text-xs">${song.artist} • ${song.album}</div>
+                            <div class="text-blue-200 text-xs">🎧 ${song.quality} • Qobuz</div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="text-white/60 hover:text-white text-sm transition-colors" onclick="playQobuzTrack('${song.title}', '${song.artist}')">
+                                ▶️
+                            </button>
+                            <button class="text-white/60 hover:text-white text-sm transition-colors" onclick="addToPlaylist('${song.title}', '${song.artist}', 'qobuz')">
+                                ➕
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add Qobuz branding
+            const qobuzBranding = document.createElement('div');
+            qobuzBranding.className = 'text-center py-3 border-t border-white/10 mt-3';
+            qobuzBranding.innerHTML = `
+                <div class="text-blue-200 text-xs">
+                    🎧 Powered by Qobuz • Hi-Res & Lossless Audio
+                </div>
+            `;
+            container.appendChild(qobuzBranding);
+        }
+    };
+    
+    // Enhanced music search with Qobuz integration
+    window.searchMusic = (query) => {
+        const resultsContainer = document.getElementById('search-results-list');
+        const searchResultsDiv = document.getElementById('music-search-results');
+        
+        if (!resultsContainer || !query.trim()) {
+            searchResultsDiv?.classList.add('hidden');
+            return;
+        }
+        
+        // Show loading state
+        resultsContainer.innerHTML = `
+            <div class="text-center py-4">
+                <div class="loading-spinner mx-auto mb-2"></div>
+                <div class="text-white/60 text-sm">Searching across all connected services...</div>
+            </div>
+        `;
+        searchResultsDiv.classList.remove('hidden');
+        
+        // Simulate search delay
+        setTimeout(() => {
+            // Clear previous results
+            resultsContainer.innerHTML = '';
+            
+            // Check if Qobuz is connected for hi-res results
+            const qobuzConnected = connectedServices?.qobuz?.connected;
+            
+            if (qobuzConnected) {
+                // Add Qobuz section header
+                const qobuzHeader = document.createElement('div');
+                qobuzHeader.className = 'mb-3 pb-2 border-b border-blue-400/30';
+                qobuzHeader.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-blue-200 font-semibold">🎧 Qobuz Hi-Res Results</span>
+                        <span class="qobuz-quality-badge">Premium</span>
+                    </div>
+                `;
+                resultsContainer.appendChild(qobuzHeader);
+                
+                // Add Qobuz results
+                const qobuzResults = document.createElement('div');
+                qobuzResults.className = 'mb-4';
+                qobuzFeatures.renderQobuzSearchResults(query, qobuzResults);
+                resultsContainer.appendChild(qobuzResults);
+            }
+            
+            // Add standard results from other services
+            const standardResults = [
+                { title: 'Perfect', artist: 'Ed Sheeran', platform: 'spotify', quality: 'Standard' },
+                { title: 'Thinking Out Loud', artist: 'Ed Sheeran', platform: 'spotify', quality: 'Standard' },
+                { title: 'All of Me', artist: 'John Legend', platform: 'youtube', quality: 'Standard' },
+                { title: 'A Thousand Years', artist: 'Christina Perri', platform: 'spotify', quality: 'Standard' }
+            ];
+            
+            if (standardResults.length > 0) {
+                const standardHeader = document.createElement('div');
+                standardHeader.className = 'mb-3 pb-2 border-b border-white/20';
+                standardHeader.innerHTML = `
+                    <div class="text-white/80 font-semibold">🎵 Other Results</div>
+                `;
+                resultsContainer.appendChild(standardHeader);
+                
+                standardResults.forEach(song => {
+                    const songElement = document.createElement('div');
+                    songElement.className = 'search-result-item bg-white/5 rounded-lg p-3 cursor-pointer hover:bg-white/10 transition-colors mb-2';
+                    songElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="text-white font-medium text-sm">${song.title}</div>
+                                <div class="text-white/60 text-xs">${song.artist} • ${song.platform.charAt(0).toUpperCase() + song.platform.slice(1)}</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="text-white/60 hover:text-white text-sm transition-colors">▶️</button>
+                                <button class="text-white/60 hover:text-white text-sm transition-colors">➕</button>
+                            </div>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(songElement);
+                });
+            }
+        }, 1500);
+    };
+    
+    // Qobuz-specific functions
+    window.playQobuzTrack = (title, artist) => {
+        showNotification(`🎧 Now playing "${title}" by ${artist} in Hi-Res quality`, 'success');
+    };
+    
+    window.createFromTemplate = (templateType) => {
+        let templateName = '';
+        let notification = '';
+        
+        switch(templateType) {
+            case 'audiophile':
+                templateName = 'Audiophile Experience';
+                notification = '🎧 Created audiophile playlist with Hi-Res tracks! Perfect for your romantic evening.';
+                break;
+            case 'dinner':
+                templateName = 'Romantic Dinner';
+                notification = '🍽️ Created romantic dinner playlist! Smooth jazz and soul for your evening.';
+                break;
+            case 'adventure':
+                templateName = 'Adventure Time';
+                notification = '🚀 Created adventure playlist! Upbeat tracks for exploring Providence.';
+                break;
+            case 'chill':
+                templateName = 'Chill & Relax';
+                notification = '🌊 Created chill playlist! Perfect for waterfront walks and quiet moments.';
+                break;
+            case 'roadtrip':
+                templateName = 'Road Trip Vibes';
+                notification = '🚗 Created road trip playlist! Feel-good classics for your journey.';
+                break;
+            default:
+                templateName = 'Custom Playlist';
+                notification = '🎵 Created new playlist template!';
+        }
+        
+        // Show notification
+        showNotification(notification, 'success');
+        
+        // For Qobuz templates, add special Hi-Res notification
+        if (templateType === 'audiophile' && connectedServices?.qobuz?.connected) {
+            setTimeout(() => {
+                showNotification('✨ Qobuz Hi-Res tracks added for premium audio quality!', 'info');
+            }, 2000);
+        }
+    };
+    
+    // Initialize music search functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('music-search-input');
+        const searchBtn = document.getElementById('music-search-btn');
+        
+        if (searchInput && searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                searchMusic(searchInput.value);
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchMusic(searchInput.value);
+                }
+            });
+            
+            // Auto-search on input with debounce
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (e.target.value.length > 2) {
+                        searchMusic(e.target.value);
+                    }
+                }, 800);
+            });
+        }
+    });
+
     // ================================
     // PHASE 3: AI-POWERED FEATURES & ADVANCED COLLABORATION
     // ================================
