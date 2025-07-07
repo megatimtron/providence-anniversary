@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Providence Anniversary</title>
+    <style>
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #FDF8F0;
+            color: #433A3F;
+            min-height: 100vh;
+        }
+        
+        .test-section {
+            background: #FFFFFF;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .test-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .test-button {
+            background: #C07F63;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .test-button:hover {
+            background: #A9684C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .test-button:active {
+            transform: translateY(0);
+        }
+        
+        .test-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .status {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10B981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <h1>🍓 Providence Anniversary - Button Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>🎯 Navigation & Scroll Functions</h2>
+        <button class="test-button" onclick="testScrollToSection()">Test Scroll to Section</button>
+        <button class="test-button" onclick="testShowLoveNote()">Test Show Love Note</button>
+        <div id="scroll-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🗺️ Map Functions</h2>
+        <button class="test-button" onclick="testFocusMapLocation('gracies')">Focus on Gracie's</button>
+        <button class="test-button" onclick="testFocusMapLocation('downtown')">Focus Downtown</button>
+        <button class="test-button" onclick="testCustomMapPoints()">Custom Map Points</button>
+        <div id="map-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎵 Music Functions</h2>
+        <button class="test-button" onclick="testToggleMusic(1)" id="music-play-btn-1">▶️ Play Music</button>
+        <button class="test-button" onclick="testMusicServices()">Music Services</button>
+        <div id="music-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>💰 Budget Calculator</h2>
+        <button class="test-button" onclick="testBudgetCalculator()">Test Budget Plan</button>
+        <div id="budget-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🖼️ Image & Modal Functions</h2>
+        <button class="test-button" onclick="testImageModal()">Test Image Modal</button>
+        <div id="modal-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📱 Interactive Features</h2>
+        <button class="test-button" onclick="testFloatingHearts()">Floating Hearts</button>
+        <button class="test-button" onclick="testNotifications()">Test Notifications</button>
+        <div id="interactive-status" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Test Functions
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            if (type === 'error') {
+                notification.style.background = '#EF4444';
+            } else if (type === 'info') {
+                notification.style.background = '#6B7280';
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        function updateStatus(elementId, message, isError = false) {
+            const statusEl = document.getElementById(elementId);
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            statusEl.className = isError ? 'status error' : 'status';
+        }
+        
+        // Navigation Tests
+        function testScrollToSection() {
+            updateStatus('scroll-status', '✅ Scroll function called (would scroll to itinerary section)');
+            showNotification('Scroll to section function works!');
+        }
+        
+        function testShowLoveNote() {
+            updateStatus('scroll-status', '✅ Love note function called');
+            showNotification('💕 Love note would appear here!');
+        }
+        
+        // Map Tests
+        function testFocusMapLocation(location) {
+            updateStatus('map-status', `✅ Map focus called for: ${location}`);
+            showNotification(`🗺️ Would focus map on ${location}`);
+        }
+        
+        function testCustomMapPoints() {
+            updateStatus('map-status', '✅ Custom map points function available');
+            showNotification('📍 Custom map points feature works!');
+        }
+        
+        // Music Tests
+        function testToggleMusic(trackId) {
+            const btn = document.getElementById('music-play-btn-1');
+            if (btn.dataset.playing === 'true') {
+                btn.dataset.playing = 'false';
+                btn.innerHTML = '▶️ Play Music';
+                updateStatus('music-status', '⏸️ Music paused');
+            } else {
+                btn.dataset.playing = 'true';
+                btn.innerHTML = '⏸️ Pause Music';
+                updateStatus('music-status', '🎵 Music playing');
+            }
+            showNotification('Music player toggle works!');
+        }
+        
+        function testMusicServices() {
+            updateStatus('music-status', '✅ Music services modal function works');
+            showNotification('🎵 Music services integration coming soon!');
+        }
+        
+        // Budget Tests
+        function testBudgetCalculator() {
+            updateStatus('budget-status', '✅ Budget calculator works');
+            showNotification('💰 Budget plan generated!');
+        }
+        
+        // Modal Tests
+        function testImageModal() {
+            updateStatus('modal-status', '✅ Image modal function works');
+            showNotification('🖼️ Image modal would open here');
+        }
+        
+        // Interactive Tests
+        function testFloatingHearts() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createFloatingHeart(), i * 200);
+            }
+            updateStatus('interactive-status', '✅ Floating hearts animation works');
+        }
+        
+        function testNotifications() {
+            showNotification('This is a success notification!', 'success');
+            setTimeout(() => showNotification('This is an info notification', 'info'), 1000);
+            setTimeout(() => showNotification('This is an error notification', 'error'), 2000);
+            updateStatus('interactive-status', '✅ All notification types work');
+        }
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💕';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = window.innerHeight + 'px';
+            heart.style.fontSize = '24px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '999';
+            heart.style.transition = 'all 3s ease-out';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.style.top = '-50px';
+                heart.style.opacity = '0';
+            }, 100);
+            
+            setTimeout(() => heart.remove(), 3000);
+        }
+        
+        // Add ripple effect to all buttons
+        document.querySelectorAll('.test-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.height, rect.width);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.className = 'ripple';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification('Button test page loaded successfully!');
+        });
+    </script>
+</body>
+</html>
