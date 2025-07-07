@@ -7,6 +7,21 @@
     <meta name="keywords" content="Providence anniversary, romantic weekend, Restaurant Week, Providence dining, romantic getaway">
     <meta name="author" content="Providence Anniversary Planner">
     
+    <!-- Performance and Caching Meta Tags -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    <meta http-equiv="Expires" content="Thu, 31 Dec 2025 23:59:59 GMT">
+    
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//unpkg.com">
+    
+    <!-- Critical Resource Loading Optimization -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap"></noscript>
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="">
@@ -53,6 +68,46 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <style>
+        /* Universal Responsive Images - Critical for Mobile UX */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Skip to main content link styles for accessibility */
+        .skip-to-main {
+            position: absolute;
+            left: -999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: 10000;
+            background: #fff;
+            color: #433A3F;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(67,58,63,0.08);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: left 0.2s, top 0.2s;
+        }
+        .skip-to-main:focus, .skip-to-main:active {
+            left: 16px;
+            top: 16px;
+            width: auto;
+            height: auto;
+            outline: 2px solid #C07F63;
+            outline-offset: 2px;
+        }
+        
+        /* Responsive video elements */
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
         /* 🎨 Design System - Cohesive Foundation */
         :root {
             /* Color Palette */
@@ -112,6 +167,15 @@
             --transition-fast: 0.15s ease;
             --transition-normal: 0.3s ease;
             --transition-slow: 0.5s ease;
+
+            /* Enhanced Color Contrast for WCAG AA Compliance (4.5:1 minimum) */
+            /* ...existing variables... */
+            
+            /* High Contrast Color Variations */
+            --text-primary-high-contrast: #2D2D2D; /* Darker for better contrast */
+            --text-secondary-high-contrast: #4A4A4A; /* Improved contrast */
+            --background-high-contrast: #FFFFFF; /* Pure white background */
+            --link-color-high-contrast: #1B4D72; /* Darker blue for better contrast */
         }
 
         /* Base Typography */
@@ -126,6 +190,41 @@
             font-family: var(--font-display);
             line-height: 1.2;
             font-weight: 700;
+        }
+
+        /* Apply high contrast where needed */
+        .high-contrast-text {
+            color: var(--text-primary-high-contrast) !important;
+        }
+
+        .nav-link,
+        .restaurant-card p,
+        .card p,
+        .text-secondary {
+            color: var(--text-secondary-high-contrast);
+        }
+
+        /* Ensure links meet contrast requirements */
+        a:not(.btn-primary):not(.cta-button) {
+            color: var(--link-color-high-contrast);
+            text-decoration: underline;
+        }
+
+        a:not(.btn-primary):not(.cta-button):hover {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        /* High contrast for form elements */
+        input, textarea, select {
+            border: 2px solid var(--text-secondary-high-contrast);
+            color: var(--text-primary-high-contrast);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
         /* Unified Component Styles */
@@ -1835,6 +1934,8 @@
     </style>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
     <!-- Progress Indicator -->
     <div class="progress-indicator">
         <div class="progress-bar" id="progress-bar"></div>
@@ -2065,7 +2166,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
         <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center" role="banner">
             <div class="container mx-auto hero-content">
                 <div class="cohesive-card max-w-md mx-auto mb-8 p-6 bg-white/10 backdrop-blur-lg border-white/20">
@@ -2143,8 +2244,12 @@
                         <div class="countdown-label"></div>
                     </div>
                 </div>
-                <a href="#itinerary" class="btn-primary cta-button px-8 py-3 rounded-full text-lg font-semibold">
-                    Start Planning Your Getaway
+                <a href="#itinerary" 
+                   class="btn-primary cta-button px-8 py-3 rounded-full text-lg font-semibold" 
+                   role="button"
+                   aria-label="Start planning your romantic Providence anniversary getaway - View detailed itinerary"
+                   tabindex="0">
+                    🎉 Start Planning Your Getaway
                 </a>
             </div>
         </section>
@@ -11042,6 +11147,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize section bridges
     setTimeout(addSectionBridges, 1000);
 });
+</script>
+<script>
+    // FAQ accordion toggle functionality
+    function toggleFAQ(button) {
+        const answer = button.parentElement.querySelector('.faq-answer');
+        const icon = button.querySelector('.faq-icon');
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+
+        if (expanded) {
+            answer.classList.add('hidden');
+            icon.textContent = '+';
+            button.setAttribute('aria-expanded', 'false');
+        } else {
+            // Close all other open FAQs in the same section
+            document.querySelectorAll('#faq .faq-question[aria-expanded="true"]').forEach(openBtn => {
+                openBtn.setAttribute('aria-expanded', 'false');
+                openBtn.parentElement.querySelector('.faq-answer').classList.add('hidden');
+                openBtn.querySelector('.faq-icon').textContent = '+';
+            });
+            answer.classList.remove('hidden');
+            icon.textContent = '–';
+            button.setAttribute('aria-expanded', 'true');
+        }
+    }
 </script>
 </body>
 </html>
