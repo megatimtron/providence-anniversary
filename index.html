@@ -1765,6 +1765,73 @@
             text-decoration: underline;
         }
         
+        /* Qobuz Integration Styles */
+        .qobuz-quality-badge {
+            background: linear-gradient(135deg, #1B365D, #2E5984);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            padding: 2px 6px;
+            box-shadow: 0 2px 4px rgba(27, 54, 93, 0.3);
+            animation: qualityPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes qualityPulse {
+            0%, 100% { box-shadow: 0 2px 4px rgba(27, 54, 93, 0.3); }
+            50% { box-shadow: 0 4px 8px rgba(27, 54, 93, 0.5); }
+        }
+        
+        .qobuz-service-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .qobuz-service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(27, 54, 93, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .qobuz-service-card:hover::before {
+            left: 100%;
+        }
+        
+        .qobuz-connected {
+            position: relative;
+        }
+        
+        .qobuz-connected::after {
+            content: '🏆 Hi-Res';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1B365D;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
+        }
+        
+        .search-result-item[data-platform="qobuz"] {
+            border-left: 3px solid #1B365D;
+            background: linear-gradient(135deg, rgba(27, 54, 93, 0.02), rgba(46, 89, 132, 0.02));
+        }
+        
+        .search-result-item[data-platform="qobuz"]:hover {
+            background: linear-gradient(135deg, rgba(27, 54, 93, 0.05), rgba(46, 89, 132, 0.05));
+            border-left-color: #2E5984;
+        }
+        
     </style>
 </head>
 <body>
@@ -4744,16 +4811,16 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                                 </div>
                             </div>
 
-                            <!-- Apple Music Connection -->
-                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-gray-400/50 transition-colors cursor-pointer" onclick="connectMusicService('apple')">
+                            <!-- Qobuz Connection -->
+                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-blue-400/50 transition-colors cursor-pointer" onclick="connectMusicService('qobuz')">
                                 <div class="text-center">
-                                    <div class="text-4xl mb-3">🍎</div>
-                                    <h4 class="font-semibold text-white mb-2">Apple Music</h4>
+                                    <div class="text-4xl mb-3">�</div>
+                                    <h4 class="font-semibold text-white mb-2">Qobuz</h4>
                                     <div class="flex items-center justify-center gap-2 mb-3">
-                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="apple-status"></span>
-                                        <span class="text-white/80 text-sm" id="apple-status-text">Not Connected</span>
+                                        <span class="w-3 h-3 bg-red-400 rounded-full" id="qobuz-status"></span>
+                                        <span class="text-white/80 text-sm" id="qobuz-status-text">Not Connected</span>
                                     </div>
-                                    <button class="bg-gray-600 text-white px-4 py-2 rounded-full text-sm hover:bg-gray-700 transition-colors w-full">
+                                    <button class="bg-blue-900 text-white px-4 py-2 rounded-full text-sm hover:bg-blue-800 transition-colors w-full">
                                         Connect
                                     </button>
                                 </div>
@@ -4883,6 +4950,24 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                                     <p>• 10 soothing songs</p>
                                     <p>• 35 min duration</p>
                                     <p>• Waterfront strolls</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audiophile Experience Template (Qobuz Exclusive) -->
+                        <div class="playlist-template bg-gradient-to-br from-blue-800/30 to-indigo-800/30 rounded-xl p-6 border border-blue-400/20 hover:border-blue-400/50 transition-colors cursor-pointer relative" onclick="createFromTemplate('audiophile')">
+                            <div class="absolute top-2 right-2 bg-blue-900 text-white text-xs px-2 py-1 rounded-full">
+                                🎧 Hi-Res
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🎧</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Audiophile Experience</h4>
+                                <p class="text-white/80 text-sm mb-4">Lossless quality romantic tracks for the perfect sound experience</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 10 Hi-Res tracks</p>
+                                    <p>• 42 min duration</p>
+                                    <p>• 24-bit/96kHz quality</p>
+                                    <p class="text-blue-200 mt-1">🎵 Requires Qobuz</p>
                                 </div>
                             </div>
                         </div>
@@ -6705,7 +6790,8 @@ function updateLocationInfoPanel(location) {
             travel: '🚗',
             adventure: '⛵',
             chill: '🌙',
-            dance: '💃'
+            dance: '💃',
+            audiophile: '🎧'
         };
         return emojis[type] || '🎵';
     }
@@ -6757,19 +6843,44 @@ function updateLocationInfoPanel(location) {
                 { title: 'Uptown Funk', artist: 'Mark Ronson ft. Bruno Mars' },
                 { title: 'Can\'t Stop the Feeling!', artist: 'Justin Timberlake' },
                 { title: 'Levitating', artist: 'Dua Lipa' }
+            ],
+            audiophile: [
+                { title: 'Hotel California (Hi-Res)', artist: 'Eagles', quality: '24-bit/96kHz' },
+                { title: 'Bohemian Rhapsody (Remastered)', artist: 'Queen', quality: '24-bit/192kHz' },
+                { title: 'The Sound of Silence (Lossless)', artist: 'Simon & Garfunkel', quality: '24-bit/96kHz' },
+                { title: 'Imagine (Hi-Res)', artist: 'John Lennon', quality: '24-bit/96kHz' }
             ]
         };
 
         const container = document.getElementById('suggested-songs');
         if (suggestions[type]) {
-            container.innerHTML = suggestions[type].map(song => `
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-[#433A3F]">${song.title} - ${song.artist}</span>
-                    <button class="add-suggested-song text-purple-500 hover:text-purple-700" data-title="${song.title}" data-artist="${song.artist}">
-                        ➕
-                    </button>
-                </div>
-            `).join('');
+            container.innerHTML = suggestions[type].map(song => {
+                const qualityBadge = song.quality ? `<span class="qobuz-quality-badge ml-2">${song.quality}</span>` : '';
+                return `
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center">
+                            <span class="text-[#433A3F]">${song.title} - ${song.artist}</span>
+                            ${qualityBadge}
+                        </div>
+                        <button class="add-suggested-song text-purple-500 hover:text-purple-700" data-title="${song.title}" data-artist="${song.artist}" data-quality="${song.quality || ''}">
+                            ➕
+                        </button>
+                    </div>
+                `;
+            }).join('');
+            
+            // Add special note for audiophile playlist
+            if (type === 'audiophile') {
+                container.innerHTML += `
+                    <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="flex items-center gap-2 text-blue-800 text-sm">
+                            <span class="text-lg">🎧</span>
+                            <span class="font-semibold">Qobuz Hi-Res Experience</span>
+                        </div>
+                        <p class="text-blue-700 text-xs mt-1">These tracks are available in lossless, high-resolution audio quality for the ultimate listening experience.</p>
+                    </div>
+                `;
+            }
         } else {
             container.innerHTML = '<p class="text-sm text-[#433A3F]/60">No suggestions for this playlist type</p>';
         }
@@ -6885,7 +6996,7 @@ function updateLocationInfoPanel(location) {
             </div>
         `;
 
-        // Simulate search results (replace with actual API calls)
+        // Simulate search results with Qobuz support (replace with actual API calls)
         setTimeout(() => {
             const mockResults = [
                 {
@@ -6895,6 +7006,7 @@ function updateLocationInfoPanel(location) {
                     album: 'Search Results',
                     platform: 'spotify',
                     duration: '3:45',
+                    quality: 'High',
                     preview_url: null
                 },
                 {
@@ -6904,6 +7016,17 @@ function updateLocationInfoPanel(location) {
                     album: 'Acoustic Sessions',
                     platform: 'youtube',
                     duration: '4:12',
+                    quality: 'Standard',
+                    preview_url: null
+                },
+                {
+                    id: '3',
+                    title: `${query} (Hi-Res)`,
+                    artist: 'Audiophile Edition',
+                    album: 'Lossless Collection',
+                    platform: 'qobuz',
+                    duration: '3:58',
+                    quality: 'Hi-Res 24-bit/96kHz',
                     preview_url: null
                 }
             ];
@@ -6926,21 +7049,42 @@ function updateLocationInfoPanel(location) {
             return;
         }
 
-        container.innerHTML = results.map(song => `
-            <div class="search-result-item flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
-                <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center text-white font-semibold">
-                    ${song.platform === 'spotify' ? '🎵' : '📺'}
+        container.innerHTML = results.map(song => {
+            let platformIcon = '🎵';
+            let platformColor = 'from-purple-400 to-pink-400';
+            let qualityBadge = '';
+            
+            if (song.platform === 'spotify') {
+                platformIcon = '🎵';
+                platformColor = 'from-green-400 to-green-600';
+            } else if (song.platform === 'youtube') {
+                platformIcon = '📺';
+                platformColor = 'from-red-400 to-red-600';
+            } else if (song.platform === 'qobuz') {
+                platformIcon = '🎧';
+                platformColor = 'from-blue-800 to-blue-900';
+                qualityBadge = `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full ml-2">${song.quality}</span>`;
+            }
+            
+            return `
+                <div class="search-result-item flex items-center gap-3 p-3 border border-gray-200 rounded-lg" data-platform="${song.platform}">
+                    <div class="w-12 h-12 bg-gradient-to-br ${platformColor} rounded-lg flex items-center justify-center text-white font-semibold">
+                        ${platformIcon}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-[#433A3F] truncate">${song.title}</h4>
+                        <p class="text-sm text-[#433A3F]/70 truncate">${song.artist} • ${song.album}</p>
+                        <div class="flex items-center">
+                            <p class="text-xs text-[#433A3F]/50">${song.duration} • ${song.platform}</p>
+                            ${qualityBadge}
+                        </div>
+                    </div>
+                    <button class="add-to-playlist-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" data-song='${JSON.stringify(song)}'>
+                        ➕ Add
+                    </button>
                 </div>
-                <div class="flex-1 min-w-0">
-                    <h4 class="font-semibold text-[#433A3F] truncate">${song.title}</h4>
-                    <p class="text-sm text-[#433A3F]/70 truncate">${song.artist} • ${song.album}</p>
-                    <p class="text-xs text-[#433A3F]/50">${song.duration} • ${song.platform}</p>
-                </div>
-                <button class="add-to-playlist-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" data-song='${JSON.stringify(song)}'>
-                    ➕ Add
-                </button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     // Set current playlist
@@ -10302,7 +10446,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceInfo = {
             spotify: { name: 'Spotify', icon: '🎵', color: '#1DB954' },
             youtube: { name: 'YouTube Music', icon: '📺', color: '#FF0000' },
-            apple: { name: 'Apple Music', icon: '🍎', color: '#000000' }
+            qobuz: { name: 'Qobuz', icon: '�', color: '#1B365D' }
         };
         
         const info = serviceInfo[service];
@@ -10313,7 +10457,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (modal) {
             document.getElementById('oauth-icon').textContent = info.icon;
             document.getElementById('oauth-service-name').textContent = info.name;
-            document.getElementById('oauth-description').textContent = `Connect your ${info.name} account to search millions of songs and create collaborative playlists.`;
+            
+            let description = `Connect your ${info.name} account to search millions of songs and create collaborative playlists.`;
+            if (service === 'qobuz') {
+                description = 'Connect to Qobuz for high-quality audio streaming with lossless sound quality. Perfect for audiophile couples who appreciate superior music fidelity.';
+            }
+            
+            document.getElementById('oauth-description').textContent = description;
             
             const connectBtn = document.getElementById('oauth-connect-btn');
             connectBtn.textContent = `${info.icon} Connect with ${info.name}`;
@@ -10348,15 +10498,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle OAuth connection
     window.handleOAuthConnection = (service) => {
         // Simulate connection for demo
-        showNotification(`${service.charAt(0).toUpperCase() + service.slice(1)} connected successfully! (Demo mode)`, 'success');
+        let serviceName = service.charAt(0).toUpperCase() + service.slice(1);
+        let message = `${serviceName} connected successfully! (Demo mode)`;
+        
+        if (service === 'qobuz') {
+            message = 'Qobuz connected! Now you can access high-quality audio streaming with lossless sound quality. (Demo mode)';
+        }
+        
+        showNotification(message, 'success');
         closeOAuthModal();
         
-        // Update status indicators
+        // Update status indicators - using correct class names for Qobuz
         const statusDot = document.getElementById(`${service}-status`);
         const statusText = document.getElementById(`${service}-status-text`);
         if (statusDot && statusText) {
-            statusDot.className = 'w-2 h-2 bg-green-400 rounded-full';
+            if (service === 'qobuz') {
+                statusDot.className = 'w-3 h-3 bg-green-400 rounded-full';
+            } else {
+                statusDot.className = 'w-2 h-2 bg-green-400 rounded-full';
+            }
             statusText.textContent = 'Connected';
+        }
+        
+        // Update connectedServices object
+        if (connectedServices && connectedServices[service]) {
+            connectedServices[service].connected = true;
+            if (service === 'qobuz') {
+                connectedServices[service].credentials = {
+                    username: 'demo_user',
+                    app_id: 'demo_app_id',
+                    app_secret: 'demo_secret',
+                    connected_at: new Date().toISOString()
+                };
+            }
+            saveConnectedServices();
         }
     };
     
@@ -10423,7 +10598,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    window.createFromTemplate = (type) => showNotification('Creating ' + type + ' playlist...', 'success');
+    window.createFromTemplate = (type) => {
+        if (type === 'audiophile') {
+            // Check if Qobuz is connected
+            if (!connectedServices.qobuz.connected) {
+                showNotification('🎧 Connect to Qobuz first for Hi-Res audio playlists!', 'info');
+                return;
+            }
+            showNotification('Creating audiophile playlist with Hi-Res quality tracks... 🎧', 'success');
+        } else {
+            showNotification('Creating ' + type + ' playlist...', 'success');
+        }
+        
+        // Open modal with the selected template
+        openCreatePlaylistModal(type);
+    };
     window.selectPlaylist = (id) => {
         currentPlaylist = playlists.find(p => p.id === id);
         updateCurrentPlaylistDisplay();
