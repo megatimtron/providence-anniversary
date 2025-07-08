@@ -105,48 +105,6 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Bouquet Preview Flowers */
-        .bouquet-flowers {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .preview-flower {
-            position: absolute;
-            transition: all 0.3s ease;
-            user-select: none;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .preview-flower:hover {
-            transform: translate(-50%, -50%) scale(1.1) !important;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)) !important;
-        }
-
-        .bouquet-style-overlay {
-            z-index: 1;
-            opacity: 0.7;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Drag over effects */
-        .bouquet-canvas.drag-over {
-            border-color: var(--primary-color);
-            background: linear-gradient(135deg, rgba(192, 127, 99, 0.1) 0%, rgba(192, 127, 99, 0.05) 100%);
-            transform: scale(1.02);
-        }
-
         .hero h1 {
             font-family: var(--font-display);
             font-size: 2.5rem;
@@ -699,59 +657,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        /* Bouquet Flowers Preview */
-        .bouquet-flowers {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .preview-flower {
-            position: absolute;
-            transition: all 0.3s ease;
-            user-select: none;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        .preview-flower:hover {
-            transform: translate(-50%, -50%) scale(1.1) !important;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)) !important;
-        }
-
-        .bouquet-style-overlay {
-            z-index: 1;
-            opacity: 0.7;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Drag over effects */
-        .bouquet-canvas.drag-over {
-            border-color: var(--primary-color);
-            background: linear-gradient(135deg, rgba(192, 127, 99, 0.1) 0%, rgba(192, 127, 99, 0.05) 100%);
-            transform: scale(1.02);
-        }
-
-        /* Flower animation effects */
-        @keyframes bounceIn {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.2) rotate(180deg); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 1; }
-        }
-
-        .preview-flower.new-flower {
-            animation: bounceIn 0.6s ease-out;
-        }
     </style>
 </head>
 <body>
@@ -984,15 +889,13 @@
             document.getElementById('flower-types').textContent = flowerTypes;
             document.getElementById('estimated-time').textContent = estimatedTime;
 
-            // Update canvas state and bouquet preview
+            // Update canvas state
             if (totalFlowers > 0) {
                 bouquetCanvas.classList.add('has-flowers');
                 emptyState.style.display = 'none';
-                updateBouquetPreview();
             } else {
                 bouquetCanvas.classList.remove('has-flowers');
                 emptyState.style.display = 'block';
-                clearBouquetPreview();
             }
         }
 
@@ -1014,7 +917,6 @@
                     styleBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     currentStyle = this.dataset.style;
-                    updateBouquetStyle(); // Update the bouquet style visualization
                 });
             });
 
@@ -1058,139 +960,6 @@
 
         function handleDragLeave(e) {
             bouquetCanvas.classList.remove('drag-over');
-        }
-
-        // Update bouquet preview with selected flowers
-        function updateBouquetPreview() {
-            // Remove existing preview flowers
-            clearBouquetPreview();
-            
-            // Create flowers container
-            let flowersContainer = bouquetCanvas.querySelector('.bouquet-flowers');
-            if (!flowersContainer) {
-                flowersContainer = document.createElement('div');
-                flowersContainer.className = 'bouquet-flowers';
-                bouquetCanvas.appendChild(flowersContainer);
-            }
-            
-            // Generate flower elements based on selected flowers
-            const flowerElements = [];
-            Object.entries(selectedFlowers).forEach(([flowerName, count]) => {
-                const flower = flowerData.find(f => f.name === flowerName);
-                if (flower) {
-                    for (let i = 0; i < count; i++) {
-                        const rotation = Math.random() * 360;
-                        const delay = Math.random() * 2;
-                        const x = (Math.random() - 0.5) * 80; // Random position within container
-                        const y = (Math.random() - 0.5) * 80;
-                        
-                        flowerElements.push(`
-                            <div class="preview-flower" 
-                                 style="
-                                     position: absolute;
-                                     left: calc(50% + ${x}px);
-                                     top: calc(50% + ${y}px);
-                                     transform: translate(-50%, -50%) rotate(${rotation}deg);
-                                     font-size: 2rem;
-                                     animation: float 3s ease-in-out infinite;
-                                     animation-delay: ${delay}s;
-                                     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-                                 ">
-                                ${flower.emoji}
-                            </div>
-                        `);
-                    }
-                }
-            });
-            
-            flowersContainer.innerHTML = flowerElements.join('');
-            
-            // Add bouquet style visualization
-            updateBouquetStyle();
-        }
-        
-        // Clear bouquet preview
-        function clearBouquetPreview() {
-            const flowersContainer = bouquetCanvas.querySelector('.bouquet-flowers');
-            if (flowersContainer) {
-                flowersContainer.remove();
-            }
-            const styleContainer = bouquetCanvas.querySelector('.bouquet-style-overlay');
-            if (styleContainer) {
-                styleContainer.remove();
-            }
-        }
-        
-        // Update bouquet style visualization
-        function updateBouquetStyle() {
-            // Remove existing style overlay
-            const existingOverlay = bouquetCanvas.querySelector('.bouquet-style-overlay');
-            if (existingOverlay) {
-                existingOverlay.remove();
-            }
-            
-            // Add style-specific overlay
-            const styleOverlay = document.createElement('div');
-            styleOverlay.className = 'bouquet-style-overlay';
-            
-            let styleCSS = '';
-            switch (currentStyle) {
-                case 'classic':
-                    styleCSS = `
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 120px;
-                        height: 120px;
-                        border: 2px dashed rgba(192, 127, 99, 0.3);
-                        border-radius: 50%;
-                        pointer-events: none;
-                    `;
-                    break;
-                case 'cascade':
-                    styleCSS = `
-                        position: absolute;
-                        top: 30%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 100px;
-                        height: 140px;
-                        border: 2px dashed rgba(192, 127, 99, 0.3);
-                        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-                        pointer-events: none;
-                    `;
-                    break;
-                case 'hand-tied':
-                    styleCSS = `
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 140px;
-                        height: 100px;
-                        border: 2px dashed rgba(192, 127, 99, 0.3);
-                        border-radius: 50%;
-                        pointer-events: none;
-                    `;
-                    break;
-                case 'compact':
-                    styleCSS = `
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 80px;
-                        height: 80px;
-                        border: 2px dashed rgba(192, 127, 99, 0.3);
-                        border-radius: 50%;
-                        pointer-events: none;
-                    `;
-                    break;
-            }
-            
-            styleOverlay.style.cssText = styleCSS;
-            bouquetCanvas.appendChild(styleOverlay);
         }
 
         // Action functions
