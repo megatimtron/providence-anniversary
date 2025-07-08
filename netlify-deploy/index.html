@@ -1102,18 +1102,23 @@
         /* Love Notes Feature */
         .love-note {
             position: fixed;
-            background: rgba(253, 248, 240, 0.95);
+            background: linear-gradient(135deg, rgba(253, 248, 240, 0.98), rgba(255, 255, 255, 0.95));
             border: 2px solid #8B7355;
-            border-radius: 12px;
-            padding: 16px;
-            max-width: 250px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 280px;
+            min-width: 200px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(139, 115, 85, 0.2);
             z-index: 1000;
             font-style: italic;
             color: #433A3F;
+            font-size: 15px;
+            line-height: 1.4;
+            font-weight: 500;
             transform: scale(0);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
         
         .love-note.show {
@@ -1124,14 +1129,45 @@
         .love-note::before {
             content: '💕';
             position: absolute;
-            top: -10px;
-            right: -5px;
-            font-size: 20px;
+            top: -8px;
+            right: -8px;
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .love-note:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(139, 115, 85, 0.3);
         }
         
         @keyframes loveNoteFloat {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        /* Love Note Button Styling */
+        .love-note-button {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .love-note-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .love-note-button:hover::before {
+            left: 100%;
+        }
+        
+        .love-note-button:active {
+            transform: scale(0.98);
         }
         
         /* Anniversary Countdown */
@@ -2326,6 +2362,17 @@
                     </div>
                 </div>
                 
+                <!-- Love Note Button -->
+                <div class="text-center mb-6">
+                    <button 
+                        onclick="showLoveNote()" 
+                        class="love-note-button bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-full border-2 border-pink-300/60 hover:border-pink-300 transition-all duration-300 backdrop-blur-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                        aria-label="Show a random love note"
+                    >
+                        💕 Send Me Love 💕
+                    </button>
+                </div>
+                
                 <h1 class="hero-title text-5xl md:text-7xl font-bold mb-6 text-white font-display">
                     Your Perfect Anniversary Escape
                 </h1>
@@ -2338,9 +2385,6 @@
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button class="cohesive-btn cohesive-btn-primary text-lg px-8 py-4" onclick="scrollToSection('itinerary')" aria-label="Go to itinerary section">
                         ✨ Start Planning Our Adventure
-                    </button>
-                    <button class="cohesive-btn cohesive-btn-secondary text-lg px-8 py-4" onclick="showLoveNote()" aria-label="Send a romantic love note">
-                        💌 Send a Love Note
                     </button>
                 </div>
                 
@@ -7695,7 +7739,67 @@ document.addEventListener('DOMContentLoaded', () => {
         "You make my heart feel at home, no matter where we are 🏡",
         "I choose you today, tomorrow, and for all our adventures to come 💖",
         "Your laugh is the best soundtrack to any trip we take together 🎵",
-        "With you, even planning is part of the romance 📝💕"
+        "With you, even planning is part of the romance 📝💕",
+        "You're the reason I believe in fairy tales 🧚‍♀️✨",
+        "Your hand in mine makes any path an adventure 🤝💫",
+        "I fall in love with you a little more every single day 💝",
+        "You're my favorite notification, my favorite sound, my favorite everything 📱💕",
+        "Your eyes hold all the adventures we've yet to take 👀🗺️",
+        "You make me want to be the best version of myself 🌟",
+        "In a room full of art, I'd still stare at you 🎨💖",
+        "You're my favorite hello and my hardest goodbye 👋💔",
+        "Your love feels like coming home to myself 🏠💕",
+        "You're the plot twist I never saw coming but always needed 📚💫",
+        "With you, I've found my person and my peace ☮️💝",
+        "You make ordinary Tuesday feel like Christmas morning 🎄✨",
+        "Your love is my favorite adventure story 📖💕",
+        "You're proof that soulmates exist 👻💖",
+        "I love how we can be completely silly together 🤪💕",
+        "You make me believe in magic again 🪄✨",
+        "Your hugs feel like the safest place in the world 🤗🌍",
+        "You're my favorite reason to wake up every morning ☀️💕",
+        "With you, forever doesn't seem long enough ∞💖",
+        "You're the missing piece I didn't know I was looking for 🧩💝",
+        "Your love makes me feel like I can conquer the world 🌍👑",
+        "You're my favorite distraction and my greatest motivation 💪💕",
+        "I love how you love me, completely and unconditionally 💯💖",
+        "You make my heart skip beats and my soul feel complete 💓✨",
+        "You're the reason I believe in happily ever after 📚👑",
+        "Your love is my favorite kind of chaos 🌪️💕",
+        "You make me want to write poetry about ordinary moments 📝💫",
+        "With you, I've found my home and my adventure 🏠🗺️",
+        "You're my favorite person to get lost with 🧭💖",
+        "Your love feels like sunshine on a rainy day ☀️🌧️",
+        "You make me believe in us more every day 💑💪",
+        "You're my favorite dream come true 💭✨",
+        "I love how we fit together like puzzle pieces 🧩💕",
+        "You're the answer to questions I didn't know I had ❓💡",
+        "Your love is my favorite superpower 🦸‍♀️💖",
+        "You make me feel like the main character in my own story 📚⭐",
+        "With you, I'm never afraid to be myself 💯💕",
+        "You're my favorite kind of beautiful chaos 🌪️✨",
+        "Your love makes everything better, including Providence 🏛️💖",
+        "You're the reason I look forward to tomorrow 📅💫",
+        "I love how we turn simple moments into memories 📸💕",
+        "You make me feel like I'm exactly where I belong 🎯💝",
+        "Your love is my favorite adventure 🗺️💖",
+        "You're my favorite person to share silence with 🤫💕",
+        "With you, even grocery shopping feels romantic 🛒💫",
+        "You make me want to dance in the kitchen 💃🍳",
+        "Your love is my favorite song on repeat 🎵💖",
+        "You're the best thing that's ever happened to my heart 💓✨",
+        "I love how you make me laugh until my cheeks hurt 😂💕",
+        "You're my favorite person to get into trouble with 😈💖",
+        "Your love makes me feel fearless 🦁💫",
+        "You're the reason I believe in magic and miracles ✨🙏",
+        "I love how we can talk about everything and nothing 💬💕",
+        "You make me feel like I'm living in a love song 🎵💖",
+        "Your love is my favorite kind of medicine 💊💝",
+        "You're my favorite person to watch movies with 🎬💕",
+        "With you, I've found my person and my purpose 🎯💖",
+        "You make me believe that love stories do come true 📚💫",
+        "Your love feels like the warmest hug for my soul 🤗💕",
+        "You're my favorite reason to believe in tomorrow 🌅💖"
     ];
 
     // Facebook Dating Style Bubble
@@ -7746,9 +7850,13 @@ document.addEventListener('DOMContentLoaded', () => {
         note.className = 'love-note';
         note.textContent = loveNotes[Math.floor(Math.random() * loveNotes.length)];
         
-        // Random position
-        note.style.top = Math.random() * (window.innerHeight - 200) + 'px';
-        note.style.left = Math.random() * (window.innerWidth - 250) + 'px';
+        // Improved random position - avoid overlapping with UI elements
+        const margin = 50; // Margin from edges
+        const maxTop = window.innerHeight - 300; // Leave space for note height
+        const maxLeft = window.innerWidth - 300; // Leave space for note width
+        
+        note.style.top = Math.max(margin, Math.random() * maxTop) + 'px';
+        note.style.left = Math.max(margin, Math.random() * maxLeft) + 'px';
         
         document.getElementById('love-notes-container').appendChild(note);
         
@@ -7759,13 +7867,13 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => note.remove(), 500);
         });
         
-        // Auto remove after 8 seconds
+        // Auto remove after 12 seconds (increased from 8 to give more time to read)
         setTimeout(() => {
             if (note.parentNode) {
                 note.classList.remove('show');
                 setTimeout(() => note.remove(), 500);
             }
-        }, 8000);
+        }, 12000);
     }
 
     function scrollToSection(sectionId) {
@@ -7828,7 +7936,26 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
         lastScrollY = window.scrollY;
+        
+        // Random chance to show love note on scroll
+        if (Math.random() < 0.008) { // 0.8% chance per scroll (increased from 0.3%)
+            showLoveNote();
+        }
     });
+
+    // Show random love notes periodically
+    function startRandomLoveNotes() {
+        const showRandomNote = () => {
+            showLoveNote();
+            // Schedule next note between 15-60 seconds (more frequent)
+            const nextNoteDelay = (15 + Math.random() * 45) * 1000;
+            setTimeout(showRandomNote, nextNoteDelay);
+        };
+        
+        // Start the first note after 5-15 seconds
+        const initialDelay = (5 + Math.random() * 10) * 1000;
+        setTimeout(showRandomNote, initialDelay);
+    }
 
     // Make these functions global
     window.showLoveNote = showLoveNote;
@@ -7882,10 +8009,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize dating bubble
     showDatingBubble();
     
+    // Start random love notes
+    startRandomLoveNotes();
+    
+    // Show a welcome love note after page load
+    setTimeout(() => {
+        showLoveNote();
+    }, 3000); // Show first note after 3 seconds
+    
     // Add click hearts to memory cards
     document.addEventListener('click', (e) => {
         if (e.target.closest('.memory-card')) {
             createFloatingHeart(e.clientX, e.clientY);
+        }
+        
+        // Trigger love notes on romantic restaurant clicks
+        if (e.target.closest('[data-categories*="romantic"]') || 
+            e.target.closest('.restaurant-card')) {
+            if (Math.random() < 0.4) { // 40% chance (increased from 20%)
+                setTimeout(() => showLoveNote(), 500);
+            }
+        }
+        
+        // Trigger love notes on anniversary-related content
+        if (e.target.closest('.hero-bg') || 
+            e.target.closest('.cta-button') ||
+            e.target.closest('[onclick*="showLoveNote"]')) {
+            if (Math.random() < 0.5) { // 50% chance (increased from 30%)
+                setTimeout(() => showLoveNote(), 300);
+            }
         }
     });
 

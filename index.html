@@ -1102,18 +1102,23 @@
         /* Love Notes Feature */
         .love-note {
             position: fixed;
-            background: rgba(253, 248, 240, 0.95);
+            background: linear-gradient(135deg, rgba(253, 248, 240, 0.98), rgba(255, 255, 255, 0.95));
             border: 2px solid #8B7355;
-            border-radius: 12px;
-            padding: 16px;
-            max-width: 250px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 280px;
+            min-width: 200px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(139, 115, 85, 0.2);
             z-index: 1000;
             font-style: italic;
             color: #433A3F;
+            font-size: 15px;
+            line-height: 1.4;
+            font-weight: 500;
             transform: scale(0);
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
         
         .love-note.show {
@@ -1124,14 +1129,45 @@
         .love-note::before {
             content: '💕';
             position: absolute;
-            top: -10px;
-            right: -5px;
-            font-size: 20px;
+            top: -8px;
+            right: -8px;
+            font-size: 24px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .love-note:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(139, 115, 85, 0.3);
         }
         
         @keyframes loveNoteFloat {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        /* Love Note Button Styling */
+        .love-note-button {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .love-note-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .love-note-button:hover::before {
+            left: 100%;
+        }
+        
+        .love-note-button:active {
+            transform: scale(0.98);
         }
         
         /* Anniversary Countdown */
@@ -2330,7 +2366,7 @@
                 <div class="text-center mb-6">
                     <button 
                         onclick="showLoveNote()" 
-                        class="bg-pink-500/20 hover:bg-pink-500/30 text-white px-6 py-2 rounded-full border border-pink-300/50 hover:border-pink-300 transition-all duration-300 backdrop-blur-sm"
+                        class="love-note-button bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-full border-2 border-pink-300/60 hover:border-pink-300 transition-all duration-300 backdrop-blur-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
                         aria-label="Show a random love note"
                     >
                         💕 Send Me Love 💕
@@ -2349,9 +2385,6 @@
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button class="cohesive-btn cohesive-btn-primary text-lg px-8 py-4" onclick="scrollToSection('itinerary')" aria-label="Go to itinerary section">
                         ✨ Start Planning Our Adventure
-                    </button>
-                    <button class="cohesive-btn cohesive-btn-secondary text-lg px-8 py-4" onclick="showLoveNote()" aria-label="Send a romantic love note">
-                        💌 Send a Love Note
                     </button>
                 </div>
                 
@@ -7817,9 +7850,13 @@ document.addEventListener('DOMContentLoaded', () => {
         note.className = 'love-note';
         note.textContent = loveNotes[Math.floor(Math.random() * loveNotes.length)];
         
-        // Random position
-        note.style.top = Math.random() * (window.innerHeight - 200) + 'px';
-        note.style.left = Math.random() * (window.innerWidth - 250) + 'px';
+        // Improved random position - avoid overlapping with UI elements
+        const margin = 50; // Margin from edges
+        const maxTop = window.innerHeight - 300; // Leave space for note height
+        const maxLeft = window.innerWidth - 300; // Leave space for note width
+        
+        note.style.top = Math.max(margin, Math.random() * maxTop) + 'px';
+        note.style.left = Math.max(margin, Math.random() * maxLeft) + 'px';
         
         document.getElementById('love-notes-container').appendChild(note);
         
