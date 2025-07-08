@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💐 Your Anniversary Bouquet Builder</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Design System */
+        :root {
+            --primary-color: #C07F63;
+            --primary-dark: #A9684C;
+            --primary-light: #D4967C;
+            --secondary-color: #EAE0D5;
+            --background-cream: #FDF8F0;
+            --text-primary: #433A3F;
+            --text-secondary: #6B7280;
+            --text-accent: #C07F63;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --border-color: #E5E7EB;
+            
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Roboto', sans-serif;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, #FDF8F0 0%, #F5E6D3 50%, #EAE0D5 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Layout */
+        .bouquet-builder {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .bouquet-builder {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Flower Selection Panel */
+        .flower-panel {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .panel-section {
+            margin-bottom: 2rem;
+        }
+
+        .panel-section h3 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Flower Categories */
+        .flower-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            background: white;
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.875rem;
+        }
+
+        .category-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Flower Grid */
+        .flower-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .flower-item {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flower-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .flower-item.selected {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+        }
+
+        .flower-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: transform var(--transition-normal);
+        }
+
+        .flower-item:hover .flower-emoji {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .flower-name {
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .flower-meaning {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .flower-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 2px solid white;
+            transform: scale(0);
+            transition: transform var(--transition-fast);
+        }
+
+        .flower-item.selected .flower-count {
+            transform: scale(1);
+        }
+
+        /* Bouquet Preview */
+        .bouquet-preview {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 2rem;
+        }
+
+        .bouquet-canvas {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: var(--radius-xl);
+            border: 2px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .bouquet-canvas.has-flowers {
+            background: linear-gradient(135deg, #fef7f0 0%, #fef3ec 100%);
+            border-color: var(--primary-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .emoji {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.5;
+        }
+
+        /* Bouquet Flowers Display */
+        .bouquet-flowers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .bouquet-flower {
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        /* Bouquet Summary */
+        .bouquet-summary {
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--secondary-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-flower {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .summary-count {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Bouquet Styles */
+        .bouquet-styles {
+            margin-bottom: 1.5rem;
+        }
+
+        .style-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .style-btn {
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: white;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 0.875rem;
+        }
+
+        .style-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--secondary-color);
+        }
+
+        .style-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Price Display */
+        .price-display {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .price-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0, 0, 0); }
+            40%, 43% { transform: translate3d(0, -15px, 0); }
+            70% { transform: translate3d(0, -7px, 0); }
+            90% { transform: translate3d(0, -2px, 0); }
+        }
+
+        .bounce {
+            animation: bounce 1s ease;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text-primary);
+            color: white;
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-fast);
+            z-index: 10;
+        }
+
+        .tooltip:hover .tooltip-content {
+            opacity: 1;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .flower-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .bouquet-canvas {
+                height: 250px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>💐 Your Anniversary Bouquet Builder</h1>
+            <p>Design the perfect bouquet for your special Providence weekend. Each flower has its own romantic meaning - create something uniquely yours!</p>
+        </header>
+
+        <div class="bouquet-builder">
+            <!-- Flower Selection Panel -->
+            <div class="flower-panel">
+                <!-- Categories -->
+                <div class="panel-section">
+                    <h3>🌸 Flower Categories</h3>
+                    <div class="flower-categories">
+                        <button class="category-btn active" data-category="all">All Flowers</button>
+                        <button class="category-btn" data-category="romantic">💕 Romantic</button>
+                        <button class="category-btn" data-category="classic">👑 Classic</button>
+                        <button class="category-btn" data-category="exotic">🌺 Exotic</button>
+                        <button class="category-btn" data-category="seasonal">🍂 Seasonal</button>
+                    </div>
+                </div>
+
+                <!-- Flower Selection -->
+                <div class="panel-section">
+                    <h3>🌹 Choose Your Flowers</h3>
+                    <div class="flower-grid" id="flower-grid">
+                        <!-- Flowers will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouquet Preview -->
+            <div class="bouquet-preview">
+                <h3>✨ Your Bouquet Preview</h3>
+                
+                <div class="bouquet-canvas" id="bouquet-canvas">
+                    <div class="empty-state" id="empty-state">
+                        <div class="emoji">💐</div>
+                        <p>Select flowers to start building your bouquet</p>
+                    </div>
+                    <div class="bouquet-flowers" id="bouquet-flowers"></div>
+                </div>
+
+                <div class="price-display" id="price-display">
+                    <div class="price-label">Estimated Cost</div>
+                    <div class="price-amount" id="price-amount">$0</div>
+                </div>
+
+                <div class="bouquet-summary" id="bouquet-summary">
+                    <!-- Summary will be populated by JavaScript -->
+                </div>
+
+                <div class="bouquet-styles">
+                    <h4>🎨 Bouquet Style</h4>
+                    <div class="style-options">
+                        <button class="style-btn active" data-style="classic">Classic Round</button>
+                        <button class="style-btn" data-style="cascade">Cascading</button>
+                        <button class="style-btn" data-style="hand-tied">Hand-Tied</button>
+                        <button class="style-btn" data-style="compact">Compact</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="save-bouquet">
+                        💾 Save Bouquet
+                    </button>
+                    <button class="btn btn-secondary" id="share-bouquet">
+                        📤 Share Design
+                    </button>
+                    <button class="btn btn-secondary" id="clear-bouquet">
+                        🗑️ Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Flower Database
+        const flowers = [
+            // Romantic Category
+            { name: "Red Rose", emoji: "🌹", meaning: "Deep love & passion", category: "romantic", price: 5 },
+            { name: "Pink Rose", emoji: "🌹", meaning: "Gratitude & appreciation", category: "romantic", price: 4 },
+            { name: "White Rose", emoji: "🤍", meaning: "Pure love & new beginnings", category: "romantic", price: 4 },
+            { name: "Peony", emoji: "🌸", meaning: "Romance & prosperity", category: "romantic", price: 7 },
+            { name: "Tulip", emoji: "🌷", meaning: "Perfect love", category: "romantic", price: 3 },
+            
+            // Classic Category
+            { name: "Lily", emoji: "🌺", meaning: "Rebirth & motherhood", category: "classic", price: 6 },
+            { name: "Carnation", emoji: "🌸", meaning: "Fascination & distinction", category: "classic", price: 3 },
+            { name: "Chrysanthemum", emoji: "🌼", meaning: "Joy & optimism", category: "classic", price: 4 },
+            { name: "Daisy", emoji: "🌼", meaning: "Innocence & new beginnings", category: "classic", price: 2 },
+            { name: "Baby's Breath", emoji: "☁️", meaning: "Everlasting love", category: "classic", price: 2 },
+            
+            // Exotic Category
+            { name: "Orchid", emoji: "🌺", meaning: "Exotic beauty & strength", category: "exotic", price: 12 },
+            { name: "Bird of Paradise", emoji: "🧡", meaning: "Freedom & magnificence", category: "exotic", price: 15 },
+            { name: "Protea", emoji: "🌸", meaning: "Change & transformation", category: "exotic", price: 10 },
+            { name: "Anthurium", emoji: "💖", meaning: "Hospitality & happiness", category: "exotic", price: 8 },
+            { name: "Lotus", emoji: "🪷", meaning: "Purity & enlightenment", category: "exotic", price: 9 },
+            
+            // Seasonal Category
+            { name: "Sunflower", emoji: "🌻", meaning: "Adoration & loyalty", category: "seasonal", price: 4 },
+            { name: "Lavender", emoji: "💜", meaning: "Serenity & grace", category: "seasonal", price: 3 },
+            { name: "Hydrangea", emoji: "💙", meaning: "Gratitude & understanding", category: "seasonal", price: 6 },
+            { name: "Daffodil", emoji: "🌼", meaning: "New beginnings", category: "seasonal", price: 3 },
+            { name: "Marigold", emoji: "🧡", meaning: "Passion & creativity", category: "seasonal", price: 2 }
+        ];
+
+        // State
+        let selectedFlowers = {};
+        let currentCategory = 'all';
+        let currentStyle = 'classic';
+
+        // DOM Elements
+        const flowerGrid = document.getElementById('flower-grid');
+        const bouquetCanvas = document.getElementById('bouquet-canvas');
+        const emptyState = document.getElementById('empty-state');
+        const bouquetFlowers = document.getElementById('bouquet-flowers');
+        const bouquetSummary = document.getElementById('bouquet-summary');
+        const priceAmount = document.getElementById('price-amount');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const styleBtns = document.querySelectorAll('.style-btn');
+
+        // Initialize
+        function init() {
+            renderFlowers();
+            attachEventListeners();
+            updateBouquetPreview();
+        }
+
+        // Render flowers based on category
+        function renderFlowers() {
+            const filteredFlowers = currentCategory === 'all' 
+                ? flowers 
+                : flowers.filter(flower => flower.category === currentCategory);
+
+            flowerGrid.innerHTML = filteredFlowers.map(flower => `
+                <div class="flower-item ${selectedFlowers[flower.name] ? 'selected' : ''}" 
+                     data-flower="${flower.name}"
+                     onclick="toggleFlower('${flower.name}')">
+                    <span class="flower-emoji">${flower.emoji}</span>
+                    <div class="flower-name">${flower.name}</div>
+                    <div class="flower-meaning">${flower.meaning}</div>
+                    <div class="flower-count">${selectedFlowers[flower.name] || 0}</div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle flower selection
+        function toggleFlower(flowerName) {
+            if (!selectedFlowers[flowerName]) {
+                selectedFlowers[flowerName] = 1;
+            } else if (selectedFlowers[flowerName] < 10) {
+                selectedFlowers[flowerName]++;
+            } else {
+                selectedFlowers[flowerName] = 0;
+            }
+
+            if (selectedFlowers[flowerName] === 0) {
+                delete selectedFlowers[flowerName];
+            }
+
+            renderFlowers();
+            updateBouquetPreview();
+            
+            // Add bounce animation
+            const flowerItem = document.querySelector(`[data-flower="${flowerName}"]`);
+            flowerItem.classList.add('bounce');
+            setTimeout(() => flowerItem.classList.remove('bounce'), 1000);
+        }
+
+        // Update bouquet preview
+        function updateBouquetPreview() {
+            const hasFlowers = Object.keys(selectedFlowers).length > 0;
+            
+            // Toggle canvas state
+            bouquetCanvas.classList.toggle('has-flowers', hasFlowers);
+            emptyState.style.display = hasFlowers ? 'none' : 'block';
+
+            if (hasFlowers) {
+                // Render bouquet flowers
+                let flowerElements = [];
+                Object.entries(selectedFlowers).forEach(([flowerName, count]) => {
+                    const flower = flowers.find(f => f.name === flowerName);
+                    for (let i = 0; i < count; i++) {
+                        flowerElements.push(`
+                            <span class="bouquet-flower" style="--delay: ${Math.random() * 2}s">
+                                ${flower.emoji}
+                            </span>
+                        `);
+                    }
+                });
+
+                bouquetFlowers.innerHTML = flowerElements.join('');
+
+                // Update summary
+                const summaryItems = Object.entries(selectedFlowers).map(([flowerName, count]) => {
+                    const flower = flowers.find(f => f.name === flowerName);
+                    return `
+                        <div class="summary-item">
+                            <div class="summary-flower">
+                                <span>${flower.emoji}</span>
+                                <span>${flower.name}</span>
+                            </div>
+                            <div class="summary-count">${count}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                bouquetSummary.innerHTML = summaryItems;
+
+                // Calculate price
+                const totalPrice = Object.entries(selectedFlowers).reduce((total, [flowerName, count]) => {
+                    const flower = flowers.find(f => f.name === flowerName);
+                    return total + (flower.price * count);
+                }, 0);
+
+                priceAmount.textContent = `$${totalPrice}`;
+            } else {
+                bouquetFlowers.innerHTML = '';
+                bouquetSummary.innerHTML = '';
+                priceAmount.textContent = '$0';
+            }
+        }
+
+        // Attach event listeners
+        function attachEventListeners() {
+            // Category buttons
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderFlowers();
+                });
+            });
+
+            // Style buttons
+            styleBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    styleBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentStyle = btn.dataset.style;
+                    updateBouquetStyle();
+                });
+            });
+
+            // Action buttons
+            document.getElementById('save-bouquet').addEventListener('click', saveBouquet);
+            document.getElementById('share-bouquet').addEventListener('click', shareBouquet);
+            document.getElementById('clear-bouquet').addEventListener('click', clearBouquet);
+        }
+
+        // Update bouquet style
+        function updateBouquetStyle() {
+            const canvas = document.getElementById('bouquet-canvas');
+            canvas.className = `bouquet-canvas ${Object.keys(selectedFlowers).length > 0 ? 'has-flowers' : ''} style-${currentStyle}`;
+        }
+
+        // Save bouquet
+        function saveBouquet() {
+            if (Object.keys(selectedFlowers).length === 0) {
+                alert('Please select some flowers first! 🌸');
+                return;
+            }
+
+            const bouquetData = {
+                flowers: selectedFlowers,
+                style: currentStyle,
+                timestamp: new Date().toISOString(),
+                totalPrice: Object.entries(selectedFlowers).reduce((total, [flowerName, count]) => {
+                    const flower = flowers.find(f => f.name === flowerName);
+                    return total + (flower.price * count);
+                }, 0)
+            };
+
+            localStorage.setItem('anniversaryBouquet', JSON.stringify(bouquetData));
+            
+            // Show success message
+            const btn = document.getElementById('save-bouquet');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Saved!';
+            btn.style.background = '#10B981';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+            }, 2000);
+        }
+
+        // Share bouquet
+        function shareBouquet() {
+            if (Object.keys(selectedFlowers).length === 0) {
+                alert('Please select some flowers first! 🌸');
+                return;
+            }
+
+            const flowerList = Object.entries(selectedFlowers)
+                .map(([name, count]) => `${count}x ${name}`)
+                .join(', ');
+
+            const totalPrice = Object.entries(selectedFlowers).reduce((total, [flowerName, count]) => {
+                const flower = flowers.find(f => f.name === flowerName);
+                return total + (flower.price * count);
+            }, 0);
+
+            const shareText = `💐 I designed the perfect anniversary bouquet! 💕\n\n🌸 My Selection:\n${flowerList}\n\n💰 Total: $${totalPrice}\n🎨 Style: ${currentStyle.charAt(0).toUpperCase() + currentStyle.slice(1)}\n\n#AnniversaryBouquet #Providence #LoveInBloom`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Anniversary Bouquet Design',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Bouquet design copied to clipboard! 📋💐');
+                });
+            }
+        }
+
+        // Clear bouquet
+        function clearBouquet() {
+            if (Object.keys(selectedFlowers).length === 0) return;
+
+            if (confirm('Are you sure you want to start over? This will clear your current bouquet design.')) {
+                selectedFlowers = {};
+                renderFlowers();
+                updateBouquetPreview();
+            }
+        }
+
+        // Load saved bouquet
+        function loadSavedBouquet() {
+            const savedBouquet = localStorage.getItem('anniversaryBouquet');
+            if (savedBouquet) {
+                const bouquetData = JSON.parse(savedBouquet);
+                selectedFlowers = bouquetData.flowers;
+                currentStyle = bouquetData.style;
+                
+                // Update UI
+                styleBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.style === currentStyle);
+                });
+                
+                renderFlowers();
+                updateBouquetPreview();
+                updateBouquetStyle();
+            }
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            loadSavedBouquet();
+        });
+    </script>
+</body>
+</html>
