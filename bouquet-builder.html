@@ -12,7 +12,7 @@
     
     <!-- Three.js for 3D Rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
     
     <!-- Drag and Drop Library -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
@@ -773,6 +773,73 @@
             .btn {
                 flex: none;
             }
+
+            .florist-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Enhanced Interactions */
+        .flower-item.selected {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .control-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .florist-card {
+            transition: all 0.3s ease;
+        }
+
+        .florist-card.selected {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Success states */
+        .success-feedback {
+            background: var(--success-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
@@ -919,12 +986,274 @@
         const priceAmount = document.getElementById('price-amount');
         const categoryBtns = document.querySelectorAll('.category-btn');
         const styleBtns = document.querySelectorAll('.style-btn');
+        const floristGrid = document.getElementById('florist-grid');
+        const floristStatus = document.getElementById('florist-status');
+
+        // 3D Scene Variables
+        let scene, camera, renderer, controls;
+        let flowerMeshes = [];
+        let isAutoRotating = false;
+
+        // Florist Data
+        const floristData = [
+            {
+                name: "Blooming Bouquets",
+                rating: 4.9,
+                distance: "0.8 miles",
+                specialties: ["Wedding", "Anniversary", "Romantic"],
+                phone: "(401) 555-0123",
+                address: "123 Thames St, Providence, RI",
+                basePrice: 1.2,
+                description: "Specializing in romantic arrangements for over 20 years."
+            },
+            {
+                name: "Providence Petals",
+                rating: 4.7,
+                distance: "1.2 miles", 
+                specialties: ["Custom Design", "Exotic Flowers", "Same Day"],
+                phone: "(401) 555-0456",
+                address: "456 Federal Hill, Providence, RI",
+                basePrice: 1.0,
+                description: "Award-winning florist with exotic flower imports."
+            },
+            {
+                name: "Garden of Eden Florals",
+                rating: 4.8,
+                distance: "2.1 miles",
+                specialties: ["Organic", "Sustainable", "Local Grown"],
+                phone: "(401) 555-0789",
+                address: "789 Wickenden St, Providence, RI", 
+                basePrice: 1.1,
+                description: "Eco-friendly florist using locally sourced flowers."
+            }
+        ];
+
+        // Drag and Drop State
+        let draggedFlower = null;
+        let isDragging = false;
 
         // Initialize
         function init() {
             renderFlowers();
             attachEventListeners();
             updateBouquetPreview();
+            init3DScene();
+            renderFlorists();
+            setupDragAndDrop();
+        }
+
+        // Initialize 3D Scene
+        function init3DScene() {
+            const canvas = document.getElementById('canvas-3d');
+            const container = document.getElementById('bouquet-canvas');
+            
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf8fafc);
+            
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.set(0, 0, 5);
+            
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 10, 5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            // Controls
+            if (typeof THREE.OrbitControls !== 'undefined') {
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+            }
+            
+            // Add vase base
+            const vaseGeometry = new THREE.CylinderGeometry(0.8, 0.6, 1.5, 16);
+            const vaseMaterial = new THREE.MeshPhongMaterial({ color: 0xf0f0f0, transparent: true, opacity: 0.8 });
+            const vase = new THREE.Mesh(vaseGeometry, vaseMaterial);
+            vase.position.y = -1.5;
+            scene.add(vase);
+            
+            // Animation loop
+            animate();
+        }
+
+        // 3D Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (controls) {
+                controls.update();
+            }
+            
+            // Auto rotation
+            if (isAutoRotating) {
+                scene.rotation.y += 0.01;
+            }
+            
+            // Animate flowers
+            flowerMeshes.forEach((mesh, index) => {
+                mesh.rotation.y += 0.005 * (index + 1);
+                mesh.position.y += Math.sin(Date.now() * 0.001 + index) * 0.001;
+            });
+            
+            renderer.render(scene, camera);
+        }
+
+        // Add 3D Flower to Scene
+        function add3DFlower(flower, position) {
+            const geometry = new THREE.SphereGeometry(0.2, 8, 8);
+            const color = getFlowerColor(flower.category);
+            const material = new THREE.MeshPhongMaterial({ color: color });
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            mesh.position.copy(position);
+            mesh.userData = { flower: flower };
+            
+            scene.add(mesh);
+            flowerMeshes.push(mesh);
+        }
+
+        // Get flower color based on category
+        function getFlowerColor(category) {
+            const colors = {
+                romantic: 0xff69b4,
+                classic: 0xffd700,
+                exotic: 0xff4500,
+                seasonal: 0x9370db
+            };
+            return colors[category] || 0xffffff;
+        }
+
+        // Render Florists
+        function renderFlorists() {
+            const totalPrice = Object.entries(selectedFlowers).reduce((total, [flowerName, count]) => {
+                const flower = flowers.find(f => f.name === flowerName);
+                return total + (flower.price * count);
+            }, 0);
+
+            if (totalPrice === 0) {
+                floristGrid.innerHTML = '<p style="text-align: center; color: var(--text-secondary); grid-column: 1/-1;">Select some flowers to see florist quotes!</p>';
+                return;
+            }
+
+            floristGrid.innerHTML = floristData.map((florist, index) => {
+                const quote = (totalPrice * florist.basePrice).toFixed(2);
+                return `
+                    <div class="florist-card" data-florist="${index}">
+                        <div class="florist-header">
+                            <div>
+                                <div class="florist-name">${florist.name}</div>
+                                <div class="florist-rating">
+                                    ${'★'.repeat(Math.floor(florist.rating))} ${florist.rating}
+                                </div>
+                                <div class="florist-distance">${florist.distance} away</div>
+                            </div>
+                        </div>
+                        <div class="florist-info">
+                            <p>${florist.description}</p>
+                            <div class="florist-specialties">
+                                ${florist.specialties.map(spec => `<span class="specialty-tag">${spec}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="florist-quote">
+                            <div class="quote-price">$${quote}</div>
+                            <div class="quote-details">Includes arrangement & delivery</div>
+                        </div>
+                        <div class="florist-actions">
+                            <button class="florist-btn primary" onclick="contactFlorist(${index})">
+                                📞 Contact
+                            </button>
+                            <button class="florist-btn secondary" onclick="viewFlorist(${index})">
+                                🗺️ Directions
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Setup Drag and Drop
+        function setupDragAndDrop() {
+            // Make flowers draggable
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.flower-item')) {
+                    const flowerItem = e.target.closest('.flower-item');
+                    flowerItem.classList.add('draggable');
+                    
+                    // Add drag event listeners
+                    flowerItem.addEventListener('dragstart', handleDragStart);
+                    flowerItem.addEventListener('dragend', handleDragEnd);
+                    flowerItem.draggable = true;
+                }
+            });
+
+            // Setup drop zone
+            bouquetCanvas.addEventListener('dragover', handleDragOver);
+            bouquetCanvas.addEventListener('drop', handleDrop);
+            bouquetCanvas.addEventListener('dragleave', handleDragLeave);
+        }
+
+        // Drag Event Handlers
+        function handleDragStart(e) {
+            isDragging = true;
+            draggedFlower = e.target.dataset.flower;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            isDragging = false;
+            e.target.classList.remove('dragging');
+            bouquetCanvas.classList.remove('drag-over');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            bouquetCanvas.classList.add('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            bouquetCanvas.classList.remove('drag-over');
+            
+            if (draggedFlower) {
+                // Add flower to bouquet
+                if (!selectedFlowers[draggedFlower]) {
+                    selectedFlowers[draggedFlower] = 0;
+                }
+                selectedFlowers[draggedFlower]++;
+                
+                // Add 3D flower at drop position
+                const rect = bouquetCanvas.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                
+                const flower = flowers.find(f => f.name === draggedFlower);
+                const position = new THREE.Vector3(x * 2, y * 2, Math.random() * 2 - 1);
+                add3DFlower(flower, position);
+                
+                renderFlowers();
+                updateBouquetPreview();
+                renderFlorists();
+            }
+        }
+
+        function handleDragLeave(e) {
+            if (!bouquetCanvas.contains(e.relatedTarget)) {
+                bouquetCanvas.classList.remove('drag-over');
+            }
         }
 
         // Render flowers based on category
@@ -977,6 +1306,14 @@
             emptyState.style.display = hasFlowers ? 'none' : 'block';
 
             if (hasFlowers) {
+                // Create flowers container if it doesn't exist
+                let flowersContainer = bouquetCanvas.querySelector('.bouquet-flowers');
+                if (!flowersContainer) {
+                    flowersContainer = document.createElement('div');
+                    flowersContainer.className = 'bouquet-flowers';
+                    bouquetCanvas.appendChild(flowersContainer);
+                }
+
                 // Render bouquet flowers
                 let flowerElements = [];
                 Object.entries(selectedFlowers).forEach(([flowerName, count]) => {
@@ -990,7 +1327,7 @@
                     }
                 });
 
-                bouquetFlowers.innerHTML = flowerElements.join('');
+                flowersContainer.innerHTML = flowerElements.join('');
 
                 // Update summary
                 const summaryItems = Object.entries(selectedFlowers).map(([flowerName, count]) => {
@@ -1016,10 +1353,112 @@
 
                 priceAmount.textContent = `$${totalPrice}`;
             } else {
-                bouquetFlowers.innerHTML = '';
+                const flowersContainer = bouquetCanvas.querySelector('.bouquet-flowers');
+                if (flowersContainer) {
+                    flowersContainer.innerHTML = '';
+                }
                 bouquetSummary.innerHTML = '';
                 priceAmount.textContent = '$0';
             }
+
+            // Update florist quotes
+            renderFlorists();
+        }
+
+        // Contact florist
+        function contactFlorist(index) {
+            const florist = floristData[index];
+            const flowerList = Object.entries(selectedFlowers)
+                .map(([name, count]) => `${count}x ${name}`)
+                .join(', ');
+            
+            const message = `Hi! I'd like to order a bouquet with: ${flowerList}. Style: ${currentStyle}. Can you help?`;
+            const phoneUrl = `tel:${florist.phone}`;
+            
+            if (confirm(`Call ${florist.name} at ${florist.phone}?`)) {
+                window.open(phoneUrl);
+            }
+        }
+
+        // View florist directions
+        function viewFlorist(index) {
+            const florist = floristData[index];
+            const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(florist.address)}`;
+            window.open(mapsUrl, '_blank');
+        }
+
+        // Canvas control functions
+        function resetView() {
+            if (controls) {
+                controls.reset();
+            }
+            camera.position.set(0, 0, 5);
+        }
+
+        function toggleRotation() {
+            isAutoRotating = !isAutoRotating;
+            const btn = document.getElementById('toggle-rotation');
+            btn.textContent = isAutoRotating ? '⏸️' : '🔄';
+            btn.title = isAutoRotating ? 'Stop Auto Rotate' : 'Auto Rotate';
+        }
+
+        function takeScreenshot() {
+            const canvas = document.getElementById('canvas-3d');
+            const link = document.createElement('a');
+            link.download = 'my-bouquet.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Clear 3D flowers
+        function clear3DFlowers() {
+            flowerMeshes.forEach(mesh => {
+                scene.remove(mesh);
+            });
+            flowerMeshes = [];
+        }
+
+        // Show success feedback
+        function showSuccessFeedback(message) {
+            const feedback = document.createElement('div');
+            feedback.className = 'success-feedback';
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.remove();
+            }, 3000);
+        }
+
+        // Enhanced save function
+        function saveBouquet() {
+            if (Object.keys(selectedFlowers).length === 0) {
+                alert('Please select some flowers first! 🌸');
+                return;
+            }
+
+            const bouquetData = {
+                flowers: selectedFlowers,
+                style: currentStyle,
+                timestamp: new Date().toISOString(),
+                totalPrice: Object.entries(selectedFlowers).reduce((total, [flowerName, count]) => {
+                    const flower = flowers.find(f => f.name === flowerName);
+                    return total + (flower.price * count);
+                }, 0)
+            };
+
+            localStorage.setItem('anniversaryBouquet', JSON.stringify(bouquetData));
+            showSuccessFeedback('💐 Bouquet saved successfully!');
+            
+            // Update button state
+            const btn = document.getElementById('save-bouquet');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Saved!';
+            btn.style.background = '#10B981';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.background = '';
+            }, 2000);
         }
 
         // Attach event listeners
@@ -1048,6 +1487,24 @@
             document.getElementById('save-bouquet').addEventListener('click', saveBouquet);
             document.getElementById('share-bouquet').addEventListener('click', shareBouquet);
             document.getElementById('clear-bouquet').addEventListener('click', clearBouquet);
+
+            // Canvas controls
+            document.getElementById('reset-view').addEventListener('click', resetView);
+            document.getElementById('toggle-rotation').addEventListener('click', toggleRotation);
+            document.getElementById('screenshot').addEventListener('click', takeScreenshot);
+
+            // Window resize
+            window.addEventListener('resize', handleResize);
+        }
+
+        // Handle window resize
+        function handleResize() {
+            const container = document.getElementById('bouquet-canvas');
+            if (renderer && camera) {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
         }
 
         // Update bouquet style
@@ -1056,37 +1513,7 @@
             canvas.className = `bouquet-canvas ${Object.keys(selectedFlowers).length > 0 ? 'has-flowers' : ''} style-${currentStyle}`;
         }
 
-        // Save bouquet
-        function saveBouquet() {
-            if (Object.keys(selectedFlowers).length === 0) {
-                alert('Please select some flowers first! 🌸');
-                return;
-            }
-
-            const bouquetData = {
-                flowers: selectedFlowers,
-                style: currentStyle,
-                timestamp: new Date().toISOString(),
-                totalPrice: Object.entries(selectedFlowers).reduce((total, [flowerName, count]) => {
-                    const flower = flowers.find(f => f.name === flowerName);
-                    return total + (flower.price * count);
-                }, 0)
-            };
-
-            localStorage.setItem('anniversaryBouquet', JSON.stringify(bouquetData));
-            
-            // Show success message
-            const btn = document.getElementById('save-bouquet');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '✅ Saved!';
-            btn.style.background = '#10B981';
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = '';
-            }, 2000);
-        }
-
-        // Share bouquet
+        // Enhanced share function
         function shareBouquet() {
             if (Object.keys(selectedFlowers).length === 0) {
                 alert('Please select some flowers first! 🌸');
@@ -1107,11 +1534,21 @@
             if (navigator.share) {
                 navigator.share({
                     title: 'My Anniversary Bouquet Design',
-                    text: shareText
+                    text: shareText,
+                    url: window.location.href
                 });
             } else {
                 navigator.clipboard.writeText(shareText).then(() => {
-                    alert('Bouquet design copied to clipboard! 📋💐');
+                    showSuccessFeedback('📋 Bouquet design copied to clipboard!');
+                }).catch(() => {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = shareText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showSuccessFeedback('📋 Bouquet design copied to clipboard!');
                 });
             }
         }
@@ -1122,6 +1559,7 @@
 
             if (confirm('Are you sure you want to start over? This will clear your current bouquet design.')) {
                 selectedFlowers = {};
+                clear3DFlowers();
                 renderFlowers();
                 updateBouquetPreview();
             }
