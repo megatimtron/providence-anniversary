@@ -257,6 +257,33 @@
             height: auto;
         }
 
+        /* Now Playing Animation */
+        .song-item.now-playing {
+            background: rgba(168, 85, 247, 0.2) !important;
+            border: 1px solid rgba(168, 85, 247, 0.5) !important;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Loading spinner for search */
+        .loading-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* 🎨 Design System - Cohesive Foundation */
         :root {
             /* Color Palette - Warm Beige/Cream Theme for Accessibility */
@@ -7139,7 +7166,8 @@ function updateLocationInfoPanel(location) {
         
         currentPlaylists.push(newPlaylist);
         savePlaylists();
-        setCurrentPlaylist(newPlaylist.id);
+        setCurrentPlaylistId(newPlaylist.id);
+        updatePlaylistsGrid();
         closeCreatePlaylistModal();
         
         showNotification(`Playlist "${name}" created successfully!`, 'success');
@@ -9469,6 +9497,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeSoundCloud();
         loadPlaylists();
         updateCurrentPlaylistDisplay();
+        updatePlaylistsGrid();
         
         console.log('Enhanced filtering and playlist functionality initialized');
     });
