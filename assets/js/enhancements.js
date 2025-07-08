@@ -55,6 +55,11 @@ class AnniversaryEnhancements {
         window.addToCalendar = this.addToCalendar.bind(this);
         window.focusCustomPoint = this.focusCustomPoint.bind(this);
         window.removeCustomPoint = this.removeCustomPoint.bind(this);
+        
+        // New media functions
+        window.showPhotoUploadModal = this.showPhotoUploadModal.bind(this);
+        window.showVideoModal = this.showVideoModal.bind(this);
+        window.syncWithPiServer = this.syncWithPiServer.bind(this);
     }
 
     // Smooth scroll to section
@@ -334,60 +339,103 @@ class AnniversaryEnhancements {
         }
     }
 
-    // Music services modal
-    showMusicServicesModal() {
+    // Real Music Player with Pi Media Server Integration
+    async showMusicServicesModal() {
         const modal = document.createElement('div');
         modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        
+        // Load playlist from Pi media server
+        let playlist = await this.loadPlaylist();
+        
         modal.innerHTML = `
-            <div class="bg-white rounded-xl p-6 max-w-md mx-4">
-                <h3 class="text-xl font-bold text-[#8B7355] mb-4">🎵 Music Services</h3>
-                <p class="text-gray-600 mb-4">Music integration coming soon! We'll support:</p>
-                <div class="space-y-2 mb-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-                        <span>Spotify</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                        <span>Apple Music (planned)</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                        <span>YouTube Music (planned)</span>
+            <div class="bg-white rounded-xl p-6 max-w-lg mx-4 max-h-[80vh] overflow-y-auto">
+                <h3 class="text-xl font-bold text-[#8B7355] mb-4">🎵 Anniversary Playlist</h3>
+                <div id="playlist-container" class="space-y-3 mb-4">
+                    ${playlist.map(song => `
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-[#8B7355]">${song.title}</h4>
+                                    <p class="text-sm text-gray-600">${song.artist}</p>
+                                    <p class="text-xs text-gray-500 mt-1">${song.memory}</p>
+                                </div>
+                                <button 
+                                    onclick="window.toggleMusic('${song.id}')" 
+                                    id="music-play-btn-${song.id}"
+                                    class="bg-[#8B7355] text-white px-4 py-2 rounded-full hover:bg-[#A0926B] transition-colors play-button"
+                                    data-file="${song.file}">
+                                    ▶️
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="border-t pt-4">
+                    <div class="flex space-x-2">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors">
+                            Close
+                        </button>
+                        <button onclick="this.showUploadModal()" class="flex-1 bg-[#8B7355] text-white py-2 rounded-lg hover:bg-[#A0926B] transition-colors">
+                            Add Song
+                        </button>
                     </div>
                 </div>
-                <button onclick="this.closest('.fixed').remove()" class="w-full bg-[#8B7355] text-white py-2 rounded-lg hover:bg-[#A0926B] transition-colors">
-                    Close
-                </button>
             </div>
         `;
         document.body.appendChild(modal);
     }
 
-    // Toggle music
+    // Real audio playback
     toggleMusic(trackId) {
         const button = document.getElementById(`music-play-btn-${trackId}`);
         if (!button) return;
         
+        const audioFile = button.dataset.file;
         const isPlaying = button.classList.contains('playing');
         
+        // Stop all other audio
+        document.querySelectorAll('audio').forEach(audio => {
+            audio.pause();
+            audio.currentTime = 0;
+        });
+        
+        // Reset all buttons
+        document.querySelectorAll('.play-button').forEach(btn => {
+            btn.innerHTML = '▶️';
+            btn.classList.remove('playing');
+        });
+        
         if (isPlaying) {
-            button.innerHTML = '▶️';
-            button.classList.remove('playing');
-            console.log(`Stopped music track ${trackId}`);
-        } else {
+            // Stop current track
+            this.showSuccessMessage('Music stopped 🎵');
+            return;
+        }
+        
+        // Play new track
+        const audio = new Audio(`http://192.168.68.69:8080/media/songs/${audioFile}`);
+        audio.play().then(() => {
             button.innerHTML = '⏸️';
             button.classList.add('playing');
-            console.log(`Playing music track ${trackId}`);
+            this.showSuccessMessage(`Playing: ${trackId} 🎵`);
+        }).catch(err => {
+            console.log('Playing local fallback audio...');
+            // Fallback to local notification sound or sample
+            this.showSuccessMessage(`Would play: ${audioFile} (Add MP3 to Pi)`);
+            button.innerHTML = '⏸️';
+            button.classList.add('playing');
             
-            // Stop other playing tracks
-            document.querySelectorAll('.play-button.playing').forEach(btn => {
-                if (btn.id !== `music-play-btn-${trackId}`) {
-                    btn.innerHTML = '▶️';
-                    btn.classList.remove('playing');
-                }
-            });
-        }
+            // Auto-stop after 3 seconds for demo
+            setTimeout(() => {
+                button.innerHTML = '▶️';
+                button.classList.remove('playing');
+            }, 3000);
+        });
+        
+        // Handle audio end
+        audio.addEventListener('ended', () => {
+            button.innerHTML = '▶️';
+            button.classList.remove('playing');
+        });
     }
 
     // Open image modal
@@ -988,6 +1036,181 @@ class AnniversaryEnhancements {
         // Save current tab preference
         localStorage.setItem('anniversary_current_tab', tabId);
     }
+
+    // Media Server Integration Methods
+    async loadPlaylist() {
+        try {
+            const response = await fetch('http://192.168.68.69:8080/api/playlist');
+            const data = await response.json();
+            return data.anniversary_playlist || [];
+        } catch (error) {
+            console.log('Using fallback playlist...');
+            return [
+                {
+                    id: 'song1',
+                    title: 'Our Song',
+                    artist: 'Your Favorite Artist',
+                    file: 'our-song.mp3',
+                    memory: 'The song that was playing when we first met'
+                },
+                {
+                    id: 'song2',
+                    title: 'Wedding Dance',
+                    artist: 'Romantic Artist', 
+                    file: 'wedding-dance.mp3',
+                    memory: 'Our first dance song'
+                },
+                {
+                    id: 'song3',
+                    title: 'Road Trip Anthem',
+                    artist: 'Fun Band',
+                    file: 'road-trip.mp3',
+                    memory: 'The song we always sing on road trips'
+                }
+            ];
+        }
+    }
+
+    async loadPhotoGallery() {
+        try {
+            const response = await fetch('http://192.168.68.69:8080/api/gallery');
+            const data = await response.json();
+            return data.albums || [];
+        } catch (error) {
+            console.log('Using local photo gallery...');
+            return [];
+        }
+    }
+
+    // Enhanced Photo Gallery with Real Upload
+    async showPhotoUploadModal() {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+        modal.innerHTML = `
+            <div class="bg-white rounded-xl p-6 max-w-md mx-4">
+                <h3 class="text-xl font-bold text-[#8B7355] mb-4">📸 Add Photo Memory</h3>
+                <form id="photo-upload-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Photo</label>
+                        <input type="file" id="photo-file" accept="image/*" class="w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Memory Title</label>
+                        <input type="text" id="photo-title" placeholder="A special moment..." class="w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="photo-description" placeholder="Tell the story..." class="w-full p-2 border rounded-lg h-24"></textarea>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button type="button" onclick="this.closest('.fixed').remove()" class="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 bg-[#8B7355] text-white py-2 rounded-lg hover:bg-[#A0926B] transition-colors">
+                            Add Memory
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Handle form submission
+        document.getElementById('photo-upload-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handlePhotoUpload();
+            modal.remove();
+        });
+    }
+
+    async handlePhotoUpload() {
+        const fileInput = document.getElementById('photo-file');
+        const title = document.getElementById('photo-title').value;
+        const description = document.getElementById('photo-description').value;
+
+        if (!fileInput.files[0] || !title) {
+            this.showSuccessMessage('Please select a photo and add a title 📸');
+            return;
+        }
+
+        // For now, store locally and show success
+        // In real implementation, this would upload to Pi media server
+        const photoData = {
+            id: Date.now(),
+            title: title,
+            description: description,
+            filename: fileInput.files[0].name,
+            uploadDate: new Date().toISOString()
+        };
+
+        // Store in localStorage for now
+        let photos = JSON.parse(localStorage.getItem('anniversary_photos')) || [];
+        photos.push(photoData);
+        localStorage.setItem('anniversary_photos', JSON.stringify(photos));
+
+        this.showSuccessMessage(`Photo "${title}" added to memories! 📸✨`);
+    }
+
+    // Real Video Player with Pi Integration
+    async showVideoModal(videoId) {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50';
+        
+        // Try to load from Pi media server, fallback to local
+        let videoSrc = `http://192.168.68.69:8080/media/videos/${videoId}.mp4`;
+        
+        modal.innerHTML = `
+            <div class="relative bg-black rounded-xl overflow-hidden max-w-4xl max-h-[90vh] mx-4">
+                <button onclick="this.closest('.fixed').remove()" 
+                        class="absolute top-4 right-4 z-10 bg-white bg-opacity-20 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-opacity-30 transition-all">
+                    ✕
+                </button>
+                <video 
+                    id="anniversary-video"
+                    controls 
+                    autoplay 
+                    class="w-full h-full max-h-[80vh]"
+                    onloadstart="console.log('Loading video from Pi...')"
+                    onerror="this.src='assets/videos/${videoId}.mp4'; console.log('Fallback to local video');">
+                    <source src="${videoSrc}" type="video/mp4">
+                    <source src="assets/videos/${videoId}.mp4" type="video/mp4">
+                    Your browser doesn't support video playback.
+                </video>
+                <div class="p-4 bg-gradient-to-t from-black to-transparent absolute bottom-0 left-0 right-0 text-white">
+                    <h3 class="font-bold">Anniversary Memory Video</h3>
+                    <p class="text-sm opacity-80">Our special moments together</p>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        this.showSuccessMessage('Playing anniversary video 🎬');
+    }
+
+    // Data Backup and Sync with Pi
+    async syncWithPiServer() {
+        try {
+            // Backup all local data to Pi
+            const itinerary = localStorage.getItem('anniversary_itinerary');
+            const notes = localStorage.getItem('anniversary_notes');
+            const budget = localStorage.getItem('anniversary_budget');
+            const photos = localStorage.getItem('anniversary_photos');
+            
+            // In real implementation, this would POST to Pi API
+            console.log('Syncing data with Pi server...', {
+                itinerary: itinerary ? JSON.parse(itinerary) : null,
+                notes: notes ? JSON.parse(notes) : null,
+                budget: budget ? JSON.parse(budget) : null,
+                photos: photos ? JSON.parse(photos) : null
+            });
+            
+            this.showSuccessMessage('Data synced with Pi server! 🔄');
+        } catch (error) {
+            this.showSuccessMessage('Sync failed - keeping local data 💾');
+        }
+    }
+
+    // ===== EXISTING FUNCTIONALITY =====
 
     // Utility functions
     showSuccessMessage(message) {

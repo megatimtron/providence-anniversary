@@ -98,17 +98,42 @@
 - PWA installation
 - Professional hosting
 
-## 🚀 Ready for Your Anniversary!
+## � NEW: Full Auto-Deployment Pipeline Available!
+
+### 🚀 Instant Auto-Sync Options
+Choose your automation level:
+
+#### Option 1: Basic Git + Netlify (Recommended)
+```bash
+./setup_full_auto_deploy.sh
+```
+- ✅ One-time setup connects Pi → GitHub → Netlify
+- ✅ Manual sync: `./auto_sync_to_git.sh`
+- ✅ Auto-watch: `./watch_and_auto_sync.sh`
+- ✅ Result: Pi changes auto-deploy to iloveugo.com in 2-3 minutes
+
+#### Option 2: Advanced Webhook Bidirectional Sync
+```bash
+./setup_advanced_webhook_deploy.sh
+./setup_webhook_on_pi.sh
+```
+- ✅ Two-way sync: Pi ↔ GitHub ↔ Netlify
+- ✅ Instant updates via webhooks
+- ✅ Real-time synchronization
+- ✅ Result: Any change anywhere updates everywhere instantly!
+
+## �🚀 Ready for Your Anniversary!
 
 Your Providence Anniversary website is now a professional, interactive platform perfect for planning an unforgettable romantic getaway. All features work seamlessly across devices, data persists between sessions, and the site can be installed as an app.
 
 **Live Demo**: http://192.168.68.69
 **Production Ready**: ./netlify-deploy/ → iloveugo.com
+**Auto-Deploy**: Full automation pipeline available
 
 Time to plan that perfect Providence anniversary weekend! 💕🎊
 
 ---
 
 **Deployment Date**: July 7, 2025
-**Status**: ✅ COMPLETE AND PRODUCTION READY
-**Next Step**: Deploy netlify-deploy folder to Netlify for iloveugo.com
+**Status**: ✅ COMPLETE AND PRODUCTION READY WITH AUTO-DEPLOYMENT
+**Next Step**: Choose your automation level and run setup script

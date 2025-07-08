@@ -499,15 +499,28 @@
             border-color: var(--primary-light) !important;
         }
 
-        /* Tab Button States */
+        /* Enhanced Tab Button States */
+        .tab-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
         .tab-btn.active-tab {
             border-bottom-color: var(--primary-color) !important;
             color: var(--primary-color) !important;
+            font-weight: 600;
+            transform: translateY(-1px);
         }
 
         .tab-btn:hover:not(.active-tab) {
             color: var(--primary-color) !important;
             border-bottom-color: var(--primary-light) !important;
+            transform: translateY(-1px);
+        }
+        
+        .tab-btn:active {
+            transform: translateY(0px);
         }
 
         /* Focus States for Accessibility */
@@ -2370,13 +2383,29 @@
                     <p class="cohesive-section-subtitle">
                         This suggested timeline blends romance, culture, and culinary delights into a perfect anniversary weekend. We've structured the plan day by day, but feel free to mix and match based on your mood.
                     </p>
+                    <p class="text-sm text-gray-600 mt-3 font-medium flex items-center justify-center gap-2">
+                        <span class="text-lg">💡</span> 
+                        <strong>Click on any day below</strong> to view that day's detailed itinerary
+                    </p>
                 </div>
                 <div class="border-b border-gray-200">
                     <nav class="-mb-px flex justify-center space-x-6" aria-label="Tabs">
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg active-tab" data-tab="day1">Friday, July 11</button>
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#8B7355] hover:border-[#8B7355]" data-tab="day2">Saturday, July 12</button>
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#8B7355] hover:border-[#8B7355]" data-tab="day3">Sunday, July 13</button>
-                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-[#8B7355] hover:border-[#8B7355]" data-tab="day4">Monday, July 14</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-6 border-b-2 font-medium text-lg active-tab shadow-sm" data-tab="day1">
+                            <span class="block text-sm text-gray-500 mb-1">Day 1</span>
+                            Friday, July 11
+                        </button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-6 border-b-2 font-medium text-lg text-gray-500 hover:text-[#8B7355] hover:border-[#8B7355]" data-tab="day2">
+                            <span class="block text-sm text-gray-400 mb-1">Day 2</span>
+                            Saturday, July 12
+                        </button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-6 border-b-2 font-medium text-lg text-gray-500 hover:text-[#8B7355] hover:border-[#8B7355]" data-tab="day3">
+                            <span class="block text-sm text-gray-400 mb-1">Day 3</span>
+                            Sunday, July 13
+                        </button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-6 border-b-2 font-medium text-lg text-gray-500 hover:text-[#8B7355] hover:border-[#8B7355]" data-tab="day4">
+                            <span class="block text-sm text-gray-400 mb-1">Day 4</span>
+                            Monday, July 14
+                        </button>
                     </nav>
                 </div>
                 
@@ -5093,8 +5122,11 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                         
                         <div class="space-y-4">
                             <div class="relative">
-                                <input type="text" id="music-search-input" placeholder="Search SoundCloud for songs, artists, or albums..." class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-orange-400 focus:outline-none">
-                                <button id="music-search-btn" class="absolute right-2 top-2 bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                <input type="text" id="music-search-input" placeholder="Search SoundCloud for songs, artists, or albums..." 
+                                       class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-orange-400 focus:outline-none"
+                                       onkeypress="if(event.key==='Enter') performMusicSearch()">
+                                <button id="music-search-btn" onclick="performMusicSearch()" 
+                                        class="absolute right-2 top-2 bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600 transition-colors">
                                     🔍
                                 </button>
                             </div>
@@ -5143,7 +5175,7 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                         </div>
                         
                         <div class="mt-4 text-center">
-                            <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors w-full">
+                            <button onclick="shuffleAndPlay()" class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors w-full">
                                 🔀 Shuffle & Play
                             </button>
                         </div>
@@ -7089,10 +7121,15 @@ function updateLocationInfoPanel(location) {
         const type = document.getElementById('playlist-type').value;
         const collaborative = document.getElementById('playlist-collaborative').checked;
         
+        if (!name.trim()) {
+            showNotification('Please enter a playlist name', 'warning');
+            return;
+        }
+        
         const newPlaylist = {
             id: Date.now().toString(),
-            name,
-            description,
+            name: name.trim(),
+            description: description.trim(),
             type,
             collaborative,
             songs: [],
@@ -7100,9 +7137,9 @@ function updateLocationInfoPanel(location) {
             lastModified: new Date().toISOString()
         };
         
-        playlists.push(newPlaylist);
+        currentPlaylists.push(newPlaylist);
         savePlaylists();
-        renderPlaylistsGrid();
+        setCurrentPlaylist(newPlaylist.id);
         closeCreatePlaylistModal();
         
         showNotification(`Playlist "${name}" created successfully!`, 'success');
@@ -7168,7 +7205,150 @@ function updateLocationInfoPanel(location) {
         }
     }
 
-    // Perform music search (placeholder)
+    // Real SoundCloud API Integration
+    let soundcloudClientId = null;
+    let currentPlaylists = JSON.parse(localStorage.getItem('providence-playlists') || '[]');
+    let currentlyPlaying = null;
+    
+    // Initialize SoundCloud API
+    async function initializeSoundCloud() {
+        // For demo purposes, we'll use a public SoundCloud client ID
+        // In production, you'd want to register your own app
+        soundcloudClientId = 'a3e059563d7fd3372b49b37f00a00bcf'; // Public client ID
+        console.log('SoundCloud initialized');
+    }
+
+    // Search SoundCloud tracks
+    async function searchSoundCloud(query) {
+        if (!soundcloudClientId) {
+            await initializeSoundCloud();
+        }
+        
+        try {
+            const response = await fetch(`https://api.soundcloud.com/tracks?q=${encodeURIComponent(query)}&client_id=${soundcloudClientId}&limit=20`);
+            const tracks = await response.json();
+            
+            return tracks.map(track => ({
+                id: track.id,
+                title: track.title,
+                artist: track.user.username,
+                duration: track.duration,
+                artwork: track.artwork_url || track.user.avatar_url,
+                permalink: track.permalink_url,
+                streamUrl: track.stream_url + `?client_id=${soundcloudClientId}`
+            }));
+        } catch (error) {
+            console.error('SoundCloud search error:', error);
+            showNotification('Error searching SoundCloud. Please try again.', 'error');
+            return [];
+        }
+    }
+
+    // Real music search implementation
+    async function performMusicSearch() {
+        const query = document.getElementById('music-search-input').value.trim();
+        if (!query) return;
+        
+        const searchBtn = document.getElementById('music-search-btn');
+        const resultsContainer = document.getElementById('music-search-results');
+        const resultsList = document.getElementById('search-results-list');
+        
+        // Show loading state
+        searchBtn.innerHTML = '<div class="loading-spinner"></div>';
+        searchBtn.disabled = true;
+        resultsContainer.classList.remove('hidden');
+        resultsList.innerHTML = '<div class="text-white/60 text-center py-4">🔍 Searching SoundCloud...</div>';
+        
+        try {
+            const tracks = await searchSoundCloud(query);
+            
+            if (tracks.length === 0) {
+                resultsList.innerHTML = '<div class="text-white/60 text-center py-4">No tracks found. Try a different search term.</div>';
+                return;
+            }
+            
+            resultsList.innerHTML = tracks.map(track => `
+                <div class="search-result-item bg-white/5 rounded-lg p-3 flex items-center justify-between hover:bg-white/10 transition-colors cursor-pointer" 
+                     data-track='${JSON.stringify(track)}'>
+                    <div class="flex items-center gap-3">
+                        <img src="${track.artwork || 'https://via.placeholder.com/40x40/8B7355/white?text=🎵'}" 
+                             alt="${track.title}" class="w-10 h-10 rounded-lg object-cover">
+                        <div>
+                            <div class="text-white font-medium text-sm truncate max-w-48">${track.title}</div>
+                            <div class="text-white/60 text-xs truncate max-w-48">${track.artist}</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="playTrack('${track.id}')" class="text-white/60 hover:text-white text-sm bg-green-500/20 px-2 py-1 rounded">
+                            ▶️
+                        </button>
+                        <button onclick="addToCurrentPlaylist('${track.id}')" class="text-white/60 hover:text-white text-sm bg-purple-500/20 px-2 py-1 rounded">
+                            ➕
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+        } catch (error) {
+            resultsList.innerHTML = '<div class="text-white/60 text-center py-4">❌ Search failed. Please try again.</div>';
+        } finally {
+            searchBtn.innerHTML = '🔍';
+            searchBtn.disabled = false;
+        }
+    }
+
+    // Add track to current playlist
+    async function addToCurrentPlaylist(trackId) {
+        const trackElement = document.querySelector(`[data-track*='"id":${trackId}']`);
+        if (!trackElement) return;
+        
+        const track = JSON.parse(trackElement.getAttribute('data-track'));
+        const currentPlaylistId = getCurrentPlaylistId();
+        
+        if (!currentPlaylistId) {
+            // Create default playlist if none exists
+            const defaultPlaylist = {
+                id: Date.now().toString(),
+                name: 'Providence Anniversary',
+                description: 'Our romantic weekend soundtrack',
+                type: 'dinner',
+                collaborative: false,
+                songs: [],
+                createdAt: new Date().toISOString(),
+                lastModified: new Date().toISOString()
+            };
+            currentPlaylists.push(defaultPlaylist);
+            savePlaylists();
+        }
+        
+        const playlist = currentPlaylists.find(p => p.id === currentPlaylistId) || currentPlaylists[0];
+        
+        // Check if track already exists
+        if (playlist.songs.find(s => s.id === track.id)) {
+            showNotification('Track already in playlist!', 'warning');
+            return;
+        }
+        
+        playlist.songs.push(track);
+        playlist.lastModified = new Date().toISOString();
+        savePlaylists();
+        updateCurrentPlaylistDisplay();
+        showNotification(`"${track.title}" added to playlist!`, 'success');
+    }
+
+    // Play a track
+    function playTrack(trackId) {
+        // For now, we'll show a notification since SoundCloud requires special handling for streaming
+        const trackElement = document.querySelector(`[data-track*='"id":${trackId}']`);
+        if (trackElement) {
+            const track = JSON.parse(trackElement.getAttribute('data-track'));
+            showNotification(`Playing: "${track.title}" by ${track.artist}`, 'info');
+            
+            // In a real implementation, you'd need to handle SoundCloud's streaming API
+            // For now, let's open the track in a new tab
+            window.open(track.permalink, '_blank');
+        }
+    }
     function performMusicSearch(query, filter = 'all') {
         const resultsContainer = document.getElementById('search-results');
         
@@ -7739,6 +7919,20 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Items for', day, ':', items);
         
         tabContainer.innerHTML = `
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center gap-2 mb-4">
+                    ${['day1', 'day2', 'day3', 'day4'].map((d, i) => `
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${d === day ? 'bg-[#C07F63] text-white' : 'bg-gray-200 text-gray-600'}">
+                                ${i + 1}
+                            </div>
+                            ${i < 3 ? '<div class="w-6 h-0.5 bg-gray-200 mx-1"></div>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                <h3 class="text-2xl font-bold text-[#C07F63] mb-2">${getDayTitle(day)}</h3>
+                <p class="text-gray-600">${getDayDescription(day)}</p>
+            </div>
             <div class="relative max-w-2xl mx-auto" id="itinerary-timeline">
                 <div class="absolute left-4 top-0 h-full w-0.5 bg-[#EAE0D5]"></div>
                 ${items.map((item, index) => `
@@ -8646,13 +8840,44 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Photo upload setup complete for all days');
     }, 100);
     
-    // Event Listeners for itinerary tabs
+    // Enhanced Event Listeners for itinerary tabs with smooth transitions
     document.querySelector('.tab-btn[data-tab="day1"]').classList.add('active-tab');
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab', 'text-[#C07F63]'));
+            // Add a loading state
+            const tabContent = document.getElementById('tab-content');
+            tabContent.style.opacity = '0.5';
+            tabContent.style.transition = 'opacity 0.2s ease';
+            
+            // Update tab states
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active-tab', 'text-[#C07F63]');
+                b.classList.add('text-gray-500');
+                // Update day number styling
+                const daySpan = b.querySelector('span');
+                if (daySpan) daySpan.classList.add('text-gray-400');
+            });
+            
             btn.classList.add('active-tab');
-            renderItinerary(btn.dataset.tab);
+            btn.classList.remove('text-gray-500');
+            btn.classList.add('text-[#C07F63]');
+            
+            // Update active day number styling
+            const activeDaySpan = btn.querySelector('span');
+            if (activeDaySpan) {
+                activeDaySpan.classList.remove('text-gray-400');
+                activeDaySpan.classList.add('text-gray-600');
+            }
+            
+            // Small delay for smooth transition
+            setTimeout(() => {
+                renderItinerary(btn.dataset.tab);
+                
+                // Fade content back in
+                setTimeout(() => {
+                    tabContent.style.opacity = '1';
+                }, 50);
+            }, 100);
         });
     });
 
@@ -9239,6 +9464,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize enhanced filtering when page loads
     document.addEventListener('DOMContentLoaded', function() {
         setTimeout(initializeEnhancedFiltering, 100);
+        
+        // Initialize playlist functionality
+        initializeSoundCloud();
+        loadPlaylists();
+        updateCurrentPlaylistDisplay();
+        
+        console.log('Enhanced filtering and playlist functionality initialized');
     });
 
     // Show special anniversary message when Gracie's is clicked
