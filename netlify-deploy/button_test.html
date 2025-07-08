@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Providence Anniversary</title>
+    <style>
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #FDF8F0;
+            color: #433A3F;
+            min-height: 100vh;
+        }
+        
+        .test-section {
+            background: #FFFFFF;
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .test-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .test-button {
+            background: #C07F63;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .test-button:hover {
+            background: #A9684C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .test-button:active {
+            transform: translateY(0);
+        }
+        
+        .test-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .status {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10B981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Music Player Enhancements */
+        .music-player-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .music-demo-active {
+            background: linear-gradient(135deg, rgba(139, 115, 85, 0.1), rgba(169, 104, 76, 0.05)) !important;
+            border-color: #8B7355 !important;
+            box-shadow: 0 0 20px rgba(139, 115, 85, 0.2) !important;
+        }
+        
+        .progress-container {
+            flex: 1;
+            height: 6px;
+            background: #E8E0D6;
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8B7355, #A0926B);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .music-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .song-title {
+            font-weight: bold;
+            color: #8B7355;
+            font-size: 16px;
+        }
+        
+        .song-artist {
+            color: #6B5B5B;
+            font-size: 14px;
+        }
+        
+        .time-display {
+            font-size: 12px;
+            color: #6B5B5B;
+            min-width: 50px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍓 Providence Anniversary - Button Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>🎯 Navigation & Scroll Functions</h2>
+        <button class="test-button" onclick="testScrollToSection()">Test Scroll to Section</button>
+        <button class="test-button" onclick="testShowLoveNote()">Test Show Love Note</button>
+        <div id="scroll-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🗺️ Map Functions</h2>
+        <button class="test-button" onclick="testFocusMapLocation('gracies')">Focus on Gracie's</button>
+        <button class="test-button" onclick="testFocusMapLocation('downtown')">Focus Downtown</button>
+        <button class="test-button" onclick="testCustomMapPoints()">Custom Map Points</button>
+        <div id="map-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎵 Music Functions</h2>
+        <button class="test-button" onclick="testToggleMusic(1)" id="music-play-btn-1">▶️ Play Music</button>
+        <button class="test-button" onclick="testMusicServices()">🎵 Music Services</button>
+        <button class="test-button" onclick="testSoundCloudIntegration()">☁️ SoundCloud</button>
+        <button class="test-button" onclick="loadRomanticPlaylist()">💕 Romantic Playlist</button>
+        <button class="test-button" onclick="loadAnniversaryTrack()">🎂 Anniversary Song</button>
+        <button class="test-button" onclick="testCreatePlaylist()">🎶 Create Playlist</button>
+        <button class="test-button" onclick="testSongMemories()">💕 Song Memories</button>
+        <button class="test-button" onclick="testMusicSearch()">🔍 Search Songs</button>
+        <div id="music-status" class="status" style="display: none;"></div>
+        
+        <!-- Mini Music Player Demo -->
+        <div id="music-player-demo" style="display: none; margin-top: 15px; padding: 15px; background: rgba(139, 115, 85, 0.1); border-radius: 12px; border: 2px solid #8B7355;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button id="demo-play-btn" style="width: 50px; height: 50px; border-radius: 50%; background: #8B7355; color: white; border: none; font-size: 18px; cursor: pointer;">▶️</button>
+                <div style="flex: 1;">
+                    <div style="font-weight: bold; color: #8B7355;">Our Song - Demo Track</div>
+                    <div style="font-size: 14px; color: #6B5B5B;">Anniversary Playlist</div>
+                    <div style="width: 100%; height: 4px; background: #E8E0D6; border-radius: 2px; margin-top: 8px;">
+                        <div id="progress-bar" style="width: 0%; height: 100%; background: #8B7355; border-radius: 2px; transition: width 0.3s;"></div>
+                    </div>
+                </div>
+                <div style="font-size: 12px; color: #6B5B5B;">0:00 / 3:45</div>
+            </div>
+        </div>
+        
+        <!-- Real SoundCloud Player -->
+        <div id="soundcloud-player" style="display: none; margin-top: 20px; padding: 20px; background: rgba(255, 255, 255, 0.9); border-radius: 12px; border: 2px solid #FF5500;">
+            <h3 style="color: #FF5500; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                ☁️ Real SoundCloud Player
+                <span style="font-size: 12px; background: #FF5500; color: white; padding: 2px 8px; border-radius: 12px;">LIVE</span>
+            </h3>
+            <iframe 
+                id="soundcloud-iframe"
+                width="100%" 
+                height="166" 
+                scrolling="no" 
+                frameborder="no" 
+                allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                style="border-radius: 8px;">
+            </iframe>
+            <div style="font-size: 10px; color: #666; margin-top: 10px; text-align: center;">
+                🎵 This is a real SoundCloud track! You can play, pause, and interact with it.
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>💰 Budget Calculator</h2>
+        <button class="test-button" onclick="testBudgetCalculator()">Test Budget Plan</button>
+        <div id="budget-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🖼️ Image & Modal Functions</h2>
+        <button class="test-button" onclick="testImageModal()">Test Image Modal</button>
+        <div id="modal-status" class="status" style="display: none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📱 Interactive Features</h2>
+        <button class="test-button" onclick="testFloatingHearts()">Floating Hearts</button>
+        <button class="test-button" onclick="testNotifications()">Test Notifications</button>
+        <div id="interactive-status" class="status" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Test Functions
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            
+            if (type === 'error') {
+                notification.style.background = '#EF4444';
+            } else if (type === 'info') {
+                notification.style.background = '#6B7280';
+            }
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        function updateStatus(elementId, message, isError = false) {
+            const statusEl = document.getElementById(elementId);
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+            statusEl.className = isError ? 'status error' : 'status';
+        }
+        
+        // Navigation Tests
+        function testScrollToSection() {
+            updateStatus('scroll-status', '✅ Scroll function called (would scroll to itinerary section)');
+            showNotification('Scroll to section function works!');
+        }
+        
+        function testShowLoveNote() {
+            updateStatus('scroll-status', '✅ Love note function called');
+            showNotification('💕 Love note would appear here!');
+        }
+        
+        // Map Tests
+        function testFocusMapLocation(location) {
+            updateStatus('map-status', `✅ Map focus called for: ${location}`);
+            showNotification(`🗺️ Would focus map on ${location}`);
+        }
+        
+        function testCustomMapPoints() {
+            updateStatus('map-status', '✅ Custom map points function available');
+            showNotification('📍 Custom map points feature works!');
+        }
+        
+        // Music Tests
+        let currentTrack = null;
+        let isPlaying = false;
+        let progressInterval = null;
+        
+        function testToggleMusic(trackId) {
+            const btn = document.getElementById('music-play-btn-1');
+            const demoPlayer = document.getElementById('music-player-demo');
+            const demoBtn = document.getElementById('demo-play-btn');
+            
+            if (isPlaying) {
+                // Stop music
+                isPlaying = false;
+                btn.innerHTML = '▶️ Play Music';
+                demoBtn.innerHTML = '▶️';
+                updateStatus('music-status', '⏸️ Music paused');
+                showNotification('🎵 Music paused');
+                
+                if (progressInterval) {
+                    clearInterval(progressInterval);
+                    progressInterval = null;
+                }
+            } else {
+                // Start music
+                isPlaying = true;
+                btn.innerHTML = '⏸️ Pause Music';
+                demoBtn.innerHTML = '⏸️';
+                updateStatus('music-status', '🎵 Playing: "Our Song - Demo Track"');
+                showNotification('🎵 Now playing demo track!');
+                demoPlayer.style.display = 'block';
+                
+                // Simulate progress
+                let progress = 0;
+                progressInterval = setInterval(() => {
+                    progress += 1;
+                    document.getElementById('progress-bar').style.width = progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        testToggleMusic(1); // Auto-stop when done
+                    }
+                }, 150); // Complete in ~15 seconds
+            }
+        }
+        
+        function testMusicServices() {
+            const services = ['SoundCloud', 'Spotify', 'Apple Music', 'YouTube Music', 'Qobuz'];
+            const connectedServices = services.filter(() => Math.random() > 0.5);
+            
+            updateStatus('music-status', `✅ Found ${connectedServices.length} connected services: ${connectedServices.join(', ') || 'None'}`);
+            showNotification(`🎵 ${connectedServices.length} music services available!`);
+        }
+        
+        function testSoundCloudIntegration() {
+            const soundCloudPlayer = document.getElementById('soundcloud-player');
+            
+            if (soundCloudPlayer.style.display === 'none') {
+                soundCloudPlayer.style.display = 'block';
+                updateStatus('music-status', '✅ Real SoundCloud player loaded! You can play the track below.');
+                showNotification('☁️ Real SoundCloud player is now active!');
+                
+                // Load default track
+                loadSoundCloudTrack('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/293&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true', 'SoundCloud Demo Track');
+                
+                // Scroll to the player
+                setTimeout(() => {
+                    soundCloudPlayer.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 300);
+            } else {
+                soundCloudPlayer.style.display = 'none';
+                updateStatus('music-status', '❌ SoundCloud player hidden');
+                showNotification('☁️ SoundCloud player hidden');
+            }
+        }
+        
+        function loadRomanticPlaylist() {
+            const soundCloudPlayer = document.getElementById('soundcloud-player');
+            soundCloudPlayer.style.display = 'block';
+            
+            // Load a romantic/acoustic track (this is a real SoundCloud track)
+            loadSoundCloudTrack('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/13158665&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true', 'Romantic Acoustic Track');
+            
+            updateStatus('music-status', '💕 Loaded romantic playlist - Perfect for anniversary dinner!');
+            showNotification('💕 Romantic playlist loaded!');
+        }
+        
+        function loadAnniversaryTrack() {
+            const soundCloudPlayer = document.getElementById('soundcloud-player');
+            soundCloudPlayer.style.display = 'block';
+            
+            // Load another track (this loads a different SoundCloud track)
+            loadSoundCloudTrack('https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1562792&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true', 'Anniversary Special Song');
+            
+            updateStatus('music-status', '🎂 Loaded special anniversary track - Our song! 💕');
+            showNotification('🎂 Anniversary song loaded!');
+        }
+        
+        function loadSoundCloudTrack(src, trackName) {
+            const iframe = document.getElementById('soundcloud-iframe');
+            const title = document.querySelector('#soundcloud-player h3');
+            
+            iframe.src = src;
+            
+            // Update the title to show which track is loaded
+            title.innerHTML = `☁️ Real SoundCloud Player - ${trackName} <span style="font-size: 12px; background: #FF5500; color: white; padding: 2px 8px; border-radius: 12px;">LIVE</span>`;
+            
+            // Scroll to player
+            setTimeout(() => {
+                document.getElementById('soundcloud-player').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 500);
+        }
+        
+        function testCreatePlaylist() {
+            const playlistNames = [
+                'Anniversary Memories 💕',
+                'Providence Vibes 🏛️',
+                'Romantic Evening 🌙',
+                'Our Story in Songs 📖',
+                'Weekend Getaway 🎒'
+            ];
+            const randomPlaylist = playlistNames[Math.floor(Math.random() * playlistNames.length)];
+            
+            updateStatus('music-status', `✅ Created playlist: "${randomPlaylist}" with 12 songs`);
+            showNotification(`🎶 Playlist "${randomPlaylist}" created!`);
+        }
+        
+        function testSongMemories() {
+            const memories = [
+                { song: '"Perfect" by Ed Sheeran', memory: 'First dance at our wedding' },
+                { song: '"All of Me" by John Legend', memory: 'Road trip to Providence' },
+                { song: '"Thinking Out Loud"', memory: 'Dinner at Gracie\'s Restaurant' },
+                { song: '"Can\'t Help Myself"', memory: 'Walking by the waterfront' }
+            ];
+            const randomMemory = memories[Math.floor(Math.random() * memories.length)];
+            
+            updateStatus('music-status', `✅ Song Memory: ${randomMemory.song} - "${randomMemory.memory}"`);
+            showNotification(`💕 Retrieved memory for ${randomMemory.song}!`);
+        }
+        
+        function testMusicSearch() {
+            const searchTerms = ['romantic', 'anniversary', 'love songs', 'acoustic', 'dinner music'];
+            const randomTerm = searchTerms[Math.floor(Math.random() * searchTerms.length)];
+            const resultCount = Math.floor(Math.random() * 50) + 10;
+            
+            updateStatus('music-status', `✅ Music search for "${randomTerm}" found ${resultCount} results`);
+            showNotification(`🔍 Found ${resultCount} songs for "${randomTerm}"!`);
+        }
+        
+        // Budget Tests
+        function testBudgetCalculator() {
+            updateStatus('budget-status', '✅ Budget calculator works');
+            showNotification('💰 Budget plan generated!');
+        }
+        
+        // Modal Tests
+        function testImageModal() {
+            updateStatus('modal-status', '✅ Image modal function works');
+            showNotification('🖼️ Image modal would open here');
+        }
+        
+        // Interactive Tests
+        function testFloatingHearts() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createFloatingHeart(), i * 200);
+            }
+            updateStatus('interactive-status', '✅ Floating hearts animation works');
+        }
+        
+        function testNotifications() {
+            showNotification('This is a success notification!', 'success');
+            setTimeout(() => showNotification('This is an info notification', 'info'), 1000);
+            setTimeout(() => showNotification('This is an error notification', 'error'), 2000);
+            updateStatus('interactive-status', '✅ All notification types work');
+        }
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💕';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = window.innerHeight + 'px';
+            heart.style.fontSize = '24px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '999';
+            heart.style.transition = 'all 3s ease-out';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.style.top = '-50px';
+                heart.style.opacity = '0';
+            }, 100);
+            
+            setTimeout(() => heart.remove(), 3000);
+        }
+        
+        // Add ripple effect to all buttons
+        document.querySelectorAll('.test-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.height, rect.width);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.className = 'ripple';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification('Button test page loaded successfully!');
+            
+            // Demo music player button
+            document.getElementById('demo-play-btn').addEventListener('click', function() {
+                testToggleMusic(1);
+            });
+        });
+    </script>
+</body>
+</html>

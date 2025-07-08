@@ -1,23 +1,16 @@
 #!/bin/bash
 
-# Watch for file changes and auto-deploy
-# Usage: ./watch_and_deploy.sh
+echo "👀 Starting File Watcher for Auto-Deploy..."
+echo "This will automatically deploy when you save files"
+echo "Press Ctrl+C to stop"
 
-echo "👀 Watching for file changes..."
-echo "🍓 Will auto-deploy to Pi when files change"
-echo "🛑 Press Ctrl+C to stop"
-echo ""
-
-# Check if fswatch is installed
-if ! command -v fswatch &> /dev/null; then
-    echo "📦 Installing fswatch for file monitoring..."
-    brew install fswatch
+# macOS file watching (requires fswatch: brew install fswatch)
+if command -v fswatch &> /dev/null; then
+    fswatch -o . --exclude='.git' --exclude='netlify-deploy' | while read f; do
+        echo "📁 Files changed, auto-deploying..."
+        ./auto_deploy.sh
+    done
+else
+    echo "⚠️  fswatch not found. Install with: brew install fswatch"
+    echo "📝 Alternative: Use ./auto_deploy.sh manually after making changes"
 fi
-
-# Watch for changes and auto-deploy
-fswatch -o . --exclude='.git' --exclude='node_modules' --exclude='.DS_Store' | while read num ; do
-    echo "🔄 Files changed, deploying..."
-    ./git_deploy.sh "Auto-deploy: Files changed at $(date '+%H:%M:%S')"
-    echo "✅ Auto-deployment complete"
-    echo ""
-done

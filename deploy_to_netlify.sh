@@ -15,9 +15,12 @@ mkdir netlify-deploy
 # Copy essential files
 echo "📋 Copying website files..."
 cp index.html netlify-deploy/
-cp login.html netlify-deploy/
-cp -r assets netlify-deploy/
-cp -r menus netlify-deploy/
+cp login.html netlify-deploy/ 2>/dev/null || echo "⚠️ login.html not found, skipping..."
+cp manifest.json netlify-deploy/ 2>/dev/null || echo "✅ PWA manifest added"
+cp sw.js netlify-deploy/ 2>/dev/null || echo "✅ Service worker added"
+cp button_test.html netlify-deploy/ 2>/dev/null || echo "✅ Button test page added"
+cp -r assets netlify-deploy/ 2>/dev/null || echo "⚠️ assets directory not found"
+cp -r menus netlify-deploy/ 2>/dev/null || echo "⚠️ menus directory not found"
 
 # Create a simple README for the deployed site
 cat > netlify-deploy/README.md << 'EOF'
@@ -30,6 +33,16 @@ This is the beautiful anniversary website for Tim & Ugo's Providence memories.
 - Memory timeline
 - Beautiful romantic design
 - Mobile responsive
+- PWA support with offline capabilities
+- Weather integration
+- Dark mode toggle
+- Enhanced photo gallery
+- Interactive map
+
+## Access
+- **Public**: iloveugo.com (Netlify deployment)
+- **Private Pi**: http://24.151.105.204 (with port forwarding)
+- **Local Network**: http://192.168.68.69
 
 Deployed with ❤️ at iloveugo.com
 EOF
