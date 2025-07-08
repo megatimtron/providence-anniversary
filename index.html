@@ -7,6 +7,22 @@
     <meta name="keywords" content="Providence anniversary, romantic weekend, Restaurant Week, Providence dining, romantic getaway">
     <meta name="author" content="Providence Anniversary Planner">
     
+    <!-- Performance and Caching Meta Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Resource Hints for Performance -->
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//unpkg.com">
+    
+    <!-- Critical Resource Loading Optimization -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap"></noscript>
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="">
@@ -20,7 +36,10 @@
     <meta property="twitter:description" content="Your complete romantic getaway guide featuring Restaurant Week dining, waterfront walks, historic tours, and all the special moments that make Providence perfect for love.">
     <meta property="twitter:image" content="assets/images/ugo1.jpg">
 
-    <title>Providence Anniversary Weekend Planner</title>
+    <title>Providence Anniversary Weekend Planner - SoundCloud Music Integration</title>
+    
+    <!-- Cache busting for deployment -->
+    <meta name="version" content="soundcloud-migration-20250706">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
@@ -53,6 +72,46 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <style>
+        /* Universal Responsive Images - Critical for Mobile UX */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Skip to main content link styles for accessibility */
+        .skip-to-main {
+            position: absolute;
+            left: -999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            z-index: 10000;
+            background: #fff;
+            color: #433A3F;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(67,58,63,0.08);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: left 0.2s, top 0.2s;
+        }
+        .skip-to-main:focus, .skip-to-main:active {
+            left: 16px;
+            top: 16px;
+            width: auto;
+            height: auto;
+            outline: 2px solid #C07F63;
+            outline-offset: 2px;
+        }
+        
+        /* Responsive video elements */
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
         /* 🎨 Design System - Cohesive Foundation */
         :root {
             /* Color Palette */
@@ -112,6 +171,15 @@
             --transition-fast: 0.15s ease;
             --transition-normal: 0.3s ease;
             --transition-slow: 0.5s ease;
+
+            /* Enhanced Color Contrast for WCAG AA Compliance (4.5:1 minimum) */
+            /* ...existing variables... */
+            
+            /* High Contrast Color Variations */
+            --text-primary-high-contrast: #2D2D2D; /* Darker for better contrast */
+            --text-secondary-high-contrast: #4A4A4A; /* Improved contrast */
+            --background-high-contrast: #FFFFFF; /* Pure white background */
+            --link-color-high-contrast: #1B4D72; /* Darker blue for better contrast */
         }
 
         /* Base Typography */
@@ -126,6 +194,41 @@
             font-family: var(--font-display);
             line-height: 1.2;
             font-weight: 700;
+        }
+
+        /* Apply high contrast where needed */
+        .high-contrast-text {
+            color: var(--text-primary-high-contrast) !important;
+        }
+
+        .nav-link,
+        .restaurant-card p,
+        .card p,
+        .text-secondary {
+            color: var(--text-secondary-high-contrast);
+        }
+
+        /* Ensure links meet contrast requirements */
+        a:not(.btn-primary):not(.cta-button) {
+            color: var(--link-color-high-contrast);
+            text-decoration: underline;
+        }
+
+        a:not(.btn-primary):not(.cta-button):hover {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        /* High contrast for form elements */
+        input, textarea, select {
+            border: 2px solid var(--text-secondary-high-contrast);
+            color: var(--text-primary-high-contrast);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
         /* Unified Component Styles */
@@ -1765,9 +1868,78 @@
             text-decoration: underline;
         }
         
+        /* Qobuz Integration Styles */
+        .qobuz-quality-badge {
+            background: linear-gradient(135deg, #1B365D, #2E5984);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            padding: 2px 6px;
+            box-shadow: 0 2px 4px rgba(27, 54, 93, 0.3);
+            animation: qualityPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes qualityPulse {
+            0%, 100% { box-shadow: 0 2px 4px rgba(27, 54, 93, 0.3); }
+            50% { box-shadow: 0 4px 8px rgba(27, 54, 93, 0.5); }
+        }
+        
+        .qobuz-service-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .qobuz-service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(27, 54, 93, 0.1), transparent);
+            transition: left 0.8s ease;
+        }
+        
+        .qobuz-service-card:hover::before {
+            left: 100%;
+        }
+        
+        .qobuz-connected {
+            position: relative;
+        }
+        
+        .qobuz-connected::after {
+            content: '🏆 Hi-Res';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1B365D;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
+        }
+        
+        .search-result-item[data-platform="qobuz"] {
+            border-left: 3px solid #1B365D;
+            background: linear-gradient(135deg, rgba(27, 54, 93, 0.02), rgba(46, 89, 132, 0.02));
+        }
+        
+        .search-result-item[data-platform="qobuz"]:hover {
+            background: linear-gradient(135deg, rgba(27, 54, 93, 0.05), rgba(46, 89, 132, 0.05));
+            border-left-color: #2E5984;
+        }
+        
     </style>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
     <!-- Progress Indicator -->
     <div class="progress-indicator">
         <div class="progress-bar" id="progress-bar"></div>
@@ -1998,7 +2170,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
         <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center" role="banner">
             <div class="container mx-auto hero-content">
                 <div class="cohesive-card max-w-md mx-auto mb-8 p-6 bg-white/10 backdrop-blur-lg border-white/20">
@@ -2076,8 +2248,12 @@
                         <div class="countdown-label"></div>
                     </div>
                 </div>
-                <a href="#itinerary" class="btn-primary cta-button px-8 py-3 rounded-full text-lg font-semibold">
-                    Start Planning Your Getaway
+                <a href="#itinerary" 
+                   class="btn-primary cta-button px-8 py-3 rounded-full text-lg font-semibold" 
+                   role="button"
+                   aria-label="Start planning your romantic Providence anniversary getaway - View detailed itinerary"
+                   tabindex="0">
+                    🎉 Start Planning Your Getaway
                 </a>
             </div>
         </section>
@@ -4712,7 +4888,7 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                 <!-- Music Service Connection Status -->
                 <div class="flex justify-center mb-12">
                     <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                        <h3 class="text-lg font-semibold text-white mb-4 text-center">🔗 Connect Your Music Services</h3>
+                        <h3 class="text-2xl font-semibold text-white mb-4 text-center">🎵 Powered by SoundCloud</h3>
                         <div class="grid md:grid-cols-3 gap-4">
                             <!-- Spotify Connection -->
                             <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-green-400/50 transition-colors cursor-pointer" onclick="connectMusicService('spotify')">
@@ -4744,16 +4920,16 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                                 </div>
                             </div>
 
-                            <!-- Apple Music Connection -->
-                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-gray-400/50 transition-colors cursor-pointer" onclick="connectMusicService('apple')">
+                            <!-- Qobuz Connection -->
+                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-blue-400/50 transition-colors cursor-pointer" onclick="connectMusicService('qobuz')">
                                 <div class="text-center">
-                                    <div class="text-4xl mb-3">🍎</div>
-                                    <h4 class="font-semibold text-white mb-2">Apple Music</h4>
+                                    <div class="text-4xl mb-3">�</div>
+                                    <h4 class="font-semibold text-white mb-2">Qobuz</h4>
                                     <div class="flex items-center justify-center gap-2 mb-3">
-                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="apple-status"></span>
-                                        <span class="text-white/80 text-sm" id="apple-status-text">Not Connected</span>
+                                        <span class="w-3 h-3 bg-red-400 rounded-full" id="qobuz-status"></span>
+                                        <span class="text-white/80 text-sm" id="qobuz-status-text">Not Connected</span>
                                     </div>
-                                    <button class="bg-gray-600 text-white px-4 py-2 rounded-full text-sm hover:bg-gray-700 transition-colors w-full">
+                                    <button class="bg-blue-900 text-white px-4 py-2 rounded-full text-sm hover:bg-blue-800 transition-colors w-full">
                                         Connect
                                     </button>
                                 </div>
@@ -4778,14 +4954,14 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                     <div class="music-search-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                         <div class="text-center mb-6">
                             <div class="text-4xl mb-4">🔍</div>
-                            <h3 class="text-xl font-bold text-white mb-2">Search Music</h3>
-                            <p class="text-white/80 text-sm">Find the perfect songs across all connected services</p>
+                            <h3 class="text-xl font-bold text-white mb-2">SoundCloud Search</h3>
+                            <p class="text-white/80 text-sm">Find tracks from SoundCloud's vast music library</p>
                         </div>
                         
                         <div class="space-y-4">
                             <div class="relative">
-                                <input type="text" id="music-search-input" placeholder="Search for songs, artists, or albums..." class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-purple-400 focus:outline-none">
-                                <button id="music-search-btn" class="absolute right-2 top-2 bg-purple-500 text-white p-2 rounded-lg hover:bg-purple-600 transition-colors">
+                                <input type="text" id="music-search-input" placeholder="Search SoundCloud for songs, artists, or albums..." class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-orange-400 focus:outline-none">
+                                <button id="music-search-btn" class="absolute right-2 top-2 bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600 transition-colors">
                                     🔍
                                 </button>
                             </div>
@@ -4883,6 +5059,24 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                                     <p>• 10 soothing songs</p>
                                     <p>• 35 min duration</p>
                                     <p>• Waterfront strolls</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SoundCloud Discovery Template -->
+                        <div class="playlist-template bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl p-6 border border-orange-400/20 hover:border-orange-400/50 transition-colors cursor-pointer relative" onclick="createFromTemplate('discovery')">
+                            <div class="absolute top-2 right-2 bg-orange-900 text-white text-xs px-2 py-1 rounded-full">
+                                🎧 SoundCloud
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🔍</div>
+                                <h4 class="text-lg font-bold text-white mb-2">SoundCloud Discovery</h4>
+                                <p class="text-white/80 text-sm mb-4">Discover new artists and hidden gems from SoundCloud's community</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 15 discovery tracks</p>
+                                    <p>• 50 min duration</p>
+                                    <p>• Independent artists</p>
+                                    <p class="text-orange-200 mt-1">🎵 SoundCloud Exclusive</p>
                                 </div>
                             </div>
                         </div>
@@ -6583,13 +6777,22 @@ function updateLocationInfoPanel(location) {
 
 // ...existing code...
 
-    // Collaborative Playlist Builder (Phase 2)
+    // SoundCloud-focused Playlist Builder with Future Spotify Integration
     let playlists = [];
     let currentPlaylist = null;
-    let connectedServices = {
-        spotify: { connected: false, token: null },
-        youtube: { connected: false, token: null },
-        qobuz: { connected: false, credentials: null }
+    let musicServices = {
+        soundcloud: { 
+            connected: true, 
+            clientId: null, // Will be configured for real API integration
+            baseUrl: 'https://api.soundcloud.com',
+            embedBaseUrl: 'https://w.soundcloud.com/player/'
+        },
+        spotify: { 
+            connected: false, 
+            token: null,
+            planned: true,
+            description: 'Future integration for cross-platform playlist export'
+        }
     };
     let searchCache = {};
 
@@ -6617,22 +6820,25 @@ function updateLocationInfoPanel(location) {
     }
 
     // Load connected services status
-    function loadConnectedServices() {
+    function loadMusicServices() {
         const saved = localStorage.getItem('providence-music-services');
         if (saved) {
             try {
-                connectedServices = { ...connectedServices, ...JSON.parse(saved) };
+                musicServices = { ...musicServices, ...JSON.parse(saved) };
                 updateServiceConnectionStatus();
             } catch (e) {
                 console.warn('Failed to load service connections:', e);
             }
         }
+        // SoundCloud is always connected for now
+        musicServices.soundcloud.connected = true;
+        updateServiceConnectionStatus();
     }
 
     // Save connected services
-    function saveConnectedServices() {
+    function saveMusicServices() {
         try {
-            localStorage.setItem('providence-music-services', JSON.stringify(connectedServices));
+            localStorage.setItem('providence-music-services', JSON.stringify(musicServices));
         } catch (e) {
             console.warn('Failed to save service connections:', e);
         }
@@ -6640,13 +6846,21 @@ function updateLocationInfoPanel(location) {
 
     // Update service connection status UI
     function updateServiceConnectionStatus() {
-        const services = ['spotify', 'youtube', 'qobuz'];
-        services.forEach(service => {
-            const statusEl = document.getElementById(`${service}-status`);
-            if (statusEl) {
-                statusEl.className = `w-3 h-3 rounded-full ${connectedServices[service].connected ? 'bg-green-400' : 'bg-red-400'}`;
-            }
-        });
+        // Update SoundCloud status (always connected)
+        const soundcloudStatus = document.getElementById('soundcloud-status');
+        const soundcloudText = document.getElementById('soundcloud-status-text');
+        if (soundcloudStatus && soundcloudText) {
+            soundcloudStatus.className = 'w-3 h-3 bg-green-400 rounded-full animate-pulse';
+            soundcloudText.textContent = 'Connected & Ready';
+        }
+
+        // Update future Spotify status
+        const spotifyStatus = document.getElementById('spotify-future-status');
+        const spotifyText = document.getElementById('spotify-future-status-text');
+        if (spotifyStatus && spotifyText) {
+            spotifyStatus.className = 'w-3 h-3 bg-yellow-400 rounded-full';
+            spotifyText.textContent = 'Planned';
+        }
     }
 
     // Render playlists grid
@@ -6705,7 +6919,8 @@ function updateLocationInfoPanel(location) {
             travel: '🚗',
             adventure: '⛵',
             chill: '🌙',
-            dance: '💃'
+            dance: '💃',
+            audiophile: '🎧'
         };
         return emojis[type] || '🎵';
     }
@@ -6730,50 +6945,7 @@ function updateLocationInfoPanel(location) {
         document.getElementById('create-playlist-form').reset();
     }
 
-    // Update suggested songs based on playlist type
-    function updateSuggestedSongs(type) {
-        const suggestions = {
-            dinner: [
-                { title: 'The Way You Look Tonight', artist: 'Frank Sinatra' },
-                { title: 'At Last', artist: 'Etta James' },
-                { title: 'La Vie En Rose', artist: 'Édith Piaf' }
-            ],
-            travel: [
-                { title: 'Life is a Highway', artist: 'Tom Cochrane' },
-                { title: 'Born to Be Wild', artist: 'Steppenwolf' },
-                { title: 'Take Me Home, Country Roads', artist: 'John Denver' }
-            ],
-            adventure: [
-                { title: 'Adventure of a Lifetime', artist: 'Coldplay' },
-                { title: 'Roar', artist: 'Katy Perry' },
-                { title: 'High Hopes', artist: 'Panic! At The Disco' }
-            ],
-            chill: [
-                { title: 'Stay', artist: 'Rihanna' },
-                { title: 'Golden', artist: 'Harry Styles' },
-                { title: 'Breathe', artist: 'Telepopmusik' }
-            ],
-            dance: [
-                { title: 'Uptown Funk', artist: 'Mark Ronson ft. Bruno Mars' },
-                { title: 'Can\'t Stop the Feeling!', artist: 'Justin Timberlake' },
-                { title: 'Levitating', artist: 'Dua Lipa' }
-            ]
-        };
-
-        const container = document.getElementById('suggested-songs');
-        if (suggestions[type]) {
-            container.innerHTML = suggestions[type].map(song => `
-                <div class="flex items-center justify-between text-sm">
-                    <span class="text-[#433A3F]">${song.title} - ${song.artist}</span>
-                    <button class="add-suggested-song text-purple-500 hover:text-purple-700" data-title="${song.title}" data-artist="${song.artist}">
-                        ➕
-                    </button>
-                </div>
-            `).join('');
-        } else {
-            container.innerHTML = '<p class="text-sm text-[#433A3F]/60">No suggestions for this playlist type</p>';
-        }
-    }
+    // [Moved to new SoundCloud section above]
 
     // Handle create playlist form submission
     function handleCreatePlaylistSubmit(e) {
@@ -6885,7 +7057,7 @@ function updateLocationInfoPanel(location) {
             </div>
         `;
 
-        // Simulate search results (replace with actual API calls)
+        // Simulate search results with Qobuz support (replace with actual API calls)
         setTimeout(() => {
             const mockResults = [
                 {
@@ -6895,6 +7067,7 @@ function updateLocationInfoPanel(location) {
                     album: 'Search Results',
                     platform: 'spotify',
                     duration: '3:45',
+                    quality: 'High',
                     preview_url: null
                 },
                 {
@@ -6904,6 +7077,17 @@ function updateLocationInfoPanel(location) {
                     album: 'Acoustic Sessions',
                     platform: 'youtube',
                     duration: '4:12',
+                    quality: 'Standard',
+                    preview_url: null
+                },
+                {
+                    id: '3',
+                    title: `${query} (Hi-Res)`,
+                    artist: 'Audiophile Edition',
+                    album: 'Lossless Collection',
+                    platform: 'qobuz',
+                    duration: '3:58',
+                    quality: 'Hi-Res 24-bit/96kHz',
                     preview_url: null
                 }
             ];
@@ -6926,21 +7110,42 @@ function updateLocationInfoPanel(location) {
             return;
         }
 
-        container.innerHTML = results.map(song => `
-            <div class="search-result-item flex items-center gap-3 p-3 border border-gray-200 rounded-lg">
-                <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg flex items-center justify-center text-white font-semibold">
-                    ${song.platform === 'spotify' ? '🎵' : '📺'}
+        container.innerHTML = results.map(song => {
+            let platformIcon = '🎵';
+            let platformColor = 'from-purple-400 to-pink-400';
+            let qualityBadge = '';
+            
+            if (song.platform === 'spotify') {
+                platformIcon = '🎵';
+                platformColor = 'from-green-400 to-green-600';
+            } else if (song.platform === 'youtube') {
+                platformIcon = '📺';
+                platformColor = 'from-red-400 to-red-600';
+            } else if (song.platform === 'qobuz') {
+                platformIcon = '🎧';
+                platformColor = 'from-blue-800 to-blue-900';
+                qualityBadge = `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full ml-2">${song.quality}</span>`;
+            }
+            
+            return `
+                <div class="search-result-item flex items-center gap-3 p-3 border border-gray-200 rounded-lg" data-platform="${song.platform}">
+                    <div class="w-12 h-12 bg-gradient-to-br ${platformColor} rounded-lg flex items-center justify-center text-white font-semibold">
+                        ${platformIcon}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-[#433A3F] truncate">${song.title}</h4>
+                        <p class="text-sm text-[#433A3F]/70 truncate">${song.artist} • ${song.album}</p>
+                        <div class="flex items-center">
+                            <p class="text-xs text-[#433A3F]/50">${song.duration} • ${song.platform}</p>
+                            ${qualityBadge}
+                        </div>
+                    </div>
+                    <button class="add-to-playlist-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" data-song='${JSON.stringify(song)}'>
+                        ➕ Add
+                    </button>
                 </div>
-                <div class="flex-1 min-w-0">
-                    <h4 class="font-semibold text-[#433A3F] truncate">${song.title}</h4>
-                    <p class="text-sm text-[#433A3F]/70 truncate">${song.artist} • ${song.album}</p>
-                    <p class="text-xs text-[#433A3F]/50">${song.duration} • ${song.platform}</p>
-                </div>
-                <button class="add-to-playlist-btn bg-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" data-song='${JSON.stringify(song)}'>
-                    ➕ Add
-                </button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     // Set current playlist
@@ -9683,6 +9888,271 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
+    // Enhanced Qobuz Integration Features
+    window.qobuzFeatures = {
+        searchResults: {
+            'romantic': [
+                { title: 'At Last', artist: 'Etta James', album: 'At Last!', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'La Vie En Rose', artist: 'Édith Piaf', album: 'The Complete Recordings', quality: '24-bit/192kHz', platform: 'qobuz' },
+                { title: 'The Way You Look Tonight', artist: 'Frank Sinatra', album: 'The Complete Capitol Collection', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Summertime', artist: 'Ella Fitzgerald', album: 'Porgy and Bess', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Fly Me to the Moon', artist: 'Diana Krall', album: 'The Look of Love', quality: '24-bit/192kHz', platform: 'qobuz' }
+            ],
+            'jazz': [
+                { title: 'Take Five', artist: 'Dave Brubeck', album: 'Time Out', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Blue in Green', artist: 'Miles Davis', album: 'Kind of Blue', quality: '24-bit/192kHz', platform: 'qobuz' },
+                { title: 'Autumn Leaves', artist: 'Bill Evans Trio', album: 'Waltz for Debby', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Body and Soul', artist: 'John Coltrane', album: 'Ballads', quality: '24-bit/96kHz', platform: 'qobuz' }
+            ],
+            'classical': [
+                { title: 'Claire de Lune', artist: 'Claude Debussy', album: 'Suite Bergamasque', quality: '24-bit/192kHz', platform: 'qobuz' },
+                { title: 'Canon in D', artist: 'Johann Pachelbel', album: 'Wedding Classics', quality: '24-bit/96kHz', platform: 'qobuz' },
+                { title: 'Moonlight Sonata', artist: 'Ludwig van Beethoven', album: 'Piano Sonatas', quality: '24-bit/192kHz', platform: 'qobuz' }
+            ]
+        },
+        
+        qualityBadges: {
+            '16-bit/44.1kHz': 'CD Quality',
+            '24-bit/96kHz': 'Hi-Res',
+            '24-bit/192kHz': 'Studio Master',
+            'DSD64': 'DSD',
+            'DSD128': 'DSD+'
+        },
+        
+        generateQobuzPlaylist: (type) => {
+            const templates = {
+                audiophile: {
+                    name: 'Audiophile Romance',
+                    description: 'High-fidelity romantic tracks for the perfect listening experience',
+                    songs: qobuzFeatures.searchResults.romantic.slice(0, 10),
+                    totalDuration: '42:18',
+                    averageQuality: '24-bit/144kHz'
+                },
+                jazz: {
+                    name: 'Hi-Res Jazz Evening',
+                    description: 'Premium jazz recordings for your special dinner',
+                    songs: qobuzFeatures.searchResults.jazz,
+                    totalDuration: '38:45',
+                    averageQuality: '24-bit/128kHz'
+                },
+                classical: {
+                    name: 'Classical Masterpieces',
+                    description: 'Timeless classical pieces in studio master quality',
+                    songs: qobuzFeatures.searchResults.classical,
+                    totalDuration: '45:32',
+                    averageQuality: '24-bit/176kHz'
+                }
+            };
+            
+            return templates[type] || templates.audiophile;
+        },
+        
+        createQualityBadge: (quality) => {
+            const badge = qobuzFeatures.qualityBadges[quality] || 'Hi-Res';
+            return `<span class="qobuz-quality-badge">${badge}</span>`;
+        },
+        
+        renderQobuzSearchResults: (query, container) => {
+            if (!container) return;
+            
+            const searchCategory = query.toLowerCase().includes('jazz') ? 'jazz' : 
+                                  query.toLowerCase().includes('classical') ? 'classical' : 'romantic';
+            
+            const results = qobuzFeatures.searchResults[searchCategory] || qobuzFeatures.searchResults.romantic;
+            
+            container.innerHTML = results.map(song => `
+                <div class="search-result-item bg-white/5 rounded-lg p-3 cursor-pointer hover:bg-white/10 transition-colors" data-platform="qobuz">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2">
+                                <div class="text-white font-medium text-sm">${song.title}</div>
+                                ${qobuzFeatures.createQualityBadge(song.quality)}
+                            </div>
+                            <div class="text-white/60 text-xs">${song.artist} • ${song.album}</div>
+                            <div class="text-blue-200 text-xs">🎧 ${song.quality} • Qobuz</div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="text-white/60 hover:text-white text-sm transition-colors" onclick="playQobuzTrack('${song.title}', '${song.artist}')">
+                                ▶️
+                            </button>
+                            <button class="text-white/60 hover:text-white text-sm transition-colors" onclick="addToPlaylist('${song.title}', '${song.artist}', 'qobuz')">
+                                ➕
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add Qobuz branding
+            const qobuzBranding = document.createElement('div');
+            qobuzBranding.className = 'text-center py-3 border-t border-white/10 mt-3';
+            qobuzBranding.innerHTML = `
+                <div class="text-blue-200 text-xs">
+                    🎧 Powered by Qobuz • Hi-Res & Lossless Audio
+                </div>
+            `;
+            container.appendChild(qobuzBranding);
+        }
+    };
+    
+    // Enhanced music search with Qobuz integration
+    window.searchMusic = (query) => {
+        const resultsContainer = document.getElementById('search-results-list');
+        const searchResultsDiv = document.getElementById('music-search-results');
+        
+        if (!resultsContainer || !query.trim()) {
+            searchResultsDiv?.classList.add('hidden');
+            return;
+        }
+        
+        // Show loading state
+        resultsContainer.innerHTML = `
+            <div class="text-center py-4">
+                <div class="loading-spinner mx-auto mb-2"></div>
+                <div class="text-white/60 text-sm">Searching across all connected services...</div>
+            </div>
+        `;
+        searchResultsDiv.classList.remove('hidden');
+        
+        // Simulate search delay
+        setTimeout(() => {
+            // Clear previous results
+            resultsContainer.innerHTML = '';
+            
+            // Check if Qobuz is connected for hi-res results
+            const qobuzConnected = connectedServices?.qobuz?.connected;
+            
+            if (qobuzConnected) {
+                // Add Qobuz section header
+                const qobuzHeader = document.createElement('div');
+                qobuzHeader.className = 'mb-3 pb-2 border-b border-blue-400/30';
+                qobuzHeader.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-blue-200 font-semibold">🎧 Qobuz Hi-Res Results</span>
+                        <span class="qobuz-quality-badge">Premium</span>
+                    </div>
+                `;
+                resultsContainer.appendChild(qobuzHeader);
+                
+                // Add Qobuz results
+                const qobuzResults = document.createElement('div');
+                qobuzResults.className = 'mb-4';
+                qobuzFeatures.renderQobuzSearchResults(query, qobuzResults);
+                resultsContainer.appendChild(qobuzResults);
+            }
+            
+            // Add standard results from other services
+            const standardResults = [
+                { title: 'Perfect', artist: 'Ed Sheeran', platform: 'spotify', quality: 'Standard' },
+                { title: 'Thinking Out Loud', artist: 'Ed Sheeran', platform: 'spotify', quality: 'Standard' },
+                { title: 'All of Me', artist: 'John Legend', platform: 'youtube', quality: 'Standard' },
+                { title: 'A Thousand Years', artist: 'Christina Perri', platform: 'spotify', quality: 'Standard' }
+            ];
+            
+            if (standardResults.length > 0) {
+                const standardHeader = document.createElement('div');
+                standardHeader.className = 'mb-3 pb-2 border-b border-white/20';
+                standardHeader.innerHTML = `
+                    <div class="text-white/80 font-semibold">🎵 Other Results</div>
+                `;
+                resultsContainer.appendChild(standardHeader);
+                
+                standardResults.forEach(song => {
+                    const songElement = document.createElement('div');
+                    songElement.className = 'search-result-item bg-white/5 rounded-lg p-3 cursor-pointer hover:bg-white/10 transition-colors mb-2';
+                    songElement.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="text-white font-medium text-sm">${song.title}</div>
+                                <div class="text-white/60 text-xs">${song.artist} • ${song.platform.charAt(0).toUpperCase() + song.platform.slice(1)}</div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="text-white/60 hover:text-white text-sm transition-colors">▶️</button>
+                                <button class="text-white/60 hover:text-white text-sm transition-colors">➕</button>
+                            </div>
+                        </div>
+                    `;
+                    resultsContainer.appendChild(songElement);
+                });
+            }
+        }, 1500);
+    };
+    
+    // Qobuz-specific functions
+    window.playQobuzTrack = (title, artist) => {
+        showNotification(`🎧 Now playing "${title}" by ${artist} in Hi-Res quality`, 'success');
+    };
+    
+    window.createFromTemplate = (templateType) => {
+        let templateName = '';
+        let notification = '';
+        
+        switch(templateType) {
+            case 'audiophile':
+                templateName = 'Audiophile Experience';
+                notification = '🎧 Created audiophile playlist with Hi-Res tracks! Perfect for your romantic evening.';
+                break;
+            case 'dinner':
+                templateName = 'Romantic Dinner';
+                notification = '🍽️ Created romantic dinner playlist! Smooth jazz and soul for your evening.';
+                break;
+            case 'adventure':
+                templateName = 'Adventure Time';
+                notification = '🚀 Created adventure playlist! Upbeat tracks for exploring Providence.';
+                break;
+            case 'chill':
+                templateName = 'Chill & Relax';
+                notification = '🌊 Created chill playlist! Perfect for waterfront walks and quiet moments.';
+                break;
+            case 'roadtrip':
+                templateName = 'Road Trip Vibes';
+                notification = '🚗 Created road trip playlist! Feel-good classics for your journey.';
+                break;
+            default:
+                templateName = 'Custom Playlist';
+                notification = '🎵 Created new playlist template!';
+        }
+        
+        // Show notification
+        showNotification(notification, 'success');
+        
+        // For Qobuz templates, add special Hi-Res notification
+        if (templateType === 'audiophile' && connectedServices?.qobuz?.connected) {
+            setTimeout(() => {
+                showNotification('✨ Qobuz Hi-Res tracks added for premium audio quality!', 'info');
+            }, 2000);
+        }
+    };
+    
+    // Initialize music search functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('music-search-input');
+        const searchBtn = document.getElementById('music-search-btn');
+        
+        if (searchInput && searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                performSoundCloudSearch(searchInput.value);
+            });
+            
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSoundCloudSearch(searchInput.value);
+                }
+            });
+            
+            // Auto-search on input with debounce
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (e.target.value.length > 2) {
+                        performSoundCloudSearch(e.target.value);
+                    }
+                }, 800);
+            });
+        }
+    });
+
     // ================================
     // PHASE 3: AI-POWERED FEATURES & ADVANCED COLLABORATION
     // ================================
@@ -10302,7 +10772,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const serviceInfo = {
             spotify: { name: 'Spotify', icon: '🎵', color: '#1DB954' },
             youtube: { name: 'YouTube Music', icon: '📺', color: '#FF0000' },
-            apple: { name: 'Apple Music', icon: '🍎', color: '#000000' }
+            qobuz: { name: 'Qobuz', icon: '�', color: '#1B365D' }
         };
         
         const info = serviceInfo[service];
@@ -10313,7 +10783,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (modal) {
             document.getElementById('oauth-icon').textContent = info.icon;
             document.getElementById('oauth-service-name').textContent = info.name;
-            document.getElementById('oauth-description').textContent = `Connect your ${info.name} account to search millions of songs and create collaborative playlists.`;
+            
+            let description = `Connect your ${info.name} account to search millions of songs and create collaborative playlists.`;
+            if (service === 'qobuz') {
+                description = 'Connect to Qobuz for high-quality audio streaming with lossless sound quality. Perfect for audiophile couples who appreciate superior music fidelity.';
+            }
+            
+            document.getElementById('oauth-description').textContent = description;
             
             const connectBtn = document.getElementById('oauth-connect-btn');
             connectBtn.textContent = `${info.icon} Connect with ${info.name}`;
@@ -10348,15 +10824,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle OAuth connection
     window.handleOAuthConnection = (service) => {
         // Simulate connection for demo
-        showNotification(`${service.charAt(0).toUpperCase() + service.slice(1)} connected successfully! (Demo mode)`, 'success');
+        let serviceName = service.charAt(0).toUpperCase() + service.slice(1);
+        let message = `${serviceName} connected successfully! (Demo mode)`;
+        
+        if (service === 'qobuz') {
+            message = 'Qobuz connected! Now you can access high-quality audio streaming with lossless sound quality. (Demo mode)';
+        }
+        
+        showNotification(message, 'success');
         closeOAuthModal();
         
-        // Update status indicators
+        // Update status indicators - using correct class names for Qobuz
         const statusDot = document.getElementById(`${service}-status`);
         const statusText = document.getElementById(`${service}-status-text`);
         if (statusDot && statusText) {
-            statusDot.className = 'w-2 h-2 bg-green-400 rounded-full';
+            if (service === 'qobuz') {
+                statusDot.className = 'w-3 h-3 bg-green-400 rounded-full';
+            } else {
+                statusDot.className = 'w-2 h-2 bg-green-400 rounded-full';
+            }
             statusText.textContent = 'Connected';
+        }
+        
+        // Update connectedServices object
+        if (connectedServices && connectedServices[service]) {
+            connectedServices[service].connected = true;
+            if (service === 'qobuz') {
+                connectedServices[service].credentials = {
+                    username: 'demo_user',
+                    app_id: 'demo_app_id',
+                    app_secret: 'demo_secret',
+                    connected_at: new Date().toISOString()
+                };
+            }
+            saveConnectedServices();
         }
     };
     
@@ -10423,7 +10924,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    window.createFromTemplate = (type) => showNotification('Creating ' + type + ' playlist...', 'success');
+    window.createFromTemplate = (type) => {
+        if (type === 'audiophile') {
+            // Check if Qobuz is connected
+            if (!connectedServices.qobuz.connected) {
+                showNotification('🎧 Connect to Qobuz first for Hi-Res audio playlists!', 'info');
+                return;
+            }
+            showNotification('Creating audiophile playlist with Hi-Res quality tracks... 🎧', 'success');
+        } else {
+            showNotification('Creating ' + type + ' playlist...', 'success');
+        }
+        
+        // Open modal with the selected template
+        openCreatePlaylistModal(type);
+    };
     window.selectPlaylist = (id) => {
         currentPlaylist = playlists.find(p => p.id === id);
         updateCurrentPlaylistDisplay();
@@ -10588,6 +11103,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize section bridges
     setTimeout(addSectionBridges, 1000);
 });
+</script>
+<script>
+    // FAQ accordion toggle functionality
+    function toggleFAQ(button) {
+        const answer = button.parentElement.querySelector('.faq-answer');
+        const icon = button.querySelector('.faq-icon');
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+
+        if (expanded) {
+            answer.classList.add('hidden');
+            icon.textContent = '+';
+            button.setAttribute('aria-expanded', 'false');
+        } else {
+            // Close all other open FAQs in the same section
+            document.querySelectorAll('#faq .faq-question[aria-expanded="true"]').forEach(openBtn => {
+                openBtn.setAttribute('aria-expanded', 'false');
+                openBtn.parentElement.querySelector('.faq-answer').classList.add('hidden');
+                openBtn.querySelector('.faq-icon').textContent = '+';
+            });
+            answer.classList.remove('hidden');
+            icon.textContent = '–';
+            button.setAttribute('aria-expanded', 'true');
+        }
+    }
 </script>
 </body>
 </html>
