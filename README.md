@@ -1,6 +1,46 @@
-# 💕 Providence Anniversary Weekend Planner
+# 🌹 Providence Anniversary Website
 
 A beautiful, interactive web application designed for planning the perfect romantic anniversary weekend in Providence, Rhode Island.
+
+## 🌐 Live Site
+- **Production**: https://iloveugo.com
+- **Staging**: https://your-site.netlify.app
+- **Pi Server**: http://192.168.68.69
+
+## 🚀 **FULLY AUTOMATED DEPLOYMENT - NO DRAG AND DROP!**
+
+### ⚡ Quick Deploy (Recommended)
+```bash
+# Deploy any changes instantly
+./quick-deploy.sh "Your commit message"
+
+# Or with interactive commit message
+./quick-deploy.sh
+```
+
+### 🔧 One-Time Setup
+```bash
+# Run once to set up full automation
+./setup-automation.sh
+```
+
+This sets up:
+- ✅ GitHub repository integration
+- ✅ Automatic Netlify deployment
+- ✅ Custom domain (iloveugo.com)
+- ✅ SSL certificates
+- ✅ Pi server deployment (optional)
+- ✅ Automatic rollback on failure
+
+### 📋 How It Works
+1. **Make changes** to any files
+2. **Run** `./quick-deploy.sh "Your changes"`
+3. **Automatic deployment** triggers:
+   - Code validation & testing
+   - Asset optimization & minification
+   - Deployment to Netlify
+   - Updates iloveugo.com instantly
+   - Pi server sync (if enabled)
 
 ## 📁 **Project Structure**
 
