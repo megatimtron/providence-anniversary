@@ -77,6 +77,10 @@ build_project() {
     cp -r assets/ "$BUILD_DIR/"
     cp -r menus/ "$BUILD_DIR/"
     
+    # Ensure directory structure exists
+    mkdir -p "$BUILD_DIR/assets/js"
+    mkdir -p "$BUILD_DIR/assets/css"
+    
     # Minify JavaScript
     log "Minifying JavaScript..."
     uglifyjs assets/js/providence-app.js -c -m -o "$BUILD_DIR/assets/js/providence-app.min.js"
