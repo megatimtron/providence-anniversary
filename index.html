@@ -3818,39 +3818,62 @@
                             
                             <!-- Results Panel -->
                             <div class="bg-gradient-to-br from-pink-50 to-[#C07F63]/10 rounded-xl p-6 border border-pink-200">
-                                <h5 class="font-semibold text-[#2C1A1E] mb-4 text-center">Your Budget Estimate</h5>
+                                <h5 class="font-semibold text-[#2C1A1E] mb-4 text-center">🎯 Smart Budget Planner</h5>
                                 
-                                <div class="space-y-3 mb-4">
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Base Meals:</span>
-                                        <span id="calc-base-cost" class="font-semibold">$0</span>
+                                <div class="space-y-4 mb-6">
+                                    <div class="bg-white/70 rounded-lg p-4 border border-[#C07F63]/20">
+                                        <h6 class="font-semibold text-[#2C1A1E] mb-3">💰 Budget Ranges</h6>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Gracie's (Premium):</span>
+                                                <span class="font-semibold text-green-600">$120-140 for 2</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Capital Grille:</span>
+                                                <span class="font-semibold text-blue-600">$120-160 for 2</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Cassarino's:</span>
+                                                <span class="font-semibold text-purple-600">$100-120 for 2</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Casual Dining:</span>
+                                                <span class="font-semibold text-orange-600">$60-80 for 2</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Drinks:</span>
-                                        <span id="calc-drinks-cost" class="font-semibold">$0</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Extras:</span>
-                                        <span id="calc-extras-cost" class="font-semibold">$0</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Tax & Tip (25%):</span>
-                                        <span id="calc-tax-cost" class="font-semibold">$0</span>
-                                    </div>
-                                    <div class="border-t border-[#433A3F]/20 pt-2">
-                                        <div class="flex justify-between">
-                                            <span class="font-semibold text-[#2C1A1E]">Total:</span>
-                                            <span id="calc-total-cost" class="text-2xl font-bold text-[#C07F63]">$0</span>
+                                    
+                                    <div class="bg-white/70 rounded-lg p-4 border border-[#C07F63]/20">
+                                        <h6 class="font-semibold text-[#2C1A1E] mb-3">📊 Weekend Total Estimate</h6>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">2 Nice Dinners:</span>
+                                                <span class="font-semibold">$200-280</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Casual Meals:</span>
+                                                <span class="font-semibold">$80-120</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Drinks & Extras:</span>
+                                                <span class="font-semibold">$60-100</span>
+                                            </div>
+                                            <div class="border-t border-[#433A3F]/20 pt-2">
+                                                <div class="flex justify-between">
+                                                    <span class="font-semibold text-[#2C1A1E]">Total Range:</span>
+                                                    <span class="text-xl font-bold text-[#C07F63]">$340-500</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="text-center">
-                                    <div id="calc-recommendation" class="text-sm text-[#2C1A1E]/70 mb-3">
-                                        Perfect for a romantic anniversary!
+                                    <div class="text-sm text-[#2C1A1E]/70 mb-3">
+                                        Perfect for a romantic anniversary weekend! 💕
                                     </div>
-                                    <button onclick="generateBudgetPlan()" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A9684C] transition-colors">
-                                        Generate Meal Plan 💕
+                                    <button onclick="scrollToSection('restaurants')" class="bg-[#C07F63] text-white px-6 py-2 rounded-lg hover:bg-[#A9684C] transition-colors text-sm font-medium">
+                                        View Restaurant Options 🍽️
                                     </button>
                                 </div>
                             </div>
@@ -4154,8 +4177,35 @@
 
                     <!-- Interactive Map Container -->
                     <div class="relative">
-                        <div id="providence-map" class="w-full h-80 md:h-96">
-                            <!-- Map will be loaded here -->
+                        <div id="providence-map" class="w-full h-80 md:h-96 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg flex items-center justify-center">
+                            <!-- Enhanced Map Display -->
+                            <div class="text-center p-8">
+                                <div class="text-6xl mb-4">🗺️</div>
+                                <h3 class="text-xl font-bold text-[#2C1A1E] mb-2">Interactive Providence Map</h3>
+                                <p class="text-sm text-[#2C1A1E]/70 mb-4">
+                                    Your romantic adventure awaits! Click on locations below to explore.
+                                </p>
+                                
+                                <!-- Quick Location Grid -->
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-md mx-auto">
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('gracies')">
+                                        <div class="text-2xl mb-1">🌟</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Gracie's</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('federal-hill')">
+                                        <div class="text-2xl mb-1">🍝</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Federal Hill</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('waterfront')">
+                                        <div class="text-2xl mb-1">🌊</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Waterfront</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('downtown')">
+                                        <div class="text-2xl mb-1">🏛️</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Downtown</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Map Controls Overlay -->
@@ -4178,26 +4228,42 @@
                             </div>
                         </div>
 
-                        <!-- Location Info Panel -->
+                        <!-- Enhanced Location Info Panel -->
                         <div class="absolute bottom-4 left-4 right-4 z-10">
-                            <div id="location-info-panel" class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200 hidden">
+                            <div id="location-info-panel" class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200">
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
-                                        <h4 class="font-bold text-[#2C1A1E] mb-1">Select a location</h4>
-                                        <p class="text-sm text-gray-600">Click on any marker to see details</p>
+                                        <h4 id="location-name" class="font-bold text-[#2C1A1E] mb-1">Welcome to Providence!</h4>
+                                        <p id="location-description" class="text-sm text-gray-600">Your romantic adventure starts here. Click on any area above to explore specific locations.</p>
                                     </div>
                                     <button class="text-gray-400 hover:text-gray-600" onclick="hideLocationPanel()">✕</button>
                                 </div>
                                 
+                                <!-- Location Details -->
+                                <div id="location-details" class="space-y-2 mb-3">
+                                    <div class="flex items-center text-sm text-[#2C1A1E]/70">
+                                        <span class="mr-2">📍</span>
+                                        <span id="location-address">Providence, RI</span>
+                                    </div>
+                                    <div class="flex items-center text-sm text-[#2C1A1E]/70">
+                                        <span class="mr-2">⏱️</span>
+                                        <span id="location-time">Perfect for any time of day</span>
+                                    </div>
+                                    <div class="flex items-center text-sm text-[#2C1A1E]/70">
+                                        <span class="mr-2">💝</span>
+                                        <span id="location-romantic">Romantic atmosphere</span>
+                                    </div>
+                                </div>
+                                
                                 <div class="flex gap-2 mt-3">
-                                    <button class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors">
+                                    <button id="directions-btn" class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors" onclick="getDirections()">
                                         📍 Directions
                                     </button>
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                    <button id="uber-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors" onclick="requestUber()">
                                         🚗 Uber
                                     </button>
-                                    <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                                        ℹ️ Info
+                                    <button id="info-btn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors" onclick="showMoreInfo()">
+                                        ℹ️ More Info
                                     </button>
                                 </div>
                             </div>

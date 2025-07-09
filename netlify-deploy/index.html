@@ -2138,8 +2138,8 @@
             <a href="#itinerary" class="nav-link" data-section="itinerary">
                 <span>📅</span> Your Itinerary
             </a>
-            <a href="#explore" class="nav-link" data-section="explore">
-                <span>🗺️</span> Explore Providence
+            <a href="#restaurant-week" class="nav-link" data-section="restaurant-week">
+                <span>🍽️</span> Restaurant Week
             </a>
             <a href="#restaurant-week" class="nav-link" data-section="restaurant-week">
                 <span>🍽️</span> Restaurant Week
@@ -2179,7 +2179,7 @@
             <h1 class="text-xl md:text-2xl font-bold text-[#2C1A1E]">A Providence Anniversary</h1>
             <div class="hidden md:flex space-x-8">
                 <a href="#itinerary" class="nav-link text-lg" aria-label="Go to itinerary section">Your Itinerary</a>
-                <a href="#explore" class="nav-link text-lg" aria-label="Go to explore section">Explore Providence</a>
+                <a href="#restaurant-week" class="nav-link text-lg" aria-label="Go to restaurant week section">Restaurant Week</a>
                 <a href="#restaurant-week" class="nav-link text-lg" aria-label="Go to restaurant week section">Restaurant Week</a>
                 <a href="#map" class="nav-link text-lg" aria-label="Go to interactive map section">Interactive Map</a>
                 <a href="#notes" class="nav-link text-lg" aria-label="Go to couple's notes section">Couple's Notes</a>
@@ -2341,7 +2341,7 @@
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4" role="menu" aria-label="Mobile navigation menu">
             <a href="#itinerary" class="block py-2 nav-link" role="menuitem">Your Itinerary</a>
-            <a href="#explore" class="block py-2 nav-link" role="menuitem">Explore Providence</a>
+            <a href="#restaurant-week" class="block py-2 nav-link" role="menuitem">Restaurant Week</a>
             <a href="#restaurant-week" class="block py-2 nav-link" role="menuitem">Restaurant Week</a>
             <a href="#map" class="block py-2 nav-link" role="menuitem">Interactive Map</a>
             <a href="#notes" class="block py-2 nav-link" role="menuitem">Couple's Notes</a>
@@ -2725,120 +2725,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="explore" class="py-16 md:py-24 bg-[#EAE0D5]">
-            <div class="container mx-auto px-6">
-                <div class="cohesive-section-header">
-                    <h2 class="cohesive-section-title">Explore Providence</h2>
-                    <p class="cohesive-section-subtitle">
-                        Discover all the romantic possibilities Providence has to offer. Use the filters to find the perfect spots for your celebration, from intimate dining to scenic tours. Each location includes direct links to menus, directions, and Uber for effortless planning.
-                    </p>
-                </div>
-                <div class="flex justify-center flex-wrap gap-2 mb-12">
-                    <button class="btn-filter cohesive-btn cohesive-btn-secondary active" data-filter="all">All</button>
-                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Dining">Dining</button>
-                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Tour">Tours</button>
-                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Culture">Culture</button>
-                    <button class="btn-filter cohesive-btn cohesive-btn-outline" data-filter="Outdoor">Outdoor</button>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16" id="explore-grid">
-                </div>
-
-                <div class="grid lg:grid-cols-2 gap-12 items-start">
-                    <div>
-                        <h3 class="text-2xl font-bold text-center mb-4">Dining Cost Comparison</h3>
-                        <p class="text-center text-md max-w-xl mx-auto mb-6 text-[#2C1A1E]/80">Compare our top dining recommendations with estimated costs per person. Each offers a unique romantic experience perfect for your anniversary celebration.</p>
-                        
-                        <!-- Simple Restaurant Cost Comparison Cards -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border border-[#E8E0D6] hover:shadow-lg transition-all">
-                                <h4 class="font-bold text-[#8B7355] mb-2">Il Massimo</h4>
-                                <div class="text-2xl font-bold text-[#2C1A1E] mb-1">$75</div>
-                                <div class="text-sm text-[#6B5B5B]">per person</div>
-                                <div class="mt-2 text-xs bg-[#E8E0D6] text-[#2C1A1E] px-2 py-1 rounded-full">Italian Classic</div>
-                            </div>
-                            
-                            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border border-[#E8E0D6] hover:shadow-lg transition-all">
-                                <h4 class="font-bold text-[#8B7355] mb-2">CAV</h4>
-                                <div class="text-2xl font-bold text-[#2C1A1E] mb-1">$85</div>
-                                <div class="text-sm text-[#6B5B5B]">per person</div>
-                                <div class="mt-2 text-xs bg-[#D6C6B3] text-[#2C1A1E] px-2 py-1 rounded-full">French Elegance</div>
-                            </div>
-                            
-                            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border border-[#E8E0D6] hover:shadow-lg transition-all">
-                                <h4 class="font-bold text-[#8B7355] mb-2">Hemenway's</h4>
-                                <div class="text-2xl font-bold text-[#2C1A1E] mb-1">$120</div>
-                                <div class="text-sm text-[#6B5B5B]">per person</div>
-                                <div class="mt-2 text-xs bg-[#C07F63] text-white px-2 py-1 rounded-full">Waterfront</div>
-                            </div>
-                            
-                            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border border-[#E8E0D6] hover:shadow-lg transition-all">
-                                <h4 class="font-bold text-[#8B7355] mb-2">Gracie's</h4>
-                                <div class="text-2xl font-bold text-[#2C1A1E] mb-1">$150</div>
-                                <div class="text-sm text-[#6B5B5B]">per person</div>
-                                <div class="mt-2 text-xs bg-[#A9684C] text-white px-2 py-1 rounded-full">Fine Dining</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-center mb-6">Restaurant Menus & Directions</h3>
-                        <div class="space-y-4">
-                            <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-[#8B7355]/20">
-                                <h4 class="font-semibold text-[#2C1A1E] mb-2">The Dorrance</h4>
-                                <div class="flex flex-wrap gap-2 mb-3">
-                                    <a href="https://www.thedorrance.com/menu" target="_blank" class="bg-[#8B7355] text-white px-3 py-1 rounded-full text-sm hover:bg-[#A0926B] transition-colors">View Menu</a>
-                                    <a href="https://maps.google.com/?q=The+Dorrance+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=The%20Dorrance%20Providence%20RI" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                                </div>
-                                <p class="text-sm text-[#2C1A1E]/70">60 Dorrance St, Providence, RI</p>
-                            </div>
-                            
-                            <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-[#8B7355]/20">
-                                <h4 class="font-semibold text-[#2C1A1E] mb-2">Gracie's</h4>
-                                <div class="flex flex-wrap gap-2 mb-3">
-                                    <a href="https://graciesprov.com/menu/" target="_blank" class="bg-[#8B7355] text-white px-3 py-1 rounded-full text-sm hover:bg-[#A0926B] transition-colors">View Menu</a>
-                                    <a href="https://maps.google.com/?q=Gracies+Restaurant+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=Gracies%20Restaurant%20Providence%20RI" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                                </div>
-                                <p class="text-sm text-[#2C1A1E]/70">194 Washington St, Providence, RI</p>
-                            </div>
-                            
-                            <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-[#C07F63]/20">
-                                <h4 class="font-semibold text-[#2C1A1E] mb-2">Hemenway's Restaurant</h4>
-                                <div class="flex flex-wrap gap-2 mb-3">
-                                    <a href="https://www.hemenwaysrestaurant.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-sm hover:bg-[#A9684C] transition-colors">View Menu</a>
-                                    <a href="https://maps.google.com/?q=Hemenwaysrestaurant+121+South+Main+St+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=Hemenwaysrestaurant%20121%20South%20Main%20St%20Providence%20RI" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                                </div>
-                                <p class="text-sm text-[#2C1A1E]/70">121 South Main St, Providence, RI</p>
-                            </div>
-                            
-                            <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-[#C07F63]/20">
-                                <h4 class="font-semibold text-[#2C1A1E] mb-2">CAV Providence</h4>
-                                <div class="flex flex-wrap gap-2 mb-3">
-                                    <a href="https://cavrestaurant.com/providence-jewelry-district-cav-providence-food-menu" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-sm hover:bg-[#A9684C] transition-colors">View Menu</a>
-                                    <a href="https://maps.google.com/?q=CAV+Restaurant+14+Imperial+Pl+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=CAV%20Restaurant%2014%20Imperial%20Pl%20Providence%20RI" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                                </div>
-                                <p class="text-sm text-[#2C1A1E]/70">14 Imperial Pl, Providence, RI</p>
-                            </div>
-                            
-                            <div class="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-[#C07F63]/20">
-                                <h4 class="font-semibold text-[#2C1A1E] mb-2">Massimo Restaurant</h4>
-                                <div class="flex flex-wrap gap-2 mb-3">
-                                    <a href="https://massimori.com/menu/" target="_blank" class="bg-[#C07F63] text-white px-3 py-1 rounded-full text-sm hover:bg-[#A9684C] transition-colors">View Menu</a>
-                                    <a href="https://maps.google.com/?q=Massimo+Restaurant+134+Atwells+Ave+Providence+RI" target="_blank" class="bg-[#433A3F] text-white px-3 py-1 rounded-full text-sm hover:bg-black transition-colors">Directions</a>
-                                    <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=Massimo%20Restaurant%20134%20Atwells%20Ave%20Providence%20RI" target="_blank" class="bg-green-600 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors">Uber</a>
-                                </div>
-                                <p class="text-sm text-[#2C1A1E]/70">134 Atwells Ave, Providence, RI</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
@@ -3686,117 +3572,221 @@
                     <h3 class="text-2xl font-bold text-center mb-8 text-[#2C1A1E]">💡 Complete Anniversary Planning Guide</h3>
                     
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Reservation Strategy -->
+                        <!-- Pre-Trip Planning -->
                         <div>
                             <h4 class="font-semibold text-[#2C1A1E] mb-4 flex items-center">
-                                <span class="text-2xl mr-2">📞</span>
-                                Reservation Strategy
+                                <span class="text-2xl mr-2">�</span>
+                                Pre-Trip Checklist
                             </h4>
                             <div class="space-y-3">
-                                <div class="bg-white/80 rounded-lg p-3">
-                                    <p class="text-sm font-semibold text-[#2C1A1E] mb-1">📅 Book NOW for July 11-14</p>
-                                    <p class="text-xs text-[#2C1A1E]/70">Tables fill quickly during Restaurant Week. Many restaurants require advance reservations.</p>
+                                <div class="bg-white/90 rounded-lg p-4 border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="hotel-booked" class="mt-1 mr-3">
+                                        <div class="flex-1">
+                                            <label for="hotel-booked" class="text-sm font-semibold text-[#2C1A1E] cursor-pointer">Hotel Booked</label>
+                                            <p class="text-xs text-[#2C1A1E]/70 mt-1">Confirm your romantic hotel reservation for July 11-14</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="bg-white/80 rounded-lg p-3">
-                                    <p class="text-sm font-semibold text-[#2C1A1E] mb-1">⏰ Best Reservation Times</p>
-                                    <p class="text-xs text-[#2C1A1E]/70">6:30-7:30 PM for romantic dinner ambiance. 8:00+ PM for quieter, more intimate setting.</p>
+                                <div class="bg-white/90 rounded-lg p-4 border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="restaurants-booked" class="mt-1 mr-3">
+                                        <div class="flex-1">
+                                            <label for="restaurants-booked" class="text-sm font-semibold text-[#2C1A1E] cursor-pointer">Restaurants Reserved</label>
+                                            <p class="text-xs text-[#2C1A1E]/70 mt-1">Book Gracie's, Capriccio, and Jacky's for your confirmed dinners</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="bg-white/80 rounded-lg p-3">
-                                    <p class="text-sm font-semibold text-[#2C1A1E] mb-1">💡 Pro Tip</p>
-                                    <p class="text-xs text-[#2C1A1E]/70">Call restaurants directly - sometimes they have availability not shown online. Mention it's your anniversary!</p>
+                                <div class="bg-white/90 rounded-lg p-4 border-l-4 border-purple-500">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="transportation" class="mt-1 mr-3">
+                                        <div class="flex-1">
+                                            <label for="transportation" class="text-sm font-semibold text-[#2C1A1E] cursor-pointer">Transportation Plan</label>
+                                            <p class="text-xs text-[#2C1A1E]/70 mt-1">Download Uber app, check train schedules, or plan driving route</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/90 rounded-lg p-4 border-l-4 border-pink-500">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="special-surprises" class="mt-1 mr-3">
+                                        <div class="flex-1">
+                                            <label for="special-surprises" class="text-sm font-semibold text-[#2C1A1E] cursor-pointer">Anniversary Surprises</label>
+                                            <p class="text-xs text-[#2C1A1E]/70 mt-1">Plan bouquet pickup, special requests, or anniversary cake</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Day-by-Day Recommendations -->
+                        <!-- Perfect Day-by-Day Itinerary -->
                         <div>
                             <h4 class="font-semibold text-[#2C1A1E] mb-4 flex items-center">
-                                <span class="text-2xl mr-2">📋</span>
-                                Perfect 4-Day Plan
+                                <span class="text-2xl mr-2">�️</span>
+                                Smart Day Planning
                             </h4>
                             <div class="space-y-3">
-                                <div class="bg-green-50 rounded-lg p-3 border border-green-200">
-                                    <p class="text-sm font-semibold text-green-800 mb-1">Friday Night (Arrival)</p>
-                                    <p class="text-xs text-green-700">Casual dinner at Il Massimo ($37) or Trattoria Appia ("Dolce Estate" special)</p>
+                                <div class="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-lg mr-2">🎯</span>
+                                        <p class="text-sm font-bold text-green-800">Friday - Arrival Day</p>
+                                    </div>
+                                    <p class="text-xs text-green-700 mb-2">4:00 PM arrival → Hotel check-in → Bouquet pickup → Dinner at Gracie's (8:45 PM)</p>
+                                    <div class="flex gap-2">
+                                        <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Confirmed</span>
+                                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">$120 budget</span>
+                                    </div>
                                 </div>
-                                <div class="bg-pink-50 rounded-lg p-3 border border-pink-200">
-                                    <p class="text-sm font-semibold text-pink-800 mb-1">Saturday (Anniversary!)</p>
-                                    <p class="text-xs text-pink-700">Special dinner at Gracie's ($59.99) - available all month! Most romantic choice.</p>
+                                
+                                <div class="bg-gradient-to-r from-pink-50 to-pink-100 rounded-lg p-4 border border-pink-200">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-lg mr-2">💖</span>
+                                        <p class="text-sm font-bold text-pink-800">Saturday - Anniversary!</p>
+                                    </div>
+                                    <p class="text-xs text-pink-700 mb-2">Brunch → Riverwalk → Romantic exploration → Dinner at Capriccio (8:00 PM)</p>
+                                    <div class="flex gap-2">
+                                        <span class="bg-pink-600 text-white px-2 py-1 rounded-full text-xs">Special Day</span>
+                                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">$150 budget</span>
+                                    </div>
                                 </div>
-                                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
-                                    <p class="text-sm font-semibold text-blue-800 mb-1">Sunday (Adventure)</p>
-                                    <p class="text-xs text-blue-700">Lunch at Legal Sea Foods ($30), then Mare Rooftop for sunset dinner</p>
+                                
+                                <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-lg mr-2">🌊</span>
+                                        <p class="text-sm font-bold text-blue-800">Sunday - Waterfront</p>
+                                    </div>
+                                    <p class="text-xs text-blue-700 mb-2">Waterfront walk → Brunch → Sunset at Jacky's Waterplace (6:00 PM)</p>
+                                    <div class="flex gap-2">
+                                        <span class="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">Scenic</span>
+                                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">$130 budget</span>
+                                    </div>
                                 </div>
-                                <div class="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
-                                    <p class="text-sm font-semibold text-yellow-800 mb-1">Monday (Departure)</p>
-                                    <p class="text-xs text-yellow-700">Farewell lunch at Track 15 Food Hall - try multiple vendors!</p>
+                                
+                                <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg p-4 border border-yellow-200">
+                                    <div class="flex items-center mb-2">
+                                        <span class="text-lg mr-2">👋</span>
+                                        <p class="text-sm font-bold text-yellow-800">Monday - Farewell</p>
+                                    </div>
+                                    <p class="text-xs text-yellow-700 mb-2">Hotel checkout → Final romantic moments → Departure</p>
+                                    <div class="flex gap-2">
+                                        <span class="bg-yellow-600 text-white px-2 py-1 rounded-full text-xs">Memories</span>
+                                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">$50 budget</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Special Considerations -->
+                        <!-- Emergency & Backup Plans -->
                         <div>
                             <h4 class="font-semibold text-[#2C1A1E] mb-4 flex items-center">
-                                <span class="text-2xl mr-2">⚠️</span>
-                                Important Notes
+                                <span class="text-2xl mr-2">🚨</span>
+                                Backup Plans & Tips
                             </h4>
                             <div class="space-y-3">
-                                <div class="bg-red-50 rounded-lg p-3 border border-red-200">
-                                    <p class="text-sm font-semibold text-red-800 mb-1">Saturday Restrictions</p>
-                                    <p class="text-xs text-red-700">Capital Grille & Waterman Grille don't offer Restaurant Week menus on Saturdays</p>
+                                <div class="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                                    <p class="text-sm font-semibold text-orange-800 mb-2">☔ Weather Backup</p>
+                                    <p class="text-xs text-orange-700 mb-2">Indoor alternatives: RISD Museum, Federal Hill shopping, cozy cafes</p>
+                                    <button class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs hover:bg-orange-200 transition-colors">View Indoor Options</button>
                                 </div>
-                                <div class="bg-orange-50 rounded-lg p-3 border border-orange-200">
-                                    <p class="text-sm font-semibold text-orange-800 mb-1">Limited Availability</p>
-                                    <p class="text-xs text-orange-700">Mare Rooftop: Tue/Wed/Thu/Sun only. Nicks on Broadway: July 17-20 only</p>
+                                
+                                <div class="bg-red-50 rounded-lg p-4 border border-red-200">
+                                    <p class="text-sm font-semibold text-red-800 mb-2">🍽️ Restaurant Backup</p>
+                                    <p class="text-xs text-red-700 mb-2">If reservations fail: The Dorrance, Mill's Tavern, Hemenway's</p>
+                                    <button class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-xs hover:bg-red-200 transition-colors">Emergency Numbers</button>
                                 </div>
-                                <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
-                                    <p class="text-sm font-semibold text-purple-800 mb-1">Dress Codes</p>
-                                    <p class="text-xs text-purple-700">Premium restaurants: Smart casual to business casual. Italian places: Casual to smart casual</p>
+                                
+                                <div class="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                                    <p class="text-sm font-semibold text-purple-800 mb-2">🚗 Transportation Issues</p>
+                                    <p class="text-xs text-purple-700 mb-2">Uber alternatives: Lyft, local taxis, Providence public transit</p>
+                                    <button class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs hover:bg-purple-200 transition-colors">Get Taxi Numbers</button>
+                                </div>
+                                
+                                <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                                    <p class="text-sm font-semibold text-green-800 mb-2">💡 Pro Tips</p>
+                                    <ul class="text-xs text-green-700 space-y-1">
+                                        <li>• Download offline maps before arriving</li>
+                                        <li>• Keep restaurant phone numbers handy</li>
+                                        <li>• Pack layers for changing weather</li>
+                                        <li>• Charge portable battery pack</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Quick Action Buttons -->
-                    <div class="mt-8 text-center">
-                        <h4 class="font-semibold text-[#2C1A1E] mb-4">Quick Reservation Links</h4>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <a href="https://www.opentable.com/providence-restaurants" target="_blank" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg hover:bg-[#A9684C] transition-colors text-sm font-semibold">
-                                📱 OpenTable Providence
-                            </a>
-                            <a href="https://resy.com/cities/providence" target="_blank" class="bg-[#433A3F] text-white px-4 py-2 rounded-lg hover:bg-black transition-colors text-sm font-semibold">
-                                🍽️ Resy Providence
-                            </a>
-                            <a href="https://www.goprovidence.com/restaurant-week/" target="_blank" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold">
-                                ℹ️ Official Restaurant Week Info
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Anniversary Budget Calculator -->
-                    <div class="mt-8 bg-white/80 rounded-xl p-6 border border-[#C07F63]/30">
-                        <h4 class="font-semibold text-[#2C1A1E] mb-4 text-center">💰 Interactive Anniversary Budget Calculator</h4>
+                    <!-- Interactive Budget Calculator -->
+                    <div class="mt-8 bg-white/90 rounded-xl p-6 border border-[#C07F63]/30">
+                        <h4 class="font-semibold text-[#2C1A1E] mb-4 text-center">💰 Live Anniversary Budget Calculator</h4>
                         
-                        <!-- Calculator Inputs -->
-                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Number of Days</label>
-                                    <select id="calc-days" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white">
-                                        <option value="2">2 Days (Weekend)</option>
-                                        <option value="3">3 Days (Long Weekend)</option>
-                                        <option value="4" selected>4 Days (Full Trip)</option>
+                                    <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Hotel (per night)</label>
+                                    <input type="number" id="hotel-cost" value="200" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white" placeholder="200">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Dining Budget (per meal)</label>
+                                    <select id="dining-budget" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white">
+                                        <option value="60">Conservative ($60/meal)</option>
+                                        <option value="100" selected>Romantic ($100/meal)</option>
+                                        <option value="150">Luxury ($150/meal)</option>
                                     </select>
                                 </div>
                                 
                                 <div>
-                                    <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Dining Style</label>
-                                    <select id="calc-style" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white">
-                                        <option value="conservative">Conservative ($60-80/meal)</option>
-                                        <option value="romantic" selected>Romantic ($100-150/meal)</option>
-                                        <option value="luxury">Luxury ($150-200/meal)</option>
-                                    </select>
+                                    <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Transportation</label>
+                                    <input type="number" id="transport-cost" value="150" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white" placeholder="150">
                                 </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Activities & Extras</label>
+                                    <input type="number" id="activities-cost" value="200" class="w-full p-3 rounded-lg border border-[#C07F63]/30 bg-white" placeholder="200">
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-br from-[#C07F63]/10 to-[#8B7355]/10 rounded-lg p-6">
+                                <h5 class="font-bold text-[#2C1A1E] mb-4">Your Anniversary Budget</h5>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#2C1A1E]/70">Hotel (3 nights):</span>
+                                        <span class="font-semibold" id="hotel-total">$600</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#2C1A1E]/70">Dining (6 meals):</span>
+                                        <span class="font-semibold" id="dining-total">$600</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#2C1A1E]/70">Transportation:</span>
+                                        <span class="font-semibold" id="transport-total">$150</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-sm text-[#2C1A1E]/70">Activities & Extras:</span>
+                                        <span class="font-semibold" id="activities-total">$200</span>
+                                    </div>
+                                    <div class="border-t pt-3">
+                                        <div class="flex justify-between">
+                                            <span class="font-bold text-[#2C1A1E]">Total Budget:</span>
+                                            <span class="font-bold text-xl text-[#C07F63]" id="total-budget">$1,550</span>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-sm text-[#2C1A1E]/70">Per person:</span>
+                                            <span class="font-semibold text-[#8B7355]" id="per-person-budget">$775</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                                    <p class="text-xs text-green-800 font-medium">💡 Money-Saving Tips:</p>
+                                    <ul class="text-xs text-green-700 mt-1 space-y-1">
+                                        <li>• Restaurant Week menus save 20-30%</li>
+                                        <li>• Share appetizers and desserts</li>
+                                        <li>• Walk between nearby locations</li>
+                                        <li>• Happy hour specials 3-6 PM</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                                 
                                 <div>
                                     <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Wine & Drinks</label>
@@ -3828,39 +3818,62 @@
                             
                             <!-- Results Panel -->
                             <div class="bg-gradient-to-br from-pink-50 to-[#C07F63]/10 rounded-xl p-6 border border-pink-200">
-                                <h5 class="font-semibold text-[#2C1A1E] mb-4 text-center">Your Budget Estimate</h5>
+                                <h5 class="font-semibold text-[#2C1A1E] mb-4 text-center">🎯 Smart Budget Planner</h5>
                                 
-                                <div class="space-y-3 mb-4">
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Base Meals:</span>
-                                        <span id="calc-base-cost" class="font-semibold">$0</span>
+                                <div class="space-y-4 mb-6">
+                                    <div class="bg-white/70 rounded-lg p-4 border border-[#C07F63]/20">
+                                        <h6 class="font-semibold text-[#2C1A1E] mb-3">💰 Budget Ranges</h6>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Gracie's (Premium):</span>
+                                                <span class="font-semibold text-green-600">$120-140 for 2</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Capital Grille:</span>
+                                                <span class="font-semibold text-blue-600">$120-160 for 2</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Cassarino's:</span>
+                                                <span class="font-semibold text-purple-600">$100-120 for 2</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Casual Dining:</span>
+                                                <span class="font-semibold text-orange-600">$60-80 for 2</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Drinks:</span>
-                                        <span id="calc-drinks-cost" class="font-semibold">$0</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Extras:</span>
-                                        <span id="calc-extras-cost" class="font-semibold">$0</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-sm text-[#2C1A1E]/70">Tax & Tip (25%):</span>
-                                        <span id="calc-tax-cost" class="font-semibold">$0</span>
-                                    </div>
-                                    <div class="border-t border-[#433A3F]/20 pt-2">
-                                        <div class="flex justify-between">
-                                            <span class="font-semibold text-[#2C1A1E]">Total:</span>
-                                            <span id="calc-total-cost" class="text-2xl font-bold text-[#C07F63]">$0</span>
+                                    
+                                    <div class="bg-white/70 rounded-lg p-4 border border-[#C07F63]/20">
+                                        <h6 class="font-semibold text-[#2C1A1E] mb-3">📊 Weekend Total Estimate</h6>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">2 Nice Dinners:</span>
+                                                <span class="font-semibold">$200-280</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Casual Meals:</span>
+                                                <span class="font-semibold">$80-120</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-[#2C1A1E]/70">Drinks & Extras:</span>
+                                                <span class="font-semibold">$60-100</span>
+                                            </div>
+                                            <div class="border-t border-[#433A3F]/20 pt-2">
+                                                <div class="flex justify-between">
+                                                    <span class="font-semibold text-[#2C1A1E]">Total Range:</span>
+                                                    <span class="text-xl font-bold text-[#C07F63]">$340-500</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="text-center">
-                                    <div id="calc-recommendation" class="text-sm text-[#2C1A1E]/70 mb-3">
-                                        Perfect for a romantic anniversary!
+                                    <div class="text-sm text-[#2C1A1E]/70 mb-3">
+                                        Perfect for a romantic anniversary weekend! 💕
                                     </div>
-                                    <button onclick="generateBudgetPlan()" class="bg-[#C07F63] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A9684C] transition-colors">
-                                        Generate Meal Plan 💕
+                                    <button onclick="scrollToSection('restaurants')" class="bg-[#C07F63] text-white px-6 py-2 rounded-lg hover:bg-[#A9684C] transition-colors text-sm font-medium">
+                                        View Restaurant Options 🍽️
                                     </button>
                                 </div>
                             </div>
@@ -4164,8 +4177,35 @@
 
                     <!-- Interactive Map Container -->
                     <div class="relative">
-                        <div id="providence-map" class="w-full h-80 md:h-96">
-                            <!-- Map will be loaded here -->
+                        <div id="providence-map" class="w-full h-80 md:h-96 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg flex items-center justify-center">
+                            <!-- Enhanced Map Display -->
+                            <div class="text-center p-8">
+                                <div class="text-6xl mb-4">🗺️</div>
+                                <h3 class="text-xl font-bold text-[#2C1A1E] mb-2">Interactive Providence Map</h3>
+                                <p class="text-sm text-[#2C1A1E]/70 mb-4">
+                                    Your romantic adventure awaits! Click on locations below to explore.
+                                </p>
+                                
+                                <!-- Quick Location Grid -->
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-md mx-auto">
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('gracies')">
+                                        <div class="text-2xl mb-1">🌟</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Gracie's</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('federal-hill')">
+                                        <div class="text-2xl mb-1">🍝</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Federal Hill</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('waterfront')">
+                                        <div class="text-2xl mb-1">🌊</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Waterfront</div>
+                                    </div>
+                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('downtown')">
+                                        <div class="text-2xl mb-1">🏛️</div>
+                                        <div class="text-xs font-semibold text-[#2C1A1E]">Downtown</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <!-- Map Controls Overlay -->
@@ -4188,26 +4228,42 @@
                             </div>
                         </div>
 
-                        <!-- Location Info Panel -->
+                        <!-- Enhanced Location Info Panel -->
                         <div class="absolute bottom-4 left-4 right-4 z-10">
-                            <div id="location-info-panel" class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200 hidden">
+                            <div id="location-info-panel" class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200">
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
-                                        <h4 class="font-bold text-[#2C1A1E] mb-1">Select a location</h4>
-                                        <p class="text-sm text-gray-600">Click on any marker to see details</p>
+                                        <h4 id="location-name" class="font-bold text-[#2C1A1E] mb-1">Welcome to Providence!</h4>
+                                        <p id="location-description" class="text-sm text-gray-600">Your romantic adventure starts here. Click on any area above to explore specific locations.</p>
                                     </div>
                                     <button class="text-gray-400 hover:text-gray-600" onclick="hideLocationPanel()">✕</button>
                                 </div>
                                 
+                                <!-- Location Details -->
+                                <div id="location-details" class="space-y-2 mb-3">
+                                    <div class="flex items-center text-sm text-[#2C1A1E]/70">
+                                        <span class="mr-2">📍</span>
+                                        <span id="location-address">Providence, RI</span>
+                                    </div>
+                                    <div class="flex items-center text-sm text-[#2C1A1E]/70">
+                                        <span class="mr-2">⏱️</span>
+                                        <span id="location-time">Perfect for any time of day</span>
+                                    </div>
+                                    <div class="flex items-center text-sm text-[#2C1A1E]/70">
+                                        <span class="mr-2">💝</span>
+                                        <span id="location-romantic">Romantic atmosphere</span>
+                                    </div>
+                                </div>
+                                
                                 <div class="flex gap-2 mt-3">
-                                    <button class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors">
+                                    <button id="directions-btn" class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors" onclick="getDirections()">
                                         📍 Directions
                                     </button>
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                    <button id="uber-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors" onclick="requestUber()">
                                         🚗 Uber
                                     </button>
-                                    <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors">
-                                        ℹ️ Info
+                                    <button id="info-btn" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors" onclick="showMoreInfo()">
+                                        ℹ️ More Info
                                     </button>
                                 </div>
                             </div>
@@ -8237,21 +8293,100 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function editItineraryItem(item) {
         console.log('Editing item:', item);
-        const title = item.querySelector('h4').textContent;
-        const description = item.querySelector('p').textContent;
+        const titleElement = item.querySelector('h4');
+        const descriptionElement = item.querySelector('p');
+        const timeElement = item.querySelector('.w-16.h-16');
         
-        const newTitle = prompt('Edit activity title:', title);
-        if (newTitle && newTitle.trim()) {
-            item.querySelector('h4').textContent = newTitle;
-            console.log('Updated title to:', newTitle);
+        if (!titleElement || !descriptionElement) {
+            console.error('Could not find title or description elements');
+            return;
         }
         
-        const newDescription = prompt('Edit activity description:', description);
-        if (newDescription && newDescription.trim()) {
-            item.querySelector('p').textContent = newDescription;
-            console.log('Updated description to:', newDescription);
-        }
+        const currentTitle = titleElement.textContent.trim();
+        const currentDescription = descriptionElement.textContent.trim();
+        const currentTime = timeElement ? timeElement.textContent.trim() : '';
+        
+        // Create and show edit modal
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4';
+        modal.innerHTML = `
+            <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-[#2C1A1E]">Edit Activity</h3>
+                    <button class="text-gray-400 hover:text-gray-600" onclick="closeEditModal()">✕</button>
+                </div>
+                
+                <form id="edit-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Time</label>
+                        <input type="text" id="edit-time" value="${currentTime}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]" placeholder="e.g., 2:00 PM">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Activity Title</label>
+                        <input type="text" id="edit-title" value="${currentTitle}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]" placeholder="Activity title">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-[#2C1A1E] mb-2">Description</label>
+                        <textarea id="edit-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8B7355]" placeholder="Activity description">${currentDescription}</textarea>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button type="submit" class="flex-1 bg-[#8B7355] text-white px-4 py-2 rounded-lg hover:bg-[#A0926B] transition-colors">
+                            Save Changes
+                        </button>
+                        <button type="button" onclick="closeEditModal()" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Handle form submission
+        document.getElementById('edit-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newTime = document.getElementById('edit-time').value.trim();
+            const newTitle = document.getElementById('edit-title').value.trim();
+            const newDescription = document.getElementById('edit-description').value.trim();
+            
+            if (newTime && timeElement) {
+                timeElement.textContent = newTime;
+            }
+            if (newTitle) {
+                titleElement.textContent = newTitle;
+            }
+            if (newDescription) {
+                descriptionElement.textContent = newDescription;
+            }
+            
+            closeEditModal();
+            
+            // Show success message
+            const successMsg = document.createElement('div');
+            successMsg.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+            successMsg.textContent = 'Activity updated successfully!';
+            document.body.appendChild(successMsg);
+            
+            setTimeout(() => successMsg.remove(), 3000);
+        });
+        
+        // Store modal reference globally for closing
+        window.currentEditModal = modal;
     }
+    
+    // Global function to close edit modal
+    window.closeEditModal = function() {
+        const modal = window.currentEditModal;
+        if (modal) {
+            modal.remove();
+            window.currentEditModal = null;
+        }
+    };
     
     function removeItineraryItem(item) {
         console.log('Removing item:', item);
