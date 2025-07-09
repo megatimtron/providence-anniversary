@@ -11,6 +11,7 @@
 - `netlify-deploy/` - Production-ready package for Netlify
 - `auto_sync_to_git.sh` - Automated deployment script
 - `auto_deploy.sh` - Alternative deployment script
+- `sync_to_pi.sh` - Direct Raspberry Pi sync script
 - `cleanup_workspace.sh` - Workspace cleanup utility
 
 ## 📁 Assets

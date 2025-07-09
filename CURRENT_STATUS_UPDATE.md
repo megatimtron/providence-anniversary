@@ -9,13 +9,17 @@ All major enhancements and fixes have been successfully implemented:
 - **Love Notes Feature**: Fixed automatic triggers, scroll/click activation, manual "Send Me Love" button
 - **Dating Bubble**: Fixed "You are incredible" bubble positioning and cycling
 - **UI/UX**: Removed all placeholder content, improved styling consistency
+- **Budget Calculator**: Fixed from broken $0 display to comprehensive budget ranges and totals
+- **Restaurant Comparison**: Enhanced with 10+ restaurants, comprehensive details, and quick decision helper
+- **Adventure Map**: Interactive location explorer with real Providence locations and directions
+- **Couples Notes**: Enhanced with writing prompts, auto-save, and romantic themes
 
 ### 📁 Code Status - CURRENT ✅
 - **Main App**: `/Users/timothytremaglio/Downloads/provitinerary/index.html` (fully enhanced)
 - **Deployment Package**: `./netlify-deploy/` (ready for Netlify)
 - **Git Repository**: All changes committed and pushed
 - **Workspace**: Cleaned and organized (removed 20+ obsolete files)
-- **Latest Commit**: `11df183 - Force cache invalidation - Tue Jul 8 00:13:29 EDT 2025`
+- **Latest Commit**: `b823d1b - Auto-update from Pi - 2025-07-08 22:50:54`
 
 ### 🔧 Deployment Status - READY ✅
 - **Raspberry Pi**: ✅ Live and working at 192.168.68.69

@@ -5237,217 +5237,276 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
             </div>
         </section>
 
-        <!-- Our Playlists Section - Phase 2 Implementation -->
-        <section id="playlists" class="py-16 md:py-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 relative overflow-hidden">
+        <!-- Simple Music Player Section -->
+        <section id="music-player" class="py-16 md:py-24 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 relative overflow-hidden">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white font-display">
+                        🎵 Simple Music Player 🎵
+                    </h2>
+                    <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                        Play your favorite songs and add more to your collection
+                    </p>
+                </div>
+
+                <!-- Music Player -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 mb-8">
+                    <h3 class="text-2xl font-bold text-white mb-6 text-center">🎧 Music Player</h3>
+                    
+                    <!-- Current Song Display -->
+                    <div id="current-song-display" class="bg-white/10 rounded-xl p-6 mb-6 text-center">
+                        <div class="text-4xl mb-2">🎵</div>
+                        <h4 id="current-song-title" class="text-xl font-bold text-white mb-2">Select a song to play</h4>
+                        <p id="current-song-artist" class="text-white/70">Choose from your collection below</p>
+                        
+                        <!-- Audio Element -->
+                        <audio id="music-player-audio" controls class="w-full mt-4 hidden">
+                            <source id="audio-source" src="" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+
+                    <!-- Song Collection -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-white mb-4">Your Songs:</h4>
+                        <div id="songs-list" class="space-y-3">
+                            <!-- Default SoundCloud Songs -->
+                            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-orange-400 text-2xl">🎵</div>
+                                    <div>
+                                        <div class="text-white font-medium">Burning Blue</div>
+                                        <div class="text-white/60 text-sm">Mariah the Scientist</div>
+                                        <div class="text-orange-400 text-xs">SoundCloud</div>
+                                    </div>
+                                </div>
+                                <button onclick="playSoundCloudSong('Burning Blue', 'Mariah the Scientist', 'https://soundcloud.com/mariahthescientist/burning-blue')" 
+                                        class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                    ▶️ Play
+                                </button>
+                            </div>
+
+                            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-orange-400 text-2xl">🎵</div>
+                                    <div>
+                                        <div class="text-white font-medium">Little Things</div>
+                                        <div class="text-white/60 text-sm">Ella Mai</div>
+                                        <div class="text-orange-400 text-xs">SoundCloud</div>
+                                    </div>
+                                </div>
+                                <button onclick="playSoundCloudSong('Little Things', 'Ella Mai', 'https://soundcloud.com/ellamai/little-things')" 
+                                        class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                    ▶️ Play
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Songs -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Add SoundCloud Song -->
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <h5 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <span class="text-orange-400 mr-2">🎧</span>
+                                Add SoundCloud Song
+                            </h5>
+                            <div class="space-y-3">
+                                <input type="text" id="soundcloud-title" placeholder="Song title" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="text" id="soundcloud-artist" placeholder="Artist name" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="url" id="soundcloud-url" placeholder="SoundCloud URL" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <button onclick="addSoundCloudSong()" 
+                                        class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                    🎵 Add to Collection
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Upload Your Own -->
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <h5 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <span class="text-green-400 mr-2">📁</span>
+                                Upload Your Own
+                            </h5>
+                            <div class="space-y-3">
+                                <input type="file" id="audio-upload" accept="audio/*" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:bg-green-500 file:text-white file:border-0 file:rounded file:px-3 file:py-1 file:mr-3">
+                                <input type="text" id="upload-title" placeholder="Song title" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="text" id="upload-artist" placeholder="Artist name" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <button onclick="uploadAudioFile()" 
+                                        class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                    📁 Add to Collection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Controls -->
+                <div class="text-center">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 inline-block">
+                        <h4 class="text-white font-bold mb-4">🎮 Player Controls</h4>
+                        <div class="flex gap-4 justify-center">
+                            <button onclick="shufflePlaylist()" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                                🔀 Shuffle
+                            </button>
+                            <button onclick="playAll()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                ▶️ Play All
+                            </button>
+                            <button onclick="stopAll()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                ⏹️ Stop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
             <!-- Animated musical background elements -->
             <div class="absolute inset-0 opacity-10">
                 <div class="absolute top-20 left-20 text-6xl animate-pulse">🎵</div>
                 <div class="absolute top-40 right-32 text-4xl animate-bounce delay-300">🎶</div>
                 <div class="absolute bottom-40 left-1/4 text-5xl animate-pulse delay-700">🎤</div>
                 <div class="absolute bottom-20 right-1/4 text-3xl animate-bounce delay-1000">🎧</div>
-                <div class="absolute top-1/2 left-10 text-4xl animate-pulse delay-500">🎹</div>
-                <div class="absolute top-1/3 right-10 text-3xl animate-bounce delay-800">🎸</div>
             </div>
             
-            <div class="container mx-auto px-6 max-w-6xl relative z-10">
-                <div class="text-center mb-16">
+            <div class="container mx-auto px-6 max-w-4xl relative z-10">
+                <div class="text-center mb-12">
                     <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white font-display">
-                        🎵 Our Playlists 🎵
+                        🎵 Our Anniversary Playlist 🎵
                     </h2>
                     <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-                        Create the perfect soundtrack for every moment of your Providence anniversary. From romantic dinners to adventurous explorations - build collaborative playlists that capture the magic of your love story.
+                        Your soundtrack for romance in Providence. Listen to your special songs and add more to the collection.
                     </p>
                 </div>
 
-                <!-- Music Service Connection Status -->
-                <div class="flex justify-center mb-12">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                        <h3 class="text-2xl font-semibold text-white mb-4 text-center">🎵 Powered by SoundCloud</h3>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Spotify Connection -->
-                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-green-400/50 transition-colors cursor-pointer" onclick="connectMusicService('spotify')">
-                                <div class="text-center">
-                                    <div class="text-4xl mb-3">🎵</div>
-                                    <h4 class="font-semibold text-white mb-2">Spotify</h4>
-                                    <div class="flex items-center justify-center gap-2 mb-3">
-                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="spotify-status"></span>
-                                        <span class="text-white/80 text-sm" id="spotify-status-text">Not Connected</span>
+                <!-- Simple Music Player -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 mb-8">
+                    <h3 class="text-2xl font-bold text-white mb-6 text-center">� Music Player</h3>
+                    
+                    <!-- Current Song Display -->
+                    <div id="current-song-display" class="bg-white/10 rounded-xl p-6 mb-6 text-center">
+                        <div class="text-4xl mb-2">🎵</div>
+                        <h4 id="current-song-title" class="text-xl font-bold text-white mb-2">Select a song to play</h4>
+                        <p id="current-song-artist" class="text-white/70">Choose from your collection below</p>
+                        
+                        <!-- Simple Audio Element -->
+                        <audio id="music-player" controls class="w-full mt-4 hidden">
+                            <source id="audio-source" src="" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+
+                    <!-- Song Collection -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-white mb-4">Your Songs:</h4>
+                        <div id="songs-list" class="space-y-3">
+                            <!-- SoundCloud Songs -->
+                            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-orange-400 text-2xl">🎵</div>
+                                    <div>
+                                        <div class="text-white font-medium">Burning Blue</div>
+                                        <div class="text-white/60 text-sm">Mariah the Scientist</div>
+                                        <div class="text-orange-400 text-xs">SoundCloud</div>
                                     </div>
-                                    <button class="bg-green-500 text-white px-4 py-2 rounded-full text-sm hover:bg-green-600 transition-colors w-full">
-                                        Connect
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="playSoundCloudSong('Burning Blue', 'Mariah the Scientist', 'https://soundcloud.com/mariahthescientist/burning-blue')" 
+                                            class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                        ▶️ Play
                                     </button>
+                                    <button onclick="removeSong(this)" class="text-white/60 hover:text-red-400 text-sm px-2">❌</button>
                                 </div>
                             </div>
 
-                            <!-- YouTube Music Connection -->
-                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-red-400/50 transition-colors cursor-pointer" onclick="connectMusicService('youtube')">
-                                <div class="text-center">
-                                    <div class="text-4xl mb-3">📺</div>
-                                    <h4 class="font-semibold text-white mb-2">YouTube Music</h4>
-                                    <div class="flex items-center justify-center gap-2 mb-3">
-                                        <span class="w-2 h-2 bg-red-400 rounded-full" id="youtube-status"></span>
-                                        <span class="text-white/80 text-sm" id="youtube-status-text">Not Connected</span>
+                            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-orange-400 text-2xl">🎵</div>
+                                    <div>
+                                        <div class="text-white font-medium">Little Things</div>
+                                        <div class="text-white/60 text-sm">Ella Mai</div>
+                                        <div class="text-orange-400 text-xs">SoundCloud</div>
                                     </div>
-                                    <button class="bg-red-500 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600 transition-colors w-full">
-                                        Connect
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="playSoundCloudSong('Little Things', 'Ella Mai', 'https://soundcloud.com/ellamai/little-things')" 
+                                            class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                        ▶️ Play
                                     </button>
+                                    <button onclick="removeSong(this)" class="text-white/60 hover:text-red-400 text-sm px-2">❌</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Qobuz Connection -->
-                            <div class="music-service-card bg-white/5 rounded-xl p-4 border border-white/10 hover:border-blue-400/50 transition-colors cursor-pointer" onclick="connectMusicService('qobuz')">
-                                <div class="text-center">
-                                    <div class="text-4xl mb-3">�</div>
-                                    <h4 class="font-semibold text-white mb-2">Qobuz</h4>
-                                    <div class="flex items-center justify-center gap-2 mb-3">
-                                        <span class="w-3 h-3 bg-red-400 rounded-full" id="qobuz-status"></span>
-                                        <span class="text-white/80 text-sm" id="qobuz-status-text">Not Connected</span>
-                                    </div>
-                                    <button class="bg-blue-900 text-white px-4 py-2 rounded-full text-sm hover:bg-blue-800 transition-colors w-full">
-                                        Connect
-                                    </button>
-                                </div>
+                    <!-- Add New Songs -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Add SoundCloud Song -->
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <h5 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <span class="text-orange-400 mr-2">🎧</span>
+                                Add SoundCloud Song
+                            </h5>
+                            <div class="space-y-3">
+                                <input type="text" id="soundcloud-title" placeholder="Song title" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="text" id="soundcloud-artist" placeholder="Artist name" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="url" id="soundcloud-url" placeholder="SoundCloud URL" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <button onclick="addSoundCloudSong()" 
+                                        class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                    🎵 Add to Collection
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Upload Your Own -->
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <h5 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <span class="text-green-400 mr-2">📁</span>
+                                Upload Your Own
+                            </h5>
+                            <div class="space-y-3">
+                                <input type="file" id="audio-upload" accept="audio/*" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:bg-green-500 file:text-white file:border-0 file:rounded file:px-3 file:py-1 file:mr-3">
+                                <input type="text" id="upload-title" placeholder="Song title" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="text" id="upload-artist" placeholder="Artist name" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <button onclick="uploadAudioFile()" 
+                                        class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                    📁 Add to Collection
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Playlist Management Interface -->
-                <div class="grid lg:grid-cols-3 gap-8 mb-12">
-                    <!-- Create New Playlist Card -->
-                    <div class="playlist-creation-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 text-center hover:border-purple-400/50 transition-all duration-300 cursor-pointer" onclick="openCreatePlaylistModal()">
-                        <div class="text-6xl mb-4">➕</div>
-                        <h3 class="text-xl font-bold text-white mb-2">Create New Playlist</h3>
-                        <p class="text-white/80 text-sm mb-6">Start building the perfect soundtrack for your Providence adventure</p>
-                        <button class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors">
-                            🎵 Create Playlist
-                        </button>
-                    </div>
-
-                    <!-- Music Search Card -->
-                    <div class="music-search-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-                        <div class="text-center mb-6">
-                            <div class="text-4xl mb-4">🔍</div>
-                            <h3 class="text-xl font-bold text-white mb-2">SoundCloud Search</h3>
-                            <p class="text-white/80 text-sm">Find tracks from SoundCloud's vast music library</p>
-                        </div>
-                        
-                        <div class="space-y-4">
-                            <div class="relative">
-                                <input type="text" id="music-search-input" placeholder="Search SoundCloud for songs, artists, or albums..." 
-                                       class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:border-orange-400 focus:outline-none"
-                                       onkeypress="if(event.key==='Enter') performMusicSearch()">
-                                <button id="music-search-btn" onclick="performMusicSearch()" 
-                                        class="absolute right-2 top-2 bg-orange-500 text-white p-2 rounded-lg hover:bg-orange-600 transition-colors">
-                                    🔍
-                                </button>
-                            </div>
-                            
-                            <div id="music-search-results" class="hidden">
-                                <div class="bg-white/5 rounded-xl p-4 max-h-64 overflow-y-auto">
-                                    <h4 class="text-white font-semibold mb-3">Search Results</h4>
-                                    <div id="search-results-list" class="space-y-2">
-                                        <!-- Search results will be populated here -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Active Playlist Card -->
-                    <div class="active-playlist-card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-                        <div class="text-center mb-6">
-                            <div class="text-4xl mb-4">🎼</div>
-                            <h3 class="text-xl font-bold text-white mb-2">Now Playing</h3>
-                            <p class="text-white/80 text-sm">Currently editing: <span id="current-playlist-name">Providence Anniversary</span></p>
-                        </div>
-                        
-                        <div class="space-y-3" id="current-playlist-songs">
-                            <div class="song-item bg-white/5 rounded-lg p-3 flex items-center justify-between">
-                                <div>
-                                    <div class="text-white font-medium text-sm">Burning Blue</div>
-                                    <div class="text-white/60 text-xs">Mariah the Scientist</div>
-                                </div>
-                                <div class="flex gap-2">
-                                    <button class="text-white/60 hover:text-white text-sm">▶️</button>
-                                    <button class="text-white/60 hover:text-white text-sm">❌</button>
-                                </div>
-                            </div>
-                            
-                            <div class="song-item bg-white/5 rounded-lg p-3 flex items-center justify-between">
-                                <div>
-                                    <div class="text-white font-medium text-sm">Little Things</div>
-                                    <div class="text-white/60 text-xs">Ella Mai</div>
-                                </div>
-                                <div class="flex gap-2">
-                                    <button class="text-white/60 hover:text-white text-sm">▶️</button>
-                                    <button class="text-white/60 hover:text-white text-sm">❌</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-4 text-center">
-                            <button onclick="shuffleAndPlay()" class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors w-full">
-                                🔀 Shuffle & Play
+                <!-- Simple Player Controls -->
+                <div class="text-center">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 inline-block">
+                        <h4 class="text-white font-bold mb-4">🎮 Player Controls</h4>
+                        <div class="flex gap-4 justify-center">
+                            <button onclick="shufflePlaylist()" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                                🔀 Shuffle
+                            </button>
+                            <button onclick="playAll()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                ▶️ Play All
+                            </button>
+                            <button onclick="stopAll()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                ⏹️ Stop
                             </button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Playlist Templates Section -->
-                <div class="mb-12">
-                    <h3 class="text-2xl font-bold text-white text-center mb-8">🎯 Curated Playlist Templates</h3>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- Romantic Dinner Template -->
-                        <div class="playlist-template bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-xl p-6 border border-white/20 hover:border-red-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('dinner')">
-                            <div class="text-center">
-                                <div class="text-4xl mb-3">🍽️</div>
-                                <h4 class="text-lg font-bold text-white mb-2">Romantic Dinner</h4>
-                                <p class="text-white/80 text-sm mb-4">Smooth jazz, soul, and intimate vocals for your special evening</p>
-                                <div class="text-xs text-white/60">
-                                    <p>• 12 hand-picked songs</p>
-                                    <p>• 45 min duration</p>
-                                    <p>• Perfect for Gracie's</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Adventure Time Template -->
-                        <div class="playlist-template bg-gradient-to-br from-orange-500/20 to-yellow-500/20 rounded-xl p-6 border border-white/20 hover:border-orange-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('adventure')">
-                            <div class="text-center">
-                                <div class="text-4xl mb-3">🚀</div>
-                                <h4 class="text-lg font-bold text-white mb-2">Adventure Time</h4>
-                                <p class="text-white/80 text-sm mb-4">Upbeat tracks for exploring Providence together</p>
-                                <div class="text-xs text-white/60">
-                                    <p>• 15 energetic songs</p>
-                                    <p>• 55 min duration</p>
-                                    <p>• Walking & sightseeing</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Chill & Relax Template -->
-                        <div class="playlist-template bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-white/20 hover:border-blue-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('chill')">
-                            <div class="text-center">
-                                <div class="text-4xl mb-3">🌊</div>
-                                <h4 class="text-lg font-bold text-white mb-2">Chill & Relax</h4>
-                                <p class="text-white/80 text-sm mb-4">Mellow vibes for quiet moments and sunset walks</p>
-                                <div class="text-xs text-white/60">
-                                    <p>• 10 soothing songs</p>
-                                    <p>• 35 min duration</p>
-                                    <p>• Waterfront strolls</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SoundCloud Discovery Template -->
-                        <div class="playlist-template bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-xl p-6 border border-orange-400/20 hover:border-orange-400/50 transition-colors cursor-pointer relative" onclick="createFromTemplate('discovery')">
-                            <div class="absolute top-2 right-2 bg-orange-900 text-white text-xs px-2 py-1 rounded-full">
-                                🎧 SoundCloud
-                            </div>
-                            <div class="text-center">
-                                <div class="text-4xl mb-3">🔍</div>
-                                <h4 class="text-lg font-bold text-white mb-2">SoundCloud Discovery</h4>
+            </div>
+        </section>
                                 <p class="text-white/80 text-sm mb-4">Discover new artists and hidden gems from SoundCloud's community</p>
                                 <div class="text-xs text-white/60">
                                     <p>• 15 discovery tracks</p>
@@ -7509,6 +7568,282 @@ function initializeBouquetSelector() {
 
 // Initialize bouquet selector when page loads
 document.addEventListener('DOMContentLoaded', initializeBouquetSelector);
+
+// Simple Music Player Functions
+let currentSongs = [];
+let currentPlayingIndex = -1;
+
+// Initialize music player with saved songs
+function initializeMusicPlayer() {
+    const savedSongs = localStorage.getItem('anniversary-songs');
+    if (savedSongs) {
+        currentSongs = JSON.parse(savedSongs);
+        updateSongsList();
+    }
+}
+
+// Play SoundCloud song (opens in new tab since SoundCloud doesn't allow embedding)
+window.playSoundCloudSong = function(title, artist, url) {
+    document.getElementById('current-song-title').textContent = title;
+    document.getElementById('current-song-artist').textContent = artist;
+    
+    // Hide the HTML5 audio player for SoundCloud
+    document.getElementById('music-player').classList.add('hidden');
+    
+    // Show message and open SoundCloud
+    showNotification(`Opening "${title}" by ${artist} in SoundCloud`, 'info');
+    window.open(url, '_blank');
+    
+    // Add visual feedback
+    createFloatingHeart(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight
+    );
+};
+
+// Add new SoundCloud song
+window.addSoundCloudSong = function() {
+    const title = document.getElementById('soundcloud-title').value.trim();
+    const artist = document.getElementById('soundcloud-artist').value.trim();
+    const url = document.getElementById('soundcloud-url').value.trim();
+    
+    if (!title || !artist || !url) {
+        showNotification('Please fill in all fields', 'error');
+        return;
+    }
+    
+    if (!url.includes('soundcloud.com')) {
+        showNotification('Please enter a valid SoundCloud URL', 'error');
+        return;
+    }
+    
+    const newSong = {
+        id: Date.now(),
+        title: title,
+        artist: artist,
+        url: url,
+        type: 'soundcloud'
+    };
+    
+    currentSongs.push(newSong);
+    saveSongs();
+    updateSongsList();
+    
+    // Clear form
+    document.getElementById('soundcloud-title').value = '';
+    document.getElementById('soundcloud-artist').value = '';
+    document.getElementById('soundcloud-url').value = '';
+    
+    showNotification(`Added "${title}" to your collection!`, 'success');
+    createFloatingHeart(
+        Math.random() * window.innerWidth,
+        Math.random() * window.innerHeight
+    );
+};
+
+// Upload audio file
+window.uploadAudioFile = function() {
+    const fileInput = document.getElementById('audio-upload');
+    const title = document.getElementById('upload-title').value.trim();
+    const artist = document.getElementById('upload-artist').value.trim();
+    
+    if (!fileInput.files[0] || !title || !artist) {
+        showNotification('Please select a file and fill in all fields', 'error');
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const newSong = {
+            id: Date.now(),
+            title: title,
+            artist: artist,
+            url: e.target.result,
+            type: 'uploaded',
+            filename: file.name
+        };
+        
+        currentSongs.push(newSong);
+        saveSongs();
+        updateSongsList();
+        
+        // Clear form
+        fileInput.value = '';
+        document.getElementById('upload-title').value = '';
+        document.getElementById('upload-artist').value = '';
+        
+        showNotification(`Added "${title}" to your collection!`, 'success');
+        createFloatingHeart(
+            Math.random() * window.innerWidth,
+            Math.random() * window.innerHeight
+        );
+    };
+    
+    reader.readAsDataURL(file);
+};
+
+// Play uploaded audio file
+window.playUploadedSong = function(title, artist, dataUrl) {
+    document.getElementById('current-song-title').textContent = title;
+    document.getElementById('current-song-artist').textContent = artist;
+    
+    const player = document.getElementById('music-player');
+    const source = document.getElementById('audio-source');
+    
+    source.src = dataUrl;
+    player.load();
+    player.classList.remove('hidden');
+    
+    showNotification(`Now playing: "${title}"`, 'success');
+};
+
+// Remove song from collection
+window.removeSong = function(button) {
+    const songItem = button.closest('.song-item');
+    const title = songItem.querySelector('.text-white.font-medium').textContent;
+    
+    if (confirm(`Remove "${title}" from your collection?`)) {
+        currentSongs = currentSongs.filter(song => song.title !== title);
+        saveSongs();
+        updateSongsList();
+        showNotification(`Removed "${title}" from collection`, 'info');
+    }
+};
+
+// Shuffle playlist
+window.shufflePlaylist = function() {
+    if (currentSongs.length === 0) {
+        showNotification('No songs in your collection to shuffle', 'error');
+        return;
+    }
+    
+    const shuffled = [...currentSongs].sort(() => Math.random() - 0.5);
+    showNotification('🔀 Shuffled your playlist!', 'success');
+    
+    // Play first shuffled song
+    if (shuffled.length > 0) {
+        const firstSong = shuffled[0];
+        if (firstSong.type === 'soundcloud') {
+            playSoundCloudSong(firstSong.title, firstSong.artist, firstSong.url);
+        } else {
+            playUploadedSong(firstSong.title, firstSong.artist, firstSong.url);
+        }
+    }
+};
+
+// Play all songs
+window.playAll = function() {
+    if (currentSongs.length === 0) {
+        showNotification('No songs in your collection to play', 'error');
+        return;
+    }
+    
+    showNotification('▶️ Starting your playlist!', 'success');
+    
+    // Play first song
+    const firstSong = currentSongs[0];
+    if (firstSong.type === 'soundcloud') {
+        playSoundCloudSong(firstSong.title, firstSong.artist, firstSong.url);
+    } else {
+        playUploadedSong(firstSong.title, firstSong.artist, firstSong.url);
+    }
+};
+
+// Stop all playback
+window.stopAll = function() {
+    const player = document.getElementById('music-player');
+    player.pause();
+    player.currentTime = 0;
+    player.classList.add('hidden');
+    
+    document.getElementById('current-song-title').textContent = 'Select a song to play';
+    document.getElementById('current-song-artist').textContent = 'Choose from your collection below';
+    
+    showNotification('⏹️ Stopped playback', 'info');
+};
+
+// Update songs list display
+function updateSongsList() {
+    const container = document.getElementById('songs-list');
+    
+    // Keep the original two SoundCloud songs and add user songs
+    let songsHTML = `
+        <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+            <div class="flex items-center space-x-4">
+                <div class="text-orange-400 text-2xl">🎵</div>
+                <div>
+                    <div class="text-white font-medium">Burning Blue</div>
+                    <div class="text-white/60 text-sm">Mariah the Scientist</div>
+                    <div class="text-orange-400 text-xs">SoundCloud</div>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="playSoundCloudSong('Burning Blue', 'Mariah the Scientist', 'https://soundcloud.com/mariahthescientist/burning-blue')" 
+                        class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                    ▶️ Play
+                </button>
+            </div>
+        </div>
+        <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+            <div class="flex items-center space-x-4">
+                <div class="text-orange-400 text-2xl">🎵</div>
+                <div>
+                    <div class="text-white font-medium">Little Things</div>
+                    <div class="text-white/60 text-sm">Ella Mai</div>
+                    <div class="text-orange-400 text-xs">SoundCloud</div>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="playSoundCloudSong('Little Things', 'Ella Mai', 'https://soundcloud.com/ellamai/little-things')" 
+                        class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                    ▶️ Play
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Add user songs
+    currentSongs.forEach(song => {
+        const iconColor = song.type === 'soundcloud' ? 'text-orange-400' : 'text-green-400';
+        const playButton = song.type === 'soundcloud' 
+            ? `onclick="playSoundCloudSong('${song.title}', '${song.artist}', '${song.url}')"` 
+            : `onclick="playUploadedSong('${song.title}', '${song.artist}', '${song.url}')"`;
+        
+        songsHTML += `
+            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                <div class="flex items-center space-x-4">
+                    <div class="${iconColor} text-2xl">${song.type === 'soundcloud' ? '🎵' : '📁'}</div>
+                    <div>
+                        <div class="text-white font-medium">${song.title}</div>
+                        <div class="text-white/60 text-sm">${song.artist}</div>
+                        <div class="${iconColor} text-xs">${song.type === 'soundcloud' ? 'SoundCloud' : 'Uploaded'}</div>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button ${playButton} 
+                            class="bg-${song.type === 'soundcloud' ? 'orange' : 'green'}-500 text-white px-3 py-1 rounded text-sm hover:bg-${song.type === 'soundcloud' ? 'orange' : 'green'}-600 transition-colors">
+                        ▶️ Play
+                    </button>
+                    <button onclick="removeSong(this)" class="text-white/60 hover:text-red-400 text-sm px-2">❌</button>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = songsHTML;
+}
+
+// Save songs to localStorage
+function saveSongs() {
+    localStorage.setItem('anniversary-songs', JSON.stringify(currentSongs));
+}
+
+// Initialize music player when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeMusicPlayer();
+});
 
 // ...existing code...
 
@@ -12320,7 +12655,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 </script>
     <!-- Enhanced Anniversary Features -->
-    <script src="assets/js/enhancements.js"></script>
+    <script src="assets/js/providence-app.js"></script>
     
     <!-- PWA Installation Prompt -->
     <script>

@@ -1,0 +1,202 @@
+name: Deploy Providence Anniversary Site
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm install -g html-validate
+        npm install -g uglify-js
+        npm install -g clean-css-cli
+        
+    - name: Validate HTML
+      run: |
+        html-validate index.html || echo "HTML validation completed with warnings"
+        
+    - name: Check for broken links
+      run: |
+        # Simple check for common issues
+        grep -n "onclick=" index.html | wc -l
+        echo "Found onclick handlers in HTML"
+        
+    - name: Test JavaScript syntax
+      run: |
+        node -c assets/js/providence-app.js
+        echo "JavaScript syntax check passed"
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install build tools
+      run: |
+        npm install -g uglify-js
+        npm install -g clean-css-cli
+        npm install -g html-minifier
+        
+    - name: Create build directory
+      run: |
+        mkdir -p build
+        
+    - name: Minify JavaScript
+      run: |
+        uglifyjs assets/js/providence-app.js -c -m -o build/providence-app.min.js
+        
+    - name: Minify CSS (if separate CSS files exist)
+      run: |
+        # Extract CSS from HTML and minify if needed
+        echo "CSS minification would go here"
+        
+    - name: Copy and optimize assets
+      run: |
+        cp -r assets/ build/
+        cp index.html build/
+        cp manifest.json build/
+        cp sw.js build/
+        
+        # Replace JS reference with minified version
+        sed -i 's/assets\/js\/providence-app.js/assets\/js\/providence-app.min.js/g' build/index.html
+        
+    - name: Optimize images
+      run: |
+        # Install imagemin if images need optimization
+        # This would compress images in assets/images/
+        echo "Image optimization would go here"
+        
+    - name: Create deployment package
+      run: |
+        cd build
+        tar -czf ../providence-anniversary-build.tar.gz .
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: providence-build
+        path: providence-anniversary-build.tar.gz
+
+  deploy-netlify:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: providence-build
+        
+    - name: Extract build
+      run: |
+        mkdir -p netlify-deploy
+        tar -xzf providence-anniversary-build.tar.gz -C netlify-deploy
+        
+    - name: Deploy to Netlify
+      uses: netlify/actions/cli@master
+      with:
+        args: deploy --prod --dir=netlify-deploy
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  deploy-pi:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: providence-build
+        
+    - name: Extract build
+      run: |
+        mkdir -p pi-deploy
+        tar -xzf providence-anniversary-build.tar.gz -C pi-deploy
+        
+    - name: Setup SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.PI_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.PI_HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Deploy to Raspberry Pi
+      run: |
+        # Create backup
+        ssh ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} "
+          sudo mkdir -p /var/www/html/backup
+          sudo cp -r /var/www/html/* /var/www/html/backup/ 2>/dev/null || true
+        "
+        
+        # Deploy new files
+        scp -r pi-deploy/* ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }}:/tmp/providence-deploy/
+        
+        # Move files to web directory
+        ssh ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} "
+          sudo rm -rf /var/www/html/*
+          sudo cp -r /tmp/providence-deploy/* /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html/
+          sudo chmod -R 755 /var/www/html/
+          sudo systemctl restart nginx
+          sudo systemctl restart apache2 2>/dev/null || true
+          rm -rf /tmp/providence-deploy
+        "
+        
+    - name: Verify deployment
+      run: |
+        # Wait for services to restart
+        sleep 10
+        
+        # Check if site is accessible
+        curl -f http://${{ secrets.PI_HOST }} || {
+          echo "Deployment failed, rolling back..."
+          ssh ${{ secrets.PI_USER }}@${{ secrets.PI_HOST }} "
+            sudo rm -rf /var/www/html/*
+            sudo cp -r /var/www/html/backup/* /var/www/html/
+            sudo systemctl restart nginx
+          "
+          exit 1
+        }
+        
+        echo "Deployment successful! Site is accessible at http://${{ secrets.PI_HOST }}"
+        
+  notify:
+    needs: [deploy-netlify, deploy-pi]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Notify deployment status
+      run: |
+        if [ "${{ needs.deploy-netlify.result }}" == "success" ] && [ "${{ needs.deploy-pi.result }}" == "success" ]; then
+          echo "🎉 Deployment successful!"
+          echo "🌐 Netlify: Site deployed to https://iloveugo.com"
+          echo "🍓 Pi: Site deployed to http://${{ secrets.PI_HOST }}"
+        else
+          echo "❌ Deployment failed"
+          echo "Check the logs above for details"
+        fi

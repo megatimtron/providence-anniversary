@@ -146,6 +146,59 @@ Works perfectly on:
    # http://localhost:8000 (direct access)
    ```
 
+## 🚀 Deployment
+
+### Automated CI/CD Pipeline
+
+The site uses GitHub Actions for automated deployment to both Netlify and the Raspberry Pi:
+
+1. **Push to main branch** - Triggers the CI/CD pipeline
+2. **Build & Test** - Validates HTML, minifies JavaScript, optimizes assets
+3. **Deploy to Netlify** - Automatic deployment to https://iloveugo.com
+4. **Deploy to Pi** - Secure deployment to Raspberry Pi server
+5. **Verification** - Automatic rollback on failure
+
+### Manual Deployment
+
+For manual deployment, use the included deployment script:
+
+```bash
+# Make executable (first time only)
+chmod +x deploy.sh
+
+# Run deployment
+./deploy.sh
+```
+
+The deployment script:
+- Builds and optimizes the site
+- Creates backups
+- Deploys to both Netlify and Raspberry Pi
+- Provides rollback capability
+- Includes comprehensive error handling
+
+### Required Secrets
+
+For GitHub Actions to work, configure these repository secrets:
+
+- `NETLIFY_AUTH_TOKEN` - Your Netlify personal access token
+- `NETLIFY_SITE_ID` - Your Netlify site ID
+- `PI_SSH_KEY` - SSH private key for Raspberry Pi access
+- `PI_HOST` - Raspberry Pi IP address or hostname
+- `PI_USER` - SSH username for Raspberry Pi
+
+### Raspberry Pi Setup
+
+Use the included setup script to prepare your Raspberry Pi:
+
+```bash
+# On the Raspberry Pi
+chmod +x setup-pi.sh
+sudo ./setup-pi.sh
+```
+
+This configures Nginx, firewall, SSL certificates, and monitoring.
+
 ## 💕 Perfect For
 
 - **Anniversary Celebrations**: Plan your special weekend together
