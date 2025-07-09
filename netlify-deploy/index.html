@@ -4143,301 +4143,159 @@
 
         <!-- Interactive Map Section -->
         <section id="map" class="py-16 md:py-24 bg-gradient-to-br from-[#433A3F] to-[#C07F63]">
-            <div class="container mx-auto px-6 max-w-7xl">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">🗺️ Interactive Providence Map</h2>
-                    <p class="text-lg max-w-3xl mx-auto mb-6 text-white/90">
-                        Explore all your romantic Providence locations on our interactive map. See restaurants, attractions, hotels, and key spots from your anniversary itinerary.
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">🗺️ Providence Adventure Map</h2>
+                    <p class="text-lg max-w-2xl mx-auto mb-6 text-white/90">
+                        Explore your romantic getaway locations
                     </p>
-                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 max-w-2xl mx-auto border border-white/30">
-                        <p class="text-sm text-white/80 flex items-center justify-center">
-                            <span class="text-lg mr-2">📍</span>
-                            Click on any marker to see details, directions, and insider tips
-                        </p>
-                    </div>
                 </div>
 
-                <!-- Map Controls -->
-                <div class="mb-8">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 max-w-4xl mx-auto border border-white/20">
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <button class="map-filter bg-white text-[#2C1A1E] px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/90 active" data-map-category="all">
-                                🗺️ Show All
-                            </button>
-                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="restaurants">
-                                🍽️ Restaurants
-                            </button>
-                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="attractions">
-                                🎭 Attractions
-                            </button>
-                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="hotels">
-                                🏨 Hotels
-                            </button>
-                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="romantic">
-                                💕 Romantic Spots
-                            </button>
-                            <button class="map-filter bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover:bg-white/30" data-map-category="waterfront">
-                                🌊 Waterfront
-                            </button>
+                <!-- Compact Map Interface -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border border-white/30">
+                    <!-- Map Header -->
+                    <div class="bg-gradient-to-r from-[#8B7355] to-[#A0926B] p-4 text-white">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-lg">Providence Adventure Map</h3>
+                            <button class="text-white/80 hover:text-white text-sm">✕</button>
                         </div>
+                        <p class="text-sm text-white/80 mt-1">Explore your romantic getaway locations</p>
                     </div>
-                </div>
 
-                <!-- Interactive Map Container -->
-                <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-2xl border border-white/30">
-                    <div id="providence-map" class="w-full h-96 md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden shadow-lg">
-                        <!-- Map will be loaded here -->
+                    <!-- Interactive Map Container -->
+                    <div class="relative">
+                        <div id="providence-map" class="w-full h-80 md:h-96">
+                            <!-- Map will be loaded here -->
+                        </div>
+                        
+                        <!-- Map Controls Overlay -->
+                        <div class="absolute top-4 left-4 z-10">
+                            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-gray-200">
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="map-filter bg-[#8B7355] text-white px-3 py-1 rounded-full text-xs font-semibold active" data-map-category="all">
+                                        All
+                                    </button>
+                                    <button class="map-filter bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs hover:bg-gray-200" data-map-category="restaurants">
+                                        🍽️ Dining
+                                    </button>
+                                    <button class="map-filter bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs hover:bg-gray-200" data-map-category="attractions">
+                                        🎭 Sights
+                                    </button>
+                                    <button class="map-filter bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs hover:bg-gray-200" data-map-category="romantic">
+                                        💕 Romance
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location Info Panel -->
+                        <div class="absolute bottom-4 left-4 right-4 z-10">
+                            <div id="location-info-panel" class="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-200 hidden">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-bold text-[#2C1A1E] mb-1">Select a location</h4>
+                                        <p class="text-sm text-gray-600">Click on any marker to see details</p>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-gray-600" onclick="hideLocationPanel()">✕</button>
+                                </div>
+                                
+                                <div class="flex gap-2 mt-3">
+                                    <button class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors">
+                                        📍 Directions
+                                    </button>
+                                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                        🚗 Uber
+                                    </button>
+                                    <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors">
+                                        ℹ️ Info
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <!-- Map Legend -->
-                    <div class="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm">
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
-                            <span class="text-[#2C1A1E]">Fine Dining</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-orange-500 rounded-full mr-2"></div>
-                            <span class="text-[#2C1A1E]">Casual Dining</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                            <span class="text-[#2C1A1E]">Attractions</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
-                            <span class="text-[#2C1A1E]">Parks/Outdoor</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-purple-500 rounded-full mr-2"></div>
-                            <span class="text-[#2C1A1E]">Hotels</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="w-4 h-4 bg-pink-500 rounded-full mr-2"></div>
-                            <span class="text-[#2C1A1E]">Romantic Spots</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Featured Locations Grid -->
-                <div class="mt-12">
-                    <h3 class="text-2xl font-bold text-center mb-8 text-white">📍 Featured Anniversary Locations</h3>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Restaurant Highlights -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('gracies')">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-bold text-white flex items-center">
-                                    <span class="text-2xl mr-3">🌟</span>
-                                    Gracie's Restaurant
-                                </h4>
-                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                            </div>
-                            <p class="text-white/80 text-sm mb-3">194 Washington St • Most romantic restaurant in Providence</p>
-                            <div class="flex gap-2">
-                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">★★★★★ Romance</span>
-                                <span class="bg-green-500/30 text-green-100 px-2 py-1 rounded-full text-xs">$59.99 Menu</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('mills-tavern')">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-bold text-white flex items-center">
-                                    <span class="text-2xl mr-3">🍽️</span>
-                                    Mill's Tavern
-                                </h4>
-                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                            </div>
-                            <p class="text-white/80 text-sm mb-3">Federal Hill • Contemporary American cuisine</p>
-                            <div class="flex gap-2">
-                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">★★★★☆ Romance</span>
-                                <span class="bg-green-500/30 text-green-100 px-2 py-1 rounded-full text-xs">$55 Menu</span>
-                            </div>
-                        </div>
-
-                        <!-- Attraction Highlights -->
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('riverwalk')">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-bold text-white flex items-center">
-                                    <span class="text-2xl mr-3">🌊</span>
-                                    Providence Riverwalk
-                                </h4>
-                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                            </div>
-                            <p class="text-white/80 text-sm mb-3">Waterfront • Perfect for romantic evening strolls</p>
-                            <div class="flex gap-2">
-                                <span class="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs">FREE</span>
-                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">Very Romantic</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('federal-hill')">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-bold text-white flex items-center">
-                                    <span class="text-2xl mr-3">🇮🇹</span>
-                                    Federal Hill
-                                </h4>
-                                <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
-                            </div>
-                            <p class="text-white/80 text-sm mb-3">Little Italy • Multiple Italian restaurants</p>
-                            <div class="flex gap-2">
-                                <span class="bg-orange-500/30 text-orange-100 px-2 py-1 rounded-full text-xs">Food District</span>
-                                <span class="bg-green-500/30 text-green-100 px-2 py-1 rounded-full text-xs">Walkable</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('benefit-street')">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-bold text-white flex items-center">
-                                    <span class="text-2xl mr-3">🏛️</span>
-                                    Benefit Street
-                                </h4>
-                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
-                            </div>
-                            <p class="text-white/80 text-sm mb-3">Historic • "Mile of History" walking tour</p>
-                            <div class="flex gap-2">
-                                <span class="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs">Historic</span>
-                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">Photo Ops</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer" onclick="focusMapLocation('waterfire')">
-                            <div class="flex items-center justify-between mb-4">
-                                <h4 class="font-bold text-white flex items-center">
-                                    <span class="text-2xl mr-3">🔥</span>
-                                    WaterFire Location
-                                </h4>
-                                <div class="w-3 h-3 bg-pink-500 rounded-full"></div>
-                            </div>
-                            <p class="text-white/80 text-sm mb-3">Downtown • Iconic romantic experience</p>
-                            <div class="flex gap-2">
-                                <span class="bg-pink-500/30 text-pink-100 px-2 py-1 rounded-full text-xs">Most Romantic</span>
-                                <span class="bg-blue-500/30 text-blue-100 px-2 py-1 rounded-full text-xs">Evening Event</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Navigation -->
-                <div class="mt-12 text-center">
-                    <h3 class="text-xl font-bold mb-6 text-white">🧭 Quick Navigation</h3>
-                    <div class="flex flex-wrap justify-center gap-3">
-                        <button onclick="focusMapLocation('downtown')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
-                            🏙️ Downtown Providence
-                        </button>
-                        <button onclick="focusMapLocation('east-side')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
-                            🎓 East Side (Brown/RISD)
-                        </button>
-                        <button onclick="focusMapLocation('hill')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
-                            ⛰️ The Hill Neighborhood
-                        </button>
-                        <button onclick="focusMapLocation('waterfront')" class="bg-white/20 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/30 transition-colors">
-                            🌊 Waterfront District
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Enhanced Map Features -->
-                <div class="mt-8 space-y-6">
-                    <!-- Custom Points of Interest -->
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
-                            <span class="text-2xl mr-3">📌</span>
-                            Add Your Own Special Places
-                        </h3>
-                        <p class="text-white/80 text-sm mb-6">
-                            Found a hidden gem or special spot during your trip? Add it to the map to remember forever!
-                        </p>
+                    <!-- Custom Points Feature -->
+                    <div class="bg-gradient-to-r from-[#8B7355]/10 to-[#A0926B]/10 p-4 border-t border-gray-200">
+                        <h4 class="font-bold text-[#2C1A1E] mb-3 flex items-center">
+                            <span class="text-lg mr-2">📌</span>
+                            Add Your Special Places
+                        </h4>
                         
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="block text-white text-sm font-medium mb-2">Place Name</label>
                                 <input 
                                     type="text" 
                                     id="custom-place-name" 
-                                    placeholder="e.g., 'Our First Kiss Spot'"
-                                    class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
+                                    placeholder="Place name (e.g., 'Our First Kiss Spot')"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent"
                                 >
                             </div>
                             <div>
-                                <label class="block text-white text-sm font-medium mb-2">Category</label>
                                 <select 
                                     id="custom-place-category" 
-                                    class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#8B7355]"
                                 >
                                     <option value="memory">💕 Special Memory</option>
                                     <option value="restaurant">🍽️ Restaurant</option>
-                                    <option value="shop">🛍️ Shop</option>
-                                    <option value="attraction">🎭 Attraction</option>
                                     <option value="photo-spot">📸 Photo Spot</option>
                                     <option value="other">📍 Other</option>
                                 </select>
                             </div>
                         </div>
                         
-                        <div class="mt-4">
-                            <label class="block text-white text-sm font-medium mb-2">Notes</label>
+                        <div class="mb-4">
                             <textarea 
                                 id="custom-place-notes" 
-                                placeholder="What made this place special? Any details you want to remember..."
-                                rows="3"
-                                class="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 resize-none"
+                                placeholder="What made this place special?"
+                                rows="2"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#8B7355] focus:border-transparent resize-none"
                             ></textarea>
                         </div>
                         
-                        <div class="mt-4 flex flex-wrap gap-3">
+                        <div class="flex flex-wrap gap-2">
                             <button 
                                 onclick="startAddingCustomPoint()" 
-                                class="bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-2 rounded-lg hover:from-pink-600 hover:to-red-600 transition-all duration-300 text-sm font-semibold"
+                                class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors"
                             >
-                                📌 Click Map to Add Point
+                                📌 Click Map to Add
                             </button>
                             <button 
                                 onclick="viewCustomPoints()" 
-                                class="bg-white/20 text-white px-6 py-2 rounded-lg hover:bg-white/30 transition-all duration-300 text-sm font-semibold"
+                                class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors"
                             >
                                 👁️ View My Places (<span id="custom-points-count">0</span>)
                             </button>
                             <button 
                                 onclick="clearCustomPoints()" 
-                                class="bg-red-500/30 text-white px-4 py-2 rounded-lg hover:bg-red-500/50 transition-all duration-300 text-sm"
+                                class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm hover:bg-red-200 transition-colors"
                             >
                                 🗑️ Clear All
                             </button>
                         </div>
                         
-                        <div id="custom-points-status" class="mt-3 text-sm text-white/60">
-                            Click the "📌 Click Map to Add Point" button, then click anywhere on the map to add your special place!
+                        <div id="custom-points-status" class="mt-2 text-xs text-gray-600">
+                            Click "📌 Click Map to Add", then click anywhere on the map to add your special place!
                         </div>
                     </div>
+                </div>
 
-                    <!-- Quick Info Panel -->
-                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                        <h3 class="text-xl font-bold text-white mb-4 flex items-center">
-                            <span class="text-2xl mr-3">📋</span>
-                            Quick Location Info
-                        </h3>
-                        <div id="location-info-panel" class="text-white/80 text-sm">
-                            Click on any map marker to see detailed information, directions, and insider tips here.
-                        </div>
+                <!-- Map Statistics -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                        <div class="text-2xl font-bold text-white">25+</div>
+                        <div class="text-sm text-white/70">Restaurants</div>
                     </div>
-
-                    <!-- Map Statistics -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
-                            <div class="text-2xl font-bold text-white" id="restaurant-count">25+</div>
-                            <div class="text-sm text-white/70">Restaurants</div>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
-                            <div class="text-2xl font-bold text-white" id="attraction-count">12</div>
-                            <div class="text-sm text-white/70">Attractions</div>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
-                            <div class="text-2xl font-bold text-white" id="romantic-count">8</div>
-                            <div class="text-sm text-white/70">Romantic Spots</div>
-                        </div>
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
-                            <div class="text-2xl font-bold text-white" id="custom-total-count">0</div>
-                            <div class="text-sm text-white/70">Your Places</div>
-                        </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                        <div class="text-2xl font-bold text-white">12</div>
+                        <div class="text-sm text-white/70">Attractions</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                        <div class="text-2xl font-bold text-white">8</div>
+                        <div class="text-sm text-white/70">Romantic Spots</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20">
+                        <div class="text-2xl font-bold text-white" id="custom-total-count">0</div>
+                        <div class="text-sm text-white/70">Your Places</div>
                     </div>
                 </div>
             </div>
@@ -6676,6 +6534,97 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
     </footer>
 
 <script>
+// Enhanced map location panel functions
+function showLocationInfo(locationName) {
+    const location = providenceLocations.find(loc => loc.name === locationName);
+    if (!location) return;
+    
+    const panel = document.getElementById('location-info-panel');
+    const panelContainer = panel.closest('.absolute');
+    
+    if (panel && panelContainer) {
+        panel.innerHTML = `
+            <div class="flex items-start justify-between mb-3">
+                <div>
+                    <h4 class="font-bold text-[#2C1A1E] mb-1">${location.name}</h4>
+                    <p class="text-sm text-gray-600">${location.description}</p>
+                    <div class="flex gap-2 mt-2">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">${location.price}</span>
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${location.rating}</span>
+                    </div>
+                </div>
+                <button class="text-gray-400 hover:text-gray-600" onclick="hideLocationPanel()">✕</button>
+            </div>
+            
+            <div class="flex gap-2 mt-3">
+                <a href="https://maps.google.com/?q=${encodeURIComponent(location.name + ' ' + location.address)}" target="_blank" class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors">
+                    📍 Directions
+                </a>
+                <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=${encodeURIComponent(location.name + ' ' + location.address)}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                    🚗 Uber
+                </a>
+                <button onclick="addToItinerary('${location.name}')" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors">
+                    ➕ Add to Plan
+                </button>
+            </div>
+        `;
+        
+        panelContainer.classList.remove('hidden');
+    }
+}
+
+function hideLocationPanel() {
+    const panel = document.getElementById('location-info-panel');
+    const panelContainer = panel.closest('.absolute');
+    if (panelContainer) {
+        panelContainer.classList.add('hidden');
+    }
+}
+
+function addToItinerary(locationName) {
+    console.log('Adding to itinerary:', locationName);
+    // This would integrate with the existing itinerary system
+    showStatusMessage(`Added ${locationName} to your itinerary!`, 'success');
+}
+
+// Enhanced map filter buttons
+function initializeMapFilters() {
+    const filterButtons = document.querySelectorAll('.map-filter');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => {
+                btn.classList.remove('bg-[#8B7355]', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+            
+            // Add active class to clicked button
+            button.classList.remove('bg-gray-100', 'text-gray-700');
+            button.classList.add('bg-[#8B7355]', 'text-white');
+            
+            // Filter the map
+            const category = button.getAttribute('data-map-category');
+            filterLeafletMarkers(category);
+        });
+    });
+}
+
+// Initialize the enhanced map when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize map filters
+    setTimeout(initializeMapFilters, 600);
+    
+    // Initialize map with custom marker click handlers
+    setTimeout(() => {
+        // Override the default marker click behavior
+        if (leafletMap) {
+            leafletMap.on('click', function() {
+                hideLocationPanel();
+            });
+        }
+    }, 1000);
+});
+
 // Interactive Providence Map using Leaflet (OpenStreetMap)
 let leafletMap;
 let leafletMarkers = [];
@@ -6784,8 +6733,12 @@ function addLeafletMarker(location) {
     const icon = getLeafletMarkerIcon(location.type);
     
     const marker = L.marker([location.lat, location.lng], { icon: icon })
-        .bindPopup(createLeafletPopupContent(location))
         .addTo(leafletMarkerLayer);
+
+    // Add click handler to show location info in the panel
+    marker.on('click', function() {
+        showLocationInfo(location.name);
+    });
 
     // Store marker with its categories for filtering
     marker.categories = location.category;
@@ -6988,12 +6941,51 @@ function addCustomPointToMap(point) {
     });
     
     const marker = L.marker([point.lat, point.lng], { icon: icon })
-        .bindPopup(createCustomPointPopup(point))
         .addTo(leafletMarkerLayer);
+    
+    // Add click handler to show custom point info in the panel
+    marker.on('click', function() {
+        showCustomPointInfo(point);
+    });
     
     marker.isCustom = true;
     marker.customPointId = point.id;
     leafletMarkers.push(marker);
+}
+
+function showCustomPointInfo(point) {
+    const panel = document.getElementById('location-info-panel');
+    const panelContainer = panel.closest('.absolute');
+    
+    if (panel && panelContainer) {
+        panel.innerHTML = `
+            <div class="flex items-start justify-between mb-3">
+                <div>
+                    <h4 class="font-bold text-[#2C1A1E] mb-1">${point.name}</h4>
+                    <p class="text-sm text-gray-600">${point.notes || 'Your special place'}</p>
+                    <div class="flex gap-2 mt-2">
+                        <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs">${point.category}</span>
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Custom</span>
+                    </div>
+                </div>
+                <button class="text-gray-400 hover:text-gray-600" onclick="hideLocationPanel()">✕</button>
+            </div>
+            
+            <div class="flex gap-2 mt-3">
+                <a href="https://maps.google.com/?q=${point.lat},${point.lng}" target="_blank" class="bg-[#8B7355] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#A0926B] transition-colors">
+                    📍 Directions
+                </a>
+                <a href="https://m.uber.com/looking?pickup=my_location&dropoff[latitude]=${point.lat}&dropoff[longitude]=${point.lng}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                    🚗 Uber
+                </a>
+                <button onclick="removeCustomPoint('${point.id}')" class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm hover:bg-red-200 transition-colors">
+                    🗑️ Remove
+                </button>
+            </div>
+        `;
+        
+        panelContainer.classList.remove('hidden');
+    }
 }
 
 function createCustomPointPopup(point) {
