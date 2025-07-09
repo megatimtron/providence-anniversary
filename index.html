@@ -8173,6 +8173,118 @@ document.addEventListener('DOMContentLoaded', () => {
     const exploreGrid = document.getElementById('explore-grid');
     // const accordionContainer = document.getElementById('accordion-container'); // No longer needed
 
+    // Itinerary Tab System
+    function initializeItineraryTabs() {
+        console.log('Initializing itinerary tabs...');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        console.log('Found', tabButtons.length, 'tab buttons and', tabContents.length, 'tab contents');
+        
+        // Set up first tab as active
+        if (tabButtons.length > 0 && tabContents.length > 0) {
+            tabButtons[0].classList.add('active-tab', 'text-[#8B7355]', 'border-[#8B7355]');
+            tabButtons[0].classList.remove('text-gray-500');
+            tabContents[0].classList.remove('hidden');
+            console.log('First tab activated');
+        }
+        
+        // Add click handlers to all tab buttons
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Tab button clicked:', index);
+                const targetTab = button.getAttribute('data-tab');
+                console.log('Target tab:', targetTab);
+                
+                // Remove active class from all buttons
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active-tab', 'text-[#8B7355]', 'border-[#8B7355]');
+                    btn.classList.add('text-gray-500');
+                });
+                
+                // Add active class to clicked button
+                button.classList.add('active-tab', 'text-[#8B7355]', 'border-[#8B7355]');
+                button.classList.remove('text-gray-500');
+                
+                // Hide all tab contents
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Show target tab content
+                const targetContent = document.getElementById(targetTab);
+                if (targetContent) {
+                    targetContent.classList.remove('hidden');
+                    console.log('Showing tab:', targetTab);
+                }
+            });
+        });
+        
+        // Add functionality to edit/remove buttons
+        const editButtons = document.querySelectorAll('.itinerary-item button');
+        console.log('Found', editButtons.length, 'edit/remove buttons');
+        
+        editButtons.forEach((button, index) => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Edit/remove button clicked:', index);
+                const action = button.textContent.toLowerCase().trim();
+                const item = button.closest('.itinerary-item');
+                
+                console.log('Action:', action);
+                
+                if (action === 'edit') {
+                    editItineraryItem(item);
+                } else if (action === 'remove') {
+                    removeItineraryItem(item);
+                }
+            });
+        });
+    }
+    
+    function editItineraryItem(item) {
+        console.log('Editing item:', item);
+        const title = item.querySelector('h4').textContent;
+        const description = item.querySelector('p').textContent;
+        
+        const newTitle = prompt('Edit activity title:', title);
+        if (newTitle && newTitle.trim()) {
+            item.querySelector('h4').textContent = newTitle;
+            console.log('Updated title to:', newTitle);
+        }
+        
+        const newDescription = prompt('Edit activity description:', description);
+        if (newDescription && newDescription.trim()) {
+            item.querySelector('p').textContent = newDescription;
+            console.log('Updated description to:', newDescription);
+        }
+    }
+    
+    function removeItineraryItem(item) {
+        console.log('Removing item:', item);
+        if (confirm('Are you sure you want to remove this activity?')) {
+            item.remove();
+            console.log('Item removed');
+        }
+    }
+    
+    // Initialize itinerary tabs
+    document.addEventListener('DOMContentLoaded', initializeItineraryTabs);
+    
+    // Also try to initialize immediately if DOM is already loaded
+    if (document.readyState !== 'loading') {
+        setTimeout(initializeItineraryTabs, 100);
+    }
+    
+    // Force initialization after a delay to ensure everything is ready
+    setTimeout(function() {
+        if (document.querySelector('.tab-btn') && !document.querySelector('.tab-btn.active-tab')) {
+            console.log('Force initializing tabs...');
+            initializeItineraryTabs();
+        }
+    }, 1500);
+
     // Photo storage for each day
     const photoStorage = {
         1: [],
