@@ -11218,6 +11218,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// Couples Notes Functionality
+let couplesNotes = JSON.parse(localStorage.getItem('couplesNotes') || '[]');
+
+function renderCouplesNotes() {
+    const container = document.getElementById('couples-notes-container');
+    if (!container) return;
+    if (couplesNotes.length === 0) {
+        container.innerHTML = `<div class="text-[#2C1A1E]/60 text-sm text-center py-4">No notes yet. Share your thoughts above!</div>`;
+        return;
+    }
+    container.innerHTML = couplesNotes.map((note, idx) => `
+        <div class="bg-[#FDF8F0] border border-[#C07F63]/10 rounded-xl p-4 mb-2 flex items-start justify-between shadow-sm">
+            <div>
+                <span class="text-xl mr-2">💕</span>
+                <span class="text-[#2C1A1E]">${note.text}</span>
+                <div class="text-xs text-[#C07F63]/80 mt-1">${note.date}</div>
+            </div>
+            <button onclick="removeCoupleNote(${idx})" class="ml-4 text-[#C07F63] hover:text-red-500 text-xs px-2 py-1 rounded transition-colors" title="Remove note">✖️</button>
+        </div>
+    `).join('');
+}
+
+function addCoupleNote() {
+    const input = document.getElementById('couple-note-input');
+    const text = input.value.trim();
+    if (!text) return;
+    const note = {
+        text,
+        date: new Date().toLocaleString()
+    };
+    couplesNotes.unshift(note);
+    localStorage.setItem('couplesNotes', JSON.stringify(couplesNotes));
+    input.value = '';
+    renderCouplesNotes();
+}
+
+function removeCoupleNote(idx) {
+    couplesNotes.splice(idx, 1);
+    localStorage.setItem('couplesNotes', JSON.stringify(couplesNotes));
+    renderCouplesNotes();
+}
+
+document.addEventListener('DOMContentLoaded', renderCouplesNotes);
+
 </script>
 
 <script>
@@ -12576,7 +12620,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // COUPLES NOTES FUNCTIONALITY
         // ================================
         
-        let couplesNotes = JSON.parse(localStorage.getItem('couplesNotes')) || [];
+        // Use the existing couplesNotes variable declared earlier
         
         // Add couple note
         function addCoupleNote() {
