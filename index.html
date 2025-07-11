@@ -12570,5 +12570,420 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
 
+    <!-- Enhanced Functionality JavaScript -->
+    <script>
+        // ================================
+        // COUPLES NOTES FUNCTIONALITY
+        // ================================
+        
+        let couplesNotes = JSON.parse(localStorage.getItem('couplesNotes')) || [];
+        
+        // Add couple note
+        function addCoupleNote() {
+            const noteInput = document.getElementById('couple-note-input');
+            const noteText = noteInput.value.trim();
+            
+            if (noteText) {
+                const note = {
+                    id: Date.now(),
+                    text: noteText,
+                    timestamp: new Date().toISOString(),
+                    author: 'You'
+                };
+                
+                couplesNotes.unshift(note);
+                localStorage.setItem('couplesNotes', JSON.stringify(couplesNotes));
+                
+                noteInput.value = '';
+                displayCouplesNotes();
+                showNotification('💕 Note added successfully!', 'success');
+            }
+        }
+        
+        // Display couples notes
+        function displayCouplesNotes() {
+            const container = document.getElementById('couples-notes-container');
+            if (!container) return;
+            
+            if (couplesNotes.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <div class="text-6xl mb-4 opacity-30">💕</div>
+                        <p class="text-[#2C1A1E]/50 italic">Your couples notes will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = couplesNotes.map(note => `
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-4 shadow-sm border border-[#C07F63]/20">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">💕</span>
+                            <span class="text-sm font-medium text-[#C07F63]">${note.author}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-[#2C1A1E]/60">${formatTimestamp(note.timestamp)}</span>
+                            <button onclick="deleteCoupleNote(${note.id})" class="text-red-500 hover:text-red-700 text-sm">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-[#2C1A1E] leading-relaxed">${note.text}</p>
+                </div>
+            `).join('');
+        }
+        
+        // Delete couple note
+        function deleteCoupleNote(id) {
+            couplesNotes = couplesNotes.filter(note => note.id !== id);
+            localStorage.setItem('couplesNotes', JSON.stringify(couplesNotes));
+            displayCouplesNotes();
+            showNotification('Note deleted', 'info');
+        }
+        
+        // Format timestamp
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        // ================================
+        // PHOTO UPLOAD FUNCTIONALITY
+        // ================================
+        
+        let uploadedPhotos = JSON.parse(localStorage.getItem('uploadedPhotos')) || [];
+        
+        // Handle photo upload
+        function handlePhotoUpload(event) {
+            const files = Array.from(event.target.files);
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('upload-progress');
+            
+            if (files.length === 0) return;
+            
+            progressContainer.classList.remove('hidden');
+            
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const photo = {
+                            id: Date.now() + Math.random(),
+                            src: e.target.result,
+                            name: file.name,
+                            timestamp: new Date().toISOString(),
+                            caption: ''
+                        };
+                        
+                        uploadedPhotos.unshift(photo);
+                        localStorage.setItem('uploadedPhotos', JSON.stringify(uploadedPhotos));
+                        
+                        // Update progress
+                        const progress = ((index + 1) / files.length) * 100;
+                        progressBar.style.width = progress + '%';
+                        
+                        if (index === files.length - 1) {
+                            setTimeout(() => {
+                                progressContainer.classList.add('hidden');
+                                displayUploadedPhotos();
+                                showNotification(`📸 ${files.length} photo(s) uploaded successfully!`, 'success');
+                            }, 500);
+                        }
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        // Display uploaded photos
+        function displayUploadedPhotos() {
+            const container = document.getElementById('uploaded-photos-container');
+            if (!container) return;
+            
+            if (uploadedPhotos.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <div class="text-6xl mb-4 opacity-30">📸</div>
+                        <p class="text-[#2C1A1E]/50 italic">Your uploaded photos will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = `
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${uploadedPhotos.map(photo => `
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <img src="${photo.src}" alt="${photo.name}" class="w-full h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity" onclick="openModal('${photo.src}', '${photo.name}')">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <span class="text-sm font-medium text-[#2C1A1E] truncate">${photo.name}</span>
+                                    <button onclick="deletePhoto(${photo.id})" class="text-red-500 hover:text-red-700 text-sm ml-2">
+                                        🗑️
+                                    </button>
+                                </div>
+                                <input type="text" 
+                                       placeholder="Add a caption..." 
+                                       value="${photo.caption}" 
+                                       onchange="updatePhotoCaption(${photo.id}, this.value)"
+                                       class="w-full text-sm text-[#2C1A1E]/80 border-none outline-none bg-transparent placeholder-[#2C1A1E]/40">
+                                <div class="text-xs text-[#2C1A1E]/60 mt-2">${formatTimestamp(photo.timestamp)}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // Update photo caption
+        function updatePhotoCaption(id, caption) {
+            const photo = uploadedPhotos.find(p => p.id === id);
+            if (photo) {
+                photo.caption = caption;
+                localStorage.setItem('uploadedPhotos', JSON.stringify(uploadedPhotos));
+            }
+        }
+        
+        // Delete photo
+        function deletePhoto(id) {
+            uploadedPhotos = uploadedPhotos.filter(photo => photo.id !== id);
+            localStorage.setItem('uploadedPhotos', JSON.stringify(uploadedPhotos));
+            displayUploadedPhotos();
+            showNotification('Photo deleted', 'info');
+        }
+        
+        // ================================
+        // MAP FUNCTIONALITY
+        // ================================
+        
+        let map;
+        let mapInitialized = false;
+        
+        const mapLocations = {
+            'gracies': {
+                lat: 41.8240,
+                lng: -71.4128,
+                name: "Gracie's",
+                address: "194 Washington St, Providence, RI 02903",
+                description: "Upscale American restaurant perfect for romantic dinners",
+                features: ['Fine Dining', 'Wine List', 'Anniversary Perfect']
+            },
+            'federal-hill': {
+                lat: 41.8176,
+                lng: -71.4284,
+                name: "Federal Hill",
+                address: "Atwells Ave, Providence, RI 02909",
+                description: "Little Italy of Providence with amazing Italian restaurants",
+                features: ['Italian Cuisine', 'Historic District', 'Multiple Restaurants']
+            },
+            'waterfront': {
+                lat: 41.8206,
+                lng: -71.4135,
+                name: "Providence Waterfront",
+                address: "1 Finance Way, Providence, RI 02903",
+                description: "Beautiful waterfront area perfect for romantic walks",
+                features: ['Scenic Views', 'Walking Path', 'Photography Spots']
+            },
+            'downtown': {
+                lat: 41.8265,
+                lng: -71.4032,
+                name: "Downtown Providence",
+                address: "Kennedy Plaza, Providence, RI 02903",
+                description: "Historic downtown area with shopping and dining",
+                features: ['Historic Architecture', 'Shopping', 'Entertainment']
+            }
+        };
+        
+        // Initialize map
+        function initializeMap() {
+            const mapContainer = document.getElementById('providence-map');
+            const loadingIndicator = document.getElementById('map-loading');
+            
+            if (!mapContainer || mapInitialized) return;
+            
+            try {
+                // Load Leaflet.js if not already loaded
+                if (typeof L === 'undefined') {
+                    loadLeaflet();
+                    return;
+                }
+                
+                // Initialize map
+                map = L.map('providence-map').setView([41.8240, -71.4128], 13);
+                
+                // Add OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                
+                // Add markers for each location
+                Object.keys(mapLocations).forEach(locationKey => {
+                    const location = mapLocations[locationKey];
+                    const marker = L.marker([location.lat, location.lng]).addTo(map);
+                    
+                    marker.bindPopup(`
+                        <div class="p-3 max-w-sm">
+                            <h3 class="font-bold text-[#2C1A1E] mb-2">${location.name}</h3>
+                            <p class="text-sm text-[#2C1A1E]/70 mb-2">${location.description}</p>
+                            <div class="flex flex-wrap gap-1 mb-3">
+                                ${location.features.map(feature => `
+                                    <span class="bg-[#C07F63]/20 text-[#C07F63] px-2 py-1 rounded-full text-xs">${feature}</span>
+                                `).join('')}
+                            </div>
+                            <div class="flex gap-2">
+                                <a href="https://maps.google.com/?q=${encodeURIComponent(location.address)}" 
+                                   target="_blank" 
+                                   class="bg-[#C07F63] text-white px-3 py-1 rounded text-xs hover:bg-[#A9684C]">
+                                    📍 Directions
+                                </a>
+                                <a href="https://m.uber.com/looking?pickup=my_location&dropoff[formatted_address]=${encodeURIComponent(location.address)}" 
+                                   target="_blank" 
+                                   class="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600">
+                                    🚗 Uber
+                                </a>
+                            </div>
+                        </div>
+                    `);
+                });
+                
+                mapInitialized = true;
+                if (loadingIndicator) loadingIndicator.style.display = 'none';
+                showNotification('🗺️ Map loaded successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Error initializing map:', error);
+                displayMapError();
+            }
+        }
+        
+        // Load Leaflet.js library
+        function loadLeaflet() {
+            const leafletCSS = document.createElement('link');
+            leafletCSS.rel = 'stylesheet';
+            leafletCSS.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            document.head.appendChild(leafletCSS);
+            
+            const leafletJS = document.createElement('script');
+            leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            leafletJS.onload = initializeMap;
+            document.head.appendChild(leafletJS);
+        }
+        
+        // Focus on specific location
+        function focusLocation(locationKey) {
+            const location = mapLocations[locationKey];
+            if (location && map) {
+                map.setView([location.lat, location.lng], 16);
+                showNotification(`📍 Focused on ${location.name}`, 'info');
+            } else if (location && !map) {
+                showNotification('Map is still loading...', 'info');
+            }
+        }
+        
+        // Display map error
+        function displayMapError() {
+            const mapContainer = document.getElementById('providence-map');
+            const loadingIndicator = document.getElementById('map-loading');
+            
+            if (mapContainer) {
+                mapContainer.innerHTML = `
+                    <div class="flex items-center justify-center h-full bg-gray-100 rounded-lg">
+                        <div class="text-center p-8">
+                            <div class="text-6xl mb-4">🗺️</div>
+                            <h3 class="text-xl font-bold text-[#2C1A1E] mb-2">Map Temporarily Unavailable</h3>
+                            <p class="text-[#2C1A1E]/60 mb-4">Unable to load the interactive map. Please try again later.</p>
+                            <button onclick="initializeMap()" class="bg-[#C07F63] text-white px-4 py-2 rounded hover:bg-[#A9684C]">
+                                Retry Loading Map
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (loadingIndicator) loadingIndicator.style.display = 'none';
+            showNotification('Map failed to load', 'error');
+        }
+        
+        // ================================
+        // NOTIFICATION SYSTEM
+        // ================================
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg text-white max-w-sm transform transition-all duration-300 translate-x-full`;
+            
+            const bgColor = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500',
+                warning: 'bg-yellow-500'
+            }[type] || 'bg-blue-500';
+            
+            notification.classList.add(bgColor);
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Slide in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Slide out and remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // ================================
+        // INITIALIZATION
+        // ================================
+        
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize couples notes
+            displayCouplesNotes();
+            
+            // Initialize photo upload
+            displayUploadedPhotos();
+            
+            // Set up photo upload handler
+            const photoUploadInput = document.getElementById('memory-photo-upload');
+            if (photoUploadInput) {
+                photoUploadInput.addEventListener('change', handlePhotoUpload);
+            }
+            
+            // Set up couples notes input handler
+            const noteInput = document.getElementById('couple-note-input');
+            if (noteInput) {
+                noteInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                        addCoupleNote();
+                    }
+                });
+            }
+            
+            // Initialize map after a short delay
+            setTimeout(initializeMap, 1000);
+            
+            console.log('Enhanced functionality initialized successfully!');
+        });
+        
+        // Legacy function compatibility
+        window.showLocationDetails = function(locationKey) {
+            focusLocation(locationKey);
+        };
+        
+    </script>
+
 </body>
 </html>
