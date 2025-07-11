@@ -1007,16 +1007,17 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
-        /* Hero Section with Video Background & Overlay */
+        /* Hero Section with Background Image & Overlay */
         .hero-bg {
-            background: linear-gradient(135deg, rgba(192, 127, 99, 0.7), rgba(192, 127, 99, 0.5));
+            background: linear-gradient(135deg, rgba(192, 127, 99, 0.7), rgba(192, 127, 99, 0.5)), 
+                        url('assets/images/ugo1.jpg');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             position: relative;
             overflow: hidden;
         }
         
-        /* Fallback background for when video doesn't load */
         .hero-bg::before {
             content: '';
             position: absolute;
@@ -1024,11 +1025,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(192, 127, 99, 0.7), rgba(192, 127, 99, 0.5)), 
-                        url('assets/images/ugo1.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
+            background: radial-gradient(circle at 30% 70%, rgba(253, 248, 240, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(192, 127, 99, 0.1) 0%, transparent 50%);
+            animation: heroShimmer 20s ease-in-out infinite;
         }
         
         @keyframes heroShimmer {
@@ -1410,27 +1409,6 @@
             border: none !important;
             border-radius: 12px;
             display: block;
-        }
-
-        /* Our Song Section */
-        .our-song-section {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            background-attachment: fixed;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .our-song-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(192, 127, 99, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 50%);
-            pointer-events: none;
         }
 
         /* Enhanced Song Memory Cards */
@@ -2225,8 +2203,8 @@
             <a href="#bouquet-selector" class="nav-link" data-section="bouquet-selector">
                 <span>🌹</span> Choose Bouquet
             </a>
-            <a href="#our-song" class="nav-link" data-section="our-song">
-                <span>🎵</span> Our Songs
+            <a href="#music-player" class="nav-link" data-section="music-player">
+                <span>🎵</span> Music Player
             </a>
             <a href="#our-story" class="nav-link" data-section="our-story">
                 <span>💕</span> Our Story
@@ -2234,8 +2212,8 @@
             <a href="#memories" class="nav-link" data-section="memories">
                 <span>📸</span> Our Memories
             </a>
-            <a href="#music-player" class="nav-link" data-section="music-player">
-                <span>🎶</span> Music Player
+            <a href="#playlists" class="nav-link" data-section="playlists">
+                <span>🎶</span> Our Playlists
             </a>
             <a href="#plan" class="nav-link" data-section="plan">
                 <span>✈️</span> Plan Your Trip
@@ -2255,10 +2233,10 @@
                 <a href="#restaurant-week" class="nav-link text-lg" aria-label="Go to restaurant week section">Restaurant Week</a>
                 <a href="#map" class="nav-link text-lg" aria-label="Go to interactive map section">Interactive Map</a>
                 <a href="#notes" class="nav-link text-lg" aria-label="Go to couple's notes section">Couple's Notes</a>
-                <a href="#our-song" class="nav-link text-lg" aria-label="Go to our songs section">Our Songs</a>
+                <a href="#music-player" class="nav-link text-lg" aria-label="Go to music player section">Music Player</a>
                 <a href="#our-story" class="nav-link text-lg" aria-label="Go to our story section">Our Story</a>
                 <a href="#memories" class="nav-link text-lg" aria-label="Go to our memories section">Our Memories</a>
-                <a href="#music-player" class="nav-link text-lg" aria-label="Go to our music player section">Music Player 🎵</a>
+                <a href="#playlists" class="nav-link text-lg" aria-label="Go to our playlists section">Our Playlists 🎵</a>
                 <a href="#plan" class="nav-link text-lg" aria-label="Go to plan your trip section">Plan Your Trip</a>
                 <a href="#weather" class="nav-link text-lg" aria-label="Go to weather forecast section">Weather 🌤️</a>
             </div>
@@ -2417,20 +2395,18 @@
             <a href="#restaurant-week" class="block py-2 nav-link" role="menuitem">Restaurant Week</a>
             <a href="#map" class="block py-2 nav-link" role="menuitem">Interactive Map</a>
             <a href="#notes" class="block py-2 nav-link" role="menuitem">Couple's Notes</a>
-            <a href="#our-song" class="block py-2 nav-link" role="menuitem">Our Songs</a>
+            <a href="#music-player" class="block py-2 nav-link" role="menuitem">Music Player</a>
             <a href="#our-story" class="block py-2 nav-link" role="menuitem">Our Story</a>
             <a href="#memories" class="block py-2 nav-link" role="menuitem">Our Memories</a>
+            <a href="#playlists" class="block py-2 nav-link" role="menuitem">Our Playlists 🎵</a>
             <a href="#plan" class="block py-2 nav-link" role="menuitem">Plan Your Trip</a>
             <a href="#weather" class="block py-2 nav-link" role="menuitem">Weather 🌤️</a>
         </div>
     </header>
 
     <main id="main-content" role="main">
-        <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center relative overflow-hidden" role="banner">
-            <!-- Overlay for better text readability -->
-            <div class="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-black/40"></div>
-            
-            <div class="container mx-auto hero-content relative z-10">
+        <section id="hero" class="hero-bg text-center py-32 px-6 min-h-screen flex items-center" role="banner">
+            <div class="container mx-auto hero-content">
                 <div class="cohesive-card max-w-md mx-auto mb-8 p-6 bg-white/10 backdrop-blur-lg border-white/20">
                     <div class="text-center">
                         <div class="countdown-number text-4xl font-bold text-white mb-2" id="countdown-days" aria-live="polite">6</div>
@@ -4251,36 +4227,38 @@
 
                     <!-- Interactive Map Container -->
                     <div class="relative">
-                        <div id="providence-map" class="w-full h-80 md:h-96 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg flex items-center justify-center">
-                            <!-- Enhanced Map Display -->
-                            <div class="text-center p-8">
-                                <div class="text-6xl mb-4">🗺️</div>
-                                <h3 class="text-xl font-bold text-[#2C1A1E] mb-2">Interactive Providence Map</h3>
-                                <p class="text-sm text-[#2C1A1E]/70 mb-4">
-                                    Your romantic adventure awaits! Click on locations below to explore.
-                                </p>
-                                
-                                <!-- Quick Location Grid -->
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-md mx-auto">
-                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('gracies')">
-                                        <div class="text-2xl mb-1">🌟</div>
-                                        <div class="text-xs font-semibold text-[#2C1A1E]">Gracie's</div>
-                                    </div>
-                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('federal-hill')">
-                                        <div class="text-2xl mb-1">🍝</div>
-                                        <div class="text-xs font-semibold text-[#2C1A1E]">Federal Hill</div>
-                                    </div>
-                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('waterfront')">
-                                        <div class="text-2xl mb-1">🌊</div>
-                                        <div class="text-xs font-semibold text-[#2C1A1E]">Waterfront</div>
-                                    </div>
-                                    <div class="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center cursor-pointer hover:bg-white transition-colors" onclick="showLocationDetails('downtown')">
-                                        <div class="text-2xl mb-1">🏛️</div>
-                                        <div class="text-xs font-semibold text-[#2C1A1E]">Downtown</div>
-                                    </div>
-                                </div>
+                        <div id="providence-map" class="w-full h-80 md:h-96 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg">
+                            <!-- Map will be loaded here by JavaScript -->
+                        </div>
+                        
+                        <!-- Map Loading State -->
+                        <div id="map-loading" class="absolute inset-0 flex items-center justify-center bg-white/80 rounded-lg">
+                            <div class="text-center">
+                                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C07F63] mx-auto mb-4"></div>
+                                <p class="text-[#2C1A1E]/60">Loading interactive map...</p>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Location Quick Access -->
+                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <button class="location-btn bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center hover:bg-white transition-colors" onclick="focusLocation('gracies')">
+                            <div class="text-2xl mb-1">🌟</div>
+                            <div class="text-xs font-semibold text-[#2C1A1E]">Gracie's</div>
+                        </button>
+                        <button class="location-btn bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center hover:bg-white transition-colors" onclick="focusLocation('federal-hill')">
+                            <div class="text-2xl mb-1">🍝</div>
+                            <div class="text-xs font-semibold text-[#2C1A1E]">Federal Hill</div>
+                        </button>
+                        <button class="location-btn bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center hover:bg-white transition-colors" onclick="focusLocation('waterfront')">
+                            <div class="text-2xl mb-1">🌊</div>
+                            <div class="text-xs font-semibold text-[#2C1A1E]">Waterfront</div>
+                        </button>
+                        <button class="location-btn bg-white/80 backdrop-blur-sm rounded-lg p-3 text-center hover:bg-white transition-colors" onclick="focusLocation('downtown')">
+                            <div class="text-2xl mb-1">🏛️</div>
+                            <div class="text-xs font-semibold text-[#2C1A1E]">Downtown</div>
+                        </button>
+                    </div>
                         
                         <!-- Map Controls Overlay -->
                         <div class="absolute top-4 left-4 z-10">
@@ -4938,9 +4916,8 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                 muted 
                 loop 
                 playsinline
-                poster="assets/images/ugo2.jpg">
+                poster="">
                 <source src="assets/videos/kiss-boomerang.mp4" type="video/mp4">
-                Your browser does not support the video tag.
             </video>
             
             <!-- Overlay for better text readability -->
@@ -4967,7 +4944,7 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                     </div>
                     
                     <div class="mt-12">
-                        <button class="boomerang-cta-button" onclick="scrollToSection('our-song')">
+                        <button class="boomerang-cta-button" onclick="scrollToSection('music-player')">
                             ✨ Continue Our Story
                         </button>
                     </div>
@@ -4981,253 +4958,8 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
             </div>
         </section>
 
-        <section id="our-song" class="our-song-section py-16 md:py-24 relative">
-            <div class="container mx-auto px-6 max-w-6xl relative z-10">
-                <div class="cohesive-section-header">
-                    <h2 class="cohesive-section-title text-white">Our Songs & Memories</h2>
-                    <p class="cohesive-section-subtitle text-white/90">
-                        Every love story has a soundtrack. These are the songs that capture our journey and set the mood for our romantic Providence adventure.
-                    </p>
-                </div>
 
-                <!-- Music Service Connection Status -->
-                <div class="flex justify-center mb-8">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                        <div class="flex flex-wrap gap-3 items-center justify-center">
-                            <div class="service-status flex items-center gap-2 text-white/80 text-sm">
-                                <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-                                <span>Spotify</span>
-                            </div>
-                            <div class="service-status flex items-center gap-2 text-white/80 text-sm">
-                                <span class="w-2 h-2 bg-red-400 rounded-full"></span>
-                                <span>YouTube Music</span>
-                            </div>
-                            <button class="connect-services-btn bg-[#C07F63] text-white px-4 py-2 rounded-full text-sm hover:bg-[#A9684C] transition-colors" onclick="showMusicServicesModal()">
-                                Connect Music Services
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Song Timeline Container -->
-                <div id="song-timeline" class="space-y-8">
-                    <!-- First Song - Our Original -->
-                    <div class="song-memory-card bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                        <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div class="music-player">
-                                <div class="music-content text-center">
-                                    <div class="music-note" style="top: 10px; right: 20px;">🎵</div>
-                                    <div class="music-note" style="bottom: 15px; left: 15px;">🎶</div>
-                                    
-                                    <div class="song-title">Burning Blue</div>
-                                    <div class="song-artist">by Mariah the Scientist</div>
-                                    
-                                    <button class="play-button" id="music-play-btn-1" onclick="toggleMusic(1)">
-                                        <span id="play-icon-1">▶️</span>
-                                    </button>
-                                    
-                                    <div class="soundcloud-embed mt-4">
-                                        <iframe 
-                                            width="100%" 
-                                            height="200" 
-                                            scrolling="no" 
-                                            frameborder="no" 
-                                            allow="autoplay" 
-                                            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2087427186&color=%23c07f63&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                                            style="border-radius: 12px; border: none;">
-                                        </iframe>
-                                    </div>
-                                    
-                                    <div class="mt-4 text-center">
-                                        <div class="flex justify-center gap-3">
-                                            <a href="https://music.youtube.com/search?q=burning+blue+mariah+the+scientist" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
-                                                🎵 YouTube Music
-                                            </a>
-                                            <a href="https://open.spotify.com/search/burning%20blue%20mariah%20the%20scientist" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
-                                                🎶 Spotify
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="text-white">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <h3 class="text-2xl font-bold font-display">Our First Song</h3>
-                                    <span class="bg-pink-500/20 text-pink-200 px-2 py-1 rounded-full text-xs">December 2024</span>
-                                </div>
-                                
-                                <div class="song-memory-story bg-white/5 rounded-lg p-4 mb-4">
-                                    <p class="text-white/90 leading-relaxed">
-                                        "This song played in the Omni that first night, and I have gotten chills every other time I have listened to it. It perfectly captures that magical moment when everything changed, and the melody takes me back to that perfect evening when I knew this was something special."
-                                    </p>
-                                </div>
-                                
-                                <div class="flex gap-2">
-                                    <button class="edit-memory-btn bg-white/10 text-white px-3 py-1 rounded-full text-sm hover:bg-white/20 transition-colors">
-                                        ✏️ Edit Memory
-                                    </button>
-                                    <button class="add-to-playlist-btn bg-[#C07F63]/20 text-[#C07F63] px-3 py-1 rounded-full text-sm hover:bg-[#C07F63]/30 transition-colors">
-                                        ➕ Add to Providence Playlist
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Add Song Card -->
-                    <div class="add-song-card bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 border-dashed text-center">
-                        <div class="text-white/60 mb-4">
-                            <div class="text-6xl mb-4">🎵</div>
-                            <h3 class="text-xl font-semibold mb-2">Add Another Special Song</h3>
-                            <p class="text-sm text-white/40 mb-6">Every moment of your love story deserves its own soundtrack</p>
-                        </div>
-                        <button id="add-song-btn" class="bg-[#C07F63] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#A9684C] transition-colors">
-                            Add a Memory Song
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Playlist Builder Teaser -->
-                <div class="mt-12 text-center">
-                    <div class="bg-gradient-to-r from-[#C07F63]/20 to-pink-500/20 rounded-xl p-6 border border-white/10">
-                        <h3 class="text-xl font-bold text-white mb-2">🎼 Coming Soon: Full Playlist Builder</h3>
-                        <p class="text-white/80 text-sm mb-4">Create collaborative playlists for every moment of your Providence adventure</p>
-                        <div class="flex justify-center gap-4 text-sm text-white/60">
-                            <span>🍽️ Dinner Music</span>
-                            <span>⛵ Boat Tour Vibes</span>
-                            <span>🌙 Evening Strolls</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center">
-                                <span class="text-2xl mr-3">🏨</span>
-                                <span>The song that played at the Omni that first night</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="text-2xl mr-3">✨</span>
-                                <span>Gives me chills every single time I hear it</span>
-                            </div>
-                            <div class="flex items-center">
-                                <span class="text-2xl mr-3">💕</span>
-                                <span>The soundtrack to our Providence adventure</span>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-8 p-4 bg-white/10 rounded-lg backdrop-filter backdrop-blur-sm">
-                            <p class="italic text-center">
-                                "Music is the universal language of love, and this song speaks directly to our hearts. Every note reminds me why I chose you, today and always."
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Second Song Section -->
-                <div class="mt-16 border-t border-white/20 pt-16">
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div class="text-white order-2 md:order-1">
-                            <h3 class="text-2xl font-bold font-display mb-6">Little Things - A Song for You</h3>
-                            
-                            <div class="song-lyrics-preview">
-                                "I chose this song because it perfectly captures how I feel about you and us. It's about appreciating all the small, beautiful moments that make our relationship so special. Every little thing you do - from the way you make me laugh to how you always know just what to say - adds up to something extraordinary."
-                            </div>
-                            
-                            <div class="space-y-4 mt-6">
-                                <div class="flex items-center">
-                                    <span class="text-2xl mr-3">✨</span>
-                                    <span>It's the little things that make us perfect together</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="text-2xl mr-3">💫</span>
-                                    <span>Every small gesture means the world to me</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <span class="text-2xl mr-3">💕</span>
-                                    <span>A reminder of why I fall for you more each day</span>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-8 p-4 bg-white/10 rounded-lg backdrop-filter backdrop-blur-sm">
-                                <p class="italic text-center">
-                                    "Sometimes it's not the grand gestures that matter most, but the little things that show how much you care. This song is my way of saying I notice and cherish every single one."
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="music-player order-1 md:order-2">
-                            <div class="music-content text-center">
-                                <div class="music-note" style="top: 10px; left: 20px;">🎵</div>
-                                <div class="music-note" style="bottom: 15px; right: 15px;">🎶</div>
-                                
-                                <div class="song-title">Little Things</div>
-                                <div class="song-artist">by Ella Mai</div>
-                                
-                                <p class="text-sm text-[#2C1A1E]/70 mb-4">
-                                    A special song from me to you
-                                </p>
-                                
-                                <div class="soundcloud-embed">
-                                    <iframe 
-                                        width="100%" 
-                                        height="300" 
-                                        scrolling="no" 
-                                        frameborder="no" 
-                                        allow="autoplay" 
-                                        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1946784071&color=%23c07f63&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                                        style="border-radius: 12px; border: none;">
-                                    </iframe>
-                                    <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif; font-weight: 100;">
-                                        <a href="https://soundcloud.com/itsellamai" title="Ella Mai" target="_blank" style="color: #cccccc; text-decoration: none;">Ella Mai</a> · 
-                                        <a href="https://soundcloud.com/itsellamai/little-things" title="Little Things" target="_blank" style="color: #cccccc; text-decoration: none;">Little Things</a>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-4 text-center">
-                                    <p class="text-xs text-[#2C1A1E]/60 mb-2">Can't hear the song? Listen here:</p>
-                                    <div class="flex justify-center gap-3">
-                                        <a href="https://music.youtube.com/search?q=little+things+ella+mai" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
-                                            🎵 YouTube Music
-                                        </a>
-                                        <a href="https://open.spotify.com/search/little%20things%20ella%20mai" target="_blank" class="text-[#C07F63] hover:text-[#A9684C] text-sm">
-                                            🎶 Spotify
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Music controls and playlist -->
-                <div class="mt-16 text-center">
-                    <h4 class="text-xl font-bold mb-4 text-white">Our Anniversary Playlist</h4>
-                    <div class="grid md:grid-cols-4 gap-4">
-                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
-                            <div class="text-lg font-semibold">🎵 Burning Blue</div>
-                            <div class="text-sm opacity-80">Mariah the Scientist</div>
-                            <div class="text-xs mt-2">Our special song</div>
-                        </div>
-                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
-                            <div class="text-lg font-semibold">💝 Little Things</div>
-                            <div class="text-sm opacity-80">Ella Mai</div>
-                            <div class="text-xs mt-2">A song for you</div>
-                        </div>
-                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
-                            <div class="text-lg font-semibold">💕 Perfect</div>
-                            <div class="text-sm opacity-80">Ed Sheeran</div>
-                            <div class="text-xs mt-2">Dinner soundtrack</div>
-                        </div>
-                        <div class="bg-white/10 p-4 rounded-lg backdrop-filter backdrop-blur-sm">
-                            <div class="text-lg font-semibold">🌙 La Vie En Rose</div>
-                            <div class="text-sm opacity-80">Édith Piaf</div>
-                            <div class="text-xs mt-2">Evening stroll vibes</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section id="memories" class="py-16 md:py-24">
@@ -5436,6 +5168,507 @@ How did this trip exceed expectations? What will you miss most? Favorite memory 
                             <button onclick="stopAll()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
                                 ⏹️ Stop
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+            <!-- Animated musical background elements -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-20 left-20 text-6xl animate-pulse">🎵</div>
+                <div class="absolute top-40 right-32 text-4xl animate-bounce delay-300">🎶</div>
+                <div class="absolute bottom-40 left-1/4 text-5xl animate-pulse delay-700">🎤</div>
+                <div class="absolute bottom-20 right-1/4 text-3xl animate-bounce delay-1000">🎧</div>
+            </div>
+            
+            <div class="container mx-auto px-6 max-w-4xl relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white font-display">
+                        🎵 Our Anniversary Playlist 🎵
+                    </h2>
+                    <p class="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                        Your soundtrack for romance in Providence. Listen to your special songs and add more to the collection.
+                    </p>
+                </div>
+
+                <!-- Simple Music Player -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 mb-8">
+                    <h3 class="text-2xl font-bold text-white mb-6 text-center">� Music Player</h3>
+                    
+                    <!-- Current Song Display -->
+                    <div id="current-song-display" class="bg-white/10 rounded-xl p-6 mb-6 text-center">
+                        <div class="text-4xl mb-2">🎵</div>
+                        <h4 id="current-song-title" class="text-xl font-bold text-white mb-2">Select a song to play</h4>
+                        <p id="current-song-artist" class="text-white/70">Choose from your collection below</p>
+                        
+                        <!-- Simple Audio Element -->
+                        <audio id="music-player" controls class="w-full mt-4 hidden">
+                            <source id="audio-source" src="" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+
+                    <!-- Song Collection -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold text-white mb-4">Your Songs:</h4>
+                        <div id="songs-list" class="space-y-3">
+                            <!-- SoundCloud Songs -->
+                            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-orange-400 text-2xl">🎵</div>
+                                    <div>
+                                        <div class="text-white font-medium">Burning Blue</div>
+                                        <div class="text-white/60 text-sm">Mariah the Scientist</div>
+                                        <div class="text-orange-400 text-xs">SoundCloud</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="playSoundCloudSong('Burning Blue', 'Mariah the Scientist', 'https://soundcloud.com/mariahthescientist/burning-blue')" 
+                                            class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button onclick="removeSong(this)" class="text-white/60 hover:text-red-400 text-sm px-2">❌</button>
+                                </div>
+                            </div>
+
+                            <div class="song-item bg-white/10 rounded-lg p-4 flex items-center justify-between hover:bg-white/20 transition-colors">
+                                <div class="flex items-center space-x-4">
+                                    <div class="text-orange-400 text-2xl">🎵</div>
+                                    <div>
+                                        <div class="text-white font-medium">Little Things</div>
+                                        <div class="text-white/60 text-sm">Ella Mai</div>
+                                        <div class="text-orange-400 text-xs">SoundCloud</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button onclick="playSoundCloudSong('Little Things', 'Ella Mai', 'https://soundcloud.com/ellamai/little-things')" 
+                                            class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button onclick="removeSong(this)" class="text-white/60 hover:text-red-400 text-sm px-2">❌</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add New Songs -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Add SoundCloud Song -->
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <h5 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <span class="text-orange-400 mr-2">🎧</span>
+                                Add SoundCloud Song
+                            </h5>
+                            <div class="space-y-3">
+                                <input type="text" id="soundcloud-title" placeholder="Song title" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="text" id="soundcloud-artist" placeholder="Artist name" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="url" id="soundcloud-url" placeholder="SoundCloud URL" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <button onclick="addSoundCloudSong()" 
+                                        class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                                    🎵 Add to Collection
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Upload Your Own -->
+                        <div class="bg-white/10 rounded-xl p-6">
+                            <h5 class="text-lg font-bold text-white mb-4 flex items-center">
+                                <span class="text-green-400 mr-2">📁</span>
+                                Upload Your Own
+                            </h5>
+                            <div class="space-y-3">
+                                <input type="file" id="audio-upload" accept="audio/*" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:bg-green-500 file:text-white file:border-0 file:rounded file:px-3 file:py-1 file:mr-3">
+                                <input type="text" id="upload-title" placeholder="Song title" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <input type="text" id="upload-artist" placeholder="Artist name" 
+                                       class="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/60">
+                                <button onclick="uploadAudioFile()" 
+                                        class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                    📁 Add to Collection
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Player Controls -->
+                <div class="text-center">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 inline-block">
+                        <h4 class="text-white font-bold mb-4">🎮 Player Controls</h4>
+                        <div class="flex gap-4 justify-center">
+                            <button onclick="shufflePlaylist()" class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                                🔀 Shuffle
+                            </button>
+                            <button onclick="playAll()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                                ▶️ Play All
+                            </button>
+                            <button onclick="stopAll()" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                ⏹️ Stop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+                                <p class="text-white/80 text-sm mb-4">Discover new artists and hidden gems from SoundCloud's community</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 15 discovery tracks</p>
+                                    <p>• 50 min duration</p>
+                                    <p>• Independent artists</p>
+                                    <p class="text-orange-200 mt-1">🎵 SoundCloud Exclusive</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Road Trip Template -->
+                        <div class="playlist-template bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-white/20 hover:border-green-400/50 transition-colors cursor-pointer" onclick="createFromTemplate('roadtrip')">
+                            <div class="text-center">
+                                <div class="text-4xl mb-3">🚗</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Road Trip Vibes</h4>
+                                <p class="text-white/80 text-sm mb-4">Feel-good classics for the journey to and from Providence</p>
+                                <div class="text-xs text-white/60">
+                                    <p>• 20 classic hits</p>
+                                    <p>• 80 min duration</p>
+                                    <p>• Car singalongs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Your Playlists Grid -->
+                <div class="mb-12">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="text-2xl font-bold text-white">📚 Your Playlists</h3>
+                        <div class="flex gap-3">
+                            <button class="bg-white/10 text-white px-4 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                🔄 Sync All
+                            </button>
+                            <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors" onclick="openCreatePlaylistModal()">
+                                ➕ New Playlist
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="playlists-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Existing Playlists will be populated here -->
+                        <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-purple-400/50 transition-all duration-300">
+                            <div class="playlist-cover bg-gradient-to-br from-purple-500 to-pink-500 h-48 flex items-center justify-center">
+                                <div class="text-6xl">💕</div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold text-white mb-1">Providence Anniversary 2025</h4>
+                                <p class="text-white/70 text-sm mb-2">Our romantic weekend soundtrack</p>
+                                <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                                    <span>12 songs • 48 min</span>
+                                    <span>👫 Collaborative</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('providence-2025')">
+                                        🔗
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                        ⋯
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-red-400/50 transition-all duration-300">
+                            <div class="playlist-cover bg-gradient-to-br from-red-500 to-orange-500 h-48 flex items-center justify-center">
+                                <div class="text-6xl">🍽️</div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold text-white mb-1">Dinner at Gracie's</h4>
+                                <p class="text-white/70 text-sm mb-2">Smooth jazz for our special evening</p>
+                                <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                                    <span>8 songs • 32 min</span>
+                                    <span>🎵 Jazz & Soul</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm hover:bg-red-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('gracies-dinner')">
+                                        🔗
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                        ⋯
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="playlist-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/20 hover:border-blue-400/50 transition-all duration-300">
+                            <div class="playlist-cover bg-gradient-to-br from-blue-500 to-cyan-500 h-48 flex items-center justify-center">
+                                <div class="text-6xl">⛵</div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-lg font-bold text-white mb-1">Waterfront Walks</h4>
+                                <p class="text-white/70 text-sm mb-2">Chill vibes for seaside strolls</p>
+                                <div class="flex justify-between items-center text-xs text-white/60 mb-4">
+                                    <span>15 songs • 58 min</span>
+                                    <span>🌊 Chill</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                        ▶️ Play
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors" onclick="sharePlaylist('waterfront-walks')">
+                                        🔗
+                                    </button>
+                                    <button class="bg-white/10 text-white px-3 py-2 rounded-lg text-sm hover:bg-white/20 transition-colors">
+                                        ⋯
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3: AI-Powered Playlist Generation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🤖 AI-Powered Playlist Generation</h3>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Activity-Based Playlists -->
+                        <div class="ai-feature-card bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl p-6 border border-white/20 hover:border-indigo-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🍽️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Dinner at Gracie's</h4>
+                                <p class="text-white/80 text-sm mb-4">AI-curated jazz & soul for your romantic dinner</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('gracies')" class="w-full bg-indigo-500 text-white py-2 rounded-lg text-sm hover:bg-indigo-600 transition-colors">
+                                🎯 Generate Playlist
+                            </button>
+                        </div>
+
+                        <div class="ai-feature-card bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl p-6 border border-white/20 hover:border-blue-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">⛵</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Waterfront Cruise</h4>
+                                <p class="text-white/80 text-sm mb-4">Ocean breeze vibes for scenic boat tours</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('waterfront')" class="w-full bg-blue-500 text-white py-2 rounded-lg text-sm hover:bg-blue-600 transition-colors">
+                                🌊 Generate Playlist
+                            </button>
+                        </div>
+
+                        <div class="ai-feature-card bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-white/20 hover:border-purple-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🏛️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Museum Visit</h4>
+                                <p class="text-white/80 text-sm mb-4">Ambient & contemplative for art appreciation</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('museum')" class="w-full bg-purple-500 text-white py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors">
+                                🎨 Generate Playlist
+                            </button>
+                        </div>
+
+                        <div class="ai-feature-card bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-white/20 hover:border-green-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">✈️</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Arrival Journey</h4>
+                                <p class="text-white/80 text-sm mb-4">Upbeat travel anthems for your trip</p>
+                            </div>
+                            <button onclick="generateActivityPlaylist('arrival')" class="w-full bg-green-500 text-white py-2 rounded-lg text-sm hover:bg-green-600 transition-colors">
+                                🚗 Generate Playlist
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood-Based Playlist Generation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">💭 Mood-Based Playlists</h3>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="text-center mb-6">
+                            <h4 class="text-xl font-bold text-white mb-2">How are you feeling right now?</h4>
+                            <p class="text-white/80">Let AI create the perfect playlist based on your current mood</p>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                            <button onclick="generateMoodPlaylist('romantic')" class="mood-btn bg-gradient-to-br from-red-500/30 to-pink-500/30 border border-red-400/50 text-white py-4 px-6 rounded-xl hover:from-red-500/50 hover:to-pink-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">💕</div>
+                                <div class="font-semibold">Romantic</div>
+                                <div class="text-xs text-white/80">Love is in the air</div>
+                            </button>
+                            
+                            <button onclick="generateMoodPlaylist('adventurous')" class="mood-btn bg-gradient-to-br from-orange-500/30 to-yellow-500/30 border border-orange-400/50 text-white py-4 px-6 rounded-xl hover:from-orange-500/50 hover:to-yellow-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">🚀</div>
+                                <div class="font-semibold">Adventurous</div>
+                                <div class="text-xs text-white/80">Ready to explore</div>
+                            </button>
+                            
+                            <button onclick="generateMoodPlaylist('chill')" class="mood-btn bg-gradient-to-br from-blue-500/30 to-cyan-500/30 border border-blue-400/50 text-white py-4 px-6 rounded-xl hover:from-blue-500/50 hover:to-cyan-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">🌿</div>
+                                <div class="font-semibold">Chill</div>
+                                <div class="text-xs text-white/80">Relax and unwind</div>
+                            </button>
+                            
+                            <button onclick="generateMoodPlaylist('energetic')" class="mood-btn bg-gradient-to-br from-green-500/30 to-emerald-500/30 border border-green-400/50 text-white py-4 px-6 rounded-xl hover:from-green-500/50 hover:to-emerald-500/50 transition-all duration-300">
+                                <div class="text-3xl mb-2">⚡</div>
+                                <div class="font-semibold">Energetic</div>
+                                <div class="text-xs text-white/80">High energy vibes</div>
+                            </button>
+                        </div>
+                        
+                        <div id="mood-analysis" class="hidden bg-white/5 rounded-xl p-4 text-center">
+                            <div class="text-2xl mb-2">🧠</div>
+                            <div class="text-white font-semibold mb-2">Analyzing your mood...</div>
+                            <div id="mood-result" class="text-white/80 text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Local Providence Music Integration -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🏛️ Local Providence Music</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="local-music-card bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-xl p-6 border border-white/20 hover:border-emerald-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🎸</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Local Artists</h4>
+                                <p class="text-white/80 text-sm mb-4">Discover amazing musicians from Providence</p>
+                            </div>
+                            <button onclick="exploreLocalArtists()" class="w-full bg-emerald-500 text-white py-2 rounded-lg text-sm hover:bg-emerald-600 transition-colors">
+                                🎵 Explore Local Artists
+                            </button>
+                        </div>
+
+                        <div class="local-music-card bg-gradient-to-br from-teal-500/20 to-cyan-500/20 rounded-xl p-6 border border-white/20 hover:border-teal-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🎪</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Venue Playlists</h4>
+                                <p class="text-white/80 text-sm mb-4">Music inspired by Providence's iconic venues</p>
+                            </div>
+                            <button onclick="generateVenuePlaylist()" class="w-full bg-teal-500 text-white py-2 rounded-lg text-sm hover:bg-teal-600 transition-colors">
+                                🏛️ Generate Venue Mix
+                            </button>
+                        </div>
+
+                        <div class="local-music-card bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-xl p-6 border border-white/20 hover:border-cyan-400/50 transition-colors">
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">📻</div>
+                                <h4 class="text-lg font-bold text-white mb-2">Radio Hits</h4>
+                                <p class="text-white/80 text-sm mb-4">Current popular songs from local radio</p>
+                            </div>
+                            <button onclick="getLocalRadioHits()" class="w-full bg-cyan-500 text-white py-2 rounded-lg text-sm hover:bg-cyan-600 transition-colors">
+                                📻 Get Radio Hits
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Sharing & Export -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">📤 Advanced Sharing & Export</h3>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Social Media Sharing -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">📱 Share on Social Media</h4>
+                                <div class="space-y-3">
+                                    <button onclick="shareToSocial('twitter')" class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">🐦</span>
+                                        Share on Twitter
+                                    </button>
+                                    <button onclick="shareToSocial('facebook')" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">📘</span>
+                                        Share on Facebook
+                                    </button>
+                                    <button onclick="shareToSocial('instagram')" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 px-4 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">📸</span>
+                                        Share on Instagram
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Playlist Export -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">💾 Export Playlists</h4>
+                                <div class="space-y-3">
+                                    <button onclick="exportPlaylist('spotify')" class="w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">🎵</span>
+                                        Export to Spotify
+                                    </button>
+                                    <button onclick="exportPlaylist('youtube')" class="w-full bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">📺</span>
+                                        Export to YouTube Music
+                                    </button>
+                                    <button onclick="exportPlaylist('apple')" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center gap-2">
+                                        <span class="text-xl">🍎</span>
+                                        Export to Apple Music
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Real-Time Collaboration Simulation -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-white text-center mb-8">🔄 Real-Time Collaboration</h3>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Collaboration Controls -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">👫 Collaboration Features</h4>
+                                <div class="space-y-4">
+                                    <button onclick="simulateCollaboration()" class="w-full bg-purple-500 text-white py-3 px-4 rounded-lg hover:bg-purple-600 transition-colors">
+                                        🎭 Start Collaboration Demo
+                                    </button>
+                                    <div class="bg-white/5 rounded-lg p-4">
+                                        <div class="flex items-center gap-3 mb-3">
+                                            <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                            <span class="text-white text-sm font-semibold">Partner Status: Online</span>
+                                        </div>
+                                        <div class="text-white/80 text-sm">
+                                            <p>• Real-time song additions</p>
+                                            <p>• Live playlist synchronization</p>
+                                            <p>• Instant notifications</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Activity Feed -->
+                            <div>
+                                <h4 class="text-lg font-bold text-white mb-4">📢 Live Activity Feed</h4>
+                                <div class="bg-white/5 rounded-lg p-4 h-48 overflow-y-auto" id="collaboration-feed">
+                                    <div class="text-center text-white/60 text-sm">
+                                        Collaboration activity will appear here...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collaboration Features -->
+                <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl p-8 border border-white/20">
+                    <h3 class="text-2xl font-bold text-white text-center mb-6">👫 Collaborative Music Magic</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">🔄</div>
+                            <h4 class="text-lg font-semibold text-white mb-2">Real-Time Sync</h4>
+                            <p class="text-white/80 text-sm">Both partners can add songs simultaneously. Changes appear instantly for a truly collaborative experience.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">🎯</div>
+                            <h4 class="text-lg font-semibold text-white mb-2">Smart Suggestions</h4>
+                            <p class="text-white/80 text-sm">AI-powered recommendations based on both your music tastes and Providence activities.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl mb-3">💌</div>
+                            <h4 class="text-lg font-semibold text-white mb-2">Song Stories</h4>
+                            <p class="text-white/80 text-sm">Add romantic memories and stories to each song, creating a musical diary of your love.</p>
                         </div>
                     </div>
                 </div>
@@ -12176,8 +12409,7 @@ document.addEventListener('DOMContentLoaded', function() {
             { from: 'explore', to: 'restaurant-week', text: '🍽️ Check out Restaurant Week specials' },
             { from: 'restaurant-week', to: 'map', text: '📍 See all locations on the map' },
             { from: 'map', to: 'notes', text: '📝 Plan your perfect day together' },
-            { from: 'notes', to: 'our-song', text: '🎵 Set the mood with your song' },
-            { from: 'our-song', to: 'memories', text: '📸 Capture and share your memories' },
+            { from: 'notes', to: 'memories', text: '📸 Capture and share your memories' },
             { from: 'memories', to: 'playlists', text: '🎶 Create the perfect soundtrack' },
             { from: 'playlists', to: 'plan', text: '✈️ Get all the travel details' },
             { from: 'plan', to: 'weather', text: '🌤️ Check the forecast for your trip' }
