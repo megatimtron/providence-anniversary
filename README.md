@@ -1,182 +1,100 @@
-# 💕 Providence Anniversary Weekend Planner
+# 💕 My Beautiful Bride - A Love Story
 
-A beautiful, interactive web application designed for planning the perfect romantic anniversary weekend in Providence, Rhode Island.
+An intimate digital love story about finding magic in unexpected places. A website that tells the story of how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.
 
 ## 📁 **Project Structure**
 
 ```
-provitinerary/
-├── 📄 index.html                    # Main anniversary website
-├── 🔐 login.html                   # Romantic login page  
+mybeautifulbride/
+├── 📄 index.html                    # Main love story website
+├── 📁 backup/                      # Previous Providence site backup
 ├── 📁 assets/                      # Media & Static Assets
 │   ├── 🖼️ images/                  # Photos & Graphics
 │   ├── 🎬 videos/                  # Video Content
 │   └── 🎨 icons/                   # Favicons & App Icons
-├── 📁 docs/                        # Documentation & References
-├── 📁 scripts/                     # Python Automation Scripts
-└── 📁 menus/                       # Restaurant Menus & Data
+└── 📁 scripts/                     # Automation Scripts
 ```
-
-*See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for complete directory details.*
 
 ## ✨ Features
 
-### 🎵 **AI-Powered Playlist Builder** *(Phase 3 Complete)*
-- **Activity-Based Playlists**: AI generates contextual music for dining, cruising, museum visits
-- **Mood-Based Generation**: Romantic, adventurous, chill, and energetic playlist creation
-- **Local Providence Music**: Discover artists like The Low Anthem, Lightning Bolt, Deer Tick
-- **Real-Time Collaboration**: Live partner activity feed and synchronized playlist building
-- **Advanced Sharing**: Export to Spotify, YouTube Music, Apple Music; share on social media
+### 💫 **The Central Narrative**
+- Beautiful, immersive second-person storytelling
+- Responsive typography optimized for reading
+- Smooth scroll animations and transitions
+- Mobile-first design for intimate reading experience
 
-### 💕 **Song Memories Timeline** *(Phase 1 Complete)*
-- Beautiful timeline of romantic songs with personal stories
-- Multi-song support with add/edit/delete functionality
-- Platform linking to Spotify, YouTube, Apple Music, etc.
-- LocalStorage persistence and mobile-optimized interface
+### 💬 **Interactive Memories**
+- **Text Messages**: Beautiful chat history interface showcasing your first conversations
+- **Photo Gallery**: Hover-activated photo gallery with smooth transitions
+- **Video Moments**: Integrated video player for boomerangs and special moments
+- **Seamless Navigation**: Easy access to all memories from the main page
 
-### 🔐 **Romantic Login Experience**
-- Beautiful themed login page with floating hearts animation
-- Demo authentication system (GitHub Pages compatible)
-- Guest access option for easy sharing
-- Romantic entrance that sets the mood for your anniversary planning
-
-### ⏰ **Countdown Timer**
-- Real-time countdown to your special anniversary date
-- Customizable date picker with persistent storage
-- Beautiful animated display
-
-### 📅 **Interactive Itinerary Management**
-- Dynamic day-by-day planning with full CRUD operations
-- Drag-and-drop reordering of activities
-- Modal-based editing with persistent storage
-- Real-time notifications and beautiful animations
-
-### 🍽️ **Restaurant Week Integration**
-- Complete Providence Restaurant Week directory
-- Real menu links and pricing information
-- Google Maps and Uber integration for each restaurant
-- Interactive filtering and search capabilities
-
-### 🗺️ **Interactive Map & Weather**
-- Leaflet-powered map with custom markers for restaurants and attractions
-- Real-time weather integration for Providence
-- User-generated points of interest
-- Advanced filtering by category, price, and rating
-
-### 📸 **Photo & Video Gallery**
-- Browse Providence inspiration photos
-- Upload and manage your personal memories
-- Drag-and-drop photo upload functionality
-- Video content with custom thumbnails and play overlays
-
-### 💰 **Budget Calculator**
-- Interactive cost estimator for two people
-- Select activities to see real-time budget totals
-- Helps plan within your desired spending range
-
-### 📝 **Enhanced Notes System**
-- Five different note sections with tabbed interface
-- Writing prompts and auto-save functionality
-- Character counter and beautiful styling
-- Mobile-optimized with drag-and-drop photo integration
-
-### 📱 **Mobile-Friendly Design**
-- Fully responsive for all device sizes
-- Touch-friendly interactions
-- Beautiful typography and romantic color scheme
-
-## 🎨 Design Features
-
+### 🎨 **Design Philosophy**
 - **Romantic Color Palette**: Warm terracotta and cream tones
-- **Beautiful Typography**: Playfair Display and Roboto fonts
-- **Smooth Animations**: Hover effects and transitions
+- **Beautiful Typography**: Playfair Display and Inter fonts
+- **Smooth Animations**: Fade-in effects, scroll-based reveals, and parallax scrolling
 - **Accessibility**: ARIA labels, keyboard navigation, focus styles
-- **Modern UI**: Glassmorphism effects and gradient backgrounds
+- **Modern UI**: Gradient backgrounds, glass morphism effects, and interactive hover states
+
+### 📱 **Technical Features**
+- **Fully Responsive**: Optimized for all devices with mobile menu
+- **Performance Optimized**: Fast loading with preloaded resources
+- **SEO Ready**: Complete meta tags and Open Graph support
+- **Touch Friendly**: Smooth interactions on mobile devices
+- **Interactive Elements**: Floating hearts, typing indicators, and animated galleries
 
 ## 🚀 Live Demo
 
-**Two Ways to Experience the Site:**
-
-🔐 **Romantic Login Experience**: [https://megatimtron.github.io/providence-anniversary/login.html](https://megatimtron.github.io/providence-anniversary/login.html)
-- Beautiful themed login page with floating hearts
-- Demo authentication (enter any username/password)
-- Guest access option for easy sharing
-- Perfect romantic entrance to your anniversary site
-
-💕 **Direct Access**: [https://megatimtron.github.io/providence-anniversary](https://megatimtron.github.io/providence-anniversary)
-- Skip directly to the main anniversary planner
-- All features immediately available
-- Great for quick planning sessions
-
-> **Tip**: Start with the login page for the full romantic experience, or use direct access when sharing with friends and family!
+**Experience the Story**: [https://iloveugo.com](https://iloveugo.com)
+- Immersive narrative experience
+- Beautiful responsive design
+- Optimized for sharing
 
 ## 🛠️ Technology Stack
 
 - **HTML5**: Semantic markup structure
 - **CSS3**: Custom styling with Tailwind CSS
-- **JavaScript**: Interactive functionality and data management
-- **Chart.js**: Beautiful data visualizations
-- **Local Storage**: Persistent data storage
+- **JavaScript**: Smooth scrolling and animations
+- **GitHub Pages**: Static site hosting
+- **Raspberry Pi**: Custom domain deployment
 
-## 📱 Browser Support
+## 🔧 Deployment
 
-Works perfectly on:
-- ✅ Chrome/Edge (recommended)
-- ✅ Safari
-- ✅ Firefox
-- ✅ Mobile browsers
+### GitHub Pages Setup
+This site is deployed using GitHub Pages with a custom domain pointing to iloveugo.com.
 
-## 🔧 Setup & Installation
+### Local Development
+```bash
+# Clone the repository
+git clone https://github.com/[your-username]/mybeautifulbride.git
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/megatimtron/providence-anniversary.git
-   ```
+# Open the site
+open index.html
 
-2. **Open the application:**
-   - **For the romantic login experience**: Open `login.html` in your browser
-   - **For direct access**: Open `index.html` in your browser
-   - Both work offline and require no server setup!
+# Or run a local server
+python3 -m http.server 8000
+# Visit: http://localhost:8000
+```
 
-3. **For local development with live server:**
-   ```bash
-   python3 -m http.server 8000
-   # Then visit:
-   # http://localhost:8000/login.html (romantic entrance)
-   # http://localhost:8000 (direct access)
-   ```
-
-## 💕 Perfect For
-
-- **Anniversary Celebrations**: Plan your special weekend together
-- **Romantic Getaways**: Explore Providence's romantic side
-- **Date Planning**: Interactive tools for memorable experiences
-- **Memory Keeping**: Document your special moments
-
-## 🌟 Highlights
-
-- **GitHub Pages Ready**: Complete client-side application with romantic login
-- **No Server Required**: Pure HTML/CSS/JavaScript with demo authentication
-- **Two Entry Points**: Romantic login experience or direct access
-- **Offline Capable**: Works without internet after initial load
-- **Data Persistence**: Your notes and settings are saved locally
-- **Print Friendly**: Beautiful layout for printing itineraries
+### Deployment Pipeline
+- Push to main branch triggers automatic GitHub Pages deployment
+- Custom domain (iloveugo.com) configured through GitHub Pages settings
+- Raspberry Pi can serve as backup/alternative hosting
 
 ## 📝 Customization
 
-The application is easily customizable:
-- Update the `AppData` object to change destinations, activities, or dates
-- Modify CSS variables to change the color scheme
-- Add new sections or features as needed
-
-## 🤝 Contributing
-
-This is a personal project, but feel free to fork it and create your own romantic planning application!
+The site is easily customizable:
+- Update content in the main HTML file
+- Modify CSS variables in the `<style>` section
+- Change colors by updating the Tailwind color palette
+- Add new sections as needed
 
 ## 💖 About
 
-Created with love for planning the perfect anniversary weekend in Providence, Rhode Island. This application combines practical planning tools with romantic design to help couples create unforgettable memories together.
+A digital love letter that transforms personal reflection into an immersive, second-person narrative. The story guides the reader through a journey of logic and calculation that culminates in the magical exception of true love.
+
+The narrative frames meeting someone special as a beautiful exception to a life governed by reason—showing how some things in life can only be explained by serendipity and magic.
 
 ---
 
-*Built with 💕 for an amazing anniversary weekend*
+*Built with 💕 to capture the magic that explains it all*
