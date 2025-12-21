@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Furniture Checklist | Timothy & Ugo</title>
+    <script>
+        if (!sessionStorage.getItem('authenticated')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .checked-item { opacity: 0.6; text-decoration: line-through; }
+        .budget-bar { height: 12px; border-radius: 6px; background: #E5E7EB; overflow: hidden; }
+        .budget-fill { height: 100%; background: linear-gradient(90deg, #10B981, #059669); transition: width 0.5s ease; }
+        .budget-fill.warning { background: linear-gradient(90deg, #F59E0B, #D97706); }
+        .budget-fill.danger { background: linear-gradient(90deg, #EF4444, #DC2626); }
+        .room-card { transition: all 0.3s ease; }
+        .room-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .priority-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+        .priority-1 { background: #FEE2E2; color: #991B1B; }
+        .priority-2 { background: #FEF3C7; color: #92400E; }
+        .priority-3 { background: #DBEAFE; color: #1E40AF; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <div>
+                    <h1 style="font-family: 'Playfair Display', serif;" class="text-2xl font-bold text-gray-800">Furniture Checklist</h1>
+                    <p class="text-sm text-gray-500">Timothy & Ugo's New Apartment</p>
+                </div>
+                <div class="flex flex-wrap gap-3 items-center">
+                    <div class="bg-gray-100 px-4 py-2 rounded-lg">
+                        <span class="text-sm text-gray-600">Spent: </span>
+                        <span class="font-bold text-gray-800">$<span id="totalSpent">0</span></span>
+                        <span class="text-gray-400">/ $7,000</span>
+                    </div>
+                    <div class="bg-green-100 px-4 py-2 rounded-lg">
+                        <span class="text-sm text-green-700">Items: </span>
+                        <span class="font-bold text-green-800"><span id="itemsChecked">0</span>/<span id="totalItems">0</span></span>
+                    </div>
+                    <div id="syncStatus" class="px-3 py-2 rounded-lg text-sm flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-400 animate-pulse" id="syncDot"></span>
+                        <span id="syncText">Connecting...</span>
+                    </div>
+                    <a href="apartment-planner.html" class="px-4 py-2 bg-orange-100 text-orange-700 rounded-lg hover:bg-orange-200 transition text-sm">
+                        Floor Planner
+                    </a>
+                    <a href="main.html" class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition text-sm">
+                        Back
+                    </a>
+                </div>
+            </div>
+            <!-- Budget Bar -->
+            <div class="mt-4">
+                <div class="budget-bar">
+                    <div class="budget-fill" id="budgetFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6 max-w-6xl">
+        <!-- Timeline -->
+        <div class="bg-white rounded-xl p-4 mb-6 shadow-sm">
+            <h2 class="font-semibold text-gray-800 mb-3">Shopping Timeline</h2>
+            <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">Jan 8-15: Order long lead items</span>
+                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Jan 22-29: Buy remaining items</span>
+                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Feb 1-7: Assess after move-in</span>
+            </div>
+        </div>
+
+        <!-- Room Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="roomsContainer">
+            <!-- Bedroom -->
+            <div class="room-card bg-white rounded-xl p-5 shadow-sm border-l-4 border-green-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800">Bedroom</h3>
+                        <p class="text-sm text-gray-500">11'6" x 11'5" (~126 sq ft)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Budget</p>
+                        <p class="font-semibold text-gray-800">$1,360 - $3,550</p>
+                    </div>
+                </div>
+                <div class="space-y-2" data-room="bedroom">
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="550" data-item="Queen Bed Frame">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Queen Bed Frame</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$550</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="800" data-item="Queen Mattress">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Queen Mattress</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$800</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="160" data-item="Nightstands (2)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Nightstands (2)</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$160</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="350" data-item="Dresser">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Dresser</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$350</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="200" data-item="Bedding Set">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Bedding Set</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="80" data-item="Table Lamps (2)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Table Lamps (2)</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$80</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Living Room -->
+            <div class="room-card bg-white rounded-xl p-5 shadow-sm border-l-4 border-blue-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800">Living Room</h3>
+                        <p class="text-sm text-gray-500">Part of 12'3" x 17'4"</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Budget</p>
+                        <p class="font-semibold text-gray-800">$1,200 - $3,000</p>
+                    </div>
+                </div>
+                <div class="space-y-2" data-room="living">
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="900" data-item="Sofa (72-84 inch)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Sofa (72-84")</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$900</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="200" data-item="Coffee Table">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Coffee Table</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="250" data-item="TV Stand">
+                        <div class="flex-1">
+                            <span class="text-gray-800">TV Stand</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$250</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="400" data-item="50 inch Smart TV">
+                        <div class="flex-1">
+                            <span class="text-gray-800">50" Smart TV</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$400</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="200" data-item="Area Rug (5x7 or 6x9)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Area Rug (5'x7' or 6'x9')</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="80" data-item="Floor Lamp">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Floor Lamp</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$80</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="100" data-item="Side Table">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Side Table</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$100</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Dining Area -->
+            <div class="room-card bg-white rounded-xl p-5 shadow-sm border-l-4 border-yellow-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800">Dining Area</h3>
+                        <p class="text-sm text-gray-500">Part of Living/Dining</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Budget</p>
+                        <p class="font-semibold text-gray-800">$400 - $1,100</p>
+                    </div>
+                </div>
+                <div class="space-y-2" data-room="dining">
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="350" data-item="Dining Table (seats 4)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Dining Table (seats 4)</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$350</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="300" data-item="Dining Chairs (4)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Dining Chairs (4)</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$300</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Home Office -->
+            <div class="room-card bg-white rounded-xl p-5 shadow-sm border-l-4 border-purple-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800">Home Office</h3>
+                        <p class="text-sm text-gray-500">Living room corner recommended</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Budget</p>
+                        <p class="font-semibold text-gray-800">$640 - $1,400</p>
+                    </div>
+                </div>
+                <div class="space-y-2" data-room="office">
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="200" data-item="Desk (48-60 inch)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Desk (48-60")</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="300" data-item="Ergonomic Office Chair">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Ergonomic Office Chair</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$300</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="200" data-item="Monitor (24-27 inch)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Monitor (24-27")</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="50" data-item="Desk Lamp">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Desk Lamp</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$50</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Bathroom -->
+            <div class="room-card bg-white rounded-xl p-5 shadow-sm border-l-4 border-cyan-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800">Bathroom</h3>
+                        <p class="text-sm text-gray-500">Full bath with tub</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Budget</p>
+                        <p class="font-semibold text-gray-800">$145 - $300</p>
+                    </div>
+                </div>
+                <div class="space-y-2" data-room="bathroom">
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="50" data-item="Over-Toilet Storage">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Over-Toilet Storage</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$50</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="30" data-item="Shower Caddy">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Shower Caddy</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$30</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="25" data-item="Bath Mat">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Bath Mat</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$25</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="60" data-item="Towel Set">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Towel Set</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-500">$60</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="15" data-item="Waste Basket">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Waste Basket</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$15</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Walk-in Closet -->
+            <div class="room-card bg-white rounded-xl p-5 shadow-sm border-l-4 border-orange-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-800">Walk-in Closet</h3>
+                        <p class="text-sm text-gray-500">With W/D hookups</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-sm text-gray-500">Budget</p>
+                        <p class="font-semibold text-gray-800">$250 - $490</p>
+                    </div>
+                </div>
+                <div class="space-y-2" data-room="closet">
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="150" data-item="Closet Organizer System">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Closet Organizer System</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$150</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="40" data-item="Velvet Hangers (100)">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Velvet Hangers (100)</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$40</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="50" data-item="Storage Bins">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Storage Bins</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$50</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="40" data-item="Shoe Rack">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Shoe Rack</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-500">$40</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded" data-cost="30" data-item="Laundry Hamper">
+                        <div class="flex-1">
+                            <span class="text-gray-800">Laundry Hamper</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-500">$30</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shopping Tips -->
+        <div class="mt-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-6">
+            <h3 class="font-bold text-gray-800 mb-4">Money-Saving Tips</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Check Facebook Marketplace for big items (sofa, bed, dining)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>IKEA for storage, lighting, and organization</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Sign up for email coupons (Target, Wayfair = 20% off)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>January is great for furniture sales!</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Invest in bed & office chair, save on side tables</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Use moving company truck for Marketplace pickups</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const BUDGET = 7000;
+        const SUPABASE_URL = 'https://ltpnhrvpwglitzjkvgwd.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_IPPMlFoemfXoSNaiba-b9g_HEGEdCsY';
+
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let checkedItems = {};
+        let isOnline = true;
+
+        // Sync status UI helpers
+        function setSyncStatus(status, message) {
+            const dot = document.getElementById('syncDot');
+            const text = document.getElementById('syncText');
+            dot.className = 'w-2 h-2 rounded-full';
+
+            switch(status) {
+                case 'connected':
+                    dot.classList.add('bg-green-500');
+                    text.textContent = message || 'Synced';
+                    break;
+                case 'syncing':
+                    dot.classList.add('bg-yellow-500', 'animate-pulse');
+                    text.textContent = message || 'Syncing...';
+                    break;
+                case 'offline':
+                    dot.classList.add('bg-red-500');
+                    text.textContent = message || 'Offline';
+                    break;
+                default:
+                    dot.classList.add('bg-gray-400', 'animate-pulse');
+                    text.textContent = message || 'Connecting...';
+            }
+        }
+
+        async function loadFromSupabase() {
+            try {
+                setSyncStatus('syncing', 'Loading...');
+                const { data, error } = await supabase
+                    .from('furniture_checklist')
+                    .select('*');
+
+                if (error) throw error;
+
+                checkedItems = {};
+                data.forEach(row => {
+                    if (row.is_checked) {
+                        checkedItems[row.item_name] = true;
+                    }
+                });
+
+                // Also save to localStorage as backup
+                localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                isOnline = true;
+                setSyncStatus('connected');
+                return true;
+            } catch (err) {
+                console.warn('Supabase load failed, using localStorage:', err);
+                checkedItems = JSON.parse(localStorage.getItem('furnitureChecklist') || '{}');
+                isOnline = false;
+                setSyncStatus('offline', 'Using local');
+                return false;
+            }
+        }
+
+        async function saveToSupabase(itemName, isChecked) {
+            try {
+                setSyncStatus('syncing');
+                const { error } = await supabase
+                    .from('furniture_checklist')
+                    .upsert({
+                        item_name: itemName,
+                        is_checked: isChecked,
+                        checked_at: isChecked ? new Date().toISOString() : null,
+                        updated_at: new Date().toISOString()
+                    });
+
+                if (error) throw error;
+                isOnline = true;
+                setSyncStatus('connected');
+            } catch (err) {
+                console.warn('Supabase save failed:', err);
+                isOnline = false;
+                setSyncStatus('offline', 'Saved locally');
+            }
+        }
+
+        function applyCheckboxState() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                const item = cb.dataset.item;
+                const shouldBeChecked = !!checkedItems[item];
+                if (cb.checked !== shouldBeChecked) {
+                    cb.checked = shouldBeChecked;
+                    if (shouldBeChecked) {
+                        cb.closest('label').classList.add('checked-item');
+                    } else {
+                        cb.closest('label').classList.remove('checked-item');
+                    }
+                }
+            });
+            updateTotals();
+        }
+
+        async function init() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            document.getElementById('totalItems').textContent = checkboxes.length;
+
+            // Load initial state from Supabase (falls back to localStorage)
+            await loadFromSupabase();
+            applyCheckboxState();
+
+            // Subscribe to realtime changes
+            supabase
+                .channel('furniture_changes')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'furniture_checklist' },
+                    (payload) => {
+                        console.log('Realtime update:', payload);
+                        const { new: newRow, old: oldRow } = payload;
+
+                        if (payload.eventType === 'DELETE' && oldRow) {
+                            delete checkedItems[oldRow.item_name];
+                        } else if (newRow) {
+                            if (newRow.is_checked) {
+                                checkedItems[newRow.item_name] = true;
+                            } else {
+                                delete checkedItems[newRow.item_name];
+                            }
+                        }
+
+                        localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                        applyCheckboxState();
+                    }
+                )
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        setSyncStatus('connected', 'Live sync');
+                    }
+                });
+
+            // Add event listeners
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', async function() {
+                    const item = this.dataset.item;
+                    if (this.checked) {
+                        checkedItems[item] = true;
+                        this.closest('label').classList.add('checked-item');
+                    } else {
+                        delete checkedItems[item];
+                        this.closest('label').classList.remove('checked-item');
+                    }
+
+                    // Save to localStorage immediately
+                    localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                    updateTotals();
+
+                    // Sync to Supabase
+                    await saveToSupabase(item, this.checked);
+                });
+            });
+        }
+
+        function updateTotals() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let totalSpent = 0;
+            let itemsChecked = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    totalSpent += parseInt(cb.dataset.cost);
+                    itemsChecked++;
+                }
+            });
+
+            document.getElementById('totalSpent').textContent = totalSpent.toLocaleString();
+            document.getElementById('itemsChecked').textContent = itemsChecked;
+
+            const percentage = (totalSpent / BUDGET) * 100;
+            const budgetFill = document.getElementById('budgetFill');
+            budgetFill.style.width = Math.min(percentage, 100) + '%';
+
+            budgetFill.classList.remove('warning', 'danger');
+            if (percentage > 100) {
+                budgetFill.classList.add('danger');
+            } else if (percentage > 80) {
+                budgetFill.classList.add('warning');
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
