@@ -74,6 +74,26 @@
         .moon {
             animation: float 4s ease-in-out infinite;
         }
+
+        /* Congratulations styles */
+        .congrats-card {
+            background: rgba(255, 255, 255, 0.95);
+            animation: fadeInDown 1s ease-out, celebrate 3s ease-in-out infinite;
+        }
+        @keyframes celebrate {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); }
+        }
+        .confetti {
+            position: absolute;
+            font-size: 24px;
+            animation: confetti-fall linear infinite;
+            pointer-events: none;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -81,6 +101,24 @@
 
         <!-- Stars container (for midnight) -->
         <div id="stars" class="hidden"></div>
+
+        <!-- Confetti container -->
+        <div id="confetti"></div>
+
+        <!-- Congratulations Card -->
+        <div class="congrats-card rounded-2xl p-6 md:p-8 max-w-md w-full text-center mb-6 relative z-10">
+            <img src="assets/images/ynnh.png" alt="Logo" class="h-16 md:h-20 mx-auto mb-4">
+            <h2 style="font-family: 'Playfair Display', serif;" class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+                Congratulations!
+            </h2>
+            <p class="text-gray-700 text-lg mb-2">
+                On accepting the <strong>Inpatient Pediatric Psych Nursing</strong> role
+            </p>
+            <p class="text-gray-600 text-sm italic">
+                With special thanks to Boston Children's Hospital
+            </p>
+            <div class="mt-4 text-3xl">🎉</div>
+        </div>
 
         <!-- Midnight Message -->
         <div id="midnightMessage" class="hidden text-center mb-8 midnight-message">
@@ -191,6 +229,24 @@
 
         // Check every minute in case she's on the page when midnight hits
         setInterval(checkMidnight, 60000);
+
+        // Create celebratory confetti
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const confettiEmojis = ['🎉', '🎊', '✨', '💫', '⭐', '🌟', '💛', '💙'];
+
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                confetti.style.animationDelay = (Math.random() * 5) + 's';
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        createConfetti();
     </script>
 </body>
 </html>
