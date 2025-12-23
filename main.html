@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <script>
@@ -9,7 +10,8 @@
         }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An intimate love story about finding magic in unexpected places - how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.">
+    <meta name="description"
+        content="An intimate love story about finding magic in unexpected places - how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.">
     <meta name="keywords" content="love story, romance, serendipity, magic, relationships, personal narrative">
     <meta name="author" content="mybeautifulbride">
 
@@ -17,13 +19,15 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://iloveugo.com">
     <meta property="og:title" content="My Beautiful Bride - A Love Story">
-    <meta property="og:description" content="An intimate love story about finding magic in unexpected places - how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.">
+    <meta property="og:description"
+        content="An intimate love story about finding magic in unexpected places - how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.">
     <meta property="og:image" content="assets/images/ugo1.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:title" content="My Beautiful Bride - A Love Story">
-    <meta property="twitter:description" content="An intimate love story about finding magic in unexpected places - how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.">
+    <meta property="twitter:description"
+        content="An intimate love story about finding magic in unexpected places - how meeting someone special can shatter every logical framework and prove that some things can only be explained by serendipity.">
     <meta property="twitter:image" content="assets/images/ugo1.jpg">
 
     <title>My Beautiful Bride - A Love Story</title>
@@ -39,7 +43,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="assets/images/ugo1.jpg" as="image">
@@ -49,8 +55,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        'display': ['Playfair Display', 'serif'],
-                        'body': ['Inter', 'sans-serif'],
+                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
+                        'display': ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
                         'warm': {
@@ -70,161 +76,140 @@
             }
         }
     </script>
-
-    <style>
-        .hero-bg {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(192, 127, 99, 0.4) 0%, rgba(169, 104, 76, 0.5) 100%),
-                        url('assets/images/ugo1.jpg') center/cover;
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-        }
-
-        @media (min-width: 768px) {
-            .hero-bg::before {
-                background-attachment: fixed;
-            }
-        }
-
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 150px;
-            background: linear-gradient(to bottom, transparent, rgba(253, 248, 240, 1));
-            pointer-events: none;
-        }
-
-        .text-shadow {
-            text-shadow: 0 3px 8px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .backdrop-blur-subtle {
-            backdrop-filter: blur(8px);
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .prose-lg p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .prose-lg p:last-child {
-            margin-bottom: 0;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #C07F63, #A9684C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-    </style>
 </head>
 
-<body class="font-body text-gray-800 bg-warm-50">
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-lg z-50 border-b border-warm-200">
-        <div class="container mx-auto px-6 py-4">
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation - matching checklist style -->
+    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50"
+        style="backdrop-filter: blur(12px); background: rgba(255,255,255,0.95);">
+        <div class="container mx-auto px-5 py-4">
             <div class="flex justify-between items-center">
-                <h1 class="text-xl font-display font-bold gradient-text">mybeautifulbride</h1>
-                <div class="hidden md:flex space-x-8 text-sm">
-                    <a href="#story" class="text-warm-700 hover:text-warm-600 transition-colors">Our Story</a>
-                    <a href="#memories" class="text-warm-700 hover:text-warm-600 transition-colors">Memories</a>
-                    <a href="docs/our-chat-history.html" class="text-warm-700 hover:text-warm-600 transition-colors">Messages</a>
-                    <a href="bouquet-builder.html" class="text-warm-700 hover:text-warm-600 transition-colors">💐 Bouquet</a>
-                    <a href="christmas-countdown.html" class="text-warm-700 hover:text-warm-600 transition-colors">🎄 Christmas</a>
-                    <a href="apartment-checklist.html" class="text-warm-700 hover:text-warm-600 transition-colors">🏠 Apartment</a>
-                    <a href="#contact" class="text-warm-700 hover:text-warm-600 transition-colors">Connect</a>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900 tracking-tight">Timothy & Ugo</h1>
+                    <p class="text-xs text-gray-500 font-medium">Our Journey Together</p>
                 </div>
-                <button id="mobile-menu-btn" class="md:hidden text-warm-700">
+                <div class="hidden md:flex items-center gap-6 text-sm">
+                    <a href="#story" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Our
+                        Story</a>
+                    <a href="#memories"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Memories</a>
+                    <a href="docs/our-chat-history.html"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Messages</a>
+                    <a href="christmas-countdown.html"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Christmas</a>
+                    <a href="ask-tim.html" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Ask
+                        Tim</a>
+                    <a href="calendar.html"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Calendar</a>
+                    <a href="apartment-checklist.html"
+                        class="px-4 py-2 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 rounded-xl hover:from-orange-100 hover:to-amber-100 transition-all font-semibold border border-orange-200">Apartment</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
-            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
-                <a href="#story" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">Our Story</a>
-                <a href="#memories" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">Memories</a>
-                <a href="docs/our-chat-history.html" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">Messages</a>
-                <a href="bouquet-builder.html" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">💐 Bouquet Builder</a>
-                <a href="christmas-countdown.html" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">🎄 Christmas Countdown</a>
-                <a href="apartment-checklist.html" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">🏠 Apartment Checklist</a>
-                <a href="#contact" class="block text-warm-700 hover:text-warm-600 transition-colors py-2">Connect</a>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2 pb-2">
+                <a href="#story" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Our Story</a>
+                <a href="#memories" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Memories</a>
+                <a href="docs/our-chat-history.html"
+                    class="block text-gray-600 hover:text-gray-900 font-medium py-2">Messages</a>
+                <a href="christmas-countdown.html"
+                    class="block text-gray-600 hover:text-gray-900 font-medium py-2">Christmas</a>
+                <a href="ask-tim.html" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Ask Tim</a>
+                <a href="calendar.html" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Calendar</a>
+                <a href="apartment-checklist.html"
+                    class="block text-gray-600 hover:text-gray-900 font-medium py-2">Apartment</a>
             </div>
         </div>
     </nav>
 
+    <!-- Next Event Widget -->
+    <div id="nextEventWidget" class="hidden container mx-auto px-6 mt-8 mb-[-40px] relative z-20">
+        <a href="calendar.html"
+            class="block bg-white border border-gray-100 rounded-2xl p-5 shadow-lg flex items-center gap-5 hover:transform hover:scale-[1.01] transition-all max-w-2xl mx-auto">
+            <div class="bg-brand-orange/10 text-brand-orange p-3 rounded-xl">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <div class="flex-1">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Coming Up</span>
+                <h3 class="text-lg font-bold text-gray-900" id="widgetTitle">Next Event</h3>
+                <p class="text-sm text-gray-500" id="widgetDate">Date</p>
+            </div>
+            <div class="text-right">
+                <span class="block text-2xl font-bold text-brand-orange" id="widgetCountdown">0</span>
+                <span class="text-xs text-brand-orange/80 font-medium uppercase">Days</span>
+            </div>
+        </a>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero-bg min-h-screen flex items-center justify-center px-6 py-20">
         <div class="container mx-auto max-w-4xl animate-fade-in text-center relative z-10">
-            <h1 class="font-display text-5xl md:text-7xl font-bold mb-6 text-white text-shadow">
-                mybeautifulbride
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow">
+                Timothy & Ugo
             </h1>
-            <p class="text-2xl md:text-3xl text-white/95 font-display mb-8 text-shadow">
+            <p class="text-2xl md:text-3xl text-white/95 mb-8 text-shadow">
                 A love story that defies all logic
             </p>
             <div class="mt-16">
                 <a href="#story" class="inline-block animate-bounce text-white/90 hover:text-white transition-colors">
                     <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                     </svg>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Story Section -->
-    <section id="story" class="py-20 bg-gradient-to-b from-warm-50 to-white">
+    <section id="story" class="py-20 bg-white border-b border-gray-100">
         <div class="container mx-auto px-6 max-w-4xl">
-            <h2 class="font-display text-3xl md:text-5xl font-bold mb-12 text-center gradient-text">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-900 uppercase tracking-tight">
                 The Magic That Explains It
             </h2>
 
-            <div class="prose-lg text-warm-800 space-y-6 text-lg leading-relaxed">
+            <div class="prose-lg text-gray-700 space-y-6 text-lg leading-relaxed">
                 <p>
-                    Imagine a world built on choices, where every decision carries the weight of your future in its palms. You find yourself in this place—a realm where people dismiss magic and luck as illusions, insisting that serendipity is merely the shadow cast by the decisions we make.
+                    Imagine a world built on choices, where every decision carries the weight of your future in its
+                    palms. You find yourself in this place—a realm where people dismiss magic and luck as illusions,
+                    insisting that serendipity is merely the shadow cast by the decisions we make.
                 </p>
 
                 <p>
-                    Here, you learn to calculate each action, believing they alone chart the course of your life and destiny. In this world of careful reasoning, you discover a cruel mathematics: when misfortune finds you—whether real or conjured by an anxious mind—you turn the blame inward.
+                    Here, you learn to calculate each action, believing they alone chart the course of your life and
+                    destiny. In this world of careful reasoning, you discover a cruel mathematics: when misfortune finds
+                    you—whether real or conjured by an anxious mind—you turn the blame inward.
                 </p>
 
                 <p>
-                    You cling to a philosophy that whispers bad things happen to bad people, good things happen to good people. So you strive with desperate fervor to do good, to earn your place among the worthy, to become someone deserving of happiness.
+                    You cling to a philosophy that whispers bad things happen to bad people, good things happen to good
+                    people. So you strive with desperate fervor to do good, to earn your place among the worthy, to
+                    become someone deserving of happiness.
                 </p>
 
                 <p>
-                    You walk through days convinced that goodness is a currency you can spend, that kindness is an investment that guarantees returns. Yet the world keeps surprising you with its indifference to your careful calculations.
+                    You walk through days convinced that goodness is a currency you can spend, that kindness is an
+                    investment that guarantees returns. Yet the world keeps surprising you with its indifference to your
+                    careful calculations.
                 </p>
 
                 <p>
-                    Slowly, reluctantly, you join the ranks of those who understand a harder truth: that the universe operates within its own mysterious scope of reason and chaos, where sometimes bad things simply happen, regardless of how good you've tried to be.
+                    Slowly, reluctantly, you join the ranks of those who understand a harder truth: that the universe
+                    operates within its own mysterious scope of reason and chaos, where sometimes bad things simply
+                    happen, regardless of how good you've tried to be.
                 </p>
 
                 <p>
-                    Even this understanding feels like another attempt to impose reason on the unreasonable. You cling to practicality like a life raft in an ocean of uncertainty, desperate to explain everything through logic and choice. You resist the whisper of something else—something that feels foolish to acknowledge, something that tastes of magic.
+                    Even this understanding feels like another attempt to impose reason on the unreasonable. You cling
+                    to practicality like a life raft in an ocean of uncertainty, desperate to explain everything through
+                    logic and choice. You resist the whisper of something else—something that feels foolish to
+                    acknowledge, something that tastes of magic.
                 </p>
 
                 <p class="font-medium text-xl">
@@ -232,15 +217,21 @@
                 </p>
 
                 <p>
-                    You meet someone who changes everything, and no amount of reasoning can explain it. No decision led you there, no calculation predicted it, no good deed earned it. It simply was—pure, inexplicable, beautiful serendipity.
+                    You meet someone who changes everything, and no amount of reasoning can explain it. No decision led
+                    you there, no calculation predicted it, no good deed earned it. It simply was—pure, inexplicable,
+                    beautiful serendipity.
                 </p>
 
                 <p>
-                    Standing in the ruins of your logical world, you realize that some things can only be attributed to forces beyond understanding. Some gifts arrive not because we've earned them, but because magic still exists in quiet moments, in unexpected meetings, in the honor of receiving someone's affection when you least expect it and most need it.
+                    Standing in the ruins of your logical world, you realize that some things can only be attributed to
+                    forces beyond understanding. Some gifts arrive not because we've earned them, but because magic
+                    still exists in quiet moments, in unexpected meetings, in the honor of receiving someone's affection
+                    when you least expect it and most need it.
                 </p>
 
-                <p class="text-2xl font-semibold text-center gradient-text font-display pt-4">
-                    And so you understand: meeting her, having the privilege of her love—this can only be explained by magic, for nothing else comes close to capturing the wonder of it all.
+                <p class="text-2xl font-semibold text-center text-orange-600 pt-4">
+                    And so you understand: meeting her, having the privilege of her love—this can only be explained by
+                    magic, for nothing else comes close to capturing the wonder of it all.
                 </p>
             </div>
         </div>
@@ -249,68 +240,106 @@
     <!-- Memories Section -->
     <section id="memories" class="py-20 bg-white">
         <div class="container mx-auto px-6 max-w-6xl">
-            <h2 class="font-display text-3xl md:text-4xl font-bold mb-12 text-center gradient-text">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-gray-900 uppercase tracking-tight">
                 Our Story Continues
             </h2>
 
             <!-- Interactive Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 <!-- Chat Messages Card -->
-                <div class="bg-gradient-to-br from-warm-100 to-warm-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
-                    <div class="text-5xl mb-4">💬</div>
-                    <h3 class="font-display text-2xl font-bold mb-3 text-warm-800">Our First Messages</h3>
-                    <p class="text-warm-700 mb-6">
-                        Where it all began - our conversations from May 2023 that sparked something magical
+                <div
+                    class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Our First Messages</h3>
+                    <p class="text-gray-600 mb-6">
+                        Where it all began - our conversations from May 2025 that sparked something magical
                     </p>
-                    <a href="docs/our-chat-history.html" class="inline-block bg-gradient-to-r from-warm-600 to-warm-700 text-white px-6 py-3 rounded-full font-semibold hover:from-warm-700 hover:to-warm-800 transition-all duration-300 shadow-md hover:shadow-lg">
+                    <a href="docs/our-chat-history.html"
+                        class="inline-block bg-gray-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-gray-800 transition-all duration-300 shadow-md">
                         Read Our Story
                     </a>
                 </div>
 
-                <!-- Bouquet Builder Card -->
-                <div class="bg-gradient-to-br from-pink-100 to-rose-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
-                    <div class="text-5xl mb-4">💐</div>
-                    <h3 class="font-display text-2xl font-bold mb-3 text-warm-800">Build Your Bouquet</h3>
-                    <p class="text-warm-700 mb-6">
-                        Create a custom 3D bouquet with drag-and-drop flowers - a virtual gift of love
+                <!-- Furniture Checklist Card -->
+                <div
+                    class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Furniture Checklist</h3>
+                    <p class="text-gray-600 mb-6">
+                        Track what we need to buy for our new place with budget tracking and price comparisons
                     </p>
-                    <a href="bouquet-builder.html" class="inline-block bg-gradient-to-r from-pink-600 to-rose-600 text-white px-6 py-3 rounded-full font-semibold hover:from-pink-700 hover:to-rose-700 transition-all duration-300 shadow-md hover:shadow-lg">
-                        Design Bouquet
+                    <a href="apartment-checklist.html"
+                        class="inline-block bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all duration-300 shadow-md">
+                        View Checklist
+                    </a>
+                </div>
+
+                <!-- Floor Planner Card -->
+                <div
+                    class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Floor Planner</h3>
+                    <p class="text-gray-600 mb-6">
+                        Drag and drop furniture to plan our apartment layout - visualize before we move
+                    </p>
+                    <a href="apartment-planner.html"
+                        class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-all duration-300 shadow-md">
+                        Plan Layout
                     </a>
                 </div>
 
                 <!-- Christmas Countdown Card -->
-                <div class="bg-gradient-to-br from-green-100 to-red-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
-                    <div class="text-5xl mb-4">🎄</div>
-                    <h3 class="font-display text-2xl font-bold mb-3 text-warm-800">Christmas Countdown</h3>
-                    <p class="text-warm-700 mb-6">
+                <div
+                    class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Christmas Countdown</h3>
+                    <p class="text-gray-600 mb-6">
                         A special advent calendar with 9 days of love notes counting down to Christmas 2025
                     </p>
-                    <a href="christmas-countdown.html" class="inline-block bg-gradient-to-r from-green-700 to-red-700 text-white px-6 py-3 rounded-full font-semibold hover:from-green-800 hover:to-red-800 transition-all duration-300 shadow-md hover:shadow-lg">
+                    <a href="christmas-countdown.html"
+                        class="inline-block bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all duration-300 shadow-md">
                         Open Calendar
+                    </a>
+                </div>
+
+                <!-- Ask Tim AI Card -->
+                <div
+                    class="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 text-center">
+                    <span
+                        class="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-brand-orange mb-4">New
+                        Feature</span>
+                    <h3 class="text-2xl font-bold mb-3 text-gray-900">Ask Tim</h3>
+                    <p class="text-gray-600 mb-6">
+                        Chat with my AI double. Ask questions about our story, our future, or anything on your mind.
+                    </p>
+                    <a href="ask-tim.html"
+                        class="inline-block bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all duration-300 shadow-md">
+                        Start Chat
                     </a>
                 </div>
             </div>
 
             <!-- Photo Gallery -->
             <div class="mb-16">
-                <h3 class="font-display text-2xl md:text-3xl font-bold mb-8 text-center text-warm-800">
+                <h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-gray-900 uppercase tracking-tight">
                     Captured Moments
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                        <img src="assets/images/ugo1.jpg" alt="Our moment together" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div
+                        class="group relative overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300">
+                        <img src="assets/images/ugo1.jpg" alt="Our moment together"
+                            class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div class="absolute bottom-4 left-4 text-white">
-                                <p class="font-display text-xl">Pure Magic</p>
+                                <p class="text-xl font-bold">Pure Magic</p>
                             </div>
                         </div>
                     </div>
-                    <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                        <img src="assets/images/ugo2.jpg" alt="Another beautiful memory" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div
+                        class="group relative overflow-hidden rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300">
+                        <img src="assets/images/ugo2.jpg" alt="Another beautiful memory"
+                            class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <div class="absolute bottom-4 left-4 text-white">
-                                <p class="font-display text-xl">Forever Memories</p>
+                                <p class="text-xl font-bold">Forever Memories</p>
                             </div>
                         </div>
                     </div>
@@ -319,7 +348,7 @@
 
             <!-- Video Section -->
             <div class="mb-8">
-                <h3 class="font-display text-2xl md:text-3xl font-bold mb-8 text-center text-warm-800">
+                <h3 class="text-2xl md:text-3xl font-bold mb-8 text-center text-gray-900 uppercase tracking-tight">
                     Moments in Motion
                 </h3>
                 <div class="max-w-2xl mx-auto">
@@ -329,12 +358,12 @@
                             Your browser does not support the video tag.
                         </video>
                     </div>
-                    <p class="text-center text-warm-600 mt-4 italic">A moment captured in time</p>
+                    <p class="text-center text-gray-500 mt-4 italic font-medium">A moment captured in time</p>
                 </div>
             </div>
 
-            <div class="text-center mt-12">
-                <p class="text-lg text-warm-700 leading-relaxed max-w-2xl mx-auto">
+            <div class="text-center mt-12 border-t border-gray-100 pt-12">
+                <p class="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
                     Every moment since has been a testament to that first magic—proof that some things in this world
                     operate beyond the reach of logic, calculation, or earning. What we have is pure gift,
                     pure wonder, pure love.
@@ -344,16 +373,22 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-warm-100">
+    <section id="contact" class="py-20 bg-gray-50">
         <div class="container mx-auto px-6 max-w-2xl text-center">
-            <h2 class="font-display text-3xl font-bold mb-6 gradient-text">
+            <h2 class="text-3xl font-bold mb-6 text-gray-900 uppercase tracking-tight">
                 For You
             </h2>
-            <p class="text-lg text-warm-700 mb-8">
+            <p class="text-lg text-gray-600 mb-8">
                 This is my love letter to the magic that brought us together,
                 and to you—the one who proved that serendipity is real.
             </p>
-            <div class="text-2xl">💕</div>
+            <div
+                class="w-12 h-12 bg-orange-600 rounded-full mx-auto flex items-center justify-center text-white shadow-lg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+            </div>
         </div>
     </section>
 
@@ -415,6 +450,29 @@
                 }
             });
         }
+
+        // Widget Logic
+        const allEvents = JSON.parse(localStorage.getItem('shared_calendar_events') || '[]');
+        if (allEvents.length > 0) {
+            const today = new Date();
+            // Find closest future event
+            const sorted = allEvents
+                .map(e => ({ ...e, dateObj: new Date(e.date) }))
+                .filter(e => e.dateObj >= today)
+                .sort((a, b) => a.dateObj - b.dateObj);
+
+            if (sorted.length > 0) {
+                const next = sorted[0];
+                const diffTime = Math.abs(next.dateObj - today);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                document.getElementById('widgetTitle').innerText = next.title;
+                document.getElementById('widgetDate').innerText = next.dateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+                document.getElementById('widgetCountdown').innerText = diffDays;
+                document.getElementById('nextEventWidget').classList.remove('hidden');
+            }
+        }
     </script>
 </body>
+
 </html>

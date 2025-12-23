@@ -1,0 +1,715 @@
+/* ============================================
+   SHARED STYLES - Timothy & Ugo Site
+   ============================================ */
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   MODERN CHECKBOX
+   ============================================ */
+.checkbox-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.checkbox-custom {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #D1D5DB;
+    border-radius: 6px;
+    background: white;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.checkbox-custom:hover {
+    border-color: #6366F1;
+    transform: scale(1.05);
+}
+
+.checkbox-custom.checked {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    border-color: #6366F1;
+}
+
+.checkbox-custom.checked::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checked-item {
+    opacity: 0.45;
+    transition: opacity 0.3s ease;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.room-card,
+.feature-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.room-card:hover,
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   BUDGET BAR
+   ============================================ */
+.budget-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: #F3F4F6;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.budget-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10B981, #059669);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 999px;
+}
+
+.budget-fill.warning {
+    background: linear-gradient(90deg, #F59E0B, #D97706);
+}
+
+.budget-fill.danger {
+    background: linear-gradient(90deg, #EF4444, #DC2626);
+}
+
+/* ============================================
+   PRIORITY INDICATORS (color dots)
+   ============================================ */
+.priority-badge {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-size: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.priority-1 {
+    background: #EF4444;
+}
+
+.priority-2 {
+    background: #F59E0B;
+}
+
+.priority-3 {
+    background: #3B82F6;
+}
+
+/* ============================================
+   MODALS
+   ============================================ */
+.link-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.link-modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+button,
+a.btn,
+.btn {
+    border-radius: 10px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+}
+
+button:hover,
+a.btn:hover,
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================
+   LINK PREVIEWS
+   ============================================ */
+.link-btn {
+    opacity: 0.4;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.link-btn:hover {
+    opacity: 1;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.link-btn.has-link {
+    opacity: 1;
+    color: #6366F1;
+}
+
+.link-preview {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    margin-top: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.link-preview:hover {
+    background: #FAFAFA;
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+    transform: translateY(-1px);
+}
+
+.link-preview img {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.link-preview-content {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.link-preview-title {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: #1F2937;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.link-preview-site {
+    font-size: 11.5px;
+    color: #9CA3AF;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.link-preview-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: #10B981;
+    margin-top: 6px;
+}
+
+.link-preview-mini {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    color: inherit;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.link-preview-mini:hover {
+    background: #FAFAFA;
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateX(2px);
+}
+
+.link-preview-mini img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.link-preview-mini .link-preview-content {
+    flex: 1;
+}
+
+.link-preview-mini .link-preview-title {
+    font-size: 12.5px;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.delete-link {
+    color: #EF4444;
+    cursor: pointer;
+    padding: 6px 10px;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.delete-link:hover {
+    opacity: 1;
+    background: #FEE2E2;
+}
+
+/* ============================================
+   ACTION BUTTONS
+   ============================================ */
+.item-actions {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.action-btn {
+    opacity: 0.35;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: 22px;
+    width: 22px;
+    flex-shrink: 0;
+}
+
+.action-btn svg {
+    display: block;
+}
+
+.action-btn:hover {
+    opacity: 1;
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366F1;
+}
+
+.action-btn.has-data {
+    opacity: 0.9;
+    color: #6366F1;
+}
+
+/* ============================================
+   MODAL SECTIONS
+   ============================================ */
+.modal-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.modal-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.modal-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   ITEM NOTES & PRICING
+   ============================================ */
+.item-note {
+    font-size: 12.5px;
+    color: #6B7280;
+    margin-top: 6px;
+    padding-left: 32px;
+    line-height: 1.5;
+    background: #F9FAFB;
+    padding: 8px 12px 8px 32px;
+    border-radius: 8px;
+    border-left: 3px solid #E5E7EB;
+}
+
+.price-display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 80px;
+    gap: 2px;
+}
+
+.estimated-price {
+    color: #D1D5DB;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.actual-price {
+    color: #10B981;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.savings-badge {
+    font-size: 9.5px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #D1FAE5;
+    color: #065F46;
+    margin-top: 3px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.overspent-badge {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* ============================================
+   ADD ITEM BUTTON
+   ============================================ */
+.add-item-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border: 2px dashed #E5E7EB;
+    border-radius: 10px;
+    color: #9CA3AF;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: white;
+}
+
+.add-item-btn:hover {
+    border-color: #F97316;
+    color: #F97316;
+    background: #FFF7ED;
+    border-style: solid;
+    transform: translateY(-1px);
+}
+
+.custom-item {
+    background: linear-gradient(to right, rgba(249, 115, 22, 0.05), transparent);
+    border-left: 3px solid #F97316;
+    margin-left: -12px;
+    padding-left: 12px;
+}
+
+/* ============================================
+   LOGIN & GLASS EFFECTS
+   ============================================ */
+.login-bg {
+    background: linear-gradient(135deg, rgba(192, 127, 99, 0.6) 0%, rgba(169, 104, 76, 0.7) 100%),
+        url('assets/images/ugo1.jpg') center/cover fixed;
+}
+
+.login-bg.midnight {
+    background: linear-gradient(135deg, rgba(30, 41, 82, 0.85) 0%, rgba(45, 55, 100, 0.9) 100%),
+        url('assets/images/ugo1.jpg') center/cover fixed;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in {
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* Midnight message styles */
+.midnight-message {
+    animation: fadeInDown 1s ease-out, glow 2s ease-in-out infinite;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+            0 0 20px rgba(255, 255, 255, 0.3),
+            0 0 30px rgba(192, 127, 99, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+            0 0 30px rgba(255, 255, 255, 0.5),
+            0 0 40px rgba(192, 127, 99, 0.5);
+    }
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+.star {
+    position: absolute;
+    color: white;
+    animation: twinkle ease-in-out infinite;
+    pointer-events: none;
+}
+
+.moon {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Congratulations styles */
+.congrats-card {
+    background: rgba(255, 255, 255, 0.95);
+    animation: fadeInDown 1s ease-out, celebrate 3s ease-in-out infinite;
+}
+
+@keyframes celebrate {
+
+    0%,
+    100% {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.confetti {
+    position: absolute;
+    font-size: 24px;
+    animation: confetti-fall linear infinite;
+    pointer-events: none;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   HERO BACKGROUND
+   ============================================ */
+.hero-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(192, 127, 99, 0.4) 0%, rgba(169, 104, 76, 0.5) 100%),
+        url('assets/images/ugo1.jpg') center/cover;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+@media (min-width: 768px) {
+    .hero-bg::before {
+        background-attachment: fixed;
+    }
+}
+
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(to bottom, transparent, rgba(253, 248, 240, 1));
+    pointer-events: none;
+}
+
+.text-shadow {
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.backdrop-blur-subtle {
+    backdrop-filter: blur(8px);
+}
+
+/* ============================================
+   PROSE STYLING
+   ============================================ */
+.prose-lg p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.prose-lg p:last-child {
+    margin-bottom: 0;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #C07F63, #A9684C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
