@@ -111,8 +111,10 @@
         .message-content {
             flex: 1;
             min-width: 0;
+            max-width: 100%;
             overflow-wrap: break-word;
             word-wrap: break-word;
+            overflow-x: hidden;
         }
 
         .message-content img {
@@ -124,6 +126,10 @@
         .message-content pre {
             overflow-x: auto;
             max-width: 100%;
+        }
+
+        .message-content .code-block-wrapper {
+            max-width: calc(100% + 0px);
         }
 
         @keyframes fadeIn {
@@ -653,6 +659,8 @@
         .code-block-wrapper {
             position: relative;
             margin: 0.75rem 0;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .code-block-header {
@@ -671,6 +679,8 @@
             margin: 0 !important;
             border-radius: 0 0 0.5rem 0.5rem !important;
             background: #1F2937 !important;
+            max-width: 100%;
+            overflow-x: auto;
         }
 
         .code-block-wrapper pre code {
@@ -678,7 +688,8 @@
             color: #E5E7EB !important;
             display: block;
             padding: 1rem !important;
-            overflow-x: auto;
+            white-space: pre;
+            word-wrap: normal;
         }
 
         .copy-code-btn {
