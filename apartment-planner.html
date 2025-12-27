@@ -3,12 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Apartment Furniture Planner | Timothy & Ugo</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        if (!sessionStorage.getItem('authenticated')) {
-            window.location.href = 'index.html';
-        }
+        // Supabase Authentication check
+        const SUPABASE_URL = 'https://ltpnhrvpwglitzjkvgwd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0cG5ocnZwd2dsaXR6amt2Z3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNjQ5NzYsImV4cCI6MjA4MTg0MDk3Nn0.AMO9x7GGvkIkCNMPlceX2DPLCaJ_SqaIzOTYYtUU7f0';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        (async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'index.html';
+            }
+        })();
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
@@ -568,6 +577,50 @@
         let isDragging = false;
         let dragTarget = null;
         let dragOffset = { x: 0, y: 0 };
+        let gridSize = 10; // Grid snapping size
+        let showGrid = true;
+
+        // Furniture colors for better visuals
+        const furnitureColors = {
+            'bed-queen': { fill: '#6366F1', stroke: '#4F46E5', text: 'white' },
+            'nightstand': { fill: '#818CF8', stroke: '#6366F1', text: 'white' },
+            'dresser': { fill: '#A5B4FC', stroke: '#818CF8', text: '#1E1B4B' },
+            'sofa': { fill: '#F59E0B', stroke: '#D97706', text: 'white' },
+            'coffee-table': { fill: '#FBBF24', stroke: '#F59E0B', text: '#78350F' },
+            'tv-stand': { fill: '#FCD34D', stroke: '#FBBF24', text: '#78350F' },
+            'armchair': { fill: '#F97316', stroke: '#EA580C', text: 'white' },
+            'rug': { fill: '#FED7AA', stroke: '#FDBA74', text: '#9A3412' },
+            'dining-table': { fill: '#8B5CF6', stroke: '#7C3AED', text: 'white' },
+            'dining-chair': { fill: '#A78BFA', stroke: '#8B5CF6', text: 'white' },
+            'desk': { fill: '#14B8A6', stroke: '#0D9488', text: 'white' },
+            'office-chair': { fill: '#2DD4BF', stroke: '#14B8A6', text: '#134E4A' },
+            'bookshelf': { fill: '#5EEAD4', stroke: '#2DD4BF', text: '#134E4A' }
+        };
+
+        // Snap to grid function
+        function snapToGrid(value) {
+            return Math.round(value / gridSize) * gridSize;
+        }
+
+        // Get mouse/touch position relative to SVG
+        function getEventPosition(e, svg) {
+            const rect = svg.getBoundingClientRect();
+            const scale = 800 / rect.width;
+            let clientX, clientY;
+
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            return {
+                x: (clientX - rect.left) * scale - 50,
+                y: (clientY - rect.top) * scale - 50
+            };
+        }
 
         // Room click handlers
         document.querySelectorAll('.room').forEach(room => {
@@ -668,15 +721,22 @@
             const w = (isRotated ? data.height : data.width) * scale;
             const h = (isRotated ? data.width : data.height) * scale;
 
+            const colors = furnitureColors[data.type] || { fill: '#C07F63', stroke: '#A9684C', text: 'white' };
+
             const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             g.id = data.id;
             g.classList.add('placed-furniture');
             g.dataset.type = data.type;
             g.style.cursor = 'move';
+
+            // Create nicer furniture visuals
+            const label = data.type.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase()).join('');
+
             g.innerHTML = `
                 <rect x="${data.x - w / 2}" y="${data.y - h / 2}" width="${w}" height="${h}"
-                      fill="#C07F63" fill-opacity="0.2" stroke="#C07F63" stroke-width="2" rx="4"/>
-                <text x="${data.x}" y="${data.y + 4}" text-anchor="middle" font-size="8" font-weight="bold" fill="#A9684C">${data.type.replace('-', ' ').toUpperCase()}</text>
+                      fill="${colors.fill}" stroke="${colors.stroke}" stroke-width="2" rx="4"
+                      filter="drop-shadow(2px 2px 3px rgba(0,0,0,0.2))"/>
+                <text x="${data.x}" y="${data.y + 4}" text-anchor="middle" font-size="10" font-weight="bold" fill="${colors.text}">${label}</text>
             `;
 
             // Click to rotate
@@ -692,39 +752,41 @@
                 removeFurniture(data.id);
             });
 
-            // Mouse down for dragging
-            g.addEventListener('mousedown', function (e) {
+            // Mouse/touch down for dragging
+            function startDrag(e) {
                 e.preventDefault();
                 isDragging = true;
                 dragTarget = data.id;
-                const rect = svg.getBoundingClientRect();
-                const scale = 800 / rect.width;
-                // Adjust for the group transform (translated 60, 40)
-                const layerX = mouseX - 60;
-                const layerY = mouseY - 40;
+
+                const pos = getEventPosition(e, svg);
+                const layerX = pos.x - 10;
+                const layerY = pos.y - 10;
 
                 dragOffset = { x: layerX - data.x, y: layerY - data.y };
                 g.style.cursor = 'grabbing';
-            });
+            }
+
+            g.addEventListener('mousedown', startDrag);
+            g.addEventListener('touchstart', startDrag, { passive: false });
 
             furnitureLayer.appendChild(g);
         }
 
-        // Global mouse events for dragging placed furniture
-        svg.addEventListener('mousemove', function (e) {
+        // Global mouse/touch events for dragging placed furniture
+        function handleDragMove(e) {
             if (!isDragging || !dragTarget) return;
+            e.preventDefault();
 
-            const rect = svg.getBoundingClientRect();
-            const scale = 800 / rect.width;
-            const mouseX = (e.clientX - rect.left) * scale - 50;
-            const mouseY = (e.clientY - rect.top) * scale - 50;
+            const pos = getEventPosition(e, svg);
+            const layerX = pos.x - 10;
+            const layerY = pos.y - 10;
 
-            // Adjust for group transform
-            const layerX = mouseX - 60;
-            const layerY = mouseY - 40;
+            let newX = layerX - dragOffset.x;
+            let newY = layerY - dragOffset.y;
 
-            const newX = layerX - dragOffset.x;
-            const newY = layerY - dragOffset.y;
+            // Apply grid snapping
+            newX = snapToGrid(newX);
+            newY = snapToGrid(newY);
 
             // Update the furniture data
             const item = placedFurniture.find(f => f.id === dragTarget);
@@ -738,19 +800,22 @@
                     createFurnitureElement(item);
                 }
             }
-        });
+        }
 
-        svg.addEventListener('mouseup', function () {
+        function handleDragEnd() {
             if (isDragging) {
                 setTimeout(() => { isDragging = false; }, 50); // Small delay to prevent click firing
             }
             dragTarget = null;
-        });
+        }
 
-        svg.addEventListener('mouseleave', function () {
-            isDragging = false;
-            dragTarget = null;
-        });
+        svg.addEventListener('mousemove', handleDragMove);
+        svg.addEventListener('touchmove', handleDragMove, { passive: false });
+
+        svg.addEventListener('mouseup', handleDragEnd);
+        svg.addEventListener('touchend', handleDragEnd);
+
+        svg.addEventListener('mouseleave', handleDragEnd);
 
         function rotateFurniture(id) {
             const item = placedFurniture.find(f => f.id === id);
@@ -828,9 +893,52 @@
             updateBudget();
         }
 
-        function savePlan() {
+        async function savePlan() {
+            // Save to localStorage as backup
             localStorage.setItem('apartmentPlan', JSON.stringify(placedFurniture));
-            alert('Plan saved! Your furniture layout has been stored.');
+
+            // Also save to Supabase for sync
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    const { error } = await supabaseClient
+                        .from('apartment_plans')
+                        .upsert({
+                            id: 'shared_plan',
+                            furniture: placedFurniture,
+                            updated_at: new Date().toISOString(),
+                            updated_by: session.user.email
+                        }, { onConflict: 'id' });
+
+                    if (error) {
+                        console.error('Supabase save error:', error);
+                        alert('Plan saved locally! (Cloud sync unavailable)');
+                    } else {
+                        alert('Plan saved and synced! Both of you can see the same layout.');
+                    }
+                }
+            } catch (e) {
+                console.error('Save error:', e);
+                alert('Plan saved locally!');
+            }
+        }
+
+        // Load from Supabase if available
+        async function loadFromSupabase() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('apartment_plans')
+                    .select('*')
+                    .eq('id', 'shared_plan')
+                    .single();
+
+                if (data && data.furniture) {
+                    return data.furniture;
+                }
+            } catch (e) {
+                console.log('No cloud save found, using local');
+            }
+            return null;
         }
 
         function downloadAsImage() {
@@ -861,10 +969,18 @@
         }
 
         // Load saved plan on page load
-        function loadPlan() {
-            const saved = localStorage.getItem('apartmentPlan');
-            if (saved) {
-                const items = JSON.parse(saved);
+        async function loadPlan() {
+            // Try Supabase first, then localStorage
+            let items = await loadFromSupabase();
+
+            if (!items) {
+                const saved = localStorage.getItem('apartmentPlan');
+                if (saved) {
+                    items = JSON.parse(saved);
+                }
+            }
+
+            if (items && items.length > 0) {
                 items.forEach(item => {
                     // Ensure proper dimensions
                     const paletteData = {
@@ -906,6 +1022,52 @@
 
         // Initialize
         loadPlan();
+
+        // Set up real-time subscription for live updates
+        async function setupRealtimeSync() {
+            try {
+                const channel = supabaseClient
+                    .channel('apartment_plans_changes')
+                    .on('postgres_changes', {
+                        event: '*',
+                        schema: 'public',
+                        table: 'apartment_plans',
+                        filter: 'id=eq.shared_plan'
+                    }, (payload) => {
+                        if (payload.new && payload.new.furniture) {
+                            // Clear current and reload
+                            furnitureLayer.innerHTML = '';
+                            placedFurniture = [];
+
+                            payload.new.furniture.forEach(item => {
+                                createFurnitureElement(item);
+                                placedFurniture.push(item);
+                            });
+                            updatePlacedList();
+                            updateBudget();
+
+                            // Show notification
+                            const updatedBy = payload.new.updated_by || 'Someone';
+                            if (updatedBy !== (supabaseClient.auth.getUser()?.data?.user?.email)) {
+                                showSyncNotification(updatedBy);
+                            }
+                        }
+                    })
+                    .subscribe();
+            } catch (e) {
+                console.log('Realtime sync not available');
+            }
+        }
+
+        function showSyncNotification(updatedBy) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-xl shadow-lg z-50';
+            notification.innerHTML = `<strong>Updated!</strong> ${updatedBy} made changes`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        setupRealtimeSync();
     </script>
 </body>
 
