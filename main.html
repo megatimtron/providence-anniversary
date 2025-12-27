@@ -3,11 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Authentication check - redirect to login if not authenticated
-        if (!sessionStorage.getItem('authenticated')) {
-            window.location.href = 'index.html';
-        }
+        // Supabase Authentication check - redirect to login if not authenticated
+        const SUPABASE_URL = 'https://ltpnhrvpwglitzjkvgwd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0cG5ocnZwd2dsaXR6amt2Z3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNjQ5NzYsImV4cCI6MjA4MTg0MDk3Nn0.AMO9x7GGvkIkCNMPlceX2DPLCaJ_SqaIzOTYYtUU7f0';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Check authentication
+        (async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'index.html';
+            }
+        })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
@@ -103,6 +112,9 @@
                         class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Calendar</a>
                     <a href="apartment-checklist.html"
                         class="px-4 py-2 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 rounded-xl hover:from-orange-100 hover:to-amber-100 transition-all font-semibold border border-orange-200">Apartment</a>
+                    <button onclick="handleSignOut()" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                        Sign Out
+                    </button>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden text-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,6 +134,9 @@
                 <a href="calendar.html" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Calendar</a>
                 <a href="apartment-checklist.html"
                     class="block text-gray-600 hover:text-gray-900 font-medium py-2">Apartment</a>
+                <button onclick="handleSignOut()" class="block text-left w-full text-gray-600 hover:text-gray-900 font-medium py-2">
+                    Sign Out
+                </button>
             </div>
         </div>
     </nav>
@@ -164,6 +179,77 @@
                             d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                     </svg>
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Home Announcement Banner -->
+    <section class="py-12 bg-gradient-to-r from-amber-50 via-orange-50 to-rose-50 border-y border-orange-100">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-orange-100 relative overflow-hidden">
+                <!-- Decorative elements -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-200/30 to-rose-200/30 rounded-full blur-2xl"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-200/30 to-orange-200/30 rounded-full blur-2xl"></div>
+
+                <div class="relative z-10">
+                    <div class="flex items-center justify-center gap-2 mb-4">
+                        <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                            </svg>
+                            BIG NEWS
+                        </span>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">
+                        We're Moving to New Haven!
+                    </h2>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-md">
+                                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                </svg>
+                            </div>
+                            <p class="font-bold text-gray-900 text-lg">The Audubon</p>
+                            <p class="text-gray-500 text-sm">New Haven, CT</p>
+                        </div>
+
+                        <div class="hidden md:block text-4xl">→</div>
+                        <div class="md:hidden text-2xl">↓</div>
+
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-md">
+                                <svg class="w-8 h-8 text-rose-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                            </div>
+                            <p class="font-bold text-gray-900 text-lg">Our First Home</p>
+                            <p class="text-gray-500 text-sm">Together</p>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-gray-600 text-lg mb-6 max-w-2xl mx-auto">
+                        A beautiful new chapter begins at <strong class="text-orange-600">The Audubon</strong> in New Haven.
+                        Our very first apartment together — where we'll build our life, make memories, and wake up next to each other every day.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <a href="apartment-checklist.html" class="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                            </svg>
+                            Furniture Checklist
+                        </a>
+                        <a href="apartment-planner.html" class="inline-flex items-center gap-2 bg-white text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all border border-gray-200 shadow-md hover:shadow-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                            </svg>
+                            Plan Layout
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -471,6 +557,12 @@
                 document.getElementById('widgetCountdown').innerText = diffDays;
                 document.getElementById('nextEventWidget').classList.remove('hidden');
             }
+        }
+
+        // Handle Sign Out
+        async function handleSignOut() {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'index.html';
         }
     </script>
 </body>
