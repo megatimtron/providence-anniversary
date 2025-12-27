@@ -153,6 +153,77 @@
             color: #666;
         }
 
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                max-height: 200px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                padding: 8px;
+            }
+
+            .sidebar > div,
+            .sidebar > h2 {
+                display: inline-block;
+                vertical-align: top;
+                white-space: normal;
+                margin-right: 16px;
+            }
+
+            .furniture-palette {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 8px;
+            }
+
+            .palette-item {
+                min-width: 70px;
+                flex-shrink: 0;
+            }
+
+            aside.w-80 {
+                display: none;
+            }
+
+            main {
+                padding: 8px;
+            }
+
+            #floorPlan {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        /* Long-press indicator */
+        .long-press-active {
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Remove button for touch */
+        .remove-btn-touch {
+            position: absolute;
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .info-panel {
             background: white;
             border-radius: 12px;
@@ -480,11 +551,12 @@
             <div class="mt-6 p-4 bg-orange-50 rounded-xl">
                 <h3 class="font-semibold text-orange-800 mb-2">Quick Tips</h3>
                 <ul class="text-sm text-orange-700 space-y-1">
-                    <li>• Drag furniture from the left panel</li>
+                    <li>• <strong>Desktop:</strong> Drag furniture from palette</li>
+                    <li>• <strong>Mobile:</strong> Tap furniture, then tap floor plan</li>
                     <li>• Drag placed items to reposition</li>
-                    <li>• Click item to rotate 90°</li>
-                    <li>• Double-click to remove</li>
-                    <li>• Use Undo to restore removed items</li>
+                    <li>• Click/tap item to rotate 90°</li>
+                    <li>• Double-click (or long-press on mobile) to remove</li>
+                    <li>• Furniture snaps to grid for alignment</li>
                 </ul>
             </div>
         </aside>
@@ -657,17 +729,51 @@
         // Drag from palette functionality
         document.querySelectorAll('.palette-item').forEach(item => {
             item.addEventListener('dragstart', function (e) {
+                const emojiEl = this.querySelector('span');
                 draggedItem = {
                     type: this.dataset.type,
                     width: parseInt(this.dataset.width),
                     height: parseInt(this.dataset.height),
-                    emoji: this.querySelector('span').textContent
+                    emoji: emojiEl ? emojiEl.textContent : '📦'
                 };
                 this.classList.add('dragging');
             });
 
             item.addEventListener('dragend', function () {
                 this.classList.remove('dragging');
+            });
+
+            // Touch support for dragging from palette
+            item.addEventListener('touchstart', function (e) {
+                const emojiEl = this.querySelector('span');
+                draggedItem = {
+                    type: this.dataset.type,
+                    width: parseInt(this.dataset.width),
+                    height: parseInt(this.dataset.height),
+                    emoji: emojiEl ? emojiEl.textContent : '📦'
+                };
+                this.classList.add('dragging');
+            }, { passive: true });
+
+            item.addEventListener('touchend', function (e) {
+                this.classList.remove('dragging');
+                // Get touch position and place furniture
+                if (draggedItem && e.changedTouches.length > 0) {
+                    const touch = e.changedTouches[0];
+                    const svgRect = svg.getBoundingClientRect();
+
+                    // Check if touch ended over the SVG
+                    if (touch.clientX >= svgRect.left && touch.clientX <= svgRect.right &&
+                        touch.clientY >= svgRect.top && touch.clientY <= svgRect.bottom) {
+
+                        const scale = 800 / svgRect.width;
+                        const x = (touch.clientX - svgRect.left) * scale - 50;
+                        const y = (touch.clientY - svgRect.top) * scale - 50;
+
+                        placeFurniture(draggedItem, snapToGrid(x), snapToGrid(y));
+                    }
+                    draggedItem = null;
+                }
             });
         });
 
@@ -768,6 +874,32 @@
 
             g.addEventListener('mousedown', startDrag);
             g.addEventListener('touchstart', startDrag, { passive: false });
+
+            // Long-press to remove on mobile (800ms)
+            let longPressTimer = null;
+            g.addEventListener('touchstart', function (e) {
+                longPressTimer = setTimeout(() => {
+                    g.classList.add('long-press-active');
+                    if (confirm('Remove this furniture?')) {
+                        removeFurniture(data.id);
+                    }
+                    g.classList.remove('long-press-active');
+                }, 800);
+            }, { passive: true });
+
+            g.addEventListener('touchend', function () {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+            });
+
+            g.addEventListener('touchmove', function () {
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+            });
 
             furnitureLayer.appendChild(g);
         }
