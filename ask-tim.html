@@ -735,8 +735,22 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .message-wrapper:hover .message-actions {
+        .message-wrapper:hover .message-actions,
+        .message-wrapper.show-actions .message-actions {
             display: flex;
+        }
+
+        /* Always show actions on mobile */
+        @media (max-width: 768px) {
+            .message-actions {
+                display: flex;
+                position: static;
+                margin-top: 0.5rem;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
         }
 
         .message-action-btn {
@@ -1287,10 +1301,9 @@
                 e.preventDefault();
                 sendMessage();
             }
-            // Auto-resize textarea
-            autoResizeTextarea();
         }
 
+        // Auto-resize textarea - called on input event
         function autoResizeTextarea() {
             const textarea = chatInput;
             textarea.style.height = 'auto';
@@ -1301,6 +1314,9 @@
         function resetTextareaHeight() {
             chatInput.style.height = '44px';
         }
+
+        // Attach input event for paste and other input methods
+        chatInput.addEventListener('input', autoResizeTextarea);
 
         function handleImageSelect(event) {
             const file = event.target.files[0];
@@ -1477,6 +1493,9 @@
         }
 
         async function regenerateResponse() {
+            // Prevent regenerating while already generating
+            if (isGenerating) return;
+
             // Get the last user message
             const lastUserMessage = [...chatHistory].reverse().find(m => m.role === 'user');
             if (!lastUserMessage) return;
@@ -1513,6 +1532,9 @@
         }
 
         async function sendMessage() {
+            // Prevent sending while already generating
+            if (isGenerating) return;
+
             const text = chatInput.value.trim();
             const hasImage = selectedImage !== null;
 
@@ -1938,6 +1960,10 @@
 
         async function createNewChat() {
             if (!currentUser) return;
+            if (isGenerating) {
+                alert('Please wait for the current response to finish.');
+                return;
+            }
 
             // Get selected model or use default
             const selectedModel = localStorage.getItem('selected_model') || 'models/gemini-2.5-flash';
@@ -1960,6 +1986,12 @@
         }
 
         async function switchToSession(sessionId) {
+            // Prevent switching while generating
+            if (isGenerating) {
+                alert('Please wait for the current response to finish.');
+                return;
+            }
+
             currentSessionId = sessionId;
             chatHistory = [];
             chatContainer.innerHTML = '';
@@ -1977,6 +2009,13 @@
             await loadChatHistory();
             renderHistory();
             renderChatList();
+
+            // Update model chip for this session
+            const session = chatSessions.find(s => s.id === sessionId);
+            if (session?.model) {
+                const modelName = session.model.replace('models/', '');
+                updateModelChip(modelName);
+            }
         }
 
         async function deleteSession(sessionId) {
