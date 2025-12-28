@@ -88,6 +88,52 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen">
+    <!-- Love Note Modal -->
+    <div id="loveNoteModal" class="fixed inset-0 z-[9999] flex items-center justify-center p-6" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.5s ease;">
+        <div id="loveNoteCard" class="bg-white rounded-3xl p-10 max-w-md w-full text-center shadow-2xl relative" style="transform: scale(0.9); transition: transform 0.5s ease;">
+            <div class="w-20 h-20 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full mx-auto flex items-center justify-center text-white mb-6 shadow-lg" style="animation: pulse 2s infinite;">
+                <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+            <p class="text-gray-400 text-sm uppercase tracking-widest mb-4">A note for you</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+                I will always love you
+            </h2>
+            <p class="text-gray-500 text-lg mb-8 italic">
+                No matter what, Bubsy. Always.
+            </p>
+            <button onclick="closeLoveNote()" class="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-rose-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-xl">
+                I love you too
+            </button>
+        </div>
+    </div>
+    <style>
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+    <script>
+        // Show love note on page load
+        setTimeout(() => {
+            const modal = document.getElementById('loveNoteModal');
+            const card = document.getElementById('loveNoteCard');
+            modal.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        }, 500);
+
+        function closeLoveNote() {
+            const modal = document.getElementById('loveNoteModal');
+            const card = document.getElementById('loveNoteCard');
+            card.style.transform = 'scale(0.9)';
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 500);
+        }
+    </script>
+
     <!-- Navigation - matching checklist style -->
     <nav class="bg-white border-b border-gray-100 sticky top-0 z-50"
         style="backdrop-filter: blur(12px); background: rgba(255,255,255,0.95);">
