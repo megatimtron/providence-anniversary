@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Furniture Checklist | Timothy & Ugo</title>
+    <script>
+        if (!sessionStorage.getItem('authenticated')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Modern checkbox */
+        .checkbox-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .checkbox-custom {
+            position: relative;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #D1D5DB;
+            border-radius: 6px;
+            background: white;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .checkbox-custom:hover {
+            border-color: #6366F1;
+            transform: scale(1.05);
+        }
+        .checkbox-custom.checked {
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+            border-color: #6366F1;
+        }
+        .checkbox-custom.checked::after {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 3px;
+            width: 4px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checked-item {
+            opacity: 0.45;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Budget bar */
+        .budget-bar {
+            height: 8px;
+            border-radius: 999px;
+            background: #F3F4F6;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .budget-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #059669);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 999px;
+        }
+        .budget-fill.warning { background: linear-gradient(90deg, #F59E0B, #D97706); }
+        .budget-fill.danger { background: linear-gradient(90deg, #EF4444, #DC2626); }
+
+        /* Room cards */
+        .room-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .room-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        /* Priority badges */
+        .priority-badge {
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .priority-1 { background: #FEE2E2; color: #991B1B; }
+        .priority-2 { background: #FEF3C7; color: #92400E; }
+        .priority-3 { background: #DBEAFE; color: #1E40AF; }
+
+        /* Link preview styles */
+        .link-btn {
+            opacity: 0.4;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+        }
+        .link-btn:hover {
+            opacity: 1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .link-btn.has-link {
+            opacity: 1;
+            color: #6366F1;
+        }
+        .link-preview {
+            display: flex;
+            gap: 14px;
+            padding: 14px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            margin-top: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        .link-preview:hover {
+            background: #FAFAFA;
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+            transform: translateY(-1px);
+        }
+        .link-preview img {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 10px;
+            flex-shrink: 0;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .link-preview-content {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+        .link-preview-title {
+            font-weight: 600;
+            font-size: 13.5px;
+            color: #1F2937;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+        .link-preview-site {
+            font-size: 11.5px;
+            color: #9CA3AF;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .link-preview-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #10B981;
+            margin-top: 6px;
+        }
+        .link-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .link-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Item details styles */
+        .item-actions {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+        }
+        .action-btn {
+            opacity: 0.35;
+            cursor: pointer;
+            padding: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background: none;
+            border: none;
+            border-radius: 6px;
+        }
+        .action-btn:hover {
+            opacity: 1;
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366F1;
+        }
+        .action-btn.has-data {
+            opacity: 0.9;
+            color: #6366F1;
+        }
+        .item-note {
+            font-size: 12.5px;
+            color: #6B7280;
+            margin-top: 6px;
+            padding-left: 32px;
+            line-height: 1.5;
+            background: #F9FAFB;
+            padding: 8px 12px 8px 32px;
+            border-radius: 8px;
+            border-left: 3px solid #E5E7EB;
+        }
+        .price-display {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 80px;
+            gap: 2px;
+        }
+        .estimated-price {
+            color: #D1D5DB;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .actual-price {
+            color: #10B981;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .savings-badge {
+            font-size: 9.5px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #D1FAE5;
+            color: #065F46;
+            margin-top: 3px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+        .overspent-badge {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .link-preview-mini {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.08);
+            text-decoration: none;
+            color: inherit;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .link-preview-mini:hover {
+            background: #FAFAFA;
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateX(2px);
+        }
+        .link-preview-mini img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .link-preview-mini .link-preview-content {
+            flex: 1;
+        }
+        .link-preview-mini .link-preview-title {
+            font-size: 12.5px;
+            -webkit-line-clamp: 1;
+        }
+        .delete-link {
+            color: #EF4444;
+            cursor: pointer;
+            padding: 6px 10px;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+        }
+        .delete-link:hover {
+            opacity: 1;
+            background: #FEE2E2;
+        }
+        .modal-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .modal-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .modal-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .add-item-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
+            margin-top: 12px;
+            border: 2px dashed #E5E7EB;
+            border-radius: 10px;
+            color: #9CA3AF;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: white;
+        }
+        .add-item-btn:hover {
+            border-color: #F97316;
+            color: #F97316;
+            background: #FFF7ED;
+            border-style: solid;
+            transform: translateY(-1px);
+        }
+        .custom-item {
+            background: linear-gradient(to right, rgba(249, 115, 22, 0.05), transparent);
+            border-left: 3px solid #F97316;
+            margin-left: -12px;
+            padding-left: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50" style="backdrop-filter: blur(12px); background: rgba(255,255,255,0.95);">
+        <div class="container mx-auto px-5 py-5">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-5">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Furniture Checklist</h1>
+                    <p class="text-sm text-gray-500 font-medium mt-0.5">Timothy & Ugo's New Apartment</p>
+                </div>
+                <div class="flex flex-wrap gap-2.5 items-center">
+                    <div class="bg-white border border-gray-200 px-4 py-2.5 rounded-xl shadow-sm">
+                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Spent</span>
+                        <div class="font-bold text-gray-900 text-base">
+                            $<span id="totalSpent">0</span><span class="text-sm text-gray-400 font-normal ml-1">/ $7,000</span>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 px-4 py-2.5 rounded-xl shadow-sm">
+                        <span class="text-xs font-semibold text-emerald-700 uppercase tracking-wide">Progress</span>
+                        <div class="font-bold text-emerald-900 text-base">
+                            <span id="itemsChecked">0</span><span class="text-sm text-emerald-600 font-normal mx-0.5">/</span><span id="totalItems">0</span>
+                        </div>
+                    </div>
+                    <div id="syncStatus" class="px-3 py-2 rounded-xl text-xs flex items-center gap-2 border border-gray-200 bg-white shadow-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-gray-400 animate-pulse" id="syncDot"></span>
+                        <span id="syncText" class="font-medium text-gray-600">Connecting...</span>
+                    </div>
+                    <a href="apartment-planner.html" class="px-4 py-2.5 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 rounded-xl hover:from-orange-100 hover:to-amber-100 transition-all text-sm font-semibold border border-orange-200 shadow-sm">
+                        Floor Plan
+                    </a>
+                    <a href="main.html" class="px-4 py-2.5 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all text-sm font-semibold shadow-sm">
+                        Back
+                    </a>
+                </div>
+            </div>
+            <!-- Budget Bar -->
+            <div class="mt-5">
+                <div class="budget-bar">
+                    <div class="budget-fill" id="budgetFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-5 py-7 max-w-6xl">
+        <!-- Timeline -->
+        <div class="bg-white rounded-2xl p-5 mb-7 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+            <h2 class="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">Shopping Timeline</h2>
+            <div class="flex flex-wrap gap-2.5">
+                <span class="px-4 py-2 bg-gradient-to-br from-red-50 to-rose-50 text-red-800 rounded-xl text-sm font-semibold border border-red-200">Jan 8-15: Order long lead items</span>
+                <span class="px-4 py-2 bg-gradient-to-br from-yellow-50 to-amber-50 text-yellow-800 rounded-xl text-sm font-semibold border border-yellow-200">Jan 22-29: Buy remaining items</span>
+                <span class="px-4 py-2 bg-gradient-to-br from-green-50 to-emerald-50 text-green-800 rounded-xl text-sm font-semibold border border-green-200">Feb 1-7: Assess after move-in</span>
+            </div>
+        </div>
+
+        <!-- Room Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="roomsContainer">
+            <!-- Bedroom -->
+            <div class="room-card bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                <div class="flex justify-between items-start mb-5">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">Bedroom</h3>
+                        <p class="text-xs text-gray-500 font-medium mt-1">11'6" x 11'5" (~126 sq ft)</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Budget</p>
+                        <p class="font-bold text-gray-900 text-sm mt-1">$1,360 - $3,550</p>
+                    </div>
+                </div>
+                <div class="space-y-1.5" data-room="bedroom">
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="550" data-item="Queen Bed Frame">
+                        <div class="checkbox-wrapper"><div class="checkbox-custom"></div></div>
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Queen Bed Frame</span>
+                            <span class="priority-badge priority-1">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$550</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="800" data-item="Queen Mattress">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Queen Mattress</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$800</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="160" data-item="Nightstands (2)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Nightstands (2)</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$160</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="350" data-item="Dresser">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Dresser</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$350</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="200" data-item="Bedding Set">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Bedding Set</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="80" data-item="Table Lamps (2)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Table Lamps (2)</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$80</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Living Room -->
+            <div class="room-card bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);" data-border-l-4 border-blue-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">Living Room</h3>
+                        <p class="text-xs text-gray-500 font-medium mt-1">Part of 12'3" x 17'4"</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Budget</p>
+                        <p class="font-bold text-gray-900 text-sm mt-1">$1,200 - $3,000</p>
+                    </div>
+                </div>
+                <div class="space-y-1.5" data-room="living">
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="900" data-item="Sofa (72-84 inch)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Sofa (72-84")</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$900</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="200" data-item="Coffee Table">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Coffee Table</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="250" data-item="TV Stand">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">TV Stand</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$250</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="400" data-item="50 inch Smart TV">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">50" Smart TV</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$400</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="200" data-item="Area Rug (5x7 or 6x9)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Area Rug (5'x7' or 6'x9')</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="80" data-item="Floor Lamp">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Floor Lamp</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$80</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="100" data-item="Side Table">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Side Table</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$100</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Dining Area -->
+            <div class="room-card bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);" data-border-l-4 border-yellow-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">Dining Area</h3>
+                        <p class="text-xs text-gray-500 font-medium mt-1">Part of Living/Dining</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Budget</p>
+                        <p class="font-bold text-gray-900 text-sm mt-1">$400 - $1,100</p>
+                    </div>
+                </div>
+                <div class="space-y-1.5" data-room="dining">
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="350" data-item="Dining Table (seats 4)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Dining Table (seats 4)</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$350</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="300" data-item="Dining Chairs (4)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Dining Chairs (4)</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$300</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Home Office -->
+            <div class="room-card bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);" data-border-l-4 border-purple-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">Home Office</h3>
+                        <p class="text-xs text-gray-500 font-medium mt-1">Living room corner recommended</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Budget</p>
+                        <p class="font-bold text-gray-900 text-sm mt-1">$640 - $1,400</p>
+                    </div>
+                </div>
+                <div class="space-y-1.5" data-room="office">
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="200" data-item="Desk (48-60 inch)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Desk (48-60")</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="300" data-item="Ergonomic Office Chair">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Ergonomic Office Chair</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$300</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="200" data-item="Monitor (24-27 inch)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Monitor (24-27")</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$200</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="50" data-item="Desk Lamp">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Desk Lamp</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$50</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Bathroom -->
+            <div class="room-card bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);" data-border-l-4 border-cyan-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">Bathroom</h3>
+                        <p class="text-xs text-gray-500 font-medium mt-1">Full bath with tub</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Budget</p>
+                        <p class="font-bold text-gray-900 text-sm mt-1">$145 - $300</p>
+                    </div>
+                </div>
+                <div class="space-y-1.5" data-room="bathroom">
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="50" data-item="Over-Toilet Storage">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Over-Toilet Storage</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$50</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="30" data-item="Shower Caddy">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Shower Caddy</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$30</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="25" data-item="Bath Mat">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Bath Mat</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$25</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="60" data-item="Towel Set">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Towel Set</span>
+                            <span class="priority-badge priority-1 ml-2">Priority 1</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$60</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="15" data-item="Waste Basket">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Waste Basket</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$15</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Walk-in Closet -->
+            <div class="room-card bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow: 0 1px 3px rgba(0,0,0,0.04);" data-border-l-4 border-orange-500">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-900">Walk-in Closet</h3>
+                        <p class="text-xs text-gray-500 font-medium mt-1">With W/D hookups</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Budget</p>
+                        <p class="font-bold text-gray-900 text-sm mt-1">$250 - $490</p>
+                    </div>
+                </div>
+                <div class="space-y-1.5" data-room="closet">
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="150" data-item="Closet Organizer System">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Closet Organizer System</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$150</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="40" data-item="Velvet Hangers (100)">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Velvet Hangers (100)</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$40</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="50" data-item="Storage Bins">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Storage Bins</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$50</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="40" data-item="Shoe Rack">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Shoe Rack</span>
+                            <span class="priority-badge priority-3 ml-2">Priority 3</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$40</span>
+                    </label>
+                    <label class="flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+                        <input type="checkbox" class="hidden" data-cost="30" data-item="Laundry Hamper">
+                        <div class="flex-1 flex items-center gap-2">
+                            <span class="text-gray-900 font-medium text-sm">Laundry Hamper</span>
+                            <span class="priority-badge priority-2 ml-2">Priority 2</span>
+                        </div>
+                        <span class="text-gray-600 font-semibold text-sm">$30</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shopping Tips -->
+        <div class="mt-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-6">
+            <h3 class="font-bold text-gray-800 mb-4">Money-Saving Tips</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Check Facebook Marketplace for big items (sofa, bed, dining)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>IKEA for storage, lighting, and organization</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Sign up for email coupons (Target, Wayfair = 20% off)</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>January is great for furniture sales!</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Invest in bed & office chair, save on side tables</span>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-orange-500">•</span>
+                    <span>Use moving company truck for Marketplace pickups</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Item Details Modal -->
+    <div id="itemModal" class="link-modal hidden">
+        <div class="link-modal-content">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="font-bold text-lg" id="modalItemName"></h3>
+                <button id="modalClose" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="modal-section">
+                <div class="modal-label">Notes</div>
+                <textarea id="itemNotes" placeholder="Add notes about this item..." class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none text-sm" rows="2"></textarea>
+            </div>
+
+            <!-- Price Section -->
+            <div class="modal-section">
+                <div class="modal-label">Price Tracking</div>
+                <div class="flex gap-4 items-center">
+                    <div class="flex-1">
+                        <label class="text-xs text-gray-500">Estimated</label>
+                        <div class="text-gray-400" id="modalEstimatedPrice">$0</div>
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-xs text-gray-500">Actual Price Paid</label>
+                        <div class="flex items-center gap-1">
+                            <span class="text-gray-400">$</span>
+                            <input type="number" id="itemActualPrice" placeholder="0" class="w-full px-2 py-1 border rounded focus:ring-2 focus:ring-orange-400 outline-none">
+                        </div>
+                    </div>
+                    <div id="savingsDisplay" class="text-center hidden">
+                        <div class="text-xs text-gray-500">Savings</div>
+                        <div id="savingsAmount" class="font-bold text-green-600"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links Section -->
+            <div class="modal-section">
+                <div class="modal-label">Product Links</div>
+                <div id="existingLinks" class="links-container mb-3"></div>
+                <div class="flex gap-2">
+                    <input type="url" id="linkInput" placeholder="Paste product URL to add..." class="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none text-sm">
+                    <button id="addLinkBtn" class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 text-sm">Add</button>
+                </div>
+                <div id="linkPreviewLoading" class="hidden text-center py-3 text-gray-500 text-sm">Loading preview...</div>
+                <div id="linkPreviewResult" class="hidden mt-2"></div>
+            </div>
+
+            <!-- Save Button -->
+            <button id="saveItemDetails" class="w-full py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 font-medium">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Add Custom Item Modal -->
+    <div id="addItemModal" class="link-modal hidden">
+        <div class="link-modal-content" style="max-width: 400px;">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="font-bold text-lg">Add Custom Item</h3>
+                <button id="addItemClose" class="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            </div>
+            <p class="text-sm text-gray-500 mb-4">Adding to: <span id="addItemRoom" class="font-medium text-gray-700"></span></p>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm text-gray-600">Item Name *</label>
+                    <input type="text" id="newItemName" placeholder="e.g., Floor Lamp" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none mt-1">
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600">Estimated Price *</label>
+                    <div class="flex items-center gap-1 mt-1">
+                        <span class="text-gray-400">$</span>
+                        <input type="number" id="newItemPrice" placeholder="0" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm text-gray-600">Priority</label>
+                    <select id="newItemPriority" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none mt-1">
+                        <option value="1">Priority 1 - Essential</option>
+                        <option value="2" selected>Priority 2 - Important</option>
+                        <option value="3">Priority 3 - Nice to have</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="saveNewItem" class="w-full py-3 bg-orange-600 text-white rounded-xl hover:bg-orange-700 font-medium mt-6">Add Item</button>
+        </div>
+    </div>
+
+    <script>
+        const BUDGET = 7000;
+        const SUPABASE_URL = 'https://ltpnhrvpwglitzjkvgwd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0cG5ocnZwd2dsaXR6amt2Z3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNjQ5NzYsImV4cCI6MjA4MTg0MDk3Nn0.AMO9x7GGvkIkCNMPlceX2DPLCaJ_SqaIzOTYYtUU7f0';
+
+        // Initialize Supabase client (with silent logging)
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false },
+            realtime: {
+                params: { eventsPerSecond: 10 },
+                // Suppress console logs
+                logger: undefined
+            }
+        });
+        let checkedItems = {};
+        let isOnline = true;
+
+        // Sync status UI helpers
+        function setSyncStatus(status, message) {
+            const dot = document.getElementById('syncDot');
+            const text = document.getElementById('syncText');
+            dot.className = 'w-2 h-2 rounded-full';
+
+            switch(status) {
+                case 'connected':
+                    dot.classList.add('bg-green-500');
+                    text.textContent = message || 'Synced';
+                    break;
+                case 'syncing':
+                    dot.classList.add('bg-yellow-500', 'animate-pulse');
+                    text.textContent = message || 'Syncing...';
+                    break;
+                case 'offline':
+                    dot.classList.add('bg-red-500');
+                    text.textContent = message || 'Offline';
+                    break;
+                default:
+                    dot.classList.add('bg-gray-400', 'animate-pulse');
+                    text.textContent = message || 'Connecting...';
+            }
+        }
+
+        async function loadFromSupabase() {
+            try {
+                setSyncStatus('syncing', 'Loading...');
+                const { data, error } = await supabaseClient
+                    .from('furniture_checklist')
+                    .select('*');
+
+                console.log('Supabase response:', { data, error });
+                if (error) throw error;
+
+                checkedItems = {};
+                data.forEach(row => {
+                    if (row.is_checked) {
+                        checkedItems[row.item_name] = true;
+                    }
+                });
+
+                // Also save to localStorage as backup
+                localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                isOnline = true;
+                setSyncStatus('connected');
+                return true;
+            } catch (err) {
+                console.warn('Supabase load failed, using localStorage:', err);
+                checkedItems = JSON.parse(localStorage.getItem('furnitureChecklist') || '{}');
+                isOnline = false;
+                setSyncStatus('offline', 'Using local');
+                return false;
+            }
+        }
+
+        async function saveToSupabase(itemName, isChecked) {
+            try {
+                setSyncStatus('syncing');
+                const { error } = await supabaseClient
+                    .from('furniture_checklist')
+                    .upsert({
+                        item_name: itemName,
+                        is_checked: isChecked,
+                        checked_at: isChecked ? new Date().toISOString() : null,
+                        updated_at: new Date().toISOString()
+                    });
+
+                if (error) throw error;
+                isOnline = true;
+                setSyncStatus('connected');
+            } catch (err) {
+                console.warn('Supabase save failed:', err);
+                isOnline = false;
+                setSyncStatus('offline', 'Saved locally');
+            }
+        }
+
+        // Sync visual checkbox with actual state
+        function syncCheckboxVisual(checkbox) {
+            const label = checkbox.closest('label');
+            const customCheckbox = label.querySelector('.checkbox-custom');
+            if (checkbox.checked) {
+                label.classList.add('checked-item');
+                if (customCheckbox) customCheckbox.classList.add('checked');
+            } else {
+                label.classList.remove('checked-item');
+                if (customCheckbox) customCheckbox.classList.remove('checked');
+            }
+        }
+
+        function applyCheckboxState() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                const item = cb.dataset.item;
+                const shouldBeChecked = !!checkedItems[item];
+                if (cb.checked !== shouldBeChecked) {
+                    cb.checked = shouldBeChecked;
+                }
+                syncCheckboxVisual(cb);
+            });
+            updateTotals();
+        }
+
+        async function init() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            document.getElementById('totalItems').textContent = checkboxes.length;
+
+            // Load initial state from Supabase (falls back to localStorage)
+            await loadFromSupabase();
+            applyCheckboxState();
+
+            // Subscribe to realtime changes
+            supabaseClient
+                .channel('furniture_changes')
+                .on('postgres_changes',
+                    { event: '*', schema: 'public', table: 'furniture_checklist' },
+                    (payload) => {
+                        console.log('Realtime update:', payload);
+                        const { new: newRow, old: oldRow } = payload;
+
+                        if (payload.eventType === 'DELETE' && oldRow) {
+                            delete checkedItems[oldRow.item_name];
+                        } else if (newRow) {
+                            if (newRow.is_checked) {
+                                checkedItems[newRow.item_name] = true;
+                            } else {
+                                delete checkedItems[newRow.item_name];
+                            }
+                        }
+
+                        localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                        applyCheckboxState();
+                    }
+                )
+                .subscribe((status) => {
+                    if (status === 'SUBSCRIBED') {
+                        setSyncStatus('connected', 'Live sync');
+                    }
+                });
+
+            // Add event listeners
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', async function() {
+                    const item = this.dataset.item;
+                    if (this.checked) {
+                        checkedItems[item] = true;
+                    } else {
+                        delete checkedItems[item];
+                    }
+
+                    // Update visual state
+                    syncCheckboxVisual(this);
+
+                    // Save to localStorage immediately
+                    localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                    updateTotals();
+
+                    // Sync to Supabase
+                    await saveToSupabase(item, this.checked);
+                });
+            });
+        }
+
+        function updateTotals() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let totalSpent = 0;
+            let itemsChecked = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    totalSpent += parseInt(cb.dataset.cost);
+                    itemsChecked++;
+                }
+            });
+
+            document.getElementById('totalSpent').textContent = totalSpent.toLocaleString();
+            document.getElementById('itemsChecked').textContent = itemsChecked;
+
+            const percentage = (totalSpent / BUDGET) * 100;
+            const budgetFill = document.getElementById('budgetFill');
+            budgetFill.style.width = Math.min(percentage, 100) + '%';
+
+            budgetFill.classList.remove('warning', 'danger');
+            if (percentage > 100) {
+                budgetFill.classList.add('danger');
+            } else if (percentage > 80) {
+                budgetFill.classList.add('warning');
+            }
+        }
+
+        // ========== ITEM DETAILS FUNCTIONALITY ==========
+        let itemLinks = {};      // { itemName: [array of links] }
+        let itemDetails = {};    // { itemName: { notes, actual_price, estimated_price } }
+        let currentItem = null;
+        let currentPreviewData = null;
+        let pendingLinks = [];   // Links to add when saving
+
+        // Load all item data
+        async function loadItemData() {
+            try {
+                // Load links
+                const { data: linksData, error: linksError } = await supabaseClient
+                    .from('item_links')
+                    .select('*');
+
+                if (!linksError && linksData) {
+                    itemLinks = {};
+                    linksData.forEach(link => {
+                        if (!itemLinks[link.item_name]) {
+                            itemLinks[link.item_name] = [];
+                        }
+                        itemLinks[link.item_name].push(link);
+                    });
+                }
+
+                // Load item details (notes, actual prices)
+                const { data: detailsData, error: detailsError } = await supabaseClient
+                    .from('furniture_checklist')
+                    .select('item_name, notes, actual_price, estimated_price');
+
+                if (!detailsError && detailsData) {
+                    detailsData.forEach(item => {
+                        if (item.notes || item.actual_price) {
+                            itemDetails[item.item_name] = item;
+                        }
+                    });
+                }
+
+                renderAllItemExtras();
+            } catch (err) {
+                console.warn('Failed to load item data:', err);
+            }
+        }
+
+        // Add edit buttons to each item
+        function addEditButtons() {
+            const labels = document.querySelectorAll('label[class*="flex items-center"]');
+            labels.forEach(label => {
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                if (!checkbox) return;
+
+                const itemName = checkbox.dataset.item;
+                const estimatedPrice = parseInt(checkbox.dataset.cost);
+                const priceSpan = label.querySelector('span.text-gray-500:last-child');
+
+                if (priceSpan && !label.querySelector('.action-btn')) {
+                    // Create edit button
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'action-btn';
+                    editBtn.innerHTML = '✏️';
+                    editBtn.title = 'Edit item details';
+                    editBtn.dataset.item = itemName;
+                    editBtn.dataset.estimated = estimatedPrice;
+                    editBtn.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openItemModal(itemName, estimatedPrice);
+                    };
+                    priceSpan.parentNode.insertBefore(editBtn, priceSpan);
+                }
+            });
+        }
+
+        function openItemModal(itemName, estimatedPrice) {
+            currentItem = itemName;
+            pendingLinks = [];
+            currentPreviewData = null;
+
+            const details = itemDetails[itemName] || {};
+            const links = itemLinks[itemName] || [];
+
+            // Set modal content
+            document.getElementById('modalItemName').textContent = itemName;
+            document.getElementById('itemNotes').value = details.notes || '';
+            document.getElementById('modalEstimatedPrice').textContent = '$' + estimatedPrice;
+            document.getElementById('itemActualPrice').value = details.actual_price || '';
+
+            // Update savings display
+            updateSavingsDisplay(estimatedPrice, details.actual_price);
+
+            // Render existing links
+            renderExistingLinks(links);
+
+            // Clear link input
+            document.getElementById('linkInput').value = '';
+            document.getElementById('linkPreviewResult').innerHTML = '';
+            document.getElementById('linkPreviewResult').classList.add('hidden');
+            document.getElementById('linkPreviewLoading').classList.add('hidden');
+
+            document.getElementById('itemModal').classList.remove('hidden');
+        }
+
+        function closeItemModal() {
+            document.getElementById('itemModal').classList.add('hidden');
+            currentItem = null;
+            pendingLinks = [];
+        }
+
+        function updateSavingsDisplay(estimated, actual) {
+            const savingsDiv = document.getElementById('savingsDisplay');
+            const savingsAmount = document.getElementById('savingsAmount');
+
+            if (actual && actual > 0) {
+                const diff = estimated - actual;
+                savingsDiv.classList.remove('hidden');
+                if (diff >= 0) {
+                    savingsAmount.textContent = '$' + diff;
+                    savingsAmount.className = 'font-bold text-green-600';
+                } else {
+                    savingsAmount.textContent = '+$' + Math.abs(diff);
+                    savingsAmount.className = 'font-bold text-red-600';
+                }
+            } else {
+                savingsDiv.classList.add('hidden');
+            }
+        }
+
+        function renderExistingLinks(links) {
+            const container = document.getElementById('existingLinks');
+            if (links.length === 0) {
+                container.innerHTML = '<p class="text-gray-400 text-sm">No links added yet</p>';
+                return;
+            }
+
+            container.innerHTML = links.map(link => `
+                <div class="link-preview-mini">
+                    ${link.image ? `<img src="${link.image}" alt="" onerror="this.style.display='none'">` : '<div style="width:50px;height:50px;background:#E5E7EB;border-radius:6px;"></div>'}
+                    <div class="link-preview-content">
+                        <div class="link-preview-title">${link.title || 'View Product'}</div>
+                        <div class="link-preview-site">${link.site_name || ''} ${link.price ? '• ' + link.price : ''}</div>
+                    </div>
+                    <a href="${link.url}" target="_blank" class="text-blue-500 text-sm px-2">Open</a>
+                    <button class="delete-link" data-id="${link.id}" title="Remove">&times;</button>
+                </div>
+            `).join('');
+
+            // Add delete handlers
+            container.querySelectorAll('.delete-link').forEach(btn => {
+                btn.onclick = () => deleteLink(parseInt(btn.dataset.id));
+            });
+        }
+
+        async function deleteLink(linkId) {
+            try {
+                await supabaseClient.from('item_links').delete().eq('id', linkId);
+                // Remove from local cache
+                for (const itemName in itemLinks) {
+                    itemLinks[itemName] = itemLinks[itemName].filter(l => l.id !== linkId);
+                }
+                renderExistingLinks(itemLinks[currentItem] || []);
+                renderAllItemExtras();
+            } catch (err) {
+                console.error('Failed to delete link:', err);
+            }
+        }
+
+        async function fetchLinkPreview(url) {
+            document.getElementById('linkPreviewLoading').classList.remove('hidden');
+            document.getElementById('linkPreviewResult').classList.add('hidden');
+
+            try {
+                const response = await fetch('/.netlify/functions/link-preview', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                currentPreviewData = data;
+                showPreviewInModal(data);
+            } catch (err) {
+                currentPreviewData = { url, title: new URL(url).hostname, siteName: new URL(url).hostname };
+                showPreviewInModal(currentPreviewData);
+            } finally {
+                document.getElementById('linkPreviewLoading').classList.add('hidden');
+            }
+        }
+
+        function showPreviewInModal(data) {
+            document.getElementById('linkPreviewResult').innerHTML = `
+                <div class="link-preview-mini" style="background:#E8F5E9;border-color:#A5D6A7;">
+                    ${data.image ? `<img src="${data.image}" alt="" onerror="this.style.display='none'">` : ''}
+                    <div class="link-preview-content">
+                        <div class="link-preview-title">${data.title || 'No title'}</div>
+                        <div class="link-preview-site">${data.siteName || data.site_name || ''} ${data.price ? '• ' + data.price : ''}</div>
+                    </div>
+                    <span class="text-green-600 text-xs">Ready to add</span>
+                </div>
+            `;
+            document.getElementById('linkPreviewResult').classList.remove('hidden');
+        }
+
+        async function addCurrentLink() {
+            if (!currentPreviewData) return;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('item_links')
+                    .insert({
+                        item_name: currentItem,
+                        url: currentPreviewData.url,
+                        title: currentPreviewData.title,
+                        description: currentPreviewData.description,
+                        image: currentPreviewData.image,
+                        site_name: currentPreviewData.siteName || currentPreviewData.site_name,
+                        price: currentPreviewData.price
+                    })
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // Add to local cache
+                if (!itemLinks[currentItem]) itemLinks[currentItem] = [];
+                itemLinks[currentItem].push(data);
+
+                // Re-render
+                renderExistingLinks(itemLinks[currentItem]);
+                document.getElementById('linkInput').value = '';
+                document.getElementById('linkPreviewResult').classList.add('hidden');
+                currentPreviewData = null;
+
+                renderAllItemExtras();
+            } catch (err) {
+                console.error('Failed to add link:', err);
+                alert('Failed to add link');
+            }
+        }
+
+        async function saveItemDetails() {
+            if (!currentItem) return;
+
+            const notes = document.getElementById('itemNotes').value.trim();
+            const actualPrice = document.getElementById('itemActualPrice').value;
+            const checkbox = document.querySelector(`input[data-item="${currentItem}"]`);
+            const estimatedPrice = checkbox ? parseInt(checkbox.dataset.cost) : 0;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('furniture_checklist')
+                    .upsert({
+                        item_name: currentItem,
+                        notes: notes || null,
+                        actual_price: actualPrice ? parseInt(actualPrice) : null,
+                        estimated_price: estimatedPrice,
+                        updated_at: new Date().toISOString()
+                    });
+
+                if (error) throw error;
+
+                // Update local cache
+                itemDetails[currentItem] = { notes, actual_price: actualPrice ? parseInt(actualPrice) : null, estimated_price: estimatedPrice };
+
+                renderAllItemExtras();
+                closeItemModal();
+            } catch (err) {
+                console.error('Failed to save details:', err);
+                alert('Failed to save');
+            }
+        }
+
+        // Render notes and price info under each item
+        function renderAllItemExtras() {
+            const labels = document.querySelectorAll('label[class*="flex items-center"]');
+            labels.forEach(label => {
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                if (!checkbox) return;
+
+                const itemName = checkbox.dataset.item;
+                const estimatedPrice = parseInt(checkbox.dataset.cost);
+                const details = itemDetails[itemName] || {};
+                const links = itemLinks[itemName] || [];
+                const container = label.parentNode;
+
+                // Update edit button style
+                const editBtn = label.querySelector('.action-btn');
+                if (editBtn) {
+                    const hasData = details.notes || details.actual_price || links.length > 0;
+                    editBtn.classList.toggle('has-data', hasData);
+                }
+
+                // Remove old extras for THIS item only
+                let nextEl = label.nextElementSibling;
+                while (nextEl && (nextEl.classList.contains('item-note') || nextEl.classList.contains('links-container'))) {
+                    const toRemove = nextEl;
+                    nextEl = nextEl.nextElementSibling;
+                    toRemove.remove();
+                }
+
+                // Update price display
+                const priceSpan = label.querySelector('span.text-gray-500:last-child');
+                if (priceSpan && details.actual_price) {
+                    const savings = estimatedPrice - details.actual_price;
+                    priceSpan.innerHTML = `
+                        <span class="estimated-price">$${estimatedPrice}</span>
+                        <span class="actual-price">$${details.actual_price}</span>
+                        ${savings > 0 ? `<span class="savings-badge">-$${savings}</span>` :
+                          savings < 0 ? `<span class="savings-badge overspent-badge">+$${Math.abs(savings)}</span>` : ''}
+                    `;
+                } else if (priceSpan) {
+                    priceSpan.textContent = '$' + estimatedPrice;
+                }
+
+                // Insert extras after label: note first, then links
+                let insertPoint = label.nextSibling;
+
+                // Add note if exists
+                if (details.notes) {
+                    const noteDiv = document.createElement('div');
+                    noteDiv.className = 'item-note';
+                    noteDiv.textContent = details.notes;
+                    container.insertBefore(noteDiv, insertPoint);
+                }
+
+                // Add link previews if exist
+                if (links.length > 0) {
+                    const linksDiv = document.createElement('div');
+                    linksDiv.className = 'links-container';
+                    linksDiv.innerHTML = links.slice(0, 2).map(link => `
+                        <a href="${link.url}" target="_blank" rel="noopener" class="link-preview-mini">
+                            ${link.image ? `<img src="${link.image}" alt="" onerror="this.style.display='none'">` : ''}
+                            <div class="link-preview-content">
+                                <div class="link-preview-title">${link.title || 'View'}</div>
+                                <div class="link-preview-site">${link.site_name || ''} ${link.price ? '• ' + link.price : ''}</div>
+                            </div>
+                        </a>
+                    `).join('') + (links.length > 2 ? `<span class="text-xs text-gray-500">+${links.length - 2} more</span>` : '');
+
+                    // Insert after note if it exists, otherwise after label
+                    const noteDiv = label.nextElementSibling?.classList.contains('item-note') ? label.nextElementSibling : null;
+                    container.insertBefore(linksDiv, noteDiv ? noteDiv.nextSibling : insertPoint);
+                }
+            });
+
+            updateTotalsWithActual();
+        }
+
+        // Update totals using actual prices when available
+        function updateTotalsWithActual() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let totalSpent = 0;
+            let itemsChecked = 0;
+
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    const itemName = cb.dataset.item;
+                    const details = itemDetails[itemName];
+                    const price = details?.actual_price || parseInt(cb.dataset.cost);
+                    totalSpent += price;
+                    itemsChecked++;
+                }
+            });
+
+            document.getElementById('totalSpent').textContent = totalSpent.toLocaleString();
+            document.getElementById('itemsChecked').textContent = itemsChecked;
+
+            const percentage = (totalSpent / BUDGET) * 100;
+            const budgetFill = document.getElementById('budgetFill');
+            budgetFill.style.width = Math.min(percentage, 100) + '%';
+
+            budgetFill.classList.remove('warning', 'danger');
+            if (percentage > 100) {
+                budgetFill.classList.add('danger');
+            } else if (percentage > 80) {
+                budgetFill.classList.add('warning');
+            }
+        }
+
+        // Modal event listeners
+        document.getElementById('modalClose').onclick = closeItemModal;
+        document.getElementById('saveItemDetails').onclick = saveItemDetails;
+        document.getElementById('itemModal').onclick = (e) => {
+            if (e.target.id === 'itemModal') closeItemModal();
+        };
+        document.getElementById('addLinkBtn').onclick = addCurrentLink;
+
+        document.getElementById('itemActualPrice').oninput = (e) => {
+            const checkbox = document.querySelector(`input[data-item="${currentItem}"]`);
+            const estimated = checkbox ? parseInt(checkbox.dataset.cost) : 0;
+            updateSavingsDisplay(estimated, parseInt(e.target.value) || 0);
+        };
+
+        let debounceTimer;
+        document.getElementById('linkInput').oninput = (e) => {
+            clearTimeout(debounceTimer);
+            const url = e.target.value.trim();
+            if (url && url.startsWith('http')) {
+                debounceTimer = setTimeout(() => fetchLinkPreview(url), 500);
+            } else {
+                document.getElementById('linkPreviewResult').classList.add('hidden');
+                currentPreviewData = null;
+            }
+        };
+
+        // ========== END ITEM DETAILS ==========
+
+        // ========== CUSTOM ITEMS ==========
+        let customItems = [];
+        let currentAddRoom = null;
+
+        const roomNames = {
+            bedroom: 'Bedroom',
+            living: 'Living Room',
+            dining: 'Dining Area',
+            office: 'Home Office',
+            bathroom: 'Bathroom',
+            closet: 'Walk-in Closet'
+        };
+
+        async function loadCustomItems() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('custom_items')
+                    .select('*')
+                    .order('created_at', { ascending: true });
+
+                if (!error && data) {
+                    customItems = data;
+                    renderCustomItems();
+                }
+            } catch (err) {
+                console.warn('Failed to load custom items:', err);
+            }
+        }
+
+        function addAddItemButtons() {
+            document.querySelectorAll('[data-room]').forEach(roomDiv => {
+                const room = roomDiv.dataset.room;
+                if (!roomDiv.querySelector('.add-item-btn')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'add-item-btn';
+                    btn.innerHTML = '<span>+</span> Add Custom Item';
+                    btn.onclick = () => openAddItemModal(room);
+                    roomDiv.appendChild(btn);
+                }
+            });
+        }
+
+        function openAddItemModal(room) {
+            currentAddRoom = room;
+            document.getElementById('addItemRoom').textContent = roomNames[room] || room;
+            document.getElementById('newItemName').value = '';
+            document.getElementById('newItemPrice').value = '';
+            document.getElementById('newItemPriority').value = '2';
+            document.getElementById('addItemModal').classList.remove('hidden');
+            document.getElementById('newItemName').focus();
+        }
+
+        function closeAddItemModal() {
+            document.getElementById('addItemModal').classList.add('hidden');
+            currentAddRoom = null;
+        }
+
+        async function saveCustomItem() {
+            const name = document.getElementById('newItemName').value.trim();
+            const price = parseInt(document.getElementById('newItemPrice').value) || 0;
+            const priority = document.getElementById('newItemPriority').value;
+
+            if (!name || !currentAddRoom) {
+                alert('Please enter an item name');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('custom_items')
+                    .insert({
+                        room: currentAddRoom,
+                        name: name,
+                        estimated_price: price,
+                        priority: parseInt(priority)
+                    })
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                customItems.push(data);
+                renderCustomItem(data);
+                closeAddItemModal();
+                document.getElementById('totalItems').textContent =
+                    document.querySelectorAll('input[type="checkbox"]').length;
+            } catch (err) {
+                console.error('Failed to save custom item:', err);
+                alert('Failed to add item');
+            }
+        }
+
+        function renderCustomItems() {
+            customItems.forEach(item => renderCustomItem(item));
+            document.getElementById('totalItems').textContent =
+                document.querySelectorAll('input[type="checkbox"]').length;
+        }
+
+        function renderCustomItem(item) {
+            const roomDiv = document.querySelector(`[data-room="${item.room}"]`);
+            if (!roomDiv) return;
+
+            // Check if already rendered
+            if (document.querySelector(`input[data-item="${item.name}"][data-custom="true"]`)) return;
+
+            const addBtn = roomDiv.querySelector('.add-item-btn');
+
+            const label = document.createElement('label');
+            label.className = 'flex items-center gap-3.5 p-3 rounded-xl hover:bg-gray-50 cursor-pointer custom-item transition-colors';
+            label.innerHTML = `
+                <input type="checkbox" class="hidden" data-cost="${item.estimated_price}" data-item="${item.name}" data-custom="true" data-id="${item.id}">
+                <div class="checkbox-wrapper"><div class="checkbox-custom"></div></div>
+                <div class="flex-1 flex items-center gap-2">
+                    <span class="text-gray-900 font-medium text-sm">${item.name}</span>
+                </div>
+                <span class="text-gray-600 font-semibold text-sm">$${item.estimated_price}</span>
+            `;
+
+            // Insert before add button
+            if (addBtn) {
+                roomDiv.insertBefore(label, addBtn);
+            } else {
+                roomDiv.appendChild(label);
+            }
+
+            // Add event listener
+            const checkbox = label.querySelector('input[type="checkbox"]');
+            checkbox.addEventListener('change', async function() {
+                const itemName = this.dataset.item;
+                if (this.checked) {
+                    checkedItems[itemName] = true;
+                } else {
+                    delete checkedItems[itemName];
+                }
+                syncCheckboxVisual(this);
+                localStorage.setItem('furnitureChecklist', JSON.stringify(checkedItems));
+                updateTotals();
+                await saveToSupabase(itemName, this.checked);
+            });
+
+            // Restore checked state
+            if (checkedItems[item.name]) {
+                checkbox.checked = true;
+            }
+            syncCheckboxVisual(checkbox);
+
+            // Add edit button for custom item
+            const priceSpan = label.querySelector('span.text-gray-500');
+            if (priceSpan) {
+                const editBtn = document.createElement('button');
+                editBtn.className = 'action-btn';
+                editBtn.innerHTML = '✏️';
+                editBtn.title = 'Edit item details';
+                editBtn.dataset.item = item.name;
+                editBtn.dataset.estimated = item.estimated_price;
+                editBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openItemModal(item.name, item.estimated_price);
+                };
+                priceSpan.parentNode.insertBefore(editBtn, priceSpan);
+            }
+        }
+
+        // Add item modal event listeners
+        document.getElementById('addItemClose').onclick = closeAddItemModal;
+        document.getElementById('saveNewItem').onclick = saveCustomItem;
+        document.getElementById('addItemModal').onclick = (e) => {
+            if (e.target.id === 'addItemModal') closeAddItemModal();
+        };
+
+        // ========== END CUSTOM ITEMS ==========
+
+        init();
+        addEditButtons();
+        addAddItemButtons();
+        loadItemData();
+        loadCustomItems();
+    </script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+    <meta name="theme-color" content="#C07F63">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        .login-bg {
+            background: linear-gradient(135deg, rgba(192, 127, 99, 0.6) 0%, rgba(169, 104, 76, 0.7) 100%),
+                        url('assets/images/ugo1.jpg') center/cover fixed;
+        }
+        .login-bg.midnight {
+            background: linear-gradient(135deg, rgba(30, 41, 82, 0.85) 0%, rgba(45, 55, 100, 0.9) 100%),
+                        url('assets/images/ugo1.jpg') center/cover fixed;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .shake { animation: shake 0.5s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float { animation: float 3s ease-in-out infinite; }
+
+        /* Midnight message styles */
+        .midnight-message {
+            animation: fadeInDown 1s ease-out, glow 2s ease-in-out infinite;
+        }
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                             0 0 20px rgba(255, 255, 255, 0.3),
+                             0 0 30px rgba(192, 127, 99, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 30px rgba(255, 255, 255, 0.5),
+                             0 0 40px rgba(192, 127, 99, 0.5);
+            }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        .star {
+            position: absolute;
+            color: white;
+            animation: twinkle ease-in-out infinite;
+            pointer-events: none;
+        }
+        .moon {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Congratulations styles */
+        .congrats-card {
+            background: rgba(255, 255, 255, 0.95);
+            animation: fadeInDown 1s ease-out, celebrate 3s ease-in-out infinite;
+        }
+        @keyframes celebrate {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); }
+        }
+        .confetti {
+            position: absolute;
+            font-size: 24px;
+            animation: confetti-fall linear infinite;
+            pointer-events: none;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginBg" class="login-bg min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
+
+        <!-- Stars container (for midnight) -->
+        <div id="stars" class="hidden"></div>
+
+        <!-- Confetti container -->
+        <div id="confetti"></div>
+
+        <!-- Congratulations Card -->
+        <div class="congrats-card rounded-2xl p-6 md:p-8 max-w-md w-full text-center mb-6 relative z-10">
+            <img src="assets/images/ynnh-transparent.png" alt="Yale New Haven Health" class="h-12 md:h-16 mx-auto mb-4">
+            <h2 style="font-family: 'Playfair Display', serif;" class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+                Congratulations!
+            </h2>
+            <p class="text-gray-700 text-lg mb-2">
+                On accepting the <strong>Inpatient Pediatric Psych Nursing</strong> role
+            </p>
+            <p class="text-gray-600 text-sm italic">
+                With special thanks to Boston Children's Hospital
+            </p>
+            <div class="mt-4 text-3xl">🎉</div>
+        </div>
+
+        <!-- Midnight Message -->
+        <div id="midnightMessage" class="hidden text-center mb-8 midnight-message">
+            <div class="moon text-5xl mb-4">🌙</div>
+            <p class="text-white text-2xl md:text-3xl font-light" style="font-family: 'Playfair Display', serif;">
+                Even at midnight...
+            </p>
+            <p class="text-white text-3xl md:text-4xl font-bold mt-2" style="font-family: 'Playfair Display', serif;">
+                you're on my mind
+            </p>
+            <p class="text-white/70 text-lg mt-4 italic">
+                I hope your night shift goes smoothly, my love
+            </p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="glass-card rounded-3xl p-10 md:p-14 max-w-md w-full text-center relative z-10">
+            <div class="float text-6xl mb-6">💕</div>
+            <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl md:text-5xl font-bold text-white mb-4">
+                For You
+            </h1>
+            <p class="text-white/90 text-lg mb-8">
+                This space was made for someone special.<br>
+                <span class="italic">You know who you are.</span>
+            </p>
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-white/80 text-sm mb-2 text-left">Enter your name, my love</label>
+                    <input type="text" id="nameInput" class="w-full px-5 py-4 rounded-xl text-gray-800 text-lg text-center font-medium focus:ring-2 focus:ring-orange-400 outline-none" placeholder="..." autocomplete="off" autofocus>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 text-white py-4 rounded-xl font-semibold text-lg hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-sm hover:shadow-xl transform hover:scale-105">
+                    Enter Our World
+                </button>
+                <p id="errorMsg" class="text-red-200 text-sm hidden">That's not quite right, try again...</p>
+            </form>
+            <p class="mt-8 text-white/60 text-sm italic">"Some things can only be explained by magic"</p>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('loginForm');
+        const input = document.getElementById('nameInput');
+        const errorMsg = document.getElementById('errorMsg');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value.trim().toLowerCase() === 'ugonwanyi') {
+                sessionStorage.setItem('authenticated', 'true');
+                window.location.href = 'main.html';
+            } else {
+                errorMsg.classList.remove('hidden');
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        });
+
+        input.addEventListener('input', () => errorMsg.classList.add('hidden'));
+
+        // Midnight message feature
+        function checkMidnight() {
+            const now = new Date();
+            const hour = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Show message during night shift (11:45 PM - 7:00 AM)
+            const isMidnight = (hour === 23 && minutes >= 45) || (hour >= 0 && hour < 7);
+
+            if (isMidnight) {
+                showMidnightMessage();
+            }
+        }
+
+        function showMidnightMessage() {
+            const loginBg = document.getElementById('loginBg');
+            const midnightMessage = document.getElementById('midnightMessage');
+            const starsContainer = document.getElementById('stars');
+
+            // Change to night theme
+            loginBg.classList.add('midnight');
+
+            // Show the message
+            midnightMessage.classList.remove('hidden');
+
+            // Show and create stars
+            starsContainer.classList.remove('hidden');
+            createStars();
+        }
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starSymbols = ['✦', '✧', '★', '☆', '✶'];
+
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.fontSize = (Math.random() * 15 + 8) + 'px';
+                star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                star.style.animationDelay = (Math.random() * 2) + 's';
+                star.style.opacity = Math.random() * 0.5 + 0.3;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Check on page load
+        checkMidnight();
+
+        // Check every minute in case she's on the page when midnight hits
+        setInterval(checkMidnight, 60000);
+
+        // Create celebratory confetti
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const confettiEmojis = ['🎉', '🎊', '✨', '💫', '⭐', '🌟', '💛', '💙'];
+
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                confetti.style.animationDelay = (Math.random() * 5) + 's';
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        createConfetti();
+    </script>
+</body>
+</html>

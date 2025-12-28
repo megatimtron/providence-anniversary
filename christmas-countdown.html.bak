@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        if (!sessionStorage.getItem('authenticated')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to Christmas 2025 | iloveugo.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 50%, #1a472a 100%);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Advanced Snowfall Canvas */
+        #snowCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #fff;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .day-card {
+            background: linear-gradient(145deg, #c41e3a 0%, #8b0000 100%);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ffd700;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .day-card.locked {
+            background: linear-gradient(145deg, #4a4a4a 0%, #2c2c2c 100%);
+            border-color: #888;
+            cursor: not-allowed;
+        }
+
+        .day-card.locked:hover {
+            transform: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .day-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .lock-icon {
+            font-size: 1.5em;
+            opacity: 0.7;
+        }
+
+        .day-title {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .day-content {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #fff;
+            opacity: 0.95;
+        }
+
+        .day-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .locked-message {
+            font-size: 1.1em;
+            color: #ccc;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .ribbon {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background: #ffd700;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ribbon::before,
+        .ribbon::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: #ffd700;
+            top: 0;
+        }
+
+        .ribbon::before {
+            left: 50%;
+            transform: translateX(-50%) rotate(90deg);
+        }
+
+        .ribbon-vertical {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: #ffd700;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Expanded card state */
+        .day-card.expanded {
+            grid-column: 1 / -1;
+            background: linear-gradient(145deg, #d4af37 0%, #ffd700 100%);
+            color: #2d5a3d;
+        }
+
+        .day-card.expanded .day-number,
+        .day-card.expanded .day-title {
+            color: #8b0000;
+        }
+
+        .day-card.expanded .day-content {
+            color: #1a472a;
+            font-size: 1.2em;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #8b0000;
+            color: #ffd700;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 1.3em;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .day-card.expanded .close-btn {
+            display: flex;
+        }
+
+        .close-btn:hover {
+            background: #c41e3a;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .calendar-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .day-number {
+                font-size: 2em;
+            }
+
+            .day-title {
+                font-size: 1.2em;
+            }
+
+            .day-content {
+                font-size: 1em;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .calendar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+    <div class="container">
+        <header>
+            <h1>Countdown to Christmas 2025</h1>
+            <p class="subtitle">A special gift for each day 💝</p>
+        </header>
+
+        <div class="calendar-grid" id="calendar">
+            <!-- Days will be generated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONTENT DATA - EDIT THIS SECTION
+        // ============================================
+        // To add images: Update the "image" field with the path to your image
+        // Example: "image": "images/day1.jpg"
+        // Leave as empty string "" if no image for that day
+        // ============================================
+
+        const adventData = [
+            {
+                day: 17,
+                date: "December 17, 2025",
+                title: "Day 1: 72 Hours That Changed Everything",
+                message: "Who knew a swipe on Facebook Dating would lead to a 72-hour first date? From the moment we met, I knew you were different. Those three days felt like the beginning of forever, and every day since has proven me right.",
+                image: "photos/1.JPG"
+            },
+            {
+                day: 18,
+                date: "December 18, 2025",
+                title: "Day 2: Your Voice, Your Smile",
+                message: "Your voice is my favorite sound in the world - whether you're laughing, talking about your day, or just saying my name. And that smile? It's the light that makes every moment brighter. I could listen to you and look at you forever.",
+                image: "photos/2.JPG"
+            },
+            {
+                day: 19,
+                date: "December 19, 2025",
+                title: "Day 3: Providence & Beyond",
+                message: "Remember our trip to Providence? That's one of my favorite memories with you. But honestly, every adventure with you - big or small - becomes my new favorite. You make everything an adventure worth taking.",
+                image: "photos/3.JPG"
+            },
+            {
+                day: 20,
+                date: "December 20, 2025",
+                title: "Day 4: Sitting Next to You",
+                message: "One of my favorite things in the world is sitting next to you on every date. There's something magical about being close to you - making the best out of every moment, whether we're out exploring or just being together. That's where I'm happiest.",
+                image: "photos/4.JPG"
+            },
+            {
+                day: 21,
+                date: "December 21, 2025",
+                title: "Day 5: My Wife, My Promise",
+                message: "I call you my wife because that's what you are in my heart. These promise rings we wear aren't just jewelry - they're a symbol of my commitment to you, to us, to the life we're building together. You're my forever, Bubsy.",
+                image: "photos/5.JPG"
+            },
+            {
+                day: 22,
+                date: "December 22, 2025",
+                title: "Day 6: New Haven & Europe Dreams",
+                message: "I can't wait to live with you in New Haven, to build a home together where every morning starts with you. And Europe? We're going to explore it all - hand in hand, creating memories across every cobblestone street and café. Our future is so bright.",
+                image: "photos/6.JPG"
+            },
+            {
+                day: 23,
+                date: "December 23, 2025",
+                title: "Day 7: Your Sincerity",
+                message: "What I love most about you, Bubsy, is your sincerity. In a world full of pretense, you're real - genuine, honest, and true. You show up as yourself, and that authenticity is one of the many reasons I fell in love with you.",
+                image: "photos/7.JPG"
+            },
+            {
+                day: 24,
+                date: "December 24, 2025",
+                title: "Day 8: Our First Christmas Eve",
+                message: "This is our first Christmas together, and I'm so grateful it's just us. Tomorrow we'll be in Boston, celebrating this magical season side by side. You're the greatest gift I could ever receive, and I thank the universe every day for bringing you into my life.",
+                image: "photos/8.JPG"
+            },
+            {
+                day: 25,
+                date: "December 25, 2025",
+                title: "Day 9: Merry Christmas, My Love 🎄",
+                message: "Merry Christmas, Bubsy! Here we are in Boston, spending our first Christmas together - just the two of us. Thank you for being my wife, my best friend, my everything. Every moment with you is a gift. I love you more than all the stars in the sky, and I can't wait for all the Christmases to come. Here's to us, forever. ❤️",
+                image: "photos/9.JPG"
+            }
+        ];
+
+        // ============================================
+        // MAIN APPLICATION CODE
+        // ============================================
+
+        const calendar = document.getElementById('calendar');
+        let expandedCard = null;
+
+        // ========== ADVANCED CANVAS SNOWFALL ==========
+        const snowCanvas = document.getElementById('snowCanvas');
+        const ctx = snowCanvas.getContext('2d');
+        let snowflakes = [];
+        let mouseX = -100, mouseY = -100;
+        let wind = 0;
+        let windTarget = 0;
+        let accumulation = [];
+
+        function resizeCanvas() {
+            snowCanvas.width = window.innerWidth;
+            snowCanvas.height = window.innerHeight;
+            // Reset accumulation array for ground snow
+            accumulation = new Array(Math.ceil(snowCanvas.width / 3)).fill(0);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Track mouse for interaction
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        document.addEventListener('mouseleave', () => {
+            mouseX = -100;
+            mouseY = -100;
+        });
+
+        class Snowflake {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = Math.random() * snowCanvas.width;
+                this.y = initial ? Math.random() * snowCanvas.height : -10;
+                // Depth layer: 0 = far/small, 1 = close/large
+                this.depth = Math.random();
+                this.radius = 1 + this.depth * 3;
+                this.speed = 0.5 + this.depth * 1.5;
+                this.opacity = 0.3 + this.depth * 0.7;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = 0.02 + Math.random() * 0.03;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                // Crystal arms (6 for snowflake)
+                this.arms = 6;
+                this.armLength = this.radius * (1.5 + Math.random());
+            }
+
+            update() {
+                // Wobble side to side
+                this.wobble += this.wobbleSpeed;
+                const wobbleX = Math.sin(this.wobble) * (1 + this.depth);
+
+                // Apply wind (stronger effect on closer/larger flakes)
+                const windEffect = wind * (0.5 + this.depth * 0.5);
+
+                // Mouse repulsion
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const repelRadius = 80;
+                let repelX = 0, repelY = 0;
+                if (dist < repelRadius && dist > 0) {
+                    const force = (repelRadius - dist) / repelRadius * 2;
+                    repelX = (dx / dist) * force;
+                    repelY = (dy / dist) * force * 0.5;
+                }
+
+                this.x += wobbleX + windEffect + repelX;
+                this.y += this.speed + repelY;
+                this.rotation += this.rotationSpeed;
+
+                // Wrap horizontally
+                if (this.x > snowCanvas.width + 20) this.x = -20;
+                if (this.x < -20) this.x = snowCanvas.width + 20;
+
+                // Accumulate at bottom
+                if (this.y > snowCanvas.height - 5) {
+                    const idx = Math.floor(this.x / 3);
+                    if (idx >= 0 && idx < accumulation.length) {
+                        accumulation[idx] = Math.min(accumulation[idx] + 0.1, 15);
+                    }
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                // Draw snowflake crystal
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 0.5 + this.depth * 0.5;
+                ctx.lineCap = 'round';
+
+                // Simple flakes for tiny ones, detailed for larger
+                if (this.radius < 2) {
+                    // Tiny: just a dot with slight glow
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.fill();
+                } else {
+                    // Crystal snowflake
+                    for (let i = 0; i < this.arms; i++) {
+                        const angle = (Math.PI * 2 / this.arms) * i;
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        const endX = Math.cos(angle) * this.armLength;
+                        const endY = Math.sin(angle) * this.armLength;
+                        ctx.lineTo(endX, endY);
+
+                        // Add small branches
+                        if (this.radius > 2.5) {
+                            const branchLen = this.armLength * 0.4;
+                            const branchPos = 0.6;
+                            const midX = endX * branchPos;
+                            const midY = endY * branchPos;
+
+                            ctx.moveTo(midX, midY);
+                            ctx.lineTo(
+                                midX + Math.cos(angle + 0.5) * branchLen,
+                                midY + Math.sin(angle + 0.5) * branchLen
+                            );
+                            ctx.moveTo(midX, midY);
+                            ctx.lineTo(
+                                midX + Math.cos(angle - 0.5) * branchLen,
+                                midY + Math.sin(angle - 0.5) * branchLen
+                            );
+                        }
+                        ctx.stroke();
+                    }
+
+                    // Center dot
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.radius * 0.3, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.fill();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        // Initialize snowflakes
+        function initSnowflakes() {
+            const count = Math.min(150, Math.floor(window.innerWidth / 8));
+            for (let i = 0; i < count; i++) {
+                snowflakes.push(new Snowflake());
+            }
+        }
+
+        // Draw ground snow accumulation
+        function drawAccumulation() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.moveTo(0, snowCanvas.height);
+
+            for (let i = 0; i < accumulation.length; i++) {
+                const x = i * 3;
+                const height = accumulation[i];
+                ctx.lineTo(x, snowCanvas.height - height);
+            }
+
+            ctx.lineTo(snowCanvas.width, snowCanvas.height);
+            ctx.closePath();
+            ctx.fill();
+
+            // Slowly melt
+            for (let i = 0; i < accumulation.length; i++) {
+                accumulation[i] *= 0.999;
+            }
+        }
+
+        // Animation loop
+        function animateSnow() {
+            ctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+
+            // Update wind (gentle gusts)
+            if (Math.random() < 0.005) {
+                windTarget = (Math.random() - 0.5) * 3;
+            }
+            wind += (windTarget - wind) * 0.01;
+
+            // Draw accumulation
+            drawAccumulation();
+
+            // Update and draw snowflakes
+            snowflakes.forEach(flake => {
+                flake.update();
+                flake.draw();
+            });
+
+            requestAnimationFrame(animateSnow);
+        }
+
+        function createSnowflakes() {
+            initSnowflakes();
+            animateSnow();
+        }
+        // ========== END ADVANCED SNOWFALL ==========
+
+        // Check if a day is unlocked based on current date
+        function isDayUnlocked(day) {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth(); // 0-indexed
+            const currentDay = now.getDate();
+
+            // Check if we're in December 2025
+            if (currentYear === 2025 && currentMonth === 11) { // December is month 11
+                return currentDay >= day;
+            }
+
+            // If we're past December 2025, all days are unlocked
+            if (currentYear > 2025 || (currentYear === 2025 && currentMonth > 11)) {
+                return true;
+            }
+
+            // Otherwise, all days are locked
+            return false;
+        }
+
+        // Create a day card
+        function createDayCard(dayData) {
+            const card = document.createElement('div');
+            card.className = 'day-card';
+            const isUnlocked = isDayUnlocked(dayData.day);
+
+            if (!isUnlocked) {
+                card.classList.add('locked');
+            }
+
+            if (isUnlocked) {
+                card.innerHTML = `
+                    <button class="close-btn" onclick="closeCard(event)">×</button>
+                    <div class="day-header">
+                        <div class="day-number">${dayData.day}</div>
+                    </div>
+                    <div class="day-title">${dayData.title}</div>
+                    <div class="day-content">
+                        ${dayData.message}
+                        ${dayData.image ? `<img src="${dayData.image}" alt="${dayData.title}" class="day-image">` : ''}
+                    </div>
+                `;
+
+                card.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('close-btn') && !card.classList.contains('expanded')) {
+                        expandCard(card);
+                    }
+                });
+            } else {
+                card.innerHTML = `
+                    <div class="ribbon"></div>
+                    <div class="ribbon-vertical"></div>
+                    <div class="day-header">
+                        <div class="day-number">${dayData.day}</div>
+                        <div class="lock-icon">🔒</div>
+                    </div>
+                    <div class="locked-message">
+                        This gift will unlock on<br>${dayData.date}
+                    </div>
+                `;
+            }
+
+            return card;
+        }
+
+        // Expand a card to full width
+        function expandCard(card) {
+            if (expandedCard && expandedCard !== card) {
+                expandedCard.classList.remove('expanded');
+            }
+            card.classList.add('expanded');
+            expandedCard = card;
+
+            // Smooth scroll to expanded card
+            setTimeout(() => {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        // Close expanded card
+        function closeCard(event) {
+            event.stopPropagation();
+            const card = event.target.closest('.day-card');
+            card.classList.remove('expanded');
+            expandedCard = null;
+        }
+
+        // Initialize the calendar
+        function initCalendar() {
+            adventData.forEach(dayData => {
+                const card = createDayCard(dayData);
+                calendar.appendChild(card);
+            });
+        }
+
+        // Check for newly unlocked days every minute
+        function checkForNewUnlocks() {
+            setInterval(() => {
+                location.reload(); // Simple reload to check for new unlocks
+            }, 60000); // Check every minute
+        }
+
+        // Initialize everything
+        createSnowflakes();
+        initCalendar();
+        checkForNewUnlocks();
+
+        // Make closeCard globally available
+        window.closeCard = closeCard;
+    </script>
+</body>
+</html>
