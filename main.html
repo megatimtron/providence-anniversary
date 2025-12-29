@@ -154,30 +154,6 @@
                 A love story that defies all logic
             </p>
 
-            <!-- Floating Next Event Widget -->
-            <a href="calendar.html" id="nextEventWidget"
-                class="hidden block mx-auto mb-10 relative z-[60] transform hover:scale-[1.02] transition-transform duration-500 no-underline"
-                style="touch-action: manipulation;">
-                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 md:p-8 shadow-2xl flex items-center gap-6 max-w-xl mx-auto border-t border-l border-white/30">
-                    <div class="bg-white/20 text-white p-5 rounded-2xl shadow-inner backdrop-blur-md">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <span class="text-[11px] font-black text-orange-200 uppercase tracking-[0.3em] mb-1 block">Next
-                            Adventure</span>
-                        <h3 class="text-2xl font-black text-white leading-tight mb-1" id="widgetTitle">Next Event</h3>
-                        <p class="text-sm text-white/80 font-semibold" id="widgetDate">Date</p>
-                    </div>
-                    <div class="text-right bg-white/10 px-6 py-4 rounded-3xl border border-white/10 backdrop-blur-md">
-                        <span class="block text-4xl font-black text-white leading-none mb-1"
-                            id="widgetCountdown">0</span>
-                        <span class="text-[11px] text-orange-200 font-black uppercase tracking-widest">Days</span>
-                    </div>
-                </div>
-            </a>
 
             <div class="mt-8">
                 <a href="#story" class="inline-block animate-bounce text-white/90 hover:text-white transition-colors">
@@ -562,53 +538,6 @@
                 }
             });
         }
-
-        // Widget Logic
-        async function updateWidget() {
-            let allEvents = JSON.parse(localStorage.getItem('shared_calendar_events') || '[]');
-
-            // If local storage is empty, try to fetch from Supabase
-            if (allEvents.length === 0) {
-                const { data, error } = await supabaseClient
-                    .from('shared_calendar_events')
-                    .select('*')
-                    .gte('date', new Date().toISOString().split('T')[0])
-                    .order('date', { ascending: true })
-                    .limit(5);
-
-                if (data && data.length > 0) {
-                    allEvents = data;
-                    localStorage.setItem('shared_calendar_events', JSON.stringify(data));
-                }
-            }
-
-            if (allEvents.length > 0) {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-
-                const sorted = allEvents
-                    .map(e => ({ ...e, dateObj: new Date(e.date) }))
-                    .filter(e => e.dateObj >= today)
-                    .sort((a, b) => a.dateObj - b.dateObj);
-
-                if (sorted.length > 0) {
-                    const next = sorted[0];
-                    const diffTime = Math.abs(next.dateObj - today);
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                    document.getElementById('widgetTitle').innerText = next.title;
-                    document.getElementById('widgetDate').innerText = next.dateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-                    document.getElementById('widgetCountdown').innerText = diffDays;
-
-                    const widget = document.getElementById('nextEventWidget');
-                    widget.classList.remove('hidden');
-                    // Force a reflow for the animation logic if needed
-                    widget.style.opacity = '1';
-                    widget.style.transform = 'translateY(0)';
-                }
-            }
-        }
-        updateWidget();
 
         // Handle Sign Out
         async function handleSignOut() {
