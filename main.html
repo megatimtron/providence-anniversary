@@ -144,16 +144,35 @@
         </div>
     </nav>
 
-    <!-- Next Event Widget - Simple version -->
-    <div id="nextEventWidget" class="hidden">
-        <a href="calendar.html" class="block bg-gradient-to-r from-orange-500 to-rose-500 text-white py-4 px-6 text-center">
-            <span class="font-bold" id="widgetTitle">Loading...</span>
-            <span class="mx-2">•</span>
-            <span id="widgetDate">...</span>
-            <span class="mx-2">•</span>
-            <span class="font-bold"><span id="widgetCountdown">0</span> days away</span>
-        </a>
-    </div>
+    <!-- Next Event Widget -->
+    <a href="calendar.html" id="nextEventWidget" class="block">
+        <div class="bg-gradient-to-r from-orange-600 via-rose-500 to-pink-500 text-white py-5 px-6">
+            <div class="max-w-4xl mx-auto flex items-center justify-center gap-4 flex-wrap">
+                <div class="flex items-center gap-3">
+                    <div class="bg-white/20 p-2 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-xs text-white/70 uppercase tracking-wider font-semibold">Coming Up</p>
+                        <p class="font-bold text-lg" id="widgetTitle">Fenway Date Night</p>
+                    </div>
+                </div>
+                <div class="hidden sm:block w-px h-10 bg-white/30"></div>
+                <div class="text-center">
+                    <p class="text-3xl font-black" id="widgetCountdown">3</p>
+                    <p class="text-xs text-white/70 uppercase tracking-wider">days</p>
+                </div>
+                <div class="bg-white/20 px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+                    View Calendar
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </a>
 
     <!-- Hero Section -->
     <section class="hero-bg min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden">
@@ -549,34 +568,6 @@
                 }
             });
         }
-
-        // Simple Widget Logic
-        async function updateWidget() {
-            try {
-                const { data } = await supabaseClient
-                    .from('shared_calendar_events')
-                    .select('*')
-                    .gte('date', new Date().toISOString().split('T')[0])
-                    .order('date', { ascending: true })
-                    .limit(1);
-
-                if (data && data.length > 0) {
-                    const event = data[0];
-                    const eventDate = new Date(event.date);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
-
-                    document.getElementById('widgetTitle').textContent = event.title;
-                    document.getElementById('widgetDate').textContent = eventDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-                    document.getElementById('widgetCountdown').textContent = diffDays;
-                    document.getElementById('nextEventWidget').classList.remove('hidden');
-                }
-            } catch (e) {
-                console.log('Widget error:', e);
-            }
-        }
-        updateWidget();
 
         // Handle Sign Out
         async function handleSignOut() {
