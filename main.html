@@ -155,12 +155,11 @@
             </p>
 
             <!-- Floating Next Event Widget -->
-            <div id="nextEventWidget" onclick="window.location.href='calendar.html'" ontouchend="window.location.href='calendar.html'"
-                class="hidden mx-auto mb-10 relative z-[60] transform hover:scale-[1.02] transition-transform duration-500 cursor-pointer"
-                style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;">
-                <div class="block bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 md:p-8 shadow-2xl flex items-center gap-6 max-w-xl mx-auto border-t border-l border-white/30 pointer-events-none">
-                    <div
-                        class="bg-white/20 text-white p-5 rounded-2xl shadow-inner backdrop-blur-md group-hover:bg-white/30 transition-colors">
+            <a href="calendar.html" id="nextEventWidget"
+                class="hidden block mx-auto mb-10 relative z-[60] transform hover:scale-[1.02] transition-transform duration-500 no-underline"
+                style="touch-action: manipulation;">
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 md:p-8 shadow-2xl flex items-center gap-6 max-w-xl mx-auto border-t border-l border-white/30">
+                    <div class="bg-white/20 text-white p-5 rounded-2xl shadow-inner backdrop-blur-md">
                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -178,7 +177,7 @@
                         <span class="text-[11px] text-orange-200 font-black uppercase tracking-widest">Days</span>
                     </div>
                 </div>
-            </div>
+            </a>
 
             <div class="mt-8">
                 <a href="#story" class="inline-block animate-bounce text-white/90 hover:text-white transition-colors">
