@@ -112,6 +112,41 @@
             border-left: 3px solid #3B82F6;
         }
 
+        /* Mobile Event Dots */
+        .event-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-day {
+                min-height: 80px;
+                padding: 4px;
+            }
+
+            .event-pill {
+                display: none;
+            }
+
+            .event-dot-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 2px;
+                margin-top: 4px;
+                pointer-events: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .event-dot-container {
+                display: none;
+            }
+        }
+
         /* Modal */
         .modal {
             display: none;
@@ -164,29 +199,36 @@
                 <h1 class="text-xl font-bold text-gray-900 tracking-tight">Our Calendar</h1>
                 <p class="text-xs text-gray-500 font-medium mt-0.5" id="headerDate">December 2025</p>
             </div>
-            <div class="flex items-center gap-3">
-                <button onclick="changeMonth(-1)" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <div
+                class="flex items-center gap-1 md:gap-3 bg-gray-50 p-1 rounded-full border border-gray-100 shadow-inner">
+                <button onclick="changeMonth(-1)"
+                    class="p-2.5 hover:bg-white hover:shadow-sm rounded-full transition-all active:scale-95"
+                    style="touch-action: manipulation;">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
                 <button onclick="goToToday()"
-                    class="text-sm font-semibold text-brand-orange hover:text-orange-700 transition-colors">Today</button>
-                <button onclick="changeMonth(1)" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                    class="px-4 py-2 text-sm font-bold text-gray-700 hover:text-brand-orange transition-all active:scale-95"
+                    style="touch-action: manipulation;">Today</button>
+                <button onclick="changeMonth(1)"
+                    class="p-2.5 hover:bg-white hover:shadow-sm rounded-full transition-all active:scale-95"
+                    style="touch-action: manipulation;">
                     <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 <button onclick="openAddModal()"
-                    class="hidden md:flex items-center gap-2 px-4 py-2 bg-brand-orange text-white rounded-xl hover:bg-orange-700 transition-all text-sm font-semibold shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="flex items-center gap-2 px-3 md:px-4 py-2 bg-brand-orange text-white rounded-xl hover:bg-orange-700 transition-all text-sm font-bold shadow-md active:scale-95"
+                    style="touch-action: manipulation;">
+                    <svg class="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    New Event
+                    <span class="hidden md:inline">New Event</span>
                 </button>
-                <a href="main.html" class="p-2 text-gray-400 hover:text-gray-900 transition-colors">
+                <a href="main.html" class="p-2 text-gray-400 hover:text-gray-900 transition-colors active:scale-95">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
@@ -243,35 +285,36 @@
 
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Type</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="type-option p-2 rounded-lg border border-gray-200 flex items-center gap-2"
+                    <div class="grid grid-cols-2 sm:grid-cols-2 gap-2">
+                        <div class="type-option p-3 rounded-xl border border-gray-100 flex items-center gap-3"
                             onclick="selectType('date')">
-                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                            <span class="text-sm font-medium">Date Night</span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-red-500 shadow-sm"></span>
+                            <span class="text-sm font-bold text-gray-700">Date</span>
                         </div>
-                        <div class="type-option p-2 rounded-lg border border-gray-200 flex items-center gap-2"
+                        <div class="type-option p-3 rounded-xl border border-gray-100 flex items-center gap-3"
                             onclick="selectType('trip')">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                            <span class="text-sm font-medium">Trip</span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 shadow-sm"></span>
+                            <span class="text-sm font-bold text-gray-700">Trip</span>
                         </div>
-                        <div class="type-option p-2 rounded-lg border border-gray-200 flex items-center gap-2"
+                        <div class="type-option p-3 rounded-xl border border-gray-100 flex items-center gap-3"
                             onclick="selectType('milestone')">
-                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
-                            <span class="text-sm font-medium">Milestone</span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-amber-500 shadow-sm"></span>
+                            <span class="text-sm font-bold text-gray-700">Milestone</span>
                         </div>
-                        <div class="type-option p-2 rounded-lg border border-gray-200 flex items-center gap-2"
+                        <div class="type-option p-3 rounded-xl border border-gray-100 flex items-center gap-3"
                             onclick="selectType('apartment')">
-                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-                            <span class="text-sm font-medium">Apartment</span>
+                            <span class="w-3.5 h-3.5 rounded-full bg-blue-500 shadow-sm"></span>
+                            <span class="text-sm font-bold text-gray-700">Apartment</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex gap-3 mt-6">
+                <div class="flex flex-col sm:flex-row gap-3 mt-6">
                     <button onclick="closeModal()"
-                        class="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-200 transition-colors">Cancel</button>
+                        class="order-2 sm:order-1 flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors">Cancel</button>
                     <button onclick="saveEvent()"
-                        class="flex-1 py-2.5 bg-brand-orange text-white rounded-xl font-semibold text-sm hover:bg-orange-700 transition-colors">Save</button>
+                        class="order-1 sm:order-2 flex-1 py-3 bg-brand-orange text-white rounded-xl font-bold text-sm hover:bg-orange-700 transition-colors shadow-lg shadow-orange-200">Save
+                        Event</button>
                 </div>
             </div>
         </div>
@@ -351,18 +394,37 @@
 
                 // Add click to add event
                 dayDiv.onclick = (e) => {
-                    if (e.target === dayDiv || e.target.classList.contains('day-number')) {
-                        openAddModal(dateStr);
-                    }
+                    // Open view modal if clicking an event pill directly (desktop)
+                    if (e.target.classList.contains('event-pill')) return;
+
+                    // Otherwise, open the add modal for this day
+                    openAddModal(dateStr);
                 };
 
                 let html = `<span class="day-number">${i}</span>`;
 
                 // Check for events
                 const dayEvents = events.filter(e => e.date === dateStr);
+
+                // Desktop pills
                 dayEvents.forEach(e => {
                     html += `<div class="event-pill event-${e.type}" onclick="openViewModal('${e.id}', event)">${e.title}</div>`;
                 });
+
+                // Mobile dots
+                if (dayEvents.length > 0) {
+                    html += `<div class="event-dot-container">`;
+                    dayEvents.forEach(e => {
+                        const dotColor = {
+                            'date': 'bg-red-500',
+                            'trip': 'bg-emerald-500',
+                            'milestone': 'bg-amber-500',
+                            'apartment': 'bg-blue-500'
+                        }[e.type] || 'bg-gray-400';
+                        html += `<span class="event-dot ${dotColor}"></span>`;
+                    });
+                    html += `</div>`;
+                }
 
                 dayDiv.innerHTML = html;
                 grid.appendChild(dayDiv);

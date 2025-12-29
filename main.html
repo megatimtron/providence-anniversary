@@ -88,51 +88,6 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen">
-    <!-- Love Note Modal -->
-    <div id="loveNoteModal" class="fixed inset-0 z-[9999] flex items-center justify-center p-6" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.5s ease;">
-        <div id="loveNoteCard" class="bg-white rounded-3xl p-10 max-w-md w-full text-center shadow-2xl relative" style="transform: scale(0.9); transition: transform 0.5s ease;">
-            <div class="w-20 h-20 bg-gradient-to-br from-rose-400 to-pink-500 rounded-full mx-auto flex items-center justify-center text-white mb-6 shadow-lg" style="animation: pulse 2s infinite;">
-                <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-            </div>
-            <p class="text-gray-400 text-sm uppercase tracking-widest mb-4">A note for you</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
-                I will always love you
-            </h2>
-            <p class="text-gray-500 text-lg mb-8 italic">
-                No matter what. Always.
-            </p>
-            <button onclick="closeLoveNote()" class="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-rose-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-xl">
-                I love you too
-            </button>
-        </div>
-    </div>
-    <style>
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-    </style>
-    <script>
-        // Show love note on page load
-        setTimeout(() => {
-            const modal = document.getElementById('loveNoteModal');
-            const card = document.getElementById('loveNoteCard');
-            modal.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-        }, 500);
-
-        function closeLoveNote() {
-            const modal = document.getElementById('loveNoteModal');
-            const card = document.getElementById('loveNoteCard');
-            card.style.transform = 'scale(0.9)';
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 500);
-        }
-    </script>
 
     <!-- Navigation - matching checklist style -->
     <nav class="bg-white border-b border-gray-100 sticky top-0 z-50"
@@ -157,8 +112,9 @@
                     <a href="calendar.html"
                         class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Calendar</a>
                     <a href="apartment-checklist.html"
-                        class="px-4 py-2 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 rounded-xl hover:from-orange-100 hover:to-amber-100 transition-all font-semibold border border-orange-200">Apartment</a>
-                    <button onclick="handleSignOut()" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+                        class="px-4 py-2 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-700 rounded-xl hover:from-orange-100 hover:to-amber-100 transition-all font-semibold border border-orange-200 shadow-sm active:scale-95">Apartment</a>
+                    <button onclick="handleSignOut()"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors active:scale-95">
                         Sign Out
                     </button>
                 </div>
@@ -180,45 +136,51 @@
                 <a href="calendar.html" class="block text-gray-600 hover:text-gray-900 font-medium py-2">Calendar</a>
                 <a href="apartment-checklist.html"
                     class="block text-gray-600 hover:text-gray-900 font-medium py-2">Apartment</a>
-                <button onclick="handleSignOut()" class="block text-left w-full text-gray-600 hover:text-gray-900 font-medium py-2">
+                <button onclick="handleSignOut()"
+                    class="block text-left w-full text-gray-600 hover:text-gray-900 font-medium py-2">
                     Sign Out
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Next Event Widget -->
-    <div id="nextEventWidget" class="hidden container mx-auto px-6 mt-8 mb-[-40px] relative z-50">
-        <a href="calendar.html" onclick="window.location.href='calendar.html'" style="cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
-            class="block bg-white border border-gray-100 rounded-2xl p-5 shadow-lg flex items-center gap-5 hover:transform hover:scale-[1.01] transition-all max-w-2xl mx-auto pointer-events-auto">
-            <div class="bg-brand-orange/10 text-brand-orange p-3 rounded-xl">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-            </div>
-            <div class="flex-1">
-                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Coming Up</span>
-                <h3 class="text-lg font-bold text-gray-900" id="widgetTitle">Next Event</h3>
-                <p class="text-sm text-gray-500" id="widgetDate">Date</p>
-            </div>
-            <div class="text-right">
-                <span class="block text-2xl font-bold text-brand-orange" id="widgetCountdown">0</span>
-                <span class="text-xs text-brand-orange/80 font-medium uppercase">Days</span>
-            </div>
-        </a>
-    </div>
-
     <!-- Hero Section -->
-    <section class="hero-bg min-h-screen flex items-center justify-center px-6 py-20">
-        <div class="container mx-auto max-w-4xl animate-fade-in text-center relative z-10">
+    <section class="hero-bg min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden">
+        <div class="container mx-auto max-w-4xl animate-fade-in text-center relative z-20">
             <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white text-shadow">
                 Timothy & Ugo
             </h1>
-            <p class="text-2xl md:text-3xl text-white/95 mb-8 text-shadow">
+            <p class="text-2xl md:text-3xl text-white/95 mb-12 text-shadow">
                 A love story that defies all logic
             </p>
-            <div class="mt-16">
+
+            <!-- Floating Next Event Widget -->
+            <div id="nextEventWidget" onclick="window.location.href='calendar.html'" ontouchend="window.location.href='calendar.html'"
+                class="hidden mx-auto mb-10 relative z-[60] transform hover:scale-[1.02] transition-transform duration-500 cursor-pointer"
+                style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;">
+                <div class="block bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 md:p-8 shadow-2xl flex items-center gap-6 max-w-xl mx-auto border-t border-l border-white/30 pointer-events-none">
+                    <div
+                        class="bg-white/20 text-white p-5 rounded-2xl shadow-inner backdrop-blur-md group-hover:bg-white/30 transition-colors">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <span class="text-[11px] font-black text-orange-200 uppercase tracking-[0.3em] mb-1 block">Next
+                            Adventure</span>
+                        <h3 class="text-2xl font-black text-white leading-tight mb-1" id="widgetTitle">Next Event</h3>
+                        <p class="text-sm text-white/80 font-semibold" id="widgetDate">Date</p>
+                    </div>
+                    <div class="text-right bg-white/10 px-6 py-4 rounded-3xl border border-white/10 backdrop-blur-md">
+                        <span class="block text-4xl font-black text-white leading-none mb-1"
+                            id="widgetCountdown">0</span>
+                        <span class="text-[11px] text-orange-200 font-black uppercase tracking-widest">Days</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
                 <a href="#story" class="inline-block animate-bounce text-white/90 hover:text-white transition-colors">
                     <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -234,12 +196,17 @@
         <div class="container mx-auto px-6 max-w-4xl">
             <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-orange-100 relative overflow-hidden">
                 <!-- Decorative elements -->
-                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-200/30 to-rose-200/30 rounded-full blur-2xl"></div>
-                <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-200/30 to-orange-200/30 rounded-full blur-2xl"></div>
+                <div
+                    class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-200/30 to-rose-200/30 rounded-full blur-2xl">
+                </div>
+                <div
+                    class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-200/30 to-orange-200/30 rounded-full blur-2xl">
+                </div>
 
                 <div class="relative z-10">
                     <div class="flex items-center justify-center gap-2 mb-4">
-                        <span class="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                             </svg>
@@ -253,9 +220,13 @@
 
                     <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
                         <div class="text-center">
-                            <div class="w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-md">
-                                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-orange-100 to-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-md">
+                                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                    </path>
                                 </svg>
                             </div>
                             <p class="font-bold text-gray-900 text-lg">The Audubon</p>
@@ -266,9 +237,11 @@
                         <div class="md:hidden text-2xl">↓</div>
 
                         <div class="text-center">
-                            <div class="w-16 h-16 bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-md">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-md">
                                 <svg class="w-8 h-8 text-rose-600" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                 </svg>
                             </div>
                             <p class="font-bold text-gray-900 text-lg">Our First Home</p>
@@ -277,20 +250,28 @@
                     </div>
 
                     <p class="text-center text-gray-600 text-lg mb-6 max-w-2xl mx-auto">
-                        A beautiful new chapter begins at <strong class="text-orange-600">The Audubon</strong> in New Haven.
-                        Our very first apartment together — where we'll build our life, make memories, and wake up next to each other every day.
+                        A beautiful new chapter begins at <strong class="text-orange-600">The Audubon</strong> in New
+                        Haven.
+                        Our very first apartment together — where we'll build our life, make memories, and wake up next
+                        to each other every day.
                     </p>
 
                     <div class="flex flex-wrap justify-center gap-3">
-                        <a href="apartment-checklist.html" class="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                        <a href="apartment-checklist.html"
+                            class="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                                </path>
                             </svg>
                             Furniture Checklist
                         </a>
-                        <a href="apartment-planner.html" class="inline-flex items-center gap-2 bg-white text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all border border-gray-200 shadow-md hover:shadow-lg">
+                        <a href="apartment-planner.html"
+                            class="inline-flex items-center gap-2 bg-white text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all border border-gray-200 shadow-md hover:shadow-lg">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                                </path>
                             </svg>
                             Plan Layout
                         </a>
@@ -584,26 +565,51 @@
         }
 
         // Widget Logic
-        const allEvents = JSON.parse(localStorage.getItem('shared_calendar_events') || '[]');
-        if (allEvents.length > 0) {
-            const today = new Date();
-            // Find closest future event
-            const sorted = allEvents
-                .map(e => ({ ...e, dateObj: new Date(e.date) }))
-                .filter(e => e.dateObj >= today)
-                .sort((a, b) => a.dateObj - b.dateObj);
+        async function updateWidget() {
+            let allEvents = JSON.parse(localStorage.getItem('shared_calendar_events') || '[]');
 
-            if (sorted.length > 0) {
-                const next = sorted[0];
-                const diffTime = Math.abs(next.dateObj - today);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            // If local storage is empty, try to fetch from Supabase
+            if (allEvents.length === 0) {
+                const { data, error } = await supabaseClient
+                    .from('shared_calendar_events')
+                    .select('*')
+                    .gte('date', new Date().toISOString().split('T')[0])
+                    .order('date', { ascending: true })
+                    .limit(5);
 
-                document.getElementById('widgetTitle').innerText = next.title;
-                document.getElementById('widgetDate').innerText = next.dateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-                document.getElementById('widgetCountdown').innerText = diffDays;
-                document.getElementById('nextEventWidget').classList.remove('hidden');
+                if (data && data.length > 0) {
+                    allEvents = data;
+                    localStorage.setItem('shared_calendar_events', JSON.stringify(data));
+                }
+            }
+
+            if (allEvents.length > 0) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const sorted = allEvents
+                    .map(e => ({ ...e, dateObj: new Date(e.date) }))
+                    .filter(e => e.dateObj >= today)
+                    .sort((a, b) => a.dateObj - b.dateObj);
+
+                if (sorted.length > 0) {
+                    const next = sorted[0];
+                    const diffTime = Math.abs(next.dateObj - today);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    document.getElementById('widgetTitle').innerText = next.title;
+                    document.getElementById('widgetDate').innerText = next.dateObj.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+                    document.getElementById('widgetCountdown').innerText = diffDays;
+
+                    const widget = document.getElementById('nextEventWidget');
+                    widget.classList.remove('hidden');
+                    // Force a reflow for the animation logic if needed
+                    widget.style.opacity = '1';
+                    widget.style.transform = 'translateY(0)';
+                }
             }
         }
+        updateWidget();
 
         // Handle Sign Out
         async function handleSignOut() {
