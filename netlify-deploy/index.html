@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,97 +8,16 @@
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
     <meta name="theme-color" content="#C07F63">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .login-bg {
-            background: linear-gradient(135deg, rgba(192, 127, 99, 0.6) 0%, rgba(169, 104, 76, 0.7) 100%),
-                        url('assets/images/ugo1.jpg') center/cover fixed;
-        }
-        .login-bg.midnight {
-            background: linear-gradient(135deg, rgba(30, 41, 82, 0.85) 0%, rgba(45, 55, 100, 0.9) 100%),
-                        url('assets/images/ugo1.jpg') center/cover fixed;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .shake { animation: shake 0.5s ease-in-out; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .float { animation: float 3s ease-in-out infinite; }
-
-        /* Midnight message styles */
-        .midnight-message {
-            animation: fadeInDown 1s ease-out, glow 2s ease-in-out infinite;
-        }
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
-                             0 0 20px rgba(255, 255, 255, 0.3),
-                             0 0 30px rgba(192, 127, 99, 0.3);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                             0 0 30px rgba(255, 255, 255, 0.5),
-                             0 0 40px rgba(192, 127, 99, 0.5);
-            }
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-        .star {
-            position: absolute;
-            color: white;
-            animation: twinkle ease-in-out infinite;
-            pointer-events: none;
-        }
-        .moon {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* Congratulations styles */
-        .congrats-card {
-            background: rgba(255, 255, 255, 0.95);
-            animation: fadeInDown 1s ease-out, celebrate 3s ease-in-out infinite;
-        }
-        @keyframes celebrate {
-            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.6); }
-        }
-        .confetti {
-            position: absolute;
-            font-size: 24px;
-            animation: confetti-fall linear infinite;
-            pointer-events: none;
-        }
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
+
 <body>
-    <div id="loginBg" class="login-bg min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
+    <div id="loginBg"
+        class="login-bg min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
 
         <!-- Stars container (for midnight) -->
         <div id="stars" class="hidden"></div>
@@ -106,27 +26,26 @@
         <div id="confetti"></div>
 
         <!-- Congratulations Card -->
-        <div class="congrats-card rounded-2xl p-6 md:p-8 max-w-md w-full text-center mb-6 relative z-10">
-            <img src="assets/images/ynnh-transparent.png" alt="Yale New Haven Health" class="h-12 md:h-16 mx-auto mb-4">
-            <h2 style="font-family: 'Playfair Display', serif;" class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
-                Congratulations!
+        <div
+            class="bg-white border border-gray-100 rounded-3xl p-8 max-w-md w-full text-center mb-6 shadow-xl relative z-10">
+            <div class="text-6xl mb-4">💍</div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 tracking-tight">
+                CONGRATULATIONS!
             </h2>
             <p class="text-gray-700 text-lg mb-2">
-                On accepting the <strong>Inpatient Pediatric Psych Nursing</strong> role
+                On your <strong>engagement</strong>
             </p>
             <p class="text-gray-600 text-sm italic">
-                With special thanks to Boston Children's Hospital
+                A new chapter begins
             </p>
-            <div class="mt-4 text-3xl">🎉</div>
         </div>
 
         <!-- Midnight Message -->
         <div id="midnightMessage" class="hidden text-center mb-8 midnight-message">
-            <div class="moon text-5xl mb-4">🌙</div>
-            <p class="text-white text-2xl md:text-3xl font-light" style="font-family: 'Playfair Display', serif;">
+            <p class="text-white text-2xl md:text-3xl font-light">
                 Even at midnight...
             </p>
-            <p class="text-white text-3xl md:text-4xl font-bold mt-2" style="font-family: 'Playfair Display', serif;">
+            <p class="text-white text-3xl md:text-4xl font-bold mt-2">
                 you're on my mind
             </p>
             <p class="text-white/70 text-lg mt-4 italic">
@@ -135,46 +54,138 @@
         </div>
 
         <!-- Login Card -->
-        <div class="glass-card rounded-3xl p-10 md:p-14 max-w-md w-full text-center relative z-10">
-            <div class="float text-6xl mb-6">💕</div>
-            <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl md:text-5xl font-bold text-white mb-4">
-                For You
+        <div
+            class="bg-white/95 backdrop-blur-xl border border-white/20 rounded-[2rem] p-10 md:p-14 max-w-md w-full text-center shadow-2xl relative z-10">
+            <div
+                class="w-16 h-16 bg-orange-600 rounded-full mx-auto flex items-center justify-center text-white mb-6 shadow-lg">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+                FOR YOU
             </h1>
-            <p class="text-white/90 text-lg mb-8">
+            <p class="text-gray-600 text-lg mb-8">
                 This space was made for someone special.<br>
-                <span class="italic">You know who you are.</span>
+                <span class="italic font-medium text-orange-600">You know who you are.</span>
             </p>
-            <form id="loginForm" class="space-y-6">
-                <div>
-                    <label class="block text-white/80 text-sm mb-2 text-left">Enter your name, my love</label>
-                    <input type="text" id="nameInput" class="w-full px-5 py-4 rounded-xl text-gray-800 text-lg text-center font-medium focus:ring-2 focus:ring-orange-400 outline-none" placeholder="..." autocomplete="off" autofocus>
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-orange-600 to-orange-700 text-white py-4 rounded-xl font-semibold text-lg hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                    Enter Our World
+            <div class="space-y-6">
+                <!-- OAuth Buttons -->
+                <button onclick="handleGoogleSignIn()" class="w-full bg-white border border-gray-200 text-gray-700 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all duration-300 shadow-md flex items-center justify-center gap-3">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Continue with Google
                 </button>
-                <p id="errorMsg" class="text-red-200 text-sm hidden">That's not quite right, try again...</p>
-            </form>
-            <p class="mt-8 text-white/60 text-sm italic">"Some things can only be explained by magic"</p>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 h-px bg-gray-300"></div>
+                    <span class="text-gray-500 text-sm">or</span>
+                    <div class="flex-1 h-px bg-gray-300"></div>
+                </div>
+
+                <!-- Email/Password Form -->
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <input type="email" id="emailInput"
+                            class="w-full px-5 py-4 rounded-xl text-gray-800 text-base focus:ring-2 focus:ring-orange-400 outline-none border border-gray-200"
+                            placeholder="Email" autocomplete="email">
+                    </div>
+                    <div>
+                        <input type="password" id="passwordInput"
+                            class="w-full px-5 py-4 rounded-xl text-gray-800 text-base focus:ring-2 focus:ring-orange-400 outline-none border border-gray-200"
+                            placeholder="Password" autocomplete="current-password">
+                    </div>
+
+                    <!-- hCaptcha Widget -->
+                    <div class="h-captcha" data-sitekey="8dba43ca-f7c6-47c6-a880-cca8dce6a5a8"></div>
+
+                    <button type="submit"
+                        class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-all duration-300 shadow-md">
+                        Enter Our World
+                    </button>
+                    <p id="errorMsg" class="text-red-600 text-sm font-semibold hidden"></p>
+                </form>
+            </div>
+            <p class="mt-8 text-gray-400 text-sm italic font-medium">"Some things can only be explained by magic"</p>
         </div>
     </div>
     <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://ltpnhrvpwglitzjkvgwd.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0cG5ocnZwd2dsaXR6amt2Z3dkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYyNjQ5NzYsImV4cCI6MjA4MTg0MDk3Nn0.AMO9x7GGvkIkCNMPlceX2DPLCaJ_SqaIzOTYYtUU7f0';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         const form = document.getElementById('loginForm');
-        const input = document.getElementById('nameInput');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
         const errorMsg = document.getElementById('errorMsg');
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (input.value.trim().toLowerCase() === 'ugonwanyi') {
-                sessionStorage.setItem('authenticated', 'true');
+        // Check if already authenticated
+        async function checkAuth() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
                 window.location.href = 'main.html';
-            } else {
+            }
+        }
+        checkAuth();
+
+        // Handle Google Sign In
+        async function handleGoogleSignIn() {
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: {
+                        redirectTo: window.location.origin + '/main.html',
+                        queryParams: {
+                            access_type: 'offline',
+                            prompt: 'consent'
+                        }
+                    }
+                });
+                if (error) throw error;
+            } catch (error) {
+                errorMsg.textContent = error.message;
                 errorMsg.classList.remove('hidden');
-                input.classList.add('shake');
-                setTimeout(() => input.classList.remove('shake'), 500);
+            }
+        }
+
+        // Handle Email/Password Login
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            errorMsg.classList.add('hidden');
+
+            // Check hCaptcha
+            const hcaptchaResponse = hcaptcha.getResponse();
+            if (!hcaptchaResponse) {
+                errorMsg.textContent = 'Please complete the captcha verification';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: emailInput.value,
+                    password: passwordInput.value
+                });
+
+                if (error) throw error;
+
+                // Successful login
+                window.location.href = 'main.html';
+            } catch (error) {
+                errorMsg.textContent = error.message;
+                errorMsg.classList.remove('hidden');
+                emailInput.classList.add('shake');
+                setTimeout(() => emailInput.classList.remove('shake'), 500);
+                // Reset hCaptcha on error
+                hcaptcha.reset();
             }
         });
-
-        input.addEventListener('input', () => errorMsg.classList.add('hidden'));
 
         // Midnight message feature
         function checkMidnight() {
@@ -249,4 +260,5 @@
         createConfetti();
     </script>
 </body>
+
 </html>
